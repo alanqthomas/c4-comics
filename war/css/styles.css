@@ -1,0 +1,89 @@
+body {
+	font-family: 'Roboto', sans-serif;		
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	color: #000000;
+	
+	background-color: #ffffff;
+	background: url('http://i67.tinypic.com/331d83o.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+ 	-moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+a {	
+	font-weight: 300;	
+}
+
+h1,h2,h3 {
+	font-weight: 900;
+	color: #ffffff;
+}
+
+p {
+	font-weight: 400;
+}
+
+thead {
+	color: #ffffff;
+}
+
+#logout, #login, #playgame, #reset, #home {
+	font-weight: 700;
+}
+
+.cell-vertical {
+	border-right: 5px solid #000;
+	border-left: 5px solid #000;
+}
+
+.cell-horizontal {
+	border-top: 5px solid #000;
+	border-bottom: 5px solid #000;
+}
+
+
+.board {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 375%;
+	color: white;
+}
+
+.cell {		
+	padding: 0px;
+	margin: 0px;
+	height: 100px;
+	width: 100px;	
+}
+
+.weight-med {
+	font-weight: 500;
+}
+
+.centerBlock {
+	display: table;
+	margin: 0 auto;
+}
+
+.vcenter {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

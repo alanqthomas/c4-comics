@@ -1,0 +1,45 @@
+<div ng-controller="homeCtrl">
+	<div class="row text-center">
+		<h1>Tic Tac Toe</h1>
+	</div>
+	<div class="row">
+		<div class="centerBlock">
+			<button id="login" ng-if="!loggedIn" ng-click="login()"
+				class="btn btn-lg btn-primary">
+				<span class="fa fa-google"></span> Sign In With Google
+			</button>
+
+			<button id="playgame" ng-if="loggedIn" ui-sref="game"
+				class="btn btn-lg btn-primary">Play Game</button>
+			<button id="logout" ng-if="loggedIn" ng-click="logout()"
+				class="btn btn-lg btn-warning">Log Out</button>
+			<br />
+			<span ng-hide="pageLoaded">Please reload the site using HTTPS</span>
+		</div>
+	</div>
+	<div class="row" ng-if="loggedIn">
+		<br /> <br />
+		<h2 class="text-center">Leaderboard</h2>
+		<div class="col-sm-4 col-sm-offset-4">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Score</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="l in leaderboard | orderBy:'score':true ">
+						<td>{{$index + 1}}</td>
+						<td>{{l.name}}</td>
+						<td>{{l.score}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://apis.google.com/js/client.js?onload=init"></script>

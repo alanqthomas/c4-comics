@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" >
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="google-signin-client_id" content="559176139847-d94n68qu4h8i4uq2p8eh5kmjt17gm02p.apps.googleusercontent.com">
+    <title>Maximum Green</title>    
+   
+    <!-- JQuery -->
+    <script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
+    
+    <!-- Bootstrap -->   
+    <script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Angular -->
+    <script src="lib/bower_components/angular/angular.min.js"></script>
+            
+    <!-- UI-Router -->
+    <script src="lib/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    
+    <!-- Angular Cookies -->
+    <script src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
+    
+    <!-- Google GAPI -->
+    <script src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="lib/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+  	
+  	<!-- Google Fonts -->
+  	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
+    	  	
+  	<!-- Angular App -->
+  	<script src="js/app.js"></script>
+  	<script src="js/config.js"></script>
+  	<script src="js/controllers/homeController.js"></script>
+  	<script src="js/controllers/gameController.js"></script>
+  	<script src="js/services/userService.js"></script> 
+  	
+  	<!-- Google JS API -->
+  	<script src="/js/gapiInit.js"></script>
+  	<script src="https://apis.google.com/js/client.js?onload=init"></script>
+  	
+  </head>
+
+  <body>
+    <div ui-view></div>          
+  </body>
+</html>
