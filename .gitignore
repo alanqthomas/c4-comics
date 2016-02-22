@@ -210,3 +210,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# Java
+.jar
+.class
+
+
+# Bower
+war/lib/

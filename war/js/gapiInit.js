@@ -5,8 +5,8 @@ function init(){
     var gCallback = function() {  
         if (--apisToLoad == 0) {  
             //Manual bootstraping of the application  
-            var $injector = angular.bootstrap(document, ['tictactoe']);  
-            console.log('Angular bootstrap complete ' + gapi);  
+            var $injector = angular.bootstrap(document, ['c4']);  
+            console.log('Angular bootstrap complete');  
         };  
     };  
     gapi.client.load('userendpoint', 'v1', gCallback, '//' + window.location.host + '/_ah/api');

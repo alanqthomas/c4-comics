@@ -1,6 +1,6 @@
 "use strict";
 
-var app = angular.module('tictactoe', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'userModule']);
+var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'userModule']);
 
 app.run(['GAuth', 'GData', '$state', '$rootScope', '$window',
  function(GAuth,   GData,   $state,   $rootScope,   $window){

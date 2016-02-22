@@ -2,7 +2,7 @@
 
 (function() {
 	
-var app = angular.module('tictactoe');
+var app = angular.module('c4');
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
@@ -12,9 +12,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			url: "/home",
 			templateUrl: "views/home.html"
 		})
-		.state('game', {
-			url: "/game",
-			templateUrl: "views/game.html"
+		.state('profile', {
+			url: "/profile",
+			templateUrl: "views/profile.html"
 		});
 });
 	

@@ -2,10 +2,10 @@
 	
 (function() {
 
-angular.module('c4').controller('homeCtrl', ['$scope', '$http',
+angular.module('c4').controller('profileCtrl', ['$scope', '$http',
                                         function(	 $scope,   $http){	
 	
-		$scope.msg = "Hello, Maximum Green";
+		$scope.msg = "Hello, profile";
 }]);
 
 
