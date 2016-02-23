@@ -26,7 +26,6 @@
     "Materialize": "materialize#^0.97.5"
   },
   "resolutions": {
-    "angular": "1.5.0",
-    "angular-google-gapi": "1.0.0-beta.1"
+    "angular": "1.4.9"
   }
 }
