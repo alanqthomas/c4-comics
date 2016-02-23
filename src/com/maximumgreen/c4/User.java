@@ -1,4 +1,4 @@
-package com.maximumgreen.comic.entity;
+package com.maximumgreen.c4;
 
 import javax.jdo.annotations.*;
 

@@ -1,45 +1,61 @@
-<div ng-controller="homeCtrl">
-	<div class="row text-center">
-		<h1>Tic Tac Toe</h1>
-	</div>
+<div class="container" ng-controller="homeCtrl">
 	<div class="row">
-		<div class="centerBlock">
-			<button id="login" ng-if="!loggedIn" ng-click="login()"
-				class="btn btn-lg btn-primary">
-				<span class="fa fa-google"></span> Sign In With Google
-			</button>
-
-			<button id="playgame" ng-if="loggedIn" ui-sref="game"
-				class="btn btn-lg btn-primary">Play Game</button>
-			<button id="logout" ng-if="loggedIn" ng-click="logout()"
-				class="btn btn-lg btn-warning">Log Out</button>
-			<br />
-			<span ng-hide="pageLoaded">Please reload the site using HTTPS</span>
+		<div class="col s12 center-align">
+			<h1>{{msg}}</h1>
 		</div>
 	</div>
-	<div class="row" ng-if="loggedIn">
-		<br /> <br />
-		<h2 class="text-center">Leaderboard</h2>
-		<div class="col-sm-4 col-sm-offset-4">
-			<table class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Name</th>
-						<th>Score</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="l in leaderboard | orderBy:'score':true ">
-						<td>{{$index + 1}}</td>
-						<td>{{l.name}}</td>
-						<td>{{l.score}}</td>
-					</tr>
-				</tbody>
-			</table>
+	
+	<div class="row">
+		<form class="col s6">
+			<div class="row">
+				<div class="input-field col s5">
+					<input ng-model="form.id" id="id" type="text" class="validate" />
+					<label for="id">Id</label>
+				</div>
+				<div class="input-field col s7">
+					<input ng-model="form.name" id="name" type="text" class="validate" />
+					<label for="name" type="text" class="validate">Name</label>		
+				</div>
+			</div>
+			<div class="row">				
+				<div class="input-field col s10">
+					<input ng-model="form.email" id="email" type="text" class="validate" />
+					<label for="email">Email</label>
+				</div>
+				<div class="input-field col s2">
+					<input ng-model="form.score" id="score" type="text" class="validate" />
+					<label for="score" type="text" class="validate">Score</label>			
+				</div>
+			</div>				
+		</form>
+	</div>
+	
+	<div class="row">	
+		<div class="col 6 push-s3">	
+		<a ng-click="insertUser()" class="waves-effect waves-light btn">Insert</a>
+		<a ng-click="updateUser()" class="waves-effect waves-light btn">Update</a>
 		</div>
 	</div>
+	
+	<div class="row">
+		Sort by 
+		<a ng-click="order('name')" class="waves-effect waves-light btn">Name</a> 
+		<a ng-click="order('-score')" class="waves-effect waves-light btn">Score</a>
+	</div>
+	
+	<div class="row">
+		<div ng-repeat="u in users | orderBy: predicate">
+			<div class="col s6 l4 center-align card hoverable">
+				<div class="card-content">
+					<h3>{{u.name}}</h3>				
+					<h2>{{u.score}}</h2>	
+					<h6>{{u.email}}</h6>			
+				</div>
+				<div class="card-action">
+					<a>{{u.id}}<i ng-click="removeUser(u.id)" class="material-icons">delete</i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
-
-
-<script src="https://apis.google.com/js/client.js?onload=init"></script>

@@ -1,4 +1,4 @@
-package com.maximumgreen.comic.entity;
+package com.maximumgreen.c4;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -6,7 +6,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-import com.maximumgreen.comic.entity.PMF;
+import com.maximumgreen.c4.PMF;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,7 @@ public class UserEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	@ApiMethod(name = "listUser")
+	@ApiMethod(name = "listUser", httpMethod = ApiMethod.HttpMethod.GET)
 	public CollectionResponse<User> listUser(@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
