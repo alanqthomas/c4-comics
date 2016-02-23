@@ -8,6 +8,9 @@
   	<include path="/**.html" />
   	<include path="/**.css" />
   	<include path="/**.map" />
+  	<include path="/**.woff2" />
+  	<include path="/**.woff" />
+  	<include path="/**.ttf" />
   </static-files>
 
   <!--

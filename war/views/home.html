@@ -1,61 +1,73 @@
-<div class="container" ng-controller="homeCtrl">
+<div ng-controller="homeCtrl">
 	<div class="row">
-		<div class="col s12 center-align">
+		<div class="col s12 text-center">
 			<h1>{{msg}}</h1>
 		</div>
 	</div>
-	
+
 	<div class="row">
-		<form class="col s6">
-			<div class="row">
-				<div class="input-field col s5">
-					<input ng-model="form.id" id="id" type="text" class="validate" />
-					<label for="id">Id</label>
+		<div class="col-xs-6 col-xs-offset-3">
+			<form>
+				<div class="row">
+					<div class="col-xs-5">
+						<input ng-model="form.id" class="form-control" type="text"
+							placeholder="Id" />
+					</div>
+					<div class="col-xs-7">
+						<input ng-model="form.name" class="form-control" type="text"
+							placeholder="Name" />
+					</div>
 				</div>
-				<div class="input-field col s7">
-					<input ng-model="form.name" id="name" type="text" class="validate" />
-					<label for="name" type="text" class="validate">Name</label>		
+				<div class="row">
+					<div class="col-xs-10">
+						<input ng-model="form.email" class="form-control" type="email"
+							placeholder="Email" />
+					</div>
+					<div class="col-xs-2">
+						<input ng-model="form.score" class="form-control" type="text"
+							placeholder="Score" />
+					</div>
+				</div>
+			</form>
+			<br />
+			<div class="row">
+				<div class="pull-right">
+					<button class="btn btn-primary" ng-click="insertUser()">Insert</button>
+					<button class="btn btn-default" ng-click="updateUser()">Update</button>
 				</div>
 			</div>
-			<div class="row">				
-				<div class="input-field col s10">
-					<input ng-model="form.email" id="email" type="text" class="validate" />
-					<label for="email">Email</label>
-				</div>
-				<div class="input-field col s2">
-					<input ng-model="form.score" id="score" type="text" class="validate" />
-					<label for="score" type="text" class="validate">Score</label>			
-				</div>
-			</div>				
-		</form>
-	</div>
-	
-	<div class="row">	
-		<div class="col 6 push-s3">	
-		<a ng-click="insertUser()" class="waves-effect waves-light btn">Insert</a>
-		<a ng-click="updateUser()" class="waves-effect waves-light btn">Update</a>
 		</div>
 	</div>
-	
+
+	<br />
+	<br />
+
 	<div class="row">
-		Sort by 
-		<a ng-click="order('name')" class="waves-effect waves-light btn">Name</a> 
-		<a ng-click="order('-score')" class="waves-effect waves-light btn">Score</a>
+		Sort by
+		<button class="btn btn-default" ng-click="order('name')">Name</button>
+		<button class="btn btn-default" ng-click="order('-score')">Score</button>
 	</div>
 	
+	<br />
+
 	<div class="row">
 		<div ng-repeat="u in users | orderBy: predicate">
-			<div class="col s6 l4 center-align card hoverable">
-				<div class="card-content">
-					<h3>{{u.name}}</h3>				
-					<h2>{{u.score}}</h2>	
-					<h6>{{u.email}}</h6>			
-				</div>
-				<div class="card-action">
-					<a>{{u.id}}<i ng-click="removeUser(u.id)" class="material-icons">delete</i></a>
+			<div class="col-xs-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>{{u.name}}</h4>
+					</div>
+					<div class="panel-body">
+						<h2>{{u.score}}</h2>
+						<h6>{{u.email}}</h6>
+					</div>
+					<div class="panel-footer">
+						<a ng-click="removeUser(u.id)">{{u.id}}<span
+							class="glyphicon glyphicon-trash"></span></a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 </div>
