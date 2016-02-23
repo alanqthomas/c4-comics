@@ -217,4 +217,4 @@ pip-log.txt
 
 
 # Bower
-war/lib/
+war/lib/bower_components/
