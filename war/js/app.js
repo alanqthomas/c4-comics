@@ -1,7 +1,8 @@
 "use strict";
 
-var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'userModule']);
+var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi']);
 
+// Initialize angular-google-gapi
 app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window',
  function(GAuth,   GData,   GApi,   $rootScope,   $window){
 				

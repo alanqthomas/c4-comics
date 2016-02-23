@@ -2,10 +2,15 @@
 	
 (function() {
 
-angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi',
-                                  function(	  $scope,   $http,   GApi){	
+angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService',
+                                  function(	  $scope,   $http,   GApi,   authService){	
 		$scope.msg = "Scores";
 		$scope.predicate = 'name';
+		
+		authService.checkAuth().then(function(res){
+				console.log("Logged in: ", res);
+			}			
+		);
 		
 		$scope.order = function(predicate){
 			$scope.predicate = predicate;

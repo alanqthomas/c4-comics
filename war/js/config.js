@@ -10,11 +10,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('home', {
 			url: "/home",
-			templateUrl: "views/home.html"
+			templateUrl: "views/home.html",
+			authenticate: false
 		})
 		.state('profile', {
 			url: "/profile",
-			templateUrl: "views/profile.html"
+			templateUrl: "views/profile.html",
+			authenticate: true
 		});
 });
 	
