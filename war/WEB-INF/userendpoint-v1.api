@@ -35,7 +35,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.comic.entity.UserEndpoint.getUser",
+      "rosyMethod" : "com.maximumgreen.c4.UserEndpoint.getUser",
       "request" : {
         "parameters" : {
           "id" : {
@@ -49,6 +49,22 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "userendpoint.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.UserEndpoint.insertUser",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "userendpoint.removeUser" : {
       "path" : "user/{id}",
       "httpMethod" : "DELETE",
@@ -56,7 +72,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.comic.entity.UserEndpoint.removeUser",
+      "rosyMethod" : "com.maximumgreen.c4.UserEndpoint.removeUser",
       "request" : {
         "parameters" : {
           "id" : {
@@ -77,23 +93,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.comic.entity.UserEndpoint.updateUser",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "userendpoint.insertUser" : {
-      "path" : "user",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.comic.entity.UserEndpoint.insertUser",
+      "rosyMethod" : "com.maximumgreen.c4.UserEndpoint.updateUser",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -109,7 +109,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.comic.entity.UserEndpoint.listUser",
+      "rosyMethod" : "com.maximumgreen.c4.UserEndpoint.listUser",
       "request" : {
         "parameters" : {
           "cursor" : {
@@ -166,14 +166,12 @@
       }
     },
     "methods" : {
-      "com.maximumgreen.comic.entity.UserEndpoint.getUser" : {
+      "com.maximumgreen.c4.UserEndpoint.getUser" : {
         "response" : {
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.comic.entity.UserEndpoint.removeUser" : {
-      },
-      "com.maximumgreen.comic.entity.UserEndpoint.updateUser" : {
+      "com.maximumgreen.c4.UserEndpoint.insertUser" : {
         "request" : {
           "$ref" : "User"
         },
@@ -181,7 +179,9 @@
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.comic.entity.UserEndpoint.insertUser" : {
+      "com.maximumgreen.c4.UserEndpoint.removeUser" : {
+      },
+      "com.maximumgreen.c4.UserEndpoint.updateUser" : {
         "request" : {
           "$ref" : "User"
         },
@@ -189,7 +189,7 @@
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.comic.entity.UserEndpoint.listUser" : {
+      "com.maximumgreen.c4.UserEndpoint.listUser" : {
         "response" : {
           "$ref" : "CollectionResponse_User"
         }

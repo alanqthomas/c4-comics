@@ -1,7 +1,61 @@
 <div class="container" ng-controller="homeCtrl">
 	<div class="row">
-		<div class="col s12">
+		<div class="col s12 center-align">
 			<h1>{{msg}}</h1>
 		</div>
 	</div>
+	
+	<div class="row">
+		<form class="col s6">
+			<div class="row">
+				<div class="input-field col s5">
+					<input ng-model="form.id" id="id" type="text" class="validate" />
+					<label for="id">Id</label>
+				</div>
+				<div class="input-field col s7">
+					<input ng-model="form.name" id="name" type="text" class="validate" />
+					<label for="name" type="text" class="validate">Name</label>		
+				</div>
+			</div>
+			<div class="row">				
+				<div class="input-field col s10">
+					<input ng-model="form.email" id="email" type="text" class="validate" />
+					<label for="email">Email</label>
+				</div>
+				<div class="input-field col s2">
+					<input ng-model="form.score" id="score" type="text" class="validate" />
+					<label for="score" type="text" class="validate">Score</label>			
+				</div>
+			</div>				
+		</form>
+	</div>
+	
+	<div class="row">	
+		<div class="col 6 push-s3">	
+		<a ng-click="insertUser()" class="waves-effect waves-light btn">Insert</a>
+		<a ng-click="updateUser()" class="waves-effect waves-light btn">Update</a>
+		</div>
+	</div>
+	
+	<div class="row">
+		Sort by 
+		<a ng-click="order('name')" class="waves-effect waves-light btn">Name</a> 
+		<a ng-click="order('-score')" class="waves-effect waves-light btn">Score</a>
+	</div>
+	
+	<div class="row">
+		<div ng-repeat="u in users | orderBy: predicate">
+			<div class="col s6 l4 center-align card hoverable">
+				<div class="card-content">
+					<h3>{{u.name}}</h3>				
+					<h2>{{u.score}}</h2>	
+					<h6>{{u.email}}</h6>			
+				</div>
+				<div class="card-action">
+					<a>{{u.id}}<i ng-click="removeUser(u.id)" class="material-icons">delete</i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>

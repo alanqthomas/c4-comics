@@ -1,7 +1,8 @@
 "use strict";
 
 function init(){
-	window.init();
+	
+		window.init();
 }
 
 angular.module('c4').controller('mainCtrl', ['$scope', '$rootScope', '$location', 'apiService', '$window',
@@ -11,7 +12,8 @@ angular.module('c4').controller('mainCtrl', ['$scope', '$rootScope', '$location'
 	};
 	
 	$scope.initgapi=function(){
-		apiService.init().then(function(){console.log("Api Initialized")});
+		//apiService.init().then(function(){console.log("Api Initialized")});
+		console.log("Initialized");
 	}
 	
 		
