@@ -18,14 +18,23 @@ module.exports = function(grunt) {
 			},
 			css: {
 				files: ['war/css/**/*.css'],
-				tasks: ['concat:css']
+				tasks: ['concat:css', 'cssmin']
 			},
 		},
 		cssmin: {
-			build: {
-				files: [
-				],
-				
+			minify: {
+				src: 'war/css/build.css',
+				dest: 'war/css/build.min.css'
+			}	
+		},
+		uglify: {
+			options: {
+				manage: false
+			},
+			minify: {
+				files: {
+					'war/js/scripts.min.js' : ['war/js/scripts.js']
+				}
 			}
 		}
 	});
@@ -33,6 +42,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.registerTask('default', ['concat', 'watch']);
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.registerTask('default', ['concat', 'cssmin', 'watch']);
 
 };
