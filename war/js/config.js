@@ -2,7 +2,7 @@
 
 (function() {
 	
-var app = angular.module('c4');
+var app = angular.module('hci');
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
@@ -13,11 +13,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/home.html",
 			authenticate: false
 		})
-		.state('profile', {
-			url: "/profile",
-			templateUrl: "views/profile.html",
-			authenticate: true
-		});
 });
 	
 })();

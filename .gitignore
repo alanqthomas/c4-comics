@@ -26,6 +26,11 @@ $RECYCLE.BIN/
 .jar
 .class
 
+# NPM
+node_modules/
 
 # Bower
 war/lib/bower_components/
+
+#SASS Cache
+.sass-cache/
