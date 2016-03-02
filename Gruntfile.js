@@ -4,38 +4,46 @@ module.exports = function(grunt) {
 		sass: {
 			dist: {
 				files: {
-					'war/css/stylesheet.css' : 'war/css/sass/style.scss'
+					'war/css/styles.css' : 'war/css/sass/base.scss'
 				}
 			}
 		},
 		concat: {
 			js: {
-				src: ['war/js/app.js', 'war/js/config.js'],
+                options: {
+                    // Replace all 'use strict' statements in the code with a single one at the top
+                    banner: "'use strict';\n",
+                    process: function(src, filepath) {
+                        return '// Source: ' + filepath + '\n' +
+                            src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+                    },
+                },
+				src: ['war/js/app.js', 
+                      'war/js/config.js',
+                      'war/js/controllers/homeController.js',
+                      'war/js/controllers/profileController.js',
+                      'war/js/services/authService.js'],
 				dest: 'war/js/scripts.js'
-			},
-			css: {
-				src: ['war/css/styles.css', 'war/css/noselect.css'],
-				dest: 'war/css/build.css'
 			}
 		},
 		watch: {
 			js: {
 				files: ['war/js/**/*.js'],
-				tasks: ['concat:js']
+				tasks: ['concat:js', 'uglify']
 			},
 			sass: {
 				files: ['war/css/sass/**/*.scss'],
-				tasks: ['sass', 'cssmin']
+				tasks: ['sass']
 			},
 			css: {
 				files: ['war/css/**/*.css'],
-				tasks: ['concat:css', 'cssmin']
+				tasks: ['cssmin']
 			},
 		},
 		cssmin: {
 			minify: {
-				src: 'war/css/build.css',
-				dest: 'war/css/build.min.css'
+				src: 'war/css/styles.css',
+				dest: 'war/css/styles.min.css'
 			}	
 		},
 		uglify: {
@@ -55,6 +63,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.registerTask('default', ['concat', 'cssmin', 'watch']);
+	grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin', 'watch']);
 
 };

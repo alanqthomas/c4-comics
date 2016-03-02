@@ -3,7 +3,7 @@
 (function() {
 
 angular.module('c4').controller('profileCtrl', ['$scope', '$http',
-                                        function(	 $scope,   $http){	
+                                    function(	 $scope,   $http){	
 	
 		$scope.msg = "Hello, profile";
 }]);

@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+// Source: war/js/app.js
+(function() {
 
 var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi']);
 
@@ -35,9 +37,8 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
 		
 }]);
 
-
-"use strict";
-
+})();
+// Source: war/js/config.js
 (function() {
 	
 var app = angular.module('hci');
@@ -53,4 +54,97 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 });
 	
+})();
+// Source: war/js/controllers/homeController.js
+(function() {
+
+angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService',
+                                  function(	  $scope,   $http,   GApi,   authService){	
+		$scope.msg = "Scores";
+		$scope.predicate = 'name';
+		
+		
+		
+		$scope.order = function(predicate){
+			$scope.predicate = predicate;
+		};		
+		
+		// List Users
+		GApi.execute("userendpoint", "listUser").then(function(res){
+			$scope.users = res.items;
+			angular.forEach($scope.users, function(user){
+				user.score = parseInt(user.score);
+			});
+		});		
+		
+		// Insert User
+		$scope.insertUser = function(){
+			$scope.form.id = null;
+			GApi.execute("userendpoint", "insertUser", $scope.form).then(function(res){
+				console.log(res);
+				$scope.users.add(res);
+			});
+		};		
+		
+		// Get User
+		$scope.getUser = function(id){
+			GApi.execute("userendpoint", "getUser", {'id': id}).then(function(res){
+				console.log(res);
+			});
+		};
+		
+		// Update User
+		$scope.updateUser = function(){
+			GApi.execute("userendpoint", "updateUser", $scope.form).then(function(res){
+				console.log(res);
+			});
+		};
+		
+		// Remove User
+		$scope.removeUser = function(id){
+			console.log("id: ", id);
+			GApi.execute("userendpoint", "removeUser", {'id': id}).then(function(res){
+				console.log(res);
+				$scope.users.remove(function(n){
+					return n['id'] == id;
+				});
+			});
+		};
+		
+}]);
+
+
+})();
+// Source: war/js/controllers/profileController.js
+(function() {
+
+angular.module('c4').controller('profileCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){	
+	
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+// Source: war/js/services/authService.js
+(function(){
+	angular.module('c4').factory('authService', ['GAuth', '$q',
+	                                     function(GAuth,   $q){
+		return {
+			checkAuth:function(){
+				var deferred = $q.defer();
+				
+				GAuth.checkAuth().then(
+					function(){
+						deferred.resolve(true);
+					},
+					function(){
+						deferred.resolve(false);
+					}
+				);
+				
+				return deferred.promise;
+			}
+		}
+	}]);
 })();
