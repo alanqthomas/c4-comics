@@ -28,6 +28,7 @@ $RECYCLE.BIN/
 
 # NPM
 node_modules/
+node_modules
 
 # Bower
 war/lib/bower_components/
