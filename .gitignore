@@ -28,7 +28,8 @@ $RECYCLE.BIN/
 
 # NPM
 node_modules/
-node_modules
+node_modules/grunt
+grunt/
 
 # Bower
 war/lib/bower_components/
