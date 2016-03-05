@@ -20,10 +20,6 @@ public class Tag {
 	@Persistent
 	private List<Key> seriesWithTag;
 
-	//Empty constructor
-	public Tag() {
-	}
-
     //Getters and Setters
 	public String getName() {
 		return name;

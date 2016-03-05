@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -15,7 +16,7 @@ import com.google.appengine.api.datastore.Key;
 public class Comic {
 	//Key will contain parent Series key
 	@PrimaryKey
-	@Persistent
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
 	//List of tags the author has added to the comic
@@ -38,10 +39,6 @@ public class Comic {
 	@Persistent
 	private Map<Key, Integer> ratings;
 	
-	//Empty constructor
-	public Comic() {
-	}
-
 	//Getters and Setters
 	public Key getKey() {
 		return key;

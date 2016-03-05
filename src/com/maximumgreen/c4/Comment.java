@@ -23,10 +23,6 @@ public class Comment {
     @Persistent
     private Date date;
     
-    //Empty constructor
-    public Comment() {
-    }
-    
     //Getters and Setters
 	public Long getId() {
 		return id;

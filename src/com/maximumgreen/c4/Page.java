@@ -10,7 +10,7 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Page {
     @PrimaryKey
-    @Persistent
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
     
     //BlobKey to retrieve actual image from datastore
@@ -21,10 +21,6 @@ public class Page {
     @Persistent
     private Date dateCreated;
     
-    //Empty constructor
-    public Page() {
-    }
-
     //Getters and Setters
 	public Key getKey() {
 		return key;

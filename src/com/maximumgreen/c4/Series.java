@@ -12,7 +12,7 @@ import com.google.appengine.api.datastore.Key;
 public class Series {
 	//Series key should contain key of parent User
 	@PrimaryKey
-	@Persistent
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
 	//Title of Series
@@ -47,10 +47,6 @@ public class Series {
 	@Persistent
 	private List<Comment> comments;
 	
-	//Empty constructor
-	public Series() {
-	}
-
     //Getters and Setters
 	public Key getKey() {
 		return key;

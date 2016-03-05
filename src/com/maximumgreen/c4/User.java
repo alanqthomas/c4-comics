@@ -12,7 +12,7 @@ import com.google.appengine.api.datastore.Key;
 public class User {
 	//Use the user's Google ID to make the key
 	@PrimaryKey
-	@Persistent
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
 	//User's name that gets displayed. Must be unique within datastore.
@@ -56,10 +56,6 @@ public class User {
 	@Persistent
 	private List<Key> notifications;
 
-	//empty constructor
-	public User() {
-	}
-	
     //Getters and Setters
 	public Key getKey() {
 		return key;
