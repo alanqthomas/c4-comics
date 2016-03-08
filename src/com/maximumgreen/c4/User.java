@@ -10,10 +10,18 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class User {
-	//Use the user's Google ID to make the key
+	//Automatically generate a unique key for each user
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
+	
+	//User's Google ID 
+	@Persistent
+	private String googleID;
+	
+	//User's email address
+	@Persistent
+	private String email;
 	
 	//User's name that gets displayed. Must be unique within datastore.
 	@Persistent
@@ -65,6 +73,23 @@ public class User {
 		this.key = key;
 	}
 
+
+	public String getGoogleID() {
+		return googleID;
+	}
+
+	public void setGoogleID(String googleID) {
+		this.googleID = googleID;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
