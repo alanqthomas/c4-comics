@@ -28,6 +28,31 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+    "pageendpoint.listPage" : {
+      "path" : "page",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.listPage",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "pageendpoint.getPage" : {
       "path" : "page/{id}",
       "httpMethod" : "GET",
@@ -101,35 +126,25 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
-    },
-    "pageendpoint.listPage" : {
-      "path" : "page",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.listPage",
-      "request" : {
-        "parameters" : {
-          "cursor" : {
-            "type" : "string",
-            "required" : false
-          },
-          "limit" : {
-            "type" : "int32",
-            "required" : false
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "CollectionResponse_Page" : {
+        "id" : "CollectionResponse_Page",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Page"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
       "Page" : {
         "id" : "Page",
         "type" : "object",
@@ -163,14 +178,14 @@
           "name" : {
             "type" : "string"
           },
+          "complete" : {
+            "type" : "boolean"
+          },
           "namespace" : {
             "type" : "string"
           },
           "parent" : {
             "$ref" : "Key"
-          },
-          "complete" : {
-            "type" : "boolean"
           }
         }
       },
@@ -182,24 +197,14 @@
             "type" : "string"
           }
         }
-      },
-      "CollectionResponse_Page" : {
-        "id" : "CollectionResponse_Page",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Page"
-            }
-          },
-          "nextPageToken" : {
-            "type" : "string"
-          }
-        }
       }
     },
     "methods" : {
+      "com.maximumgreen.c4.endpoints.PageEndpoint.listPage" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Page"
+        }
+      },
       "com.maximumgreen.c4.endpoints.PageEndpoint.getPage" : {
         "response" : {
           "$ref" : "Page"
@@ -221,11 +226,6 @@
         },
         "response" : {
           "$ref" : "Page"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.PageEndpoint.listPage" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Page"
         }
       }
     }
