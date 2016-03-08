@@ -49,13 +49,20 @@
         "body" : "empty"
       }
     },
+<<<<<<< Updated upstream
     "pageendpoint.getPage" : {
       "path" : "page/{id}",
       "httpMethod" : "GET",
+=======
+    "pageendpoint.insertPage" : {
+      "path" : "page",
+      "httpMethod" : "POST",
+>>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.getPage",
       "request" : {
         "parameters" : {
@@ -65,6 +72,12 @@
           }
         },
         "body" : "empty"
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+>>>>>>> Stashed changes
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -111,17 +124,35 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+<<<<<<< Updated upstream
     "pageendpoint.insertPage" : {
       "path" : "page",
       "httpMethod" : "POST",
+=======
+    "pageendpoint.getPage" : {
+      "path" : "page/{id}",
+      "httpMethod" : "GET",
+>>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.getPage",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+>>>>>>> Stashed changes
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -202,7 +233,14 @@
     "methods" : {
       "com.maximumgreen.c4.endpoints.PageEndpoint.removePage" : {
       },
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.PageEndpoint.getPage" : {
+=======
+      "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage" : {
+        "request" : {
+          "$ref" : "Page"
+        },
+>>>>>>> Stashed changes
         "response" : {
           "$ref" : "Page"
         }
@@ -220,10 +258,14 @@
           "$ref" : "CollectionResponse_Page"
         }
       },
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage" : {
         "request" : {
           "$ref" : "Page"
         },
+=======
+      "com.maximumgreen.c4.endpoints.PageEndpoint.getPage" : {
+>>>>>>> Stashed changes
         "response" : {
           "$ref" : "Page"
         }

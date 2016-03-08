@@ -28,6 +28,59 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+<<<<<<< Updated upstream
+    "userendpoint.removeUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "DELETE",
+=======
+    "userendpoint.getUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "GET",
+>>>>>>> Stashed changes
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser",
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.getUser",
+>>>>>>> Stashed changes
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+<<<<<<< Updated upstream
+        "body" : "empty"
+=======
+        "body" : "autoTemplate(backendResponse)"
+>>>>>>> Stashed changes
+      }
+    },
+    "userendpoint.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+<<<<<<< Updated upstream
+=======
     "userendpoint.removeUser" : {
       "path" : "user/{id}",
       "httpMethod" : "DELETE",
@@ -49,22 +102,7 @@
         "body" : "empty"
       }
     },
-    "userendpoint.insertUser" : {
-      "path" : "user",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
+>>>>>>> Stashed changes
     "userendpoint.updateUser" : {
       "path" : "user",
       "httpMethod" : "PUT",
@@ -105,6 +143,7 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+<<<<<<< Updated upstream
     },
     "userendpoint.getUser" : {
       "path" : "user/{id}",
@@ -126,6 +165,8 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+=======
+>>>>>>> Stashed changes
     }
   },
   "descriptor" : {
@@ -137,6 +178,15 @@
           "key" : {
             "$ref" : "Key"
           },
+<<<<<<< Updated upstream
+=======
+          "googleID" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+>>>>>>> Stashed changes
           "username" : {
             "type" : "string"
           },
@@ -239,7 +289,14 @@
       }
     },
     "methods" : {
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+=======
+      "com.maximumgreen.c4.endpoints.UserEndpoint.getUser" : {
+        "response" : {
+          "$ref" : "User"
+        }
+>>>>>>> Stashed changes
       },
       "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
         "request" : {
@@ -249,6 +306,11 @@
           "$ref" : "User"
         }
       },
+<<<<<<< Updated upstream
+=======
+      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+      },
+>>>>>>> Stashed changes
       "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
         "request" : {
           "$ref" : "User"
@@ -261,11 +323,14 @@
         "response" : {
           "$ref" : "CollectionResponse_User"
         }
+<<<<<<< Updated upstream
       },
       "com.maximumgreen.c4.endpoints.UserEndpoint.getUser" : {
         "response" : {
           "$ref" : "User"
         }
+=======
+>>>>>>> Stashed changes
       }
     }
   }

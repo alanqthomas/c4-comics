@@ -28,6 +28,34 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+<<<<<<< Updated upstream
+=======
+    "comicendpoint.listComic" : {
+      "path" : "comic",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+>>>>>>> Stashed changes
     "comicendpoint.getComic" : {
       "path" : "comic/{id}",
       "httpMethod" : "GET",
@@ -49,6 +77,25 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+<<<<<<< Updated upstream
+=======
+    "comicendpoint.updateComic" : {
+      "path" : "comic",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+>>>>>>> Stashed changes
     "comicendpoint.insertComic" : {
       "path" : "comic",
       "httpMethod" : "POST",
@@ -85,6 +132,7 @@
       "response" : {
         "body" : "empty"
       }
+<<<<<<< Updated upstream
     },
     "comicendpoint.listComic" : {
       "path" : "comic",
@@ -126,10 +174,30 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+=======
+>>>>>>> Stashed changes
     }
   },
   "descriptor" : {
     "schemas" : {
+<<<<<<< Updated upstream
+=======
+      "CollectionResponse_Comic" : {
+        "id" : "CollectionResponse_Comic",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comic"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
+>>>>>>> Stashed changes
       "Comic" : {
         "id" : "Comic",
         "type" : "object",
@@ -196,6 +264,12 @@
         "id" : "Tag",
         "type" : "object",
         "properties" : {
+<<<<<<< Updated upstream
+=======
+          "key" : {
+            "$ref" : "Key"
+          },
+>>>>>>> Stashed changes
           "name" : {
             "type" : "string"
           },
@@ -230,6 +304,7 @@
       "JsonMap" : {
         "id" : "JsonMap",
         "type" : "object"
+<<<<<<< Updated upstream
       },
       "CollectionResponse_Comic" : {
         "id" : "CollectionResponse_Comic",
@@ -248,12 +323,26 @@
       }
     },
     "methods" : {
+=======
+      }
+    },
+    "methods" : {
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Comic"
+        }
+      },
+>>>>>>> Stashed changes
       "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
         "response" : {
           "$ref" : "Comic"
         }
       },
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
+=======
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic" : {
+>>>>>>> Stashed changes
         "request" : {
           "$ref" : "Comic"
         },
@@ -261,6 +350,7 @@
           "$ref" : "Comic"
         }
       },
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
       },
       "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
@@ -269,12 +359,20 @@
         }
       },
       "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic" : {
+=======
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
+>>>>>>> Stashed changes
         "request" : {
           "$ref" : "Comic"
         },
         "response" : {
           "$ref" : "Comic"
         }
+<<<<<<< Updated upstream
+=======
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
+>>>>>>> Stashed changes
       }
     }
   }

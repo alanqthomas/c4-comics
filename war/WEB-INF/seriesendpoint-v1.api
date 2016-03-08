@@ -28,13 +28,20 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+<<<<<<< Updated upstream
     "seriesendpoint.listSeries" : {
       "path" : "series",
       "httpMethod" : "GET",
+=======
+    "seriesendpoint.removeSeries" : {
+      "path" : "series/{id}",
+      "httpMethod" : "DELETE",
+>>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries",
       "request" : {
         "parameters" : {
@@ -45,12 +52,24 @@
           "limit" : {
             "type" : "int32",
             "required" : false
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+>>>>>>> Stashed changes
           }
         },
         "body" : "empty"
       },
       "response" : {
+<<<<<<< Updated upstream
         "body" : "autoTemplate(backendResponse)"
+=======
+        "body" : "empty"
+>>>>>>> Stashed changes
       }
     },
     "seriesendpoint.insertSeries" : {
@@ -69,29 +88,54 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+<<<<<<< Updated upstream
     "seriesendpoint.updateSeries" : {
       "path" : "series",
       "httpMethod" : "PUT",
+=======
+    "seriesendpoint.getSeries" : {
+      "path" : "series/{id}",
+      "httpMethod" : "GET",
+>>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+>>>>>>> Stashed changes
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
     },
+<<<<<<< Updated upstream
     "seriesendpoint.removeSeries" : {
       "path" : "series/{id}",
       "httpMethod" : "DELETE",
+=======
+    "seriesendpoint.updateSeries" : {
+      "path" : "series",
+      "httpMethod" : "PUT",
+>>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
       "request" : {
         "parameters" : {
@@ -108,17 +152,43 @@
     },
     "seriesendpoint.getSeries" : {
       "path" : "series/{id}",
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "seriesendpoint.listSeries" : {
+      "path" : "series",
+>>>>>>> Stashed changes
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+<<<<<<< Updated upstream
       "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries",
       "request" : {
         "parameters" : {
           "id" : {
             "type" : "int64",
             "required" : true
+=======
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+>>>>>>> Stashed changes
           }
         },
         "body" : "empty"
@@ -130,6 +200,7 @@
   },
   "descriptor" : {
     "schemas" : {
+<<<<<<< Updated upstream
       "CollectionResponse_Series" : {
         "id" : "CollectionResponse_Series",
         "type" : "object",
@@ -145,6 +216,8 @@
           }
         }
       },
+=======
+>>>>>>> Stashed changes
       "Series" : {
         "id" : "Series",
         "type" : "object",
@@ -244,6 +317,7 @@
             "format" : "date-time"
           }
         }
+<<<<<<< Updated upstream
       }
     },
     "methods" : {
@@ -251,6 +325,27 @@
         "response" : {
           "$ref" : "CollectionResponse_Series"
         }
+=======
+      },
+      "CollectionResponse_Series" : {
+        "id" : "CollectionResponse_Series",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Series"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
+>>>>>>> Stashed changes
       },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
         "request" : {
@@ -260,6 +355,14 @@
           "$ref" : "Series"
         }
       },
+<<<<<<< Updated upstream
+=======
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries" : {
+        "response" : {
+          "$ref" : "Series"
+        }
+      },
+>>>>>>> Stashed changes
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
         "request" : {
           "$ref" : "Series"
@@ -268,11 +371,17 @@
           "$ref" : "Series"
         }
       },
+<<<<<<< Updated upstream
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
       },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries" : {
         "response" : {
           "$ref" : "Series"
+=======
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Series"
+>>>>>>> Stashed changes
         }
       }
     }
