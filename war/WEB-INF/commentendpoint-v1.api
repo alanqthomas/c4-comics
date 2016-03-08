@@ -65,26 +65,17 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "commentendpoint.listComment" : {
+    "commentendpoint.updateComment" : {
       "path" : "comment",
-      "httpMethod" : "GET",
+      "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment",
       "request" : {
-        "parameters" : {
-          "cursor" : {
-            "type" : "string",
-            "required" : false
-          },
-          "limit" : {
-            "type" : "int32",
-            "required" : false
-          }
-        },
-        "body" : "empty"
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -111,17 +102,26 @@
         "body" : "empty"
       }
     },
-    "commentendpoint.updateComment" : {
+    "commentendpoint.listComment" : {
       "path" : "comment",
-      "httpMethod" : "PUT",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment",
       "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -180,19 +180,19 @@
           "$ref" : "Comment"
         }
       },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Comment"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
-      },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment" : {
         "request" : {
           "$ref" : "Comment"
         },
         "response" : {
           "$ref" : "Comment"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
+      },
+      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Comment"
         }
       }
     }
