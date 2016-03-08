@@ -7,17 +7,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-<<<<<<< Updated upstream
-
    <param-value>com.maximumgreen.c4.endpoints.ComicEndpoint,com.maximumgreen.c4.endpoints.CommentEndpoint,com.maximumgreen.c4.endpoints.PageEndpoint,com.maximumgreen.c4.endpoints.SeriesEndpoint,com.maximumgreen.c4.endpoints.TagEndpoint,com.maximumgreen.c4.endpoints.UserEndpoint</param-value>
-
-=======
-<<<<<<< HEAD
-   <param-value/>
-=======
-   <param-value>com.maximumgreen.c4.endpoints.ComicEndpoint,com.maximumgreen.c4.endpoints.CommentEndpoint,com.maximumgreen.c4.endpoints.PageEndpoint,com.maximumgreen.c4.endpoints.SeriesEndpoint,com.maximumgreen.c4.endpoints.TagEndpoint,com.maximumgreen.c4.endpoints.UserEndpoint</param-value>
->>>>>>> datastore-classes
->>>>>>> Stashed changes
   </init-param>
  </servlet>
  <servlet-mapping>

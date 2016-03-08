@@ -10,17 +10,11 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class User {
-<<<<<<< Updated upstream
-	//Use the user's Google ID to make the key
-=======
 	//Automatically generate a unique key for each user
->>>>>>> Stashed changes
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
-<<<<<<< Updated upstream
-=======
 	//User's Google ID 
 	@Persistent
 	private String googleID;
@@ -29,7 +23,6 @@ public class User {
 	@Persistent
 	private String email;
 	
->>>>>>> Stashed changes
 	//User's name that gets displayed. Must be unique within datastore.
 	@Persistent
 	@Unique
@@ -80,9 +73,6 @@ public class User {
 		this.key = key;
 	}
 
-<<<<<<< Updated upstream
-=======
-
 	public String getGoogleID() {
 		return googleID;
 	}
@@ -99,7 +89,6 @@ public class User {
 		this.email = email;
 	}
 	
->>>>>>> Stashed changes
 	public String getUsername() {
 		return username;
 	}

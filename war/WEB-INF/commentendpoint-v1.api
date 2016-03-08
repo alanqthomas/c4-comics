@@ -65,39 +65,17 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-<<<<<<< Updated upstream
-    "commentendpoint.listComment" : {
-      "path" : "comment",
-      "httpMethod" : "GET",
-=======
     "commentendpoint.updateComment" : {
       "path" : "comment",
       "httpMethod" : "PUT",
->>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-<<<<<<< Updated upstream
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment",
-      "request" : {
-        "parameters" : {
-          "cursor" : {
-            "type" : "string",
-            "required" : false
-          },
-          "limit" : {
-            "type" : "int32",
-            "required" : false
-          }
-        },
-        "body" : "empty"
-=======
       "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
->>>>>>> Stashed changes
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -124,25 +102,13 @@
         "body" : "empty"
       }
     },
-<<<<<<< Updated upstream
-    "commentendpoint.updateComment" : {
-      "path" : "comment",
-      "httpMethod" : "PUT",
-=======
     "commentendpoint.listComment" : {
       "path" : "comment",
       "httpMethod" : "GET",
->>>>>>> Stashed changes
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-<<<<<<< Updated upstream
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-=======
       "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment",
       "request" : {
         "parameters" : {
@@ -156,7 +122,6 @@
           }
         },
         "body" : "empty"
->>>>>>> Stashed changes
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -215,16 +180,6 @@
           "$ref" : "Comment"
         }
       },
-<<<<<<< Updated upstream
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Comment"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
-      },
-=======
->>>>>>> Stashed changes
       "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment" : {
         "request" : {
           "$ref" : "Comment"
@@ -232,8 +187,6 @@
         "response" : {
           "$ref" : "Comment"
         }
-<<<<<<< Updated upstream
-=======
       },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
       },
@@ -241,7 +194,6 @@
         "response" : {
           "$ref" : "CollectionResponse_Comment"
         }
->>>>>>> Stashed changes
       }
     }
   }
