@@ -1,0 +1,284 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://athomas-tic-tac-toe.appspot.com/_ah/api",
+  "name" : "comicendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "discovery" : [ "PUBLIC" ],
+  "adapter" : {
+    "bns" : "https://athomas-tic-tac-toe.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "maximumgreen.com",
+  "ownerName" : "maximumgreen.com",
+  "packagePath" : "c4",
+  "methods" : {
+    "comicendpoint.insertComic" : {
+      "path" : "comic",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.removeComic" : {
+      "path" : "comic/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "comicendpoint.listComic" : {
+      "path" : "comic",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.getComic" : {
+      "path" : "comic/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.updateComic" : {
+      "path" : "comic",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Comic" : {
+        "id" : "Comic",
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "$ref" : "Key"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Tag"
+            }
+          },
+          "pages" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "comments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comment"
+            }
+          },
+          "ratings" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Tag" : {
+        "id" : "Tag",
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "$ref" : "Key"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "comicsWithTag" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          }
+        }
+      },
+      "Comment" : {
+        "id" : "Comment",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "user" : {
+            "type" : "string"
+          },
+          "comment" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "JsonMap" : {
+        "id" : "JsonMap",
+        "type" : "object"
+      },
+      "CollectionResponse_Comic" : {
+        "id" : "CollectionResponse_Comic",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comic"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
+        "request" : {
+          "$ref" : "Comic"
+        },
+        "response" : {
+          "$ref" : "Comic"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Comic"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
+        "response" : {
+          "$ref" : "Comic"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic" : {
+        "request" : {
+          "$ref" : "Comic"
+        },
+        "response" : {
+          "$ref" : "Comic"
+        }
+      }
+    }
+  }
+}

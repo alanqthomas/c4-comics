@@ -2,7 +2,7 @@
   "extends" : "thirdParty.api",
   "abstract" : false,
   "root" : "https://athomas-tic-tac-toe.appspot.com/_ah/api",
-  "name" : "commentendpoint",
+  "name" : "tagendpoint",
   "version" : "v1",
   "defaultVersion" : false,
   "discovery" : [ "PUBLIC" ],
@@ -28,14 +28,14 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
-    "commentendpoint.getComment" : {
-      "path" : "comment/{id}",
+    "tagendpoint.getTag" : {
+      "path" : "tag/{id}",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.getComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.getTag",
       "request" : {
         "parameters" : {
           "id" : {
@@ -49,14 +49,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "commentendpoint.listComment" : {
-      "path" : "comment",
+    "tagendpoint.listTag" : {
+      "path" : "tag",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.listTag",
       "request" : {
         "parameters" : {
           "cursor" : {
@@ -74,30 +74,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "commentendpoint.insertComment" : {
-      "path" : "comment",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.insertComment",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "commentendpoint.updateComment" : {
-      "path" : "comment",
+    "tagendpoint.updateTag" : {
+      "path" : "tag",
       "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -106,14 +90,30 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "commentendpoint.removeComment" : {
-      "path" : "comment/{id}",
+    "tagendpoint.insertTag" : {
+      "path" : "tag",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "tagendpoint.removeTag" : {
+      "path" : "tag/{id}",
       "httpMethod" : "DELETE",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag",
       "request" : {
         "parameters" : {
           "id" : {
@@ -130,34 +130,60 @@
   },
   "descriptor" : {
     "schemas" : {
-      "Comment" : {
-        "id" : "Comment",
+      "Tag" : {
+        "id" : "Tag",
         "type" : "object",
         "properties" : {
+          "key" : {
+            "$ref" : "Key"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "comicsWithTag" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
           "id" : {
             "type" : "string",
             "format" : "int64"
           },
-          "user" : {
+          "name" : {
             "type" : "string"
           },
-          "comment" : {
+          "namespace" : {
             "type" : "string"
           },
-          "date" : {
-            "type" : "string",
-            "format" : "date-time"
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
-      "CollectionResponse_Comment" : {
-        "id" : "CollectionResponse_Comment",
+      "CollectionResponse_Tag" : {
+        "id" : "CollectionResponse_Tag",
         "type" : "object",
         "properties" : {
           "items" : {
             "type" : "array",
             "items" : {
-              "$ref" : "Comment"
+              "$ref" : "Tag"
             }
           },
           "nextPageToken" : {
@@ -167,33 +193,33 @@
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.getComment" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.getTag" : {
         "response" : {
-          "$ref" : "Comment"
+          "$ref" : "Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.listTag" : {
         "response" : {
-          "$ref" : "CollectionResponse_Comment"
+          "$ref" : "CollectionResponse_Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.insertComment" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag" : {
         "request" : {
-          "$ref" : "Comment"
+          "$ref" : "Tag"
         },
         "response" : {
-          "$ref" : "Comment"
+          "$ref" : "Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag" : {
         "request" : {
-          "$ref" : "Comment"
+          "$ref" : "Tag"
         },
         "response" : {
-          "$ref" : "Comment"
+          "$ref" : "Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
       }
     }
   }
