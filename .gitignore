@@ -23,8 +23,9 @@ $RECYCLE.BIN/
 .DS_Store
 
 # Java
-.jar
-.class
+*.jar
+*.class
+war/WEB-INF/lib/
 
 # NPM
 node_modules/
