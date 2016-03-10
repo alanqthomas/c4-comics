@@ -18,12 +18,12 @@ module.exports = function(grunt) {
                             src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
                     },
                 },
-				src: ['war/js/app.js', 
+				src: ['war/js/app.js',
                       'war/js/config.js',
                       'war/js/controllers/homeController.js',
                       'war/js/controllers/profileController.js',
                       'war/js/services/authService.js'],
-				dest: 'war/js/scripts.js'
+				dest: 'war/js/dist/scripts.js'
 			}
 		},
 		watch: {
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 			minify: {
 				src: 'war/css/styles.css',
 				dest: 'war/css/styles.min.css'
-			}	
+			}
 		},
 		uglify: {
 			options: {
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 			},
 			minify: {
 				files: {
-					'war/js/scripts.min.js' : ['war/js/scripts.js']
+					'war/js/dist/scripts.min.js' : ['war/js/dist/scripts.js']
 				}
 			}
 		}
