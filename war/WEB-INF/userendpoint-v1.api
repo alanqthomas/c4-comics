@@ -49,14 +49,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "userendpoint.insertUser" : {
+    "userendpoint.updateUser" : {
       "path" : "user",
-      "httpMethod" : "POST",
+      "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -90,22 +90,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "userendpoint.updateUser" : {
-      "path" : "user",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "userendpoint.removeUser" : {
       "path" : "user/{id}",
       "httpMethod" : "DELETE",
@@ -125,6 +109,22 @@
       },
       "response" : {
         "body" : "empty"
+      }
+    },
+    "userendpoint.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
       }
     }
   },
@@ -204,14 +204,14 @@
           "name" : {
             "type" : "string"
           },
-          "complete" : {
-            "type" : "boolean"
+          "parent" : {
+            "$ref" : "Key"
           },
           "namespace" : {
             "type" : "string"
           },
-          "parent" : {
-            "$ref" : "Key"
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
@@ -250,7 +250,7 @@
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
+      "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
         "request" : {
           "$ref" : "User"
         },
@@ -263,15 +263,15 @@
           "$ref" : "CollectionResponse_User"
         }
       },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
+      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
         "request" : {
           "$ref" : "User"
         },
         "response" : {
           "$ref" : "User"
         }
-      },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
       }
     }
   }

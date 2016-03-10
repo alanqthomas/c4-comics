@@ -11,6 +11,7 @@
   	<include path="/**.woff2" />
   	<include path="/**.woff" />
   	<include path="/**.ttf" />
+  	<include path="/**.ico" />
   </static-files>
 
   <!--

@@ -49,41 +49,20 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "tagendpoint.insertTag" : {
+    "tagendpoint.updateTag" : {
       "path" : "tag",
-      "httpMethod" : "POST",
+      "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "tagendpoint.removeTag" : {
-      "path" : "tag/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
       }
     },
     "tagendpoint.listTag" : {
@@ -111,14 +90,35 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "tagendpoint.updateTag" : {
-      "path" : "tag",
-      "httpMethod" : "PUT",
+    "tagendpoint.removeTag" : {
+      "path" : "tag/{id}",
+      "httpMethod" : "DELETE",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "tagendpoint.insertTag" : {
+      "path" : "tag",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -165,14 +165,14 @@
           "name" : {
             "type" : "string"
           },
-          "complete" : {
-            "type" : "boolean"
+          "parent" : {
+            "$ref" : "Key"
           },
           "namespace" : {
             "type" : "string"
           },
-          "parent" : {
-            "$ref" : "Key"
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
@@ -198,7 +198,7 @@
           "$ref" : "Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag" : {
         "request" : {
           "$ref" : "Tag"
         },
@@ -206,14 +206,14 @@
           "$ref" : "Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
-      },
       "com.maximumgreen.c4.endpoints.TagEndpoint.listTag" : {
         "response" : {
           "$ref" : "CollectionResponse_Tag"
         }
       },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag" : {
+      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
+      },
+      "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag" : {
         "request" : {
           "$ref" : "Tag"
         },

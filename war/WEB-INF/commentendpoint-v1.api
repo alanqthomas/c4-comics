@@ -86,22 +86,6 @@
         "body" : "empty"
       }
     },
-    "commentendpoint.insertComment" : {
-      "path" : "comment",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.insertComment",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "commentendpoint.listComment" : {
       "path" : "comment",
       "httpMethod" : "GET",
@@ -122,6 +106,22 @@
           }
         },
         "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "commentendpoint.insertComment" : {
+      "path" : "comment",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.insertComment",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -182,17 +182,17 @@
       },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
       },
+      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Comment"
+        }
+      },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.insertComment" : {
         "request" : {
           "$ref" : "Comment"
         },
         "response" : {
           "$ref" : "Comment"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Comment"
         }
       }
     }
