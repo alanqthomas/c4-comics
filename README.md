@@ -1,5 +1,6 @@
 # maximumgreen
 Comic web app for CSE 308
+
 Yuzhe Hu, Marc Rejndrup, Alan Thomas, Douglas Bell
 
 **Focus on what you're actually going to be working on!**

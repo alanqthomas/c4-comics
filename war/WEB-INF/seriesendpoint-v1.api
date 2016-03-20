@@ -28,41 +28,20 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
-    "seriesendpoint.insertSeries" : {
+    "seriesendpoint.updateSeries" : {
       "path" : "series",
-      "httpMethod" : "POST",
+      "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "seriesendpoint.removeSeries" : {
-      "path" : "series/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
       }
     },
     "seriesendpoint.listSeries" : {
@@ -90,14 +69,35 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "seriesendpoint.updateSeries" : {
-      "path" : "series",
-      "httpMethod" : "PUT",
+    "seriesendpoint.removeSeries" : {
+      "path" : "series/{id}",
+      "httpMethod" : "DELETE",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "seriesendpoint.insertSeries" : {
+      "path" : "series",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -247,7 +247,7 @@
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
         "request" : {
           "$ref" : "Series"
         },
@@ -255,14 +255,14 @@
           "$ref" : "Series"
         }
       },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
-      },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries" : {
         "response" : {
           "$ref" : "CollectionResponse_Series"
         }
       },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
+      },
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
         "request" : {
           "$ref" : "Series"
         },
