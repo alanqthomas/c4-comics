@@ -1,6 +1,13 @@
-nav {
+$nav-color: #4CAF50;
+$nav-height: 65px;
+$search-bg: white;
+$search-alpha: .75;
+$text-color: white;
+
+
+.testlinks {
+
     ul {
-        margin: 10px;
         padding: 0;
         list-style: none;
     }
@@ -16,8 +23,35 @@ nav {
     }
 }
 
-.testing {
-  background-color: green;
+@include placeholder {
+  color: white;
+}
+
+nav {
+  margin: 0px;
+  background-color: $nav-color;
+  height: $nav-height;
+  padding: $nav-height/4;
+  position: relative;
+
+  .search {
+    input {
+      background-color: transparentize($search-bg, $search-alpha);
+      border-style: none;
+      height: $nav-height/2;
+      border-radius: 2px;
+      color: $text-color;
+      text-indent: $nav-height/4 + 30;
+    }
+
+    .material-icons {
+      position: absolute;
+      top: 21px;
+      left: 2*($nav-height/4);
+      color: $text-color;
+    }
+  }
+
 }
 
 footer {

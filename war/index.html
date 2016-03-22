@@ -28,7 +28,7 @@
 	<script	src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
 
 	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
 
@@ -44,17 +44,25 @@
 </head>
 
 <body ng-app="c4">
-	<ul class="testing">
-		<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
-		<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
-		<li ui-sref-active="active"><a ui-sref="comic">Comic</a></li>
-		<li ui-sref-active="active"><a ui-sref="draw">Draw</a></li>
-		<li ui-sref-active="active"><a ui-sref="manage-comics">Manage Comics</a></li>
-		<li ui-sref-active="active"><a ui-sref="manage-subscriptions">Manage Subscriptions</a></li>
-		<li ui-sref-active="active"><a ui-sref="new-comic">New Comic</a></li>
-		<li ui-sref-active="active"><a ui-sref="subscription">Subscription</a></li>
-		<li ui-sref-active="active"><a ui-sref="subscriptions">Subscriptions</a></li>
-	</ul>
+	<nav>
+		<div class="search">
+			<input type="text" placeholder="Search"></input>
+			<i class="material-icons">search</i>
+		</div>
+	</nav>
+	<div class="testlinks">
+		<ul>
+			<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+			<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
+			<li ui-sref-active="active"><a ui-sref="comic">Comic</a></li>
+			<li ui-sref-active="active"><a ui-sref="draw">Draw</a></li>
+			<li ui-sref-active="active"><a ui-sref="manage-comics">Manage Comics</a></li>
+			<li ui-sref-active="active"><a ui-sref="manage-subscriptions">Manage Subscriptions</a></li>
+			<li ui-sref-active="active"><a ui-sref="new-comic">New Comic</a></li>
+			<li ui-sref-active="active"><a ui-sref="subscription">Subscription</a></li>
+			<li ui-sref-active="active"><a ui-sref="subscriptions">Subscriptions</a></li>
+		</ul>
+	</div>
 	<div ui-view></div>
 
 	<!-- Enable livereload for development -->

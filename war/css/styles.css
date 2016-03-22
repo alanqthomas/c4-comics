@@ -1,21 +1,3 @@
-nav ul {
-  margin: 10px;
-  padding: 0;
-  list-style: none; }
-nav li {
-  display: inline-block; }
-nav a {
-  display: block;
-  padding: 6px 12px;
-  text-decoration: none; }
-
-.testing {
-  background-color: green; }
-
-footer {
-  background-color: #d3d3d3;
-  color: #ffffff; }
-
 .noselect {
   -webkit-touch-callout: none;
   /* iOS Safari */
@@ -33,5 +15,50 @@ footer {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
+
+.testlinks ul {
+  padding: 0;
+  list-style: none; }
+.testlinks li {
+  display: inline-block; }
+.testlinks a {
+  display: block;
+  padding: 6px 12px;
+  text-decoration: none; }
+
+::-webkit-input-placeholder {
+  color: white; }
+
+:-moz-placeholder {
+  color: white; }
+
+::-moz-placeholder {
+  color: white; }
+
+:-ms-input-placeholder {
+  color: white; }
+
+nav {
+  margin: 0px;
+  background-color: #4CAF50;
+  height: 65px;
+  padding: 16.25px;
+  position: relative; }
+  nav .search input {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-style: none;
+    height: 32.5px;
+    border-radius: 2px;
+    color: white;
+    text-indent: 46.25px; }
+  nav .search .material-icons {
+    position: absolute;
+    top: 21px;
+    left: 32.5px;
+    color: white; }
+
+footer {
+  background-color: #d3d3d3;
+  color: #ffffff; }
 
 /*# sourceMappingURL=styles.css.map */
