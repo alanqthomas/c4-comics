@@ -28,6 +28,63 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+    "comicendpoint.listComic" : {
+      "path" : "comic",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.insertComic" : {
+      "path" : "comic",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.updateComic" : {
+      "path" : "comic",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "comicendpoint.removeComic" : {
       "path" : "comic/{id}",
       "httpMethod" : "DELETE",
@@ -69,67 +126,25 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
-    },
-    "comicendpoint.insertComic" : {
-      "path" : "comic",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "comicendpoint.updateComic" : {
-      "path" : "comic",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "comicendpoint.listComic" : {
-      "path" : "comic",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic",
-      "request" : {
-        "parameters" : {
-          "cursor" : {
-            "type" : "string",
-            "required" : false
-          },
-          "limit" : {
-            "type" : "int32",
-            "required" : false
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "CollectionResponse_Comic" : {
+        "id" : "CollectionResponse_Comic",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comic"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
       "Comic" : {
         "id" : "Comic",
         "type" : "object",
@@ -181,11 +196,11 @@
           "name" : {
             "type" : "string"
           },
-          "parent" : {
-            "$ref" : "Key"
-          },
           "namespace" : {
             "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
           },
           "complete" : {
             "type" : "boolean"
@@ -233,29 +248,12 @@
       "JsonMap" : {
         "id" : "JsonMap",
         "type" : "object"
-      },
-      "CollectionResponse_Comic" : {
-        "id" : "CollectionResponse_Comic",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Comic"
-            }
-          },
-          "nextPageToken" : {
-            "type" : "string"
-          }
-        }
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
-      },
-      "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
         "response" : {
-          "$ref" : "Comic"
+          "$ref" : "CollectionResponse_Comic"
         }
       },
       "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
@@ -274,9 +272,11 @@
           "$ref" : "Comic"
         }
       },
-      "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
         "response" : {
-          "$ref" : "CollectionResponse_Comic"
+          "$ref" : "Comic"
         }
       }
     }

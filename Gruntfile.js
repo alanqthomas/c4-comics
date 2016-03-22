@@ -10,20 +10,27 @@ module.exports = function(grunt) {
 		},
 		concat: {
 			js: {
-                options: {
-                    // Replace all 'use strict' statements in the code with a single one at the top
-                    banner: "'use strict';\n",
-                    process: function(src, filepath) {
-                        return '// Source: ' + filepath + '\n' +
-                            src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
-                    },
-                },
-				src: ['war/js/app.js',
-                      'war/js/config.js',
-                      'war/js/controllers/homeController.js',
-                      'war/js/controllers/profileController.js',
-                      'war/js/services/authService.js'],
-				dest: 'war/js/dist/scripts.js'
+	          options: {
+	              // Replace all 'use strict' statements in the code with a single one at the top
+	              banner: "'use strict';\n",
+	              process: function(src, filepath) {
+	                  return '// Source: ' + filepath + '\n' +
+	                      src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+	              },
+	          },
+						src: ['war/js/app.js',
+		              'war/js/config.js',
+		              'war/js/controllers/homeController.js',
+		              'war/js/controllers/profileController.js',
+									'war/js/controllers/comicController.js',
+									'war/js/controllers/drawController.js',
+									'war/js/controllers/manageComicsController.js',
+									'war/js/controllers/manageSubscriptionsController.js',
+									'war/js/controllers/newComicController.js',
+									'war/js/controllers/subscriptionController.js',
+									'war/js/controllers/subscriptionsController.js',
+		              'war/js/services/authService.js'],
+						dest: 'war/js/dist/scripts.js'
 			}
 		},
 		watch: {
@@ -42,6 +49,9 @@ module.exports = function(grunt) {
 				files: ['war/css/**/*.css'],
 				tasks: ['cssmin']
 			},
+			html: {
+				files: ['war/views/**/*.html', 'war/index.html']
+			}
 		},
 		cssmin: {
 			minify: {
@@ -51,7 +61,7 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				manage: false
+				manage: true
 			},
 			minify: {
 				files: {

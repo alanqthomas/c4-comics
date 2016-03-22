@@ -28,27 +28,6 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
-    "pageendpoint.removePage" : {
-      "path" : "page/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.removePage",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "pageendpoint.getPage" : {
       "path" : "page/{id}",
       "httpMethod" : "GET",
@@ -86,6 +65,22 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "pageendpoint.insertPage" : {
+      "path" : "page",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "pageendpoint.listPage" : {
       "path" : "page",
       "httpMethod" : "GET",
@@ -111,20 +106,25 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "pageendpoint.insertPage" : {
-      "path" : "page",
-      "httpMethod" : "POST",
+    "pageendpoint.removePage" : {
+      "path" : "page/{id}",
+      "httpMethod" : "DELETE",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.removePage",
       "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
       },
       "response" : {
-        "body" : "autoTemplate(backendResponse)"
+        "body" : "empty"
       }
     }
   },
@@ -163,11 +163,11 @@
           "name" : {
             "type" : "string"
           },
-          "parent" : {
-            "$ref" : "Key"
-          },
           "namespace" : {
             "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
           },
           "complete" : {
             "type" : "boolean"
@@ -200,8 +200,6 @@
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.PageEndpoint.removePage" : {
-      },
       "com.maximumgreen.c4.endpoints.PageEndpoint.getPage" : {
         "response" : {
           "$ref" : "Page"
@@ -215,11 +213,6 @@
           "$ref" : "Page"
         }
       },
-      "com.maximumgreen.c4.endpoints.PageEndpoint.listPage" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Page"
-        }
-      },
       "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage" : {
         "request" : {
           "$ref" : "Page"
@@ -227,6 +220,13 @@
         "response" : {
           "$ref" : "Page"
         }
+      },
+      "com.maximumgreen.c4.endpoints.PageEndpoint.listPage" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Page"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.PageEndpoint.removePage" : {
       }
     }
   }

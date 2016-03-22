@@ -39,12 +39,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
 
 	<!-- Angular App -->
-	<!--script src="js/dist/scripts.min.js"></script -->
-	<script src="js/app.js"></script>
-	<script src="js/config.js"></script>
-	<script src="js/controllers/homeController.js"></script>
-	<script src="js/controllers/profileController.js"></script>
-	<script src="js/services/authService.js"></script>
+	<script src="js/dist/scripts.js"></script>
 
 </head>
 
@@ -52,6 +47,13 @@
 	<ul class="testing">
 		<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
 		<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
+		<li ui-sref-active="active"><a ui-sref="comic">Comic</a></li>
+		<li ui-sref-active="active"><a ui-sref="draw">Draw</a></li>
+		<li ui-sref-active="active"><a ui-sref="manage-comics">Manage Comics</a></li>
+		<li ui-sref-active="active"><a ui-sref="manage-subscriptions">Manage Subscriptions</a></li>
+		<li ui-sref-active="active"><a ui-sref="new-comic">New Comic</a></li>
+		<li ui-sref-active="active"><a ui-sref="subscription">Subscription</a></li>
+		<li ui-sref-active="active"><a ui-sref="subscriptions">Subscriptions</a></li>
 	</ul>
 	<div ui-view></div>
 
