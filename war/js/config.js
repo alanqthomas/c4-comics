@@ -1,12 +1,12 @@
 "use strict";
 
 (function() {
-	
-var app = angular.module('hci');
+
+var app = angular.module('c4');
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
-	
+
 	$stateProvider
 		.state('home', {
 			url: "/home",
@@ -14,5 +14,5 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			authenticate: false
 		})
 });
-	
+
 })();

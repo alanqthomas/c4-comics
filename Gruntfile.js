@@ -27,6 +27,9 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
+			options: {
+				livereload: true
+			},
 			js: {
 				files: ['war/js/**/*.js'],
 				tasks: ['concat:js', 'uglify']

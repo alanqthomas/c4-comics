@@ -5,7 +5,7 @@ nav {
         list-style: none;
     }
 
-    li { 
+    li {
         display: inline-block;
     }
 
@@ -14,6 +14,10 @@ nav {
         padding: 6px 12px;
         text-decoration: none;
     }
+}
+
+.testing {
+  background-color: yellow;
 }
 
 footer {

@@ -37,3 +37,9 @@ war/lib/bower_components/
 
 #SASS Cache
 .sass-cache/
+
+# Dist
+war/css/styles.css
+war/css/styles.css.map
+war/css/styles.min.css
+war/js/dist/*.js

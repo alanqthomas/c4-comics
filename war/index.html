@@ -1,92 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Maximum Green</title>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Maximum Green</title>
 
-<!-- JQuery -->
-<script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- JQuery -->
+	<script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
 
-<!-- SugarJS -->
-<script src="lib/sugarjs/sugar-full.min.js"></script>
+	<!-- SugarJS -->
+	<script src="lib/sugarjs/sugar-full.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-<!-- Angular -->
-<script src="lib/bower_components/angular/angular.min.js"></script>
+	<!-- Angular -->
+	<script src="lib/bower_components/angular/angular.min.js"></script>
 
-<!-- UI-Router -->
-<script	src="lib/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<!-- UI-Router -->
+	<script	src="lib/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-<!-- Angular Cookies -->
-<script	src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
+	<!-- Angular Cookies -->
+	<script	src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
-<!-- Google GAPI -->
-<script	src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
+	<!-- Google GAPI -->
+	<script	src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
 
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
 
-<!-- Material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Material Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<!-- Google Fonts -->
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
 
-<!-- Angular App -->
-<script src="js/scripts.min.js"></script>
+	<!-- Angular App -->
+	<!--script src="js/dist/scripts.min.js"></script -->
+	<script src="js/app.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/controllers/homeController.js"></script>
+	<script src="js/controllers/profileController.js"></script>
+	<script src="js/services/authService.js"></script>
 
 </head>
 
 <body ng-app="c4">
-	<div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-						aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" ui-sref="home">C4</a>
-				</div>
+	<ul class="testing">
+		<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+		<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
+	</ul>
+	<div ui-view></div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
-						<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
-					</ul>
-					<form class="navbar-form navbar-right" role="search">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search">
-							<span class="input-group-addon"><span
-								class="glyphicon glyphicon-search"></span></span>
-						</div>
-					</form>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
-		<div ui-view></div>
-		<br />
-		<footer class="footer">
-			<div class="container">
-				<br />
-				<p>Maximum Green 4 Lyfe!!</p>
-				<br />
-			</div>
-		</footer>
-	</div>
+	<!-- Enable livereload for development -->
+	<script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>
