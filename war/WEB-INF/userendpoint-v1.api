@@ -28,14 +28,35 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
-    "userendpoint.updateUser" : {
-      "path" : "user",
-      "httpMethod" : "PUT",
+    "userendpoint.getUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.getUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -65,22 +86,6 @@
         "body" : "empty"
       }
     },
-    "userendpoint.insertUser" : {
-      "path" : "user",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "userendpoint.listUser" : {
       "path" : "user",
       "httpMethod" : "GET",
@@ -106,22 +111,17 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "userendpoint.getUser" : {
-      "path" : "user/{id}",
-      "httpMethod" : "GET",
+    "userendpoint.updateUser" : {
+      "path" : "user",
+      "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.getUser",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser",
       "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -204,11 +204,11 @@
           "name" : {
             "type" : "string"
           },
-          "namespace" : {
-            "type" : "string"
-          },
           "parent" : {
             "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
           },
           "complete" : {
             "type" : "boolean"
@@ -245,15 +245,10 @@
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
-        "request" : {
-          "$ref" : "User"
-        },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.getUser" : {
         "response" : {
           "$ref" : "User"
         }
-      },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
       },
       "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
         "request" : {
@@ -263,12 +258,17 @@
           "$ref" : "User"
         }
       },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+      },
       "com.maximumgreen.c4.endpoints.UserEndpoint.listUser" : {
         "response" : {
           "$ref" : "CollectionResponse_User"
         }
       },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.getUser" : {
+      "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
         "response" : {
           "$ref" : "User"
         }
