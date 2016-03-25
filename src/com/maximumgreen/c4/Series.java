@@ -13,7 +13,7 @@ public class Series {
 	//Series key should contain key of parent User
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	private Key k;
 	
 	//Title of Series
 	@Persistent
@@ -47,76 +47,8 @@ public class Series {
 	@Persistent
 	private List<Comment> comments;
 	
-    //Getters and Setters
-	public Key getKey() {
-		return key;
+	//empty constructor
+	public Series(){
 	}
-
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public BlobKey getBgImage() {
-		return bgImage;
-	}
-
-	public void setBgImage(BlobKey bgImage) {
-		this.bgImage = bgImage;
-	}
-
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public double getRating() {
-		return rating;
-	}
-
-	public void setRating(double rating) {
-		this.rating = rating;
-	}
-
-	public List<Key> getComics() {
-		return comics;
-	}
-
-	public void setComics(List<Key> comics) {
-		this.comics = comics;
-	}
-
-	public List<Key> getSubscribers() {
-		return subscribers;
-	}
-
-	public void setSubscribers(List<Key> subscribers) {
-		this.subscribers = subscribers;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
+	
 }
