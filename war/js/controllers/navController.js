@@ -4,19 +4,42 @@
 
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
-	//this is the cookie, but since we're only storing id, I'm assuming its an int.
-	var userCookie = $cookies.get('C4User');
-	//but in case it isn't, heres where I would convert it.
-	$scope.userId = userCookie;
-	//need to add google auth stuff.
-	if(userCookie = null){
-		$cookies.put('C4User', 00000);//replace with google.getUserID, whatever.
-		//more google auth stuff here.
+	$scope.loginMsg = "Sign In";
+	$scope.logFunc = $scope.doLogin();
+	$scope.checkLog = function(){
+		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
-	if ($scope.userID != null){
-		var userInfo = userendpoint.getUser($scope.userId);
+	$scope.ifLogin = function() {
+		$scope.loginMsg = "Sign Out";
 	}
-	$scope.profilePicURL = getServingURL(userInfo.getProfilePic())
+	$scope.ifLogout = function() {
+		$scope.loginMsg = "Sign In";
+	}
+	$scope.doLogin = function() {
+		GAuth.checkAuth().then(
+			function () {
+				ifLogin();
+				},
+			function() {
+				GAuth.login().then(function(){
+				ifLogin();
+				});
+			}
+		);
+	};
+	$scope.doLogout = function() {
+		GAuth.checkAuth().then(
+			function(){
+				GAuth.logout().then(function(){
+					ifLogout();
+				})
+			},
+			function(){
+				ifLogout();
+				}
+			}
+		);
+	};
 }]);
 
 

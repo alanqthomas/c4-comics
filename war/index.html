@@ -45,14 +45,14 @@
 
 <body ng-app="c4">
 	<div class="container">
-		<div class="row">
+		<div class="row" onload="checkLog()">
 			<div class = "col-lg-1 col-md-1">
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"></a>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">
 				<i class="material-icons">list</i>
 				<ul class="dropdown-menu">
 					<li><a ui-sref="browse">Browse</a></li>
 					<li>Settings</li>
-					<li>Sign Out</li>
+					<li><button class="btn btn-default" ng-click="logFunc()">{{loginMsg}}</button></li>
 				</ul>
 				</li></div>
 			<div class = "col-lg-1 col-md-1">C4comics</div>
