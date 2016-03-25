@@ -4,7 +4,6 @@
 
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
-	$scope.loginMsg = "Sign In";
 	$scope.checkLog = function(){
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
