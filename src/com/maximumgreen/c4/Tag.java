@@ -25,4 +25,31 @@ public class Tag {
 	//empty constructor
 	public Tag(){
 	}
+
+	//Getters and setters
+	public Key getKey() {
+		return k;
+	}
+
+	public void setKey(Key k) {
+		this.k = k;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Key> getComicsWithTag() {
+		return comicsWithTag;
+	}
+
+	public void setComicsWithTag(List<Key> comicsWithTag) {
+		this.comicsWithTag = comicsWithTag;
+	}
+	
+	
 }

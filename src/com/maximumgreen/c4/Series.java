@@ -50,5 +50,79 @@ public class Series {
 	//empty constructor
 	public Series(){
 	}
+
+	//Getters and Setters
+	public Key getKey() {
+		return k;
+	}
+
+	public void setKey(Key k) {
+		this.k = k;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BlobKey getBgImage() {
+		return bgImage;
+	}
+
+	public void setBgImage(BlobKey bgImage) {
+		this.bgImage = bgImage;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public List<Key> getComics() {
+		return comics;
+	}
+
+	public void setComics(List<Key> comics) {
+		this.comics = comics;
+	}
+
+	public List<Key> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(List<Key> subscribers) {
+		this.subscribers = subscribers;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
 	
 }

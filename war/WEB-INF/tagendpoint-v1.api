@@ -65,22 +65,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "tagendpoint.insertTag" : {
-      "path" : "tag",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "tagendpoint.removeTag" : {
       "path" : "tag/{id}",
       "httpMethod" : "DELETE",
@@ -126,6 +110,22 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "tagendpoint.insertTag" : {
+      "path" : "tag",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
     }
   },
   "descriptor" : {
@@ -134,6 +134,46 @@
         "id" : "Tag",
         "type" : "object",
         "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "comicsWithTag" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
         }
       },
       "CollectionResponse_Tag" : {
@@ -166,19 +206,19 @@
           "$ref" : "Tag"
         }
       },
+      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
+      },
+      "com.maximumgreen.c4.endpoints.TagEndpoint.listTag" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Tag"
+        }
+      },
       "com.maximumgreen.c4.endpoints.TagEndpoint.insertTag" : {
         "request" : {
           "$ref" : "Tag"
         },
         "response" : {
           "$ref" : "Tag"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
-      },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.listTag" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Tag"
         }
       }
     }

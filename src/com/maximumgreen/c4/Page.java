@@ -24,4 +24,31 @@ public class Page {
     //empty constructor
     public Page(){
     }
+
+    //Getters and Setters
+	public Key getKey() {
+		return k;
+	}
+
+	public void setKey(Key k) {
+		this.k = k;
+	}
+
+	public BlobKey getImageKey() {
+		return imageKey;
+	}
+
+	public void setImageKey(BlobKey imageKey) {
+		this.imageKey = imageKey;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+    
+    
 }

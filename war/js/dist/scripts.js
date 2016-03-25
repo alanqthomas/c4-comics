@@ -62,6 +62,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/comic.html",
 			authenticate: false
 		})
+		.state('series', {
+			url: "/series",
+			templateUrl: "views/series.html",
+			authenticate: false
+		})
+		.state('editComic', {
+			url: "/editComic",
+			templateUrl: "views/editComic.html",
+			authenticate: false
+		})
 		.state('draw', {
 			url: "/draw",
 			templateUrl: "views/draw.html",
@@ -195,6 +205,54 @@ angular.module('c4').controller('drawCtrl', ['$scope', '$http',
 (function() {
 
 angular.module('c4').controller('manageComicsCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/manageSubscriptionsController.js
+(function() {
+
+angular.module('c4').controller('manageSubscriptionsCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/newComicController.js
+(function() {
+
+angular.module('c4').controller('newComicCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/subscriptionController.js
+(function() {
+
+angular.module('c4').controller('subscriptionCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/subscriptionsController.js
+(function() {
+
+angular.module('c4').controller('subscriptionsCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 
 		$scope.msg = "Hello, profile";

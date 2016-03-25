@@ -49,17 +49,26 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "userendpoint.insertUser" : {
+    "userendpoint.listUser" : {
       "path" : "user",
-      "httpMethod" : "POST",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.listUser",
       "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -86,6 +95,22 @@
         "body" : "empty"
       }
     },
+    "userendpoint.insertUser" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "userendpoint.updateUser" : {
       "path" : "user",
       "httpMethod" : "PUT",
@@ -101,31 +126,6 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
-    },
-    "userendpoint.listUser" : {
-      "path" : "user",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.listUser",
-      "request" : {
-        "parameters" : {
-          "cursor" : {
-            "type" : "string",
-            "required" : false
-          },
-          "limit" : {
-            "type" : "int32",
-            "required" : false
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
     }
   },
   "descriptor" : {
@@ -134,7 +134,105 @@
         "id" : "User",
         "type" : "object",
         "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "administrator" : {
+            "type" : "boolean"
+          },
+          "biography" : {
+            "type" : "string"
+          },
+          "profileImage" : {
+            "$ref" : "BlobKey"
+          },
+          "bgImage" : {
+            "$ref" : "BlobKey"
+          },
+          "rating" : {
+            "type" : "number"
+          },
+          "userSeries" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "favorites" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "subscriptions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "following" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "lastRead" : {
+            "$ref" : "JsonMap"
+          },
+          "notifications" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
         }
+      },
+      "BlobKey" : {
+        "id" : "BlobKey",
+        "type" : "object",
+        "properties" : {
+          "keyString" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "JsonMap" : {
+        "id" : "JsonMap",
+        "type" : "object"
       },
       "CollectionResponse_User" : {
         "id" : "CollectionResponse_User",
@@ -158,6 +256,13 @@
           "$ref" : "User"
         }
       },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.listUser" : {
+        "response" : {
+          "$ref" : "CollectionResponse_User"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+      },
       "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
         "request" : {
           "$ref" : "User"
@@ -166,19 +271,12 @@
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
-      },
       "com.maximumgreen.c4.endpoints.UserEndpoint.updateUser" : {
         "request" : {
           "$ref" : "User"
         },
         "response" : {
           "$ref" : "User"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.listUser" : {
-        "response" : {
-          "$ref" : "CollectionResponse_User"
         }
       }
     }

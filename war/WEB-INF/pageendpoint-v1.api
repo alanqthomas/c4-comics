@@ -134,6 +134,53 @@
         "id" : "Page",
         "type" : "object",
         "properties" : {
+          "imageKey" : {
+            "$ref" : "BlobKey"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "BlobKey" : {
+        "id" : "BlobKey",
+        "type" : "object",
+        "properties" : {
+          "keyString" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
         }
       },
       "CollectionResponse_Page" : {

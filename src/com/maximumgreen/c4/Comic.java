@@ -17,7 +17,7 @@ public class Comic {
 	//Key will contain parent Series key
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	private Key k;
 	
 	//List of tags the author has added to the comic
 	@Persistent
@@ -38,14 +38,14 @@ public class Comic {
 	//Map of User keys and Integer rating given to this comic by specific user
 	@Persistent
 	private Map<Key, Integer> ratings;
-	
+
 	//Getters and Setters
 	public Key getKey() {
-		return key;
+		return k;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKey(Key k) {
+		this.k = k;
 	}
 
 	public List<Tag> getTags() {
@@ -87,4 +87,5 @@ public class Comic {
 	public void setRatings(Map<Key, Integer> ratings) {
 		this.ratings = ratings;
 	}
+	
 }
