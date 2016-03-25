@@ -57,6 +57,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/profile.html",
 			authenticate: false
 		})
+		.state('series', {
+			url: "/series",
+			templateUrl: "views/series.html",
+			authenticate: false
+		})
 		.state('comic', {
 			url: "/comic",
 			templateUrl: "views/comic.html",
@@ -67,29 +72,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/draw.html",
 			authenticate: false
 		})
-		.state('manage-comics', {
-			url: "/manage-comics",
-			templateUrl: "views/manage-comics.html",
-			authenticate: false
-		})
-		.state('manage-subscriptions', {
-			url: "/manage-subscriptions",
-			templateUrl: "views/manage-subscriptions.html",
-			authenticate: false
-		})
-		.state('new-comic', {
-			url: "/new-comic",
-			templateUrl: "views/new-comic.html",
-			authenticate: false
-		})
-		.state('subscription', {
-			url: "/subscription",
-			templateUrl: "views/subscription.html",
-			authenticate: false
-		})
-		.state('subscriptions', {
-			url: "/subscriptions",
-			templateUrl: "views/subscriptions.html",
+		.state('editComic', {
+			url: "/editComic",
+			templateUrl: "views/editComic.html",
 			authenticate: false
 		})
 });
