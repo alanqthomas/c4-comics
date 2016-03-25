@@ -28,6 +28,8 @@ module.exports = function(grunt) {
 									'war/js/controllers/homeController.js',
 									'war/js/controllers/profileController.js',
 									'war/js/controllers/seriesController.js',
+									'war/js/controllers/browseController.js',
+									'war/js/controllers/searchController.js',
 		              'war/js/services/authService.js'],
 						dest: 'war/js/dist/scripts.js'
 			}

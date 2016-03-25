@@ -38,6 +38,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/editComic.html",
 			authenticate: false
 		})
+		.state('browse', {
+			url: "/browse",
+			templateUrl: "views/browse.html",
+			authenticate: false
+		})
+		.state('search', {
+			url: "/search",
+			templateUrl: "views/search.html",
+			authenticate: false
+		})
 });
 
 })();
