@@ -5,7 +5,6 @@
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 	$scope.loginMsg = "Sign In";
-	$scope.logFunc = $scope.doLogin();
 	$scope.checkLog = function(){
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
@@ -15,28 +14,13 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http',
 	$scope.ifLogout = function() {
 		$scope.loginMsg = "Sign In";
 	}
-	$scope.doLogin = function() {
+	$scope.logFunc = function() {
 		GAuth.checkAuth().then(
-			function () {
-				ifLogin();
+			function(){
+				GAuth.logout().then(ifLogout());
 				},
-			function() {
-				GAuth.login().then(function(){
-				ifLogin();
-				});
-			}
-		);
-	};
-	$scope.doLogout = function() {
-		GAuth.checkAuth().then(
 			function(){
-				GAuth.logout().then(function(){
-					ifLogout();
-				})
-			},
-			function(){
-				ifLogout();
-				}
+				GAuth.login().then(ifLogin());
 			}
 		);
 	};
