@@ -72,7 +72,7 @@ public class User {
 	public User(){}
 	
 	//Basic constructor using information available from the Google login
-	public User(Key k, String googleID, String email, String username, boolean administrator){
+	public User(Key k, String email, String username, boolean administrator){
 		super();
 		this.k = k;
 		this.email = email;

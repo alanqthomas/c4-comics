@@ -70,22 +70,6 @@
         "body" : "empty"
       }
     },
-    "pageendpoint.updatePage" : {
-      "path" : "page",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.updatePage",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "pageendpoint.insertPage" : {
       "path" : "page",
       "httpMethod" : "POST",
@@ -94,6 +78,22 @@
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "pageendpoint.updatePage" : {
+      "path" : "page",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.PageEndpoint.updatePage",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -207,7 +207,7 @@
       },
       "com.maximumgreen.c4.endpoints.PageEndpoint.removePage" : {
       },
-      "com.maximumgreen.c4.endpoints.PageEndpoint.updatePage" : {
+      "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage" : {
         "request" : {
           "$ref" : "Page"
         },
@@ -215,7 +215,7 @@
           "$ref" : "Page"
         }
       },
-      "com.maximumgreen.c4.endpoints.PageEndpoint.insertPage" : {
+      "com.maximumgreen.c4.endpoints.PageEndpoint.updatePage" : {
         "request" : {
           "$ref" : "Page"
         },

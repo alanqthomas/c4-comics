@@ -28,64 +28,6 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
-    "seriesendpoint.updateSeries" : {
-      "path" : "series",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "seriesendpoint.removeSeries" : {
-      "path" : "series/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "seriesendpoint.getSeries" : {
-      "path" : "series/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "seriesendpoint.listSeries" : {
       "path" : "series",
       "httpMethod" : "GET",
@@ -126,10 +68,83 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "seriesendpoint.removeSeries" : {
+      "path" : "series/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "seriesendpoint.updateSeries" : {
+      "path" : "series",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "seriesendpoint.getSeries" : {
+      "path" : "series/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "CollectionResponse_Series" : {
+        "id" : "CollectionResponse_Series",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Series"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
       "Series" : {
         "id" : "Series",
         "type" : "object",
@@ -229,39 +244,9 @@
             "format" : "date-time"
           }
         }
-      },
-      "CollectionResponse_Series" : {
-        "id" : "CollectionResponse_Series",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Series"
-            }
-          },
-          "nextPageToken" : {
-            "type" : "string"
-          }
-        }
       }
     },
     "methods" : {
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
-        "request" : {
-          "$ref" : "Series"
-        },
-        "response" : {
-          "$ref" : "Series"
-        }
-      },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
-      },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries" : {
-        "response" : {
-          "$ref" : "Series"
-        }
-      },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries" : {
         "response" : {
           "$ref" : "CollectionResponse_Series"
@@ -271,6 +256,21 @@
         "request" : {
           "$ref" : "Series"
         },
+        "response" : {
+          "$ref" : "Series"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
+      },
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
+        "request" : {
+          "$ref" : "Series"
+        },
+        "response" : {
+          "$ref" : "Series"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.getSeries" : {
         "response" : {
           "$ref" : "Series"
         }
