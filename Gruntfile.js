@@ -25,6 +25,7 @@ module.exports = function(grunt) {
 									'war/js/controllers/comicController.js',
 									'war/js/controllers/drawController.js',
 									'war/js/controllers/manageComicsController.js',
+									'war/js/controllers/editComicController.js',
 									'war/js/controllers/manageSubscriptionsController.js',
 									'war/js/controllers/newComicController.js',
 									'war/js/controllers/subscriptionController.js',
