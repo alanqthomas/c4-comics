@@ -102,6 +102,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/subscriptions.html",
 			authenticate: false
 		})
+		//added new login page here
+		.state('login', {
+			url: "/login",
+			templateUrl: "views/login.html",
+			authenticate:false
+		})
 });
 
 })();
