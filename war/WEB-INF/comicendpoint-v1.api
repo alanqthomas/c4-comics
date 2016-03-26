@@ -85,27 +85,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "comicendpoint.removeComic" : {
-      "path" : "comic/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "comicendpoint.getComic" : {
       "path" : "comic/{id}",
       "httpMethod" : "GET",
@@ -125,6 +104,27 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.removeComic" : {
+      "path" : "comic/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
       }
     }
   },
@@ -149,9 +149,6 @@
         "id" : "Comic",
         "type" : "object",
         "properties" : {
-          "key" : {
-            "$ref" : "Key"
-          },
           "tags" : {
             "type" : "array",
             "items" : {
@@ -176,6 +173,27 @@
           },
           "ratings" : {
             "$ref" : "JsonMap"
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "Tag" : {
+        "id" : "Tag",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "comicsWithTag" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Key"
+            }
+          },
+          "key" : {
+            "$ref" : "Key"
           }
         }
       },
@@ -196,32 +214,14 @@
           "name" : {
             "type" : "string"
           },
-          "namespace" : {
-            "type" : "string"
-          },
           "parent" : {
             "$ref" : "Key"
           },
           "complete" : {
             "type" : "boolean"
-          }
-        }
-      },
-      "Tag" : {
-        "id" : "Tag",
-        "type" : "object",
-        "properties" : {
-          "key" : {
-            "$ref" : "Key"
           },
-          "name" : {
+          "namespace" : {
             "type" : "string"
-          },
-          "comicsWithTag" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Key"
-            }
           }
         }
       },
@@ -272,12 +272,12 @@
           "$ref" : "Comic"
         }
       },
-      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
-      },
       "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
         "response" : {
           "$ref" : "Comic"
         }
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
       }
     }
   }

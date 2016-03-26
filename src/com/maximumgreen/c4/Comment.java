@@ -23,6 +23,10 @@ public class Comment {
     @Persistent
     private Date date;
     
+    //empty constructor
+    public Comment(){
+    }
+
     //Getters and Setters
 	public Long getId() {
 		return id;
@@ -55,4 +59,6 @@ public class Comment {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+    
+    
 }

@@ -10,14 +10,10 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class User {
-	//Automatically generate a unique key for each user
+	//Use Google ID to generate a key
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
-	
-	//User's Google ID 
-	@Persistent
-	private String googleID;
+	private Key k;
 	
 	//User's email address
 	@Persistent
@@ -28,15 +24,19 @@ public class User {
 	@Unique
 	private String username;
 	
-	//Use to determine if user is admin or not. 0 = normal user, 1 = admin.
+	//Use to determine if user is administrator or not
 	@Persistent
-	private int userLevel;
+	boolean administrator;
 	
 	//Biography for user page
 	@Persistent
 	private String biography;
 	
-	//Key to retrieve user's custom background image from the datastore
+	//Key to retrieve user's profile picture from the blobstore
+	@Persistent
+	private BlobKey profileImage;
+	
+	//Key to retrieve user's custom background image from the blobstore
 	@Persistent
 	private BlobKey bgImage;
 	
@@ -56,6 +56,10 @@ public class User {
 	@Persistent
 	private List<Key> subscriptions;
 	
+	//List of AUTHORS(users) by key that the user is following
+	@Persistent
+	private List<Key> following;
+	
 	//Map of COMICS keys to the PAGE key that the user last read
 	@Persistent
 	private Map<Key, Key> lastRead;
@@ -63,22 +67,71 @@ public class User {
 	//List of KEYS to notify user of updates
 	@Persistent
 	private List<Key> notifications;
+	
+	//Empty constructor
+	public User(){}
+	
+	//Basic constructor using information available from the Google login
+	public User(Key k, String email, String username, boolean administrator){
+		super();
+		this.k = k;
+		this.email = email;
+		this.username = username;
+		this.administrator = administrator;
+	}
+	
+	//PUBLIC METHODS ACCESSIBLE FROM ENDPOINT
+	//add/delete user own series, favorites, subscriptions, following, notifications
+	public  boolean addUserSeries(Key k) {
+		return userSeries.add(k);
+	}
+	public boolean deleteUserSeries(Key k){
+		return userSeries.remove(k);
+	}
+	
+	public  boolean addFavorite(Key k) {
+		return favorites.add(k);
+	}
+	public boolean deleteFavorite(Key k){
+		return favorites.remove(k);
+	}
+	
+	public  boolean addSubscription(Key k) {
+		return subscriptions.add(k);
+	}
+	public boolean deleteSubscription(Key k){
+		return notifications.remove(k);
+	}
+	
+	public  boolean addFollow(Key k) {
+		return following.add(k);
+	}
+	public boolean deleteFollow(Key k){
+		return following.remove(k);
+	}
+	
+	public  boolean addNotification(Key k) {
+		return notifications.add(k);
+	}
+	public boolean deleteNotification(Key k){
+		return notifications.remove(k);
+	}
+	
+	//Method to retrieve the page key of last read page in a comic, if available
+	public Key getCurrentPage(Key k){
+		if (lastRead.containsKey(k))
+			return lastRead.get(k);
+		else
+			return null;
+	}
 
-    //Getters and Setters
+	//Getters and Setters
 	public Key getKey() {
-		return key;
+		return k;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	public String getGoogleID() {
-		return googleID;
-	}
-
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID;
+	public void setKey(Key k) {
+		this.k = k;
 	}
 
 	public String getEmail() {
@@ -88,7 +141,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -97,12 +150,12 @@ public class User {
 		this.username = username;
 	}
 
-	public int getUserLevel() {
-		return userLevel;
+	public boolean isAdministrator() {
+		return administrator;
 	}
 
-	public void setUserLevel(int userLevel) {
-		this.userLevel = userLevel;
+	public void setAdministrator(boolean administrator) {
+		this.administrator = administrator;
 	}
 
 	public String getBiography() {
@@ -111,6 +164,14 @@ public class User {
 
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+
+	public BlobKey getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(BlobKey profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public BlobKey getBgImage() {
@@ -153,6 +214,14 @@ public class User {
 		this.subscriptions = subscriptions;
 	}
 
+	public List<Key> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<Key> following) {
+		this.following = following;
+	}
+
 	public Map<Key, Key> getLastRead() {
 		return lastRead;
 	}
@@ -168,4 +237,6 @@ public class User {
 	public void setNotifications(List<Key> notifications) {
 		this.notifications = notifications;
 	}
+	
+	
 }
