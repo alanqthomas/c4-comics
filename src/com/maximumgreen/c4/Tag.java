@@ -11,7 +11,7 @@ public class Tag {
 	//Automatically generate a unique key for each tag
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	private Key k;
 	
 	//Name of tag, which should be unique across the datastore
 	@Persistent
@@ -21,14 +21,18 @@ public class Tag {
 	//List of COMIC keys tagged with this tag
 	@Persistent
 	private List<Key> comicsWithTag;
+	
+	//empty constructor
+	public Tag(){
+	}
 
 	//Getters and setters
 	public Key getKey() {
-		return key;
+		return k;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKey(Key k) {
+		this.k = k;
 	}
 
 	public String getName() {
@@ -46,4 +50,6 @@ public class Tag {
 	public void setComicsWithTag(List<Key> comicsWithTag) {
 		this.comicsWithTag = comicsWithTag;
 	}
+	
+	
 }

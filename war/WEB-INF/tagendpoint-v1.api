@@ -74,6 +74,27 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "tagendpoint.removeTag" : {
+      "path" : "tag/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "tagendpoint.updateTag" : {
       "path" : "tag",
       "httpMethod" : "PUT",
@@ -105,27 +126,6 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
-    },
-    "tagendpoint.removeTag" : {
-      "path" : "tag/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
     }
   },
   "descriptor" : {
@@ -134,9 +134,6 @@
         "id" : "Tag",
         "type" : "object",
         "properties" : {
-          "key" : {
-            "$ref" : "Key"
-          },
           "name" : {
             "type" : "string"
           },
@@ -145,6 +142,9 @@
             "items" : {
               "$ref" : "Key"
             }
+          },
+          "key" : {
+            "$ref" : "Key"
           }
         }
       },
@@ -203,6 +203,8 @@
           "$ref" : "CollectionResponse_Tag"
         }
       },
+      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
+      },
       "com.maximumgreen.c4.endpoints.TagEndpoint.updateTag" : {
         "request" : {
           "$ref" : "Tag"
@@ -218,8 +220,6 @@
         "response" : {
           "$ref" : "Tag"
         }
-      },
-      "com.maximumgreen.c4.endpoints.TagEndpoint.removeTag" : {
       }
     }
   }

@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.Key;
 public class Page {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key key;
+    private Key k;
     
     //BlobKey to retrieve actual image from datastore
     @Persistent
@@ -21,13 +21,17 @@ public class Page {
     @Persistent
     private Date dateCreated;
     
+    //empty constructor
+    public Page(){
+    }
+
     //Getters and Setters
 	public Key getKey() {
-		return key;
+		return k;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setKey(Key k) {
+		this.k = k;
 	}
 
 	public BlobKey getImageKey() {
@@ -45,4 +49,6 @@ public class Page {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+    
+    
 }

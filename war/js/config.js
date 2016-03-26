@@ -23,6 +23,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/comic.html",
 			authenticate: false
 		})
+		.state('browse', {
+			url: "/browse",
+			templateUrl: "views/browse.html",
+			authenticate: false
+		})
 		.state('series', {
 			url: "/series",
 			templateUrl: "views/series.html",
@@ -36,11 +41,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.state('editComic', {
 			url: "/editComic",
 			templateUrl: "views/editComic.html",
-			authenticate: false
-		})
-		.state('browse', {
-			url: "/browse",
-			templateUrl: "views/browse.html",
 			authenticate: false
 		})
 		.state('search', {

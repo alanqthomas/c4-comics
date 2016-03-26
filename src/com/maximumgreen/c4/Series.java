@@ -13,7 +13,7 @@ public class Series {
 	//Series key should contain key of parent User
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	private Key k;
 	
 	//Title of Series
 	@Persistent
@@ -47,13 +47,17 @@ public class Series {
 	@Persistent
 	private List<Comment> comments;
 	
-    //Getters and Setters
-	public Key getKey() {
-		return key;
+	//empty constructor
+	public Series(){
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	//Getters and Setters
+	public Key getKey() {
+		return k;
+	}
+
+	public void setKey(Key k) {
+		this.k = k;
 	}
 
 	public String getTitle() {
@@ -119,4 +123,6 @@ public class Series {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
+	
 }
