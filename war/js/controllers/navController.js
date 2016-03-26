@@ -8,10 +8,10 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http',
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
 	$scope.ifLogin = function() {
-		$scope.loginMsg = "Sign Out";
+		$scope.logMsg = "Sign Out";
 	}
 	$scope.ifLogout = function() {
-		$scope.loginMsg = "Sign In";
+		$scope.logMsg = "Sign In";
 	}
 	$scope.logFunc = function() {
 		GAuth.checkAuth().then(
