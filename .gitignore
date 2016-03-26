@@ -25,6 +25,7 @@ $RECYCLE.BIN/
 # Java
 *.jar
 *.class
+*.api
 war/WEB-INF/lib/
 
 # NPM
