@@ -42,4 +42,5 @@ war/lib/bower_components/
 war/css/styles.css
 war/css/styles.css.map
 war/css/styles.min.css
-war/js/dist/*.js
+war/js/dist/scripts.js
+war/js/dist/scripts.min.js
