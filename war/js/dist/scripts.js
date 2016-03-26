@@ -102,12 +102,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/subscriptions.html",
 			authenticate: false
 		})
-		//added new login page here
-		.state('login', {
-			url: "/login",
-			templateUrl: "views/login.html",
-			authenticate:false
-		})
 });
 
 })();
@@ -211,6 +205,18 @@ angular.module('c4').controller('drawCtrl', ['$scope', '$http',
 (function() {
 
 angular.module('c4').controller('manageComicsCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/editComicController.js
+(function() {
+
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 
 		$scope.msg = "Hello, profile";
