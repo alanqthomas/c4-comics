@@ -77,6 +77,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/draw.html",
 			authenticate: false
 		})
+		.state('browse', {
+			url: "/browse",
+			templateUrl: "views/browse.html",
+			authenticate: false
+		})
 		.state('manage-comics', {
 			url: "/manage-comics",
 			templateUrl: "views/manage-comics.html",

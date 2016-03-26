@@ -23,6 +23,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/comic.html",
 			authenticate: false
 		})
+		.state('browse', {
+			url: "/browse",
+			templateUrl: "views/browse.html",
+			authenticate: false
+		})
 		.state('series', {
 			url: "/series",
 			templateUrl: "views/series.html",
