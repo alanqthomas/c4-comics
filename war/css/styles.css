@@ -12,6 +12,9 @@ nav a {
 .testing {
   background-color: green; }
 
+.container1 {
+  background: #ffffff url("http://rack.2.mshcdn.com/media/ZgkyMDE1LzA5LzEzLzNjL2dvb2dsZXRodW1iLmIyNGE0LmpwZwpwCXRodW1iCTk1MHg1MzQjCmUJanBn/63126c72/af4/google-thumb.jpg") no-repeat center center; }
+
 footer {
   background-color: #d3d3d3;
   color: #ffffff; }
