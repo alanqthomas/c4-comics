@@ -26,11 +26,8 @@ module.exports = function(grunt) {
               'war/js/controllers/homeController.js',
               'war/js/controllers/navController.js',
               'war/js/controllers/profileController.js',
-              'war/js/controllers/manageComicsController.js',
-              'war/js/controllers/manageSubscriptionsController.js',
-              'war/js/controllers/newComicController.js',
-              'war/js/controllers/subscriptionController.js',
-              'war/js/controllers/subscriptionsController.js',
+              'war/js/controllers/searchController.js',
+              'war/js/controllers/seriesController.js',
               'war/js/services/authService.js'],
               dest: 'war/js/dist/scripts.js'
 			}
