@@ -57,19 +57,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/profile.html",
 			authenticate: false
 		})
-		.state('series', {
-			url: "/series",
-			templateUrl: "views/series.html",
-			authenticate: false
-		})
 		.state('comic', {
 			url: "/comic",
 			templateUrl: "views/comic.html",
 			authenticate: false
 		})
-		.state('editComic', {
-			url: "/editComic",
-			templateUrl: "views/editComic.html",
+		.state('browse', {
+			url: "/browse",
+			templateUrl: "views/browse.html",
+			authenticate: false
+		})
+		.state('series', {
+			url: "/series",
+			templateUrl: "views/series.html",
 			authenticate: false
 		})
 		.state('draw', {
@@ -77,9 +77,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/draw.html",
 			authenticate: false
 		})
-		.state('browse', {
-			url: "/browse",
-			templateUrl: "views/browse.html",
+		.state('editComic', {
+			url: "/editComic",
+			templateUrl: "views/editComic.html",
 			authenticate: false
 		})
 		.state('search', {
@@ -88,6 +88,54 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			authenticate: false
 		})
 });
+
+})();
+
+// Source: war/js/controllers/browseController.js
+(function() {
+
+angular.module('c4').controller('browseCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/comicController.js
+(function() {
+
+angular.module('c4').controller('comicCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/drawController.js
+(function() {
+
+angular.module('c4').controller('drawCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/editComicController.js
+(function() {
+
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
 
 })();
 
@@ -151,6 +199,35 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 
 
 })();
+// Source: war/js/controllers/navController.js
+(function() {
+
+angular.module('c4').controller('navCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+	$scope.checkLog = function(){
+		GAuth.checkAuth().then(ifLogin(),ifLogout());
+	}
+	$scope.ifLogin = function() {
+		$scope.logMsg = "Sign Out";
+	}
+	$scope.ifLogout = function() {
+		$scope.logMsg = "Sign In";
+	}
+	$scope.logFunc = function() {
+		GAuth.checkAuth().then(
+			function(){
+				GAuth.logout().then(ifLogout());
+				},
+			function(){
+				GAuth.login().then(ifLogin());
+			}
+		);
+	};
+}]);
+
+
+})();
+
 // Source: war/js/controllers/profileController.js
 (function() {
 
@@ -162,10 +239,10 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http',
 
 
 })();
-// Source: war/js/controllers/comicController.js
+// Source: war/js/controllers/searchController.js
 (function() {
 
-angular.module('c4').controller('comicCtrl', ['$scope', '$http',
+angular.module('c4').controller('searchCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 
 		$scope.msg = "Hello, profile";
@@ -174,78 +251,17 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http',
 
 })();
 
-// Source: war/js/controllers/drawController.js
+// Source: war/js/controllers/seriesController.js
 (function() {
 
-angular.module('c4').controller('drawCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
+angular.module('c4').controller('seriesCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){	
+	
 		$scope.msg = "Hello, profile";
 }]);
 
 
 })();
-
-// Source: war/js/controllers/manageComicsController.js
-(function() {
-
-angular.module('c4').controller('manageComicsCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
-		$scope.msg = "Hello, profile";
-}]);
-
-
-})();
-
-// Source: war/js/controllers/manageSubscriptionsController.js
-(function() {
-
-angular.module('c4').controller('manageSubscriptionsCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
-		$scope.msg = "Hello, profile";
-}]);
-
-
-})();
-
-// Source: war/js/controllers/newComicController.js
-(function() {
-
-angular.module('c4').controller('newComicCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
-		$scope.msg = "Hello, profile";
-}]);
-
-
-})();
-
-// Source: war/js/controllers/subscriptionController.js
-(function() {
-
-angular.module('c4').controller('subscriptionCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
-		$scope.msg = "Hello, profile";
-}]);
-
-
-})();
-
-// Source: war/js/controllers/subscriptionsController.js
-(function() {
-
-angular.module('c4').controller('subscriptionsCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-
-		$scope.msg = "Hello, profile";
-}]);
-
-
-})();
-
 // Source: war/js/services/authService.js
 (function(){
 	angular.module('c4').factory('authService', ['GAuth', '$q',
