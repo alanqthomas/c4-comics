@@ -203,6 +203,54 @@ angular.module('c4').controller('manageComicsCtrl', ['$scope', '$http',
 
 })();
 
+// Source: war/js/controllers/manageSubscriptionsController.js
+(function() {
+
+angular.module('c4').controller('manageSubscriptionsCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/newComicController.js
+(function() {
+
+angular.module('c4').controller('newComicCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/subscriptionController.js
+(function() {
+
+angular.module('c4').controller('subscriptionCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
+// Source: war/js/controllers/subscriptionsController.js
+(function() {
+
+angular.module('c4').controller('subscriptionsCtrl', ['$scope', '$http',
+                                    function(	 $scope,   $http){
+
+		$scope.msg = "Hello, profile";
+}]);
+
+
+})();
+
 // Source: war/js/services/authService.js
 (function(){
 	angular.module('c4').factory('authService', ['GAuth', '$q',
