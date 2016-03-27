@@ -11,17 +11,19 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
 	}
 	$scope.checkLog = function(){
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
+		$scope.signMsg = "Sign "+$scope.logMsg;
 	}
 	GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
 	$scope.signMsg = "Sign "+$scope.logMsg;
-	
 	$scope.logFunc = function() {
 		GAuth.checkAuth().then(
 			function(){
-				GAuth.logout().then($scope.ifLogout());
+				GAuth.logout();
+				$scope.checkLog();
 				},
 			function(){
-				GAuth.login().then($scope.ifLogin());
+				GAuth.login();
+				$scope.checkLog();
 			}
 		);
 	};
