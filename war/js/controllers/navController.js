@@ -1,26 +1,27 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
-	GAuth.checkAuth().then(ifLogin(),ifLogout());
-	$scope.signMsg = "Sign "+$scope.logMsg;
-	$scope.checkLog = function(){
-		GAuth.checkAuth().then(ifLogin(),ifLogout());
-	}
+angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
+                                  function(	 $scope,   $http,	GAuth,	 GApi){
 	$scope.ifLogin = function() {
 		$scope.logMsg = "Out";
 	}
 	$scope.ifLogout = function() {
 		$scope.logMsg = "In";
 	}
+	$scope.checkLog = function(){
+		GAuth.checkAuth().then(ifLogin(),ifLogout());
+	}
+	GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
+	$scope.signMsg = "Sign "+$scope.logMsg;
+	
 	$scope.logFunc = function() {
 		GAuth.checkAuth().then(
 			function(){
-				GAuth.logout().then(ifLogout());
+				GAuth.logout().then($scope.ifLogout());
 				},
 			function(){
-				GAuth.login().then(ifLogin());
+				GAuth.login().then($scope.ifLogin());
 			}
 		);
 	};

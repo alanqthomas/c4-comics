@@ -18,7 +18,6 @@ module.exports = function(grunt) {
 	        	},
 		src: ['war/js/app.js',
 		      'war/js/config.js',
-		      'war/js/services/authService.js'],
 		      'war/js/controllers/browseController.js',
 		      'war/js/controllers/comicController.js',
 		      'war/js/controllers/drawController.js',
@@ -28,6 +27,7 @@ module.exports = function(grunt) {
               'war/js/controllers/profileController.js',
               'war/js/controllers/searchController.js',
               'war/js/controllers/seriesController.js',
+              'war/js/services/authService.js'],
               dest: 'war/js/dist/scripts.js'
 			}
 		},

@@ -201,24 +201,27 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 })();
 // Source: war/js/controllers/navController.js
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http',
-                                    function(	 $scope,   $http){
+angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
+                                  function(	 $scope,   $http,	GAuth,	 GApi){
+	$scope.ifLogin = function() {
+		$scope.logMsg = "Out";
+	}
+	$scope.ifLogout = function() {
+		$scope.logMsg = "In";
+	}
 	$scope.checkLog = function(){
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
-	$scope.ifLogin = function() {
-		$scope.logMsg = "Sign Out";
-	}
-	$scope.ifLogout = function() {
-		$scope.logMsg = "Sign In";
-	}
+	GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
+	$scope.signMsg = "Sign "+$scope.logMsg;
+	
 	$scope.logFunc = function() {
 		GAuth.checkAuth().then(
 			function(){
-				GAuth.logout().then(ifLogout());
+				GAuth.logout().then($scope.ifLogout());
 				},
 			function(){
-				GAuth.login().then(ifLogin());
+				GAuth.login().then($scope.ifLogin());
 			}
 		);
 	};
