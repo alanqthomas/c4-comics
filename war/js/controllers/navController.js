@@ -10,7 +10,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
 		$scope.logMsg = "In";
 	}
 	$scope.checkLog = function(){
-		GAuth.checkAuth().then(ifLogin(),ifLogout());
+		GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
 		$scope.signMsg = "Sign "+$scope.logMsg;
 	}
 	GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
