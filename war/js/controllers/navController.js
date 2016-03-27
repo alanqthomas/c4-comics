@@ -3,7 +3,8 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
-	$scope.logMsg = "-";
+	GAuth.checkAuth().then(ifLogin(),ifLogout());
+	$scope.signMsg = "Sign "+$scope.logMsg;
 	$scope.checkLog = function(){
 		GAuth.checkAuth().then(ifLogin(),ifLogout());
 	}
