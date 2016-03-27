@@ -5,54 +5,42 @@
 	<meta content="utf-8" http-equiv="encoding">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Maximum Green</title>
-
 	<!-- JQuery -->
 	<script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
-
 	<!-- SugarJS -->
 	<script src="lib/sugarjs/sugar-full.min.js"></script>
-
 	<!-- Bootstrap JS -->
 	<script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
 	<!-- Angular -->
 	<script src="lib/bower_components/angular/angular.min.js"></script>
-
 	<!-- UI-Router -->
 	<script	src="lib/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-
 	<!-- Angular Cookies -->
 	<script	src="lib/bower_components/angular-cookies/angular-cookies.min.js"></script>
-
 	<!-- Google GAPI -->
 	<script	src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
-
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
-
 	<!-- Material Icons -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 	<!-- Google Fonts -->
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
-
 	<!-- Angular App -->
 	<script src="js/dist/scripts.js"></script>
-
 </head>
 
 <body ng-app="c4">
 	<div class="container">
-		<div class="row" onload="checkLog()">
+		<div class="row" >
 			<div class = "col-md-1 col-sm-4">
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">
 				<i class="material-icons">list</i>
 				<ul class="dropdown-menu">
-					<li><a ui-sref="browse">Browse</a></li>
-					<li>Settings</li>
-					<li><button class="btn btn-default" ng-click="logFunc()">{{logMsg}}</button></li>
+					<li><a ui-sref="browse" onload="checkLog()">Browse</a></li>
+					<li data-toggle="modal" data-target="#settingsModal"><a>Settings</a></li>
+					<li><div onClick="logFunc()">Sign</div></li>
 				</ul>
 				</li></div>
 			<div class = "col-md-1 col-sm-8">C4comics</div>
@@ -63,6 +51,26 @@
 			<div class = "col-md-1"><img class="img-circle" id="profilePic"></div>
 		</div>
 	</div>
+	<!-- Navbar Settings Modal -->
+	<div id="settingsModal" class="modal fade" role="dialog">
+	  	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Settings</h4>
+				</div>
+				<div class="modal-body">
+					<p>Put all the nice settings here.</p>
+					<span>Example Setting On/Off: <input type="checkbox" name="exampleCheckbox" checked></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Apply</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<ul class="testing">
 		<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
 		<li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>

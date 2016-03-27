@@ -201,7 +201,6 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 })();
 // Source: war/js/controllers/navController.js
 (function() {
-
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 	$scope.checkLog = function(){
@@ -224,7 +223,6 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http',
 		);
 	};
 }]);
-
 
 })();
 

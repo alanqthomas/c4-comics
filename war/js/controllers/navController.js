@@ -1,7 +1,6 @@
 "use strict";
 
 (function() {
-
 angular.module('c4').controller('navCtrl', ['$scope', '$http',
                                     function(	 $scope,   $http){
 	$scope.checkLog = function(){
@@ -24,6 +23,5 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http',
 		);
 	};
 }]);
-
 
 })();
