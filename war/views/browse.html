@@ -1,4 +1,16 @@
 <div ng-controller="browseCtrl">
 	<h1>Browse Page</h1>
-	Current Tags:
+
+<!--desktop display-->
+	<div class="container">
+		<div class="row" id="options">
+			<div class="span12">
+				<h4>Current Tags:</h4>
+				<div id="tagList">
+					<span class="tagDisplay" ng-repeat="x in selTags">
+						{{x}}<i class="material-icons" ng-click="remove({{x}})">close</i>
+					</span>
+			</div>
+		</div>
+	
 </div>

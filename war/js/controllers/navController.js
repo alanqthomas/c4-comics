@@ -27,6 +27,10 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
 			}
 		);
 	};
+	$scope.navSearch = function(){
+		//this makes an error, unclear why.
+		//$state.go('search',{list,$scope.searchTerms});
+	}
 }]);
 
 })();
