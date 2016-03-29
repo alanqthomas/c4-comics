@@ -49,29 +49,8 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "userendpoint.removeUser" : {
-      "path" : "user/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "userendpoint.insertUser" : {
-      "path" : "user/{id}/{email}/{username}/{admin}",
+      "path" : "user",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
@@ -79,25 +58,8 @@
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser",
       "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          },
-          "email" : {
-            "type" : "string",
-            "required" : true
-          },
-          "username" : {
-            "type" : "string",
-            "required" : true
-          },
-          "admin" : {
-            "type" : "boolean",
-            "required" : true
-          }
-        },
-        "body" : "empty"
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -127,6 +89,159 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "userendpoint.addSubscription" : {
+      "path" : "addSubscription/{id}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.addSubscription",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.deleteFavorite" : {
+      "path" : "favorite/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.deleteFavorite",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.removeUser" : {
+      "path" : "user/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.deleteSubscription" : {
+      "path" : "subscription/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.deleteSubscription",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.deleteUserSeries" : {
+      "path" : "userseries/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.deleteUserSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.addUserSeries" : {
+      "path" : "addUserSeries/{id}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.addUserSeries",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.addFavorite" : {
+      "path" : "addFavorite/{id}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.UserEndpoint.addFavorite",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
     }
   },
   "descriptor" : {
@@ -135,6 +250,9 @@
         "id" : "User",
         "type" : "object",
         "properties" : {
+          "googleID" : {
+            "type" : "string"
+          },
           "email" : {
             "type" : "string"
           },
@@ -223,11 +341,11 @@
           "parent" : {
             "$ref" : "Key"
           },
-          "complete" : {
-            "type" : "boolean"
-          },
           "namespace" : {
             "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
@@ -257,9 +375,10 @@
           "$ref" : "User"
         }
       },
-      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
-      },
       "com.maximumgreen.c4.endpoints.UserEndpoint.insertUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
         "response" : {
           "$ref" : "User"
         }
@@ -267,6 +386,38 @@
       "com.maximumgreen.c4.endpoints.UserEndpoint.listUser" : {
         "response" : {
           "$ref" : "CollectionResponse_User"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.addSubscription" : {
+        "request" : {
+          "$ref" : "Key"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.deleteFavorite" : {
+        "request" : {
+          "$ref" : "Key"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.removeUser" : {
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.deleteSubscription" : {
+        "request" : {
+          "$ref" : "Key"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.deleteUserSeries" : {
+        "request" : {
+          "$ref" : "Key"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.addUserSeries" : {
+        "request" : {
+          "$ref" : "Key"
+        }
+      },
+      "com.maximumgreen.c4.endpoints.UserEndpoint.addFavorite" : {
+        "request" : {
+          "$ref" : "Key"
         }
       }
     }

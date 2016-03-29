@@ -49,6 +49,27 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "commentendpoint.removeComment" : {
+      "path" : "comment/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "commentendpoint.listComment" : {
       "path" : "comment",
       "httpMethod" : "GET",
@@ -72,27 +93,6 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "commentendpoint.removeComment" : {
-      "path" : "comment/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
       }
     },
     "commentendpoint.updateComment" : {
@@ -172,12 +172,12 @@
           "$ref" : "Comment"
         }
       },
+      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
+      },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.listComment" : {
         "response" : {
           "$ref" : "CollectionResponse_Comment"
         }
-      },
-      "com.maximumgreen.c4.endpoints.CommentEndpoint.removeComment" : {
       },
       "com.maximumgreen.c4.endpoints.CommentEndpoint.updateComment" : {
         "request" : {

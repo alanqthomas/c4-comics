@@ -70,22 +70,6 @@
         "body" : "empty"
       }
     },
-    "seriesendpoint.insertSeries" : {
-      "path" : "series",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "seriesendpoint.updateSeries" : {
       "path" : "series",
       "httpMethod" : "PUT",
@@ -94,6 +78,22 @@
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "seriesendpoint.insertSeries" : {
+      "path" : "series",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -202,11 +202,11 @@
           "parent" : {
             "$ref" : "Key"
           },
-          "complete" : {
-            "type" : "boolean"
-          },
           "namespace" : {
             "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
@@ -254,7 +254,7 @@
       },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
       },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
         "request" : {
           "$ref" : "Series"
         },
@@ -262,7 +262,7 @@
           "$ref" : "Series"
         }
       },
-      "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries" : {
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
         "request" : {
           "$ref" : "Series"
         },

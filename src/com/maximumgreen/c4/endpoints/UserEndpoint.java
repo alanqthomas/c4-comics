@@ -13,6 +13,7 @@ import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 import javax.inject.Named;
@@ -101,27 +102,132 @@ public class UserEndpoint {
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertUser")
-	//	public User(Key k, String email, String username, boolean administrator){
-	public User insertUser(@Named("id") String googleID,@Named("email") String email,
-			@Named("username") String username,@Named("admin") boolean admin) {
+	public User insertUser(User user) {
 		PersistenceManager mgr = getPersistenceManager();
-		Key k = KeyFactory.createKey(User.class.getSimpleName(), googleID);
+		Key k = KeyFactory.createKey(User.class.getSimpleName(), user.getGoogleID());
 		User newUser = null;
 		try {
 			if (containsUser(k)) {
-				throw new EntityExistsException("User already exists");
+				throw new EntityExistsException("Object already exists");
 			}
-			newUser = new User(k, email, username, admin);
-			mgr.makePersistent(newUser);
+			newUser = new User(k, user.getGoogleID(), user.getEmail(), user.getUsername(), user.isAdministrator());
+			mgr.makePersistent(user);
 		} finally {
 			mgr.close();
 		}
 		return newUser;
 	}
 
-	/*
-	 *  UPDATE METHODS TO BE ADDED
+	/**
+	 * This method adds the specified seriesKey to the specified user's created series list
+	 * @param googleID the user's googleID
+	 * @param seriesKey the key of the series to add to the user's list
 	 */
+	@ApiMethod(name="addUserSeries")
+	public void addUserSeries(@Named("id") String googleID, Key seriesKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		List<Key> list;
+		if (user.getUserSeries() == null){
+			list = new ArrayList<Key>();
+			user.setUserSeries(list);
+		}
+		else
+			list = user.getUserSeries();
+		list.add(seriesKey);
+		
+		mgr.makePersistent(user);
+		mgr.close();
+	}
+	
+	/**
+	 * This method removes a specified series from the list of series the user has created.
+	 * @param googleID the user's googleID
+	 * @param seriesKey the key of the series to delete from the user's list
+	 * @return
+	 */
+	@ApiMethod(name="deleteUserSeries")
+	public void deleteUserSeries(@Named("id") String googleID, Key seriesKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		user.getUserSeries().remove(seriesKey);
+		mgr.makePersistent(user);
+		mgr.close();
+	}
+	
+	/**
+	 * This method adds the specified author's key to the specified user's favorites list
+	 * @param googleID the user's googleID
+	 * @param authorKey the key of the author to add to the user's list
+	 */
+	@ApiMethod(name="addFavorite")
+	public void addFavorite(@Named("id") String googleID, Key authorKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		List<Key> list;
+		if (user.getFavorites() == null){
+			list = new ArrayList<Key>();
+			user.setFavorites(list);
+		}
+		else
+			list = user.getFavorites();
+		list.add(authorKey);
+		
+		mgr.makePersistent(user);
+		mgr.close();
+	}
+	
+	/**
+	 * This method removes an author's key from the list of a user's favorites
+	 * @param googleID the user's googleID
+	 * @param authorKey the key of the author to delete from the user's favorites list
+	 * @return
+	 */
+	@ApiMethod(name="deleteFavorite")
+	public void deleteFavorite(@Named("id") String googleID, Key authorKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		user.getFavorites().remove(authorKey);
+		mgr.makePersistent(user);
+		mgr.close();
+	}
+	
+	/**
+	 * This method adds the specified series key to the specified user's subscription list
+	 * @param googleID the user's googleID
+	 * @param seriesKey the key of the series to add to the user's subscription list
+	 */
+	@ApiMethod(name="addSubscription")
+	public void addSubscription(@Named("id") String googleID, Key seriesKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		List<Key> list;
+		if (user.getSubscriptions() == null){
+			list = new ArrayList<Key>();
+			user.setSubscriptions(list);
+		}
+		else
+			list = user.getSubscriptions();
+		list.add(seriesKey);
+		
+		mgr.makePersistent(user);
+		mgr.close();
+	}
+	
+	/**
+	 * This method removes an author's key from the list of a user's subscriptions
+	 * @param googleID the user's googleID
+	 * @param authorKey the key of the series to delete from the user's list
+	 * @return
+	 */
+	@ApiMethod(name="deleteSubscription")
+	public void deleteSubscription(@Named("id") String googleID, Key seriesKey){
+		PersistenceManager mgr = getPersistenceManager();
+		User user = getUser(googleID);
+		user.getSubscriptions().remove(seriesKey);
+		mgr.makePersistent(user);
+		mgr.close();
+	}
 	
 	/**
 	 * This method removes the entity with primary key id.

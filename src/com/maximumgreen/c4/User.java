@@ -15,6 +15,10 @@ public class User {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key k;
 	
+	//User's Google ID
+	@Persistent
+	private String googleID;
+	
 	//User's email address
 	@Persistent
 	private String email;
@@ -72,9 +76,10 @@ public class User {
 	public User(){}
 	
 	//Basic constructor using information available from the Google login
-	public User(Key k, String email, String username, boolean administrator){
+	public User(Key k, String googleID, String email, String username, boolean administrator){
 		super();
 		this.k = k;
+		this.googleID = googleID;
 		this.email = email;
 		this.username = username;
 		this.administrator = administrator;
@@ -201,6 +206,14 @@ public class User {
 	public List<Key> getFavorites() {
 		return favorites;
 	}
+	
+	public void setGoogleID(String googleID) {
+		this.googleID = googleID;
+	}
+	
+	public String getGoogleID() {
+		return googleID;
+	}
 
 	public void setFavorites(List<Key> favorites) {
 		this.favorites = favorites;
@@ -237,6 +250,5 @@ public class User {
 	public void setNotifications(List<Key> notifications) {
 		this.notifications = notifications;
 	}
-	
 	
 }
