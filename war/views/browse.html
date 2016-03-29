@@ -1,16 +1,26 @@
 <div ng-controller="browseCtrl">
-	<h1>Browse Page</h1>
-
-<!--desktop display-->
-	<div class="container">
-		<div class="row" id="options">
+	<h3>Browse</h3>
+	<div class="container-fluid">
+		<div id="optionsDisplayBrowse">
+			Display <input ng-model="tagCap" type="number" value=20></input> tags on the page.
+			Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.
+		</div>
+		<div id ="tagsDisplayBrowse">
 			<div class="span12">
-				<h4>Current Tags:</h4>
-				<div id="tagList">
+				<h5>Current Tags:</h5>
+				<div id="tagListBrowse">
 					<span class="tagDisplay" ng-repeat="x in selTags">
-						{{x}}<i class="material-icons" ng-click="remove({{x}})">close</i>
+						{{x}}<i class="material-icons" ng-click="removeTag({{x}})">close</i>
 					</span>
 			</div>
 		</div>
+		<div id="displayTagBrowse" ng-repeat="x in displayTags">
+		<!-- but with a lot more styling. -->
+			<span style="backfround-image:url({{x.previewUrl}})">{{x.tag}}s</span>
+		</div>
+		<div id="displayResultBrowse" ng-repeat="x in browseResults" hidden>
+			<span style="backfround-image:url({{x.previewUrl}})">{{x.title}} by {{x.author}}</span>
+		</div>
+
 	
 </div>

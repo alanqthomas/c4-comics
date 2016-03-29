@@ -32,10 +32,10 @@
 </head>
 
 <body ng-app="c4">
-	<div class="container" ng-controller="navCtrl">
+	<div class="container-fluid" ng-controller="navCtrl">
 <!--desktop display-->
 		<div class="row" id="desktopRow">
-			<span align="left">
+			<div class="col-sm-4" align="left">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						<i class="material-icons">list</i>
@@ -47,17 +47,17 @@
 					</a>
 				</li>
 				<span>C4comics</span>
-			</span>
-			<span align="center">
+			</div>
+			<div class="col-sm-4" align="center">
 				<form ng-submit="navSearch()">
 					<input type="text" placeholder="Search" ng-model="searchTerms" ng></input>
 					<i class="material-icons" ng-click="navSearch()">search</i>
 				</form>
-			</span>
-			<span align="right">
+			</div>
+			<div class="col-sm-4" align="right">
 				<i class="material-icons">notifications</i>
 				<img class="img-circle" id="profilePicDesktop">
-			</span>
+			</div>
 		</div>
 	<!-- Navbar Settings Modal -->
 	<div id="settingsModal" class="modal fade" role="dialog">
