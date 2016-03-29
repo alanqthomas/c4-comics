@@ -1,35 +1,49 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http', 'GAuth',	'GApi',
-                                  function(	 $scope,   $http,	GAuth,	 GApi){
-	$scope.ifLogin = function() {
-		$scope.logMsg = "Out";
+angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth','GApi', 'GData',
+                                  function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
+
+	var doLogin = function(){
+		$scope.signMsg = "Sign Out";
+		$scope.username = GData.getUser().name
 	}
-	$scope.ifLogout = function() {
-		$scope.logMsg = "In";
-	}
-	$scope.checkLog = function(){
-		GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
-		$scope.signMsg = "Sign "+$scope.logMsg;
-	}
-	GAuth.checkAuth().then($scope.ifLogin(),$scope.ifLogout());
-	$scope.signMsg = "Sign "+$scope.logMsg;
-	$scope.logFunc = function() {
-		GAuth.checkAuth().then(
-			function(){
-				GAuth.logout();
-				$scope.checkLog();
+
+	$scope.username = "No user";		
+
+
+	$scope.doAuth = function(){
+		if($scope.signMsg == "Sign In"){
+			GAuth.checkAuth().then(
+				function(){
+					doLogin();
 				},
-			function(){
-				GAuth.login();
-				$scope.checkLog();
-			}
-		);
+				function(){
+					GAuth.login().then(function(){
+						doLogin();
+					});
+				}
+			);
+		} else {
+			GAuth.logout().then(function(){
+				$scope.signMsg = "Sign In";
+				$scope.username = "No user";
+			});
+		}
 	};
+
+	GAuth.checkAuth().then(
+		function(){
+			$scope.signMsg = "Sign Out";
+		},
+		function(){
+			$scope.signMsg = "Sign In";
+		}
+	);
+
 	$scope.navSearch = function(){
 		//this makes an error, unclear why.
-		//$state.go('search',{list,$scope.searchTerms});
+		$state.go('search',{"list": $scope.searchTerms});
 	}
 }]);
 

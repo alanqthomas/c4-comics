@@ -24,7 +24,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			authenticate: false
 		})
 		.state('browse', {
-			url: "/browse/:list",
+			url: "/browse",
 			templateUrl: "views/browse.html",
 			authenticate: false
 		})

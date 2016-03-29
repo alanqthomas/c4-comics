@@ -4,31 +4,63 @@
 
 angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
                                     function(	$scope,   $http,	 GApi){
-		$scope.selTags = $stateParams.list;
-		$scope.displayTags = null;
-		$scope.removeTag = function(tagToRemove){
-			var index = $scope.selTags.indexOf(tagToRemove);
-			if (index > -1){
-				 $scope.selTags.splice(index, 1);
-			}
+	if($stateParams.tagList == null){
+		$scope.selTags = $stateParams.tagList;
+	}else{
+		$scope.selTags = [];
+	}
+	$scope.displayTags = [];
+	$scope.removeTag = function(tagToRemove){
+		var index = $scope.selTags.indexOf(tagToRemove);
+		if (index > -1){
+			 $scope.selTags.splice(index, 1);
 		}
-		$scope.addTag = function(tagToAdd){
-			$scope.selTags.push(tagToAdd);
-		}
-		$scope.getTopTags= function(){
-			//endpoints call to get the top# of tags.
-			//passes in $scope.selTags
+	}
+	$scope.addTag = function(tagToAdd){
+		$scope.selTags.push(tagToAdd);
+	}
+//gets tags for further sorting, sorted by popullarity.
+	$scope.getTopTags= function(){
+		var resultReq = {
+			"tags": $scope.selTags,
+		};
+		/*GApi.execute('browseEndpoint', 'getTags', resultReq).then( 
+			function(resp) {
+			$scope.value = resp.items;//add here
 			//result is placed in $scope.displayTags.
-		}
-		$scope.checkResults=function(){
-			//checks if it should load results or tags.
-			//passed in $scope.resultSwitch,  $scope.selTags
-			//calls appropriate function and swaps hidden if necessary.
-		}
-		$scope.getResults= function(){
-			//endpoints call to get the matching comics, sorted by popularity.
-			//passed in $scope.resultSwitch, $scope.selTags
+			}, function(resp) {
+				console.log("error :(");
+			}
+		);*/
+	}
+	$scope.checkResults=function(){
+		var resultReq = {
+			"tags": $scope.selTags,
+			"numResults": $scope.resultSwitch
+		};
+		/*GApi.execute('browseEndpoint', 'checkResults', resultReq).then( 
+			function(resp) {
+			$scope.value = resp.items;//extract a boolean, call methods.
+			}, function(resp) {
+				console.log("error :(");
+			}
+		);*/
+	}
+	
+//gets matching comics, sorted by popularity.
+	$scope.getResults= function(){
+		var resultReq = {
+			"tags": $scope.selTags,
+			"numResults": $scope.resultSwitch
+		};
+		/*GApi.execute('browseEndpoint', 'getResults', resultReq).then( 
+			function(resp) {
+			$scope.value = resp.items;//add here
 			//result is placed in $scope.browseResults.
-		}
+			}, function(resp) {
+				console.log("error :(");
+			}
+		);*/
+	}
 }]);
 })();
