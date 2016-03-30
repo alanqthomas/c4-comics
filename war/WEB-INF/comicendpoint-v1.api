@@ -28,6 +28,7 @@
   "ownerName" : "maximumgreen.com",
   "packagePath" : "c4",
   "methods" : {
+<<<<<<< HEAD
     "comicendpoint.insertComic" : {
       "path" : "comic",
       "httpMethod" : "POST",
@@ -65,6 +66,8 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+=======
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
     "comicendpoint.listComic" : {
       "path" : "comic",
       "httpMethod" : "GET",
@@ -82,6 +85,59 @@
           "limit" : {
             "type" : "int32",
             "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.insertComic" : {
+      "path" : "comic",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.updateComic" : {
+      "path" : "comic",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "comicendpoint.getComic" : {
+      "path" : "comic/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
           }
         },
         "body" : "empty"
@@ -130,6 +186,21 @@
   },
   "descriptor" : {
     "schemas" : {
+      "CollectionResponse_Comic" : {
+        "id" : "CollectionResponse_Comic",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comic"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
       "Comic" : {
         "id" : "Comic",
         "type" : "object",
@@ -202,11 +273,11 @@
           "parent" : {
             "$ref" : "Key"
           },
-          "namespace" : {
-            "type" : "string"
-          },
           "complete" : {
             "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
           }
         }
       },
@@ -233,24 +304,10 @@
       "JsonMap" : {
         "id" : "JsonMap",
         "type" : "object"
-      },
-      "CollectionResponse_Comic" : {
-        "id" : "CollectionResponse_Comic",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Comic"
-            }
-          },
-          "nextPageToken" : {
-            "type" : "string"
-          }
-        }
       }
     },
     "methods" : {
+<<<<<<< HEAD
       "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
         "request" : {
           "$ref" : "Comic"
@@ -264,9 +321,32 @@
           "$ref" : "Comic"
         }
       },
+=======
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
       "com.maximumgreen.c4.endpoints.ComicEndpoint.listComic" : {
         "response" : {
           "$ref" : "CollectionResponse_Comic"
+<<<<<<< HEAD
+        }
+      },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic" : {
+        "request" : {
+          "$ref" : "Comic"
+        },
+        "response" : {
+          "$ref" : "Comic"
+=======
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
+        }
+      },
+<<<<<<< HEAD
+=======
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.insertComic" : {
+        "request" : {
+          "$ref" : "Comic"
+        },
+        "response" : {
+          "$ref" : "Comic"
         }
       },
       "com.maximumgreen.c4.endpoints.ComicEndpoint.updateComic" : {
@@ -277,6 +357,12 @@
           "$ref" : "Comic"
         }
       },
+      "com.maximumgreen.c4.endpoints.ComicEndpoint.getComic" : {
+        "response" : {
+          "$ref" : "Comic"
+        }
+      },
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
       "com.maximumgreen.c4.endpoints.ComicEndpoint.removeComic" : {
       }
     }

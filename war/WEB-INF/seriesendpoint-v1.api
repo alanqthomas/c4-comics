@@ -44,6 +44,7 @@
           }
         },
         "body" : "empty"
+<<<<<<< HEAD
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -76,6 +77,8 @@
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
+=======
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -102,8 +105,47 @@
         "body" : "empty"
       }
     },
+<<<<<<< HEAD
+    "seriesendpoint.listSeries" : {
+=======
+    "seriesendpoint.insertSeries" : {
+      "path" : "series",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "seriesendpoint.updateSeries" : {
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
+      "path" : "series",
+<<<<<<< HEAD
+=======
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.maximumgreen.c4.endpoints.SeriesEndpoint.updateSeries",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "seriesendpoint.listSeries" : {
       "path" : "series",
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
@@ -202,11 +244,11 @@
           "parent" : {
             "$ref" : "Key"
           },
-          "namespace" : {
-            "type" : "string"
-          },
           "complete" : {
             "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
           }
         }
       },
@@ -252,6 +294,8 @@
           "$ref" : "Series"
         }
       },
+      "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
+      },
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.insertSeries" : {
         "request" : {
           "$ref" : "Series"
@@ -268,8 +312,11 @@
           "$ref" : "Series"
         }
       },
+<<<<<<< HEAD
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.removeSeries" : {
       },
+=======
+>>>>>>> branch 'master' of https://github.com/alanqthomas/maximumgreen.git
       "com.maximumgreen.c4.endpoints.SeriesEndpoint.listSeries" : {
         "response" : {
           "$ref" : "CollectionResponse_Series"
