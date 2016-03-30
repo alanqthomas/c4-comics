@@ -36,12 +36,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		.state('draw', {
 			url: "/draw/:id",
 			templateUrl: "views/draw.html",
-			authenticate: true
+			authenticate: false
 		})
 		.state('editComic', {
 			url: "/editComic/:id",
 			templateUrl: "views/editComic.html",
-			authenticate: true
+			authenticate: false
 		})
 		.state('search', {
 			url: "/search/:list",
