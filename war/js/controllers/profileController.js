@@ -51,6 +51,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			);
 		}
 		
+
 		$(document).ready(function(){
 				$('#series').click(function(){
 				
@@ -66,7 +67,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				
 			})
 		});
-		
 		
 		
 		
