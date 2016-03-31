@@ -1,21 +1,32 @@
 <div ng-controller="editComicCtrl">
 
-	<a ui-sref="series">Back to Series</a>
+	<a ui-sref="series">Back to Series</a><i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
 	<h3>Comic Title</h3>
-	<div ></div>
-	<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
-	<!-- <div ng-repeat="x in pages">
-		<div>
-			<span class="topLeft">{{x.pageNumber}}</span>
-			<img class="bigPageDisplay" src={{x.url}} alt="{{x.comic}} . {{x.pagenumber}}">
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="col-sm-11">
+				<!-- <span ng-repeat="x in pages">
+					<span class="topLeft">{{x.pageNumber}}</span>
+					<img class="bigPageDisplay" src={{x.url}} alt="{{x.comic}} . {{x.pagenumber}}">
+				</span> -->
+			</div>
+			<div class="col-sm-1">
+				<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
+			</div>
 		</div>
-	</div> -->
+		<!-- <div ng-repeat="x in pages">
+			<div>
+				<span class="topLeft">{{x.pageNumber}}</span>
+				<img class="bigPageDisplay" src={{x.url}} alt="{{x.comic}} . {{x.pagenumber}}">
+			</div>
+		</div> -->
+		
+	</div>
 	<h4>Tags</h4>
 	<form>
 	Enter a tag to add: <input type="text" ng-model="newTag">
 	</form>
 	<!--<i class="glyphicon glyphicon-plus" ui-sref="draw"></i>-->
-	
 
 	<!-- Add Page Modal -->
 	<div id="addPageModal" class="modal fade" role="dialog">
@@ -28,19 +39,18 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row-fluid">
-							<div class="span4 offset1">
+							<div class="col-xs-6" align="center">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
 									<i class="material-icons">file_upload</i>
 									<p>Upload A Page</p>
 								</button>
 							</div>
-							<div class="span4 offset2">
+							<div class="col-xs-6" align="center">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
 									<i class="material-icons">landscape</i>
 									<p>Draw A Page</p>
 								</button>
 							</div>
-							<div class="span1"></div>
 						</div>
 					</div>
 				</div>
