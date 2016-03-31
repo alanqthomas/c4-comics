@@ -153,7 +153,7 @@ public class SeriesEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Series.class, series.getKey());
+			mgr.getObjectById(Series.class, series.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

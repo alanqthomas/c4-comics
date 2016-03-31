@@ -6,14 +6,17 @@ import java.util.List;
 import javax.jdo.annotations.*;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Series {
-	//Series key should contain key of parent User
+	//Unique generated id
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key k;
+	private Long id;
+	
+	//Unique user id of author
+	@Persistent
+	private String authorId;
 	
 	//Title of Series
 	@Persistent
@@ -35,13 +38,13 @@ public class Series {
 	@Persistent
 	private double rating;
 	
-	//List of COMIC keys within the series. Series -> Comics -> Pages
+	//List of COMIC ids within the series. Series -> Comics -> Pages
 	@Persistent 
-	private List<Key> comics;
+	private List<Long> comics;
 	
-	//List of USER keys subscribed to this series
+	//List of USER ids subscribed to this series
 	@Persistent
-	private List<Key> subscribers;
+	private List<String> subscribers;
 	
 	//List of COMMENTS for the series as a whole
 	@Persistent
@@ -51,13 +54,21 @@ public class Series {
 	public Series(){
 	}
 
-	//Getters and Setters
-	public Key getKey() {
-		return k;
+	//getters and setters
+	public Long getId() {
+		return id;
 	}
 
-	public void setKey(Key k) {
-		this.k = k;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
 	}
 
 	public String getTitle() {
@@ -100,19 +111,19 @@ public class Series {
 		this.rating = rating;
 	}
 
-	public List<Key> getComics() {
+	public List<Long> getComics() {
 		return comics;
 	}
 
-	public void setComics(List<Key> comics) {
+	public void setComics(List<Long> comics) {
 		this.comics = comics;
 	}
 
-	public List<Key> getSubscribers() {
+	public List<String> getSubscribers() {
 		return subscribers;
 	}
 
-	public void setSubscribers(List<Key> subscribers) {
+	public void setSubscribers(List<String> subscribers) {
 		this.subscribers = subscribers;
 	}
 
@@ -123,6 +134,5 @@ public class Series {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
 	
 }

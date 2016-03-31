@@ -6,18 +6,13 @@ import java.util.Map;
 import javax.jdo.annotations.*;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class User {
-	//Use Google ID to generate a key
+public class C4User {
+	//Use unique Google ID as the user ID
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key k;
-	
-	//User's Google ID
 	@Persistent
-	private String googleID;
+	String userID;
 	
 	//User's email address
 	@Persistent
@@ -50,93 +45,39 @@ public class User {
 	
 	//List of SERIES a user has created
 	@Persistent
-	private List<Key> userSeries;
+	private List<Long> userSeries;
 	
 	//List of users favorites SERIES' Keys.  User does NOT get update notifications
 	@Persistent
-	private List<Key> favorites;
+	private List<Long> favorites;
 	
 	//List of users SERIES subscriptions by key.  User WILL get update notifications
 	@Persistent
-	private List<Key> subscriptions;
+	private List<Long> subscriptions;
 	
 	//List of AUTHORS(users) by key that the user is following
 	@Persistent
-	private List<Key> following;
+	private List<String> following;
 	
 	//Map of COMICS keys to the PAGE key that the user last read
 	@Persistent
-	private Map<Key, Key> lastRead;
+	private Map<Long, Long> lastRead;
 	
 	//List of KEYS to notify user of updates
 	@Persistent
-	private List<Key> notifications;
+	private List<Long> notifications;
 	
 	//Empty constructor
-	public User(){}
-	
-	//Basic constructor using information available from the Google login
-	public User(Key k, String googleID, String email, String username, boolean administrator){
-		super();
-		this.k = k;
-		this.googleID = googleID;
-		this.email = email;
-		this.username = username;
-		this.administrator = administrator;
+	public C4User(){
 	}
 	
-	//PUBLIC METHODS ACCESSIBLE FROM ENDPOINT
-	//add/delete user own series, favorites, subscriptions, following, notifications
-	public  boolean addUserSeries(Key k) {
-		return userSeries.add(k);
-	}
-	public boolean deleteUserSeries(Key k){
-		return userSeries.remove(k);
-	}
-	
-	public  boolean addFavorite(Key k) {
-		return favorites.add(k);
-	}
-	public boolean deleteFavorite(Key k){
-		return favorites.remove(k);
-	}
-	
-	public  boolean addSubscription(Key k) {
-		return subscriptions.add(k);
-	}
-	public boolean deleteSubscription(Key k){
-		return notifications.remove(k);
-	}
-	
-	public  boolean addFollow(Key k) {
-		return following.add(k);
-	}
-	public boolean deleteFollow(Key k){
-		return following.remove(k);
-	}
-	
-	public  boolean addNotification(Key k) {
-		return notifications.add(k);
-	}
-	public boolean deleteNotification(Key k){
-		return notifications.remove(k);
-	}
-	
-	//Method to retrieve the page key of last read page in a comic, if available
-	public Key getCurrentPage(Key k){
-		if (lastRead.containsKey(k))
-			return lastRead.get(k);
-		else
-			return null;
+	//getters and setters
+	public String getUserID() {
+		return userID;
 	}
 
-	//Getters and Setters
-	public Key getKey() {
-		return k;
-	}
-
-	public void setKey(Key k) {
-		this.k = k;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 	public String getEmail() {
@@ -195,60 +136,97 @@ public class User {
 		this.rating = rating;
 	}
 
-	public List<Key> getUserSeries() {
+	public List<Long> getUserSeries() {
 		return userSeries;
 	}
 
-	public void setUserSeries(List<Key> userSeries) {
+	public void setUserSeries(List<Long> userSeries) {
 		this.userSeries = userSeries;
 	}
 
-	public List<Key> getFavorites() {
+	public List<Long> getFavorites() {
 		return favorites;
 	}
-	
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID;
-	}
-	
-	public String getGoogleID() {
-		return googleID;
-	}
 
-	public void setFavorites(List<Key> favorites) {
+	public void setFavorites(List<Long> favorites) {
 		this.favorites = favorites;
 	}
 
-	public List<Key> getSubscriptions() {
+	public List<Long> getSubscriptions() {
 		return subscriptions;
 	}
 
-	public void setSubscriptions(List<Key> subscriptions) {
+	public void setSubscriptions(List<Long> subscriptions) {
 		this.subscriptions = subscriptions;
 	}
 
-	public List<Key> getFollowing() {
+	public List<String> getFollowing() {
 		return following;
 	}
 
-	public void setFollowing(List<Key> following) {
+	public void setFollowing(List<String> following) {
 		this.following = following;
 	}
 
-	public Map<Key, Key> getLastRead() {
+	public Map<Long, Long> getLastRead() {
 		return lastRead;
 	}
 
-	public void setLastRead(Map<Key, Key> lastRead) {
+	public void setLastRead(Map<Long, Long> lastRead) {
 		this.lastRead = lastRead;
 	}
 
-	public List<Key> getNotifications() {
+	public List<Long> getNotifications() {
 		return notifications;
 	}
 
-	public void setNotifications(List<Key> notifications) {
+	public void setNotifications(List<Long> notifications) {
 		this.notifications = notifications;
 	}
+
+	//PUBLIC METHODS ACCESSIBLE FROM ENDPOINT
+	//add/delete user own series, favorites, subscriptions, following, notifications
+	public  boolean addUserSeries(Long id) {
+		return userSeries.add(id);
+	}
+	public boolean deleteUserSeries(Long id){
+		return userSeries.remove(id);
+	}
 	
+	public  boolean addFavorite(Long id) {
+		return favorites.add(id);
+	}
+	public boolean deleteFavorite(Long id){
+		return favorites.remove(id);
+	}
+	
+	public  boolean addSubscription(Long id) {
+		return subscriptions.add(id);
+	}
+	public boolean deleteSubscription(Long id){
+		return notifications.remove(id);
+	}
+	
+	public  boolean addFollow(String id) {
+		return following.add(id);
+	}
+	public boolean deleteFollow(String id){
+		return following.remove(id);
+	}
+	
+	public  boolean addNotification(Long id) {
+		return notifications.add(id);
+	}
+	public boolean deleteNotification(Long id){
+		return notifications.remove(id);
+	}
+	
+	//Method to retrieve the page key of last read page in a comic, if available
+	public Long getCurrentPage(Long id){
+		if (lastRead.containsKey(id))
+			return lastRead.get(id);
+		else
+			return null;
+	}
+
 }

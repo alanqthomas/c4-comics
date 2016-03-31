@@ -153,7 +153,7 @@ public class ComicEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Comic.class, comic.getKey());
+			mgr.getObjectById(Comic.class, comic.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

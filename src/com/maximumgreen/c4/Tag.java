@@ -4,35 +4,33 @@ import java.util.List;
 
 import javax.jdo.annotations.*;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Tag {
-	//Automatically generate a unique key for each tag
+	//Automatically generate a unique id for each tag
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key k;
+	private Long id;
 	
 	//Name of tag, which should be unique across the datastore
 	@Persistent
 	@Unique
 	private String name;
 	
-	//List of COMIC keys tagged with this tag
+	//List of COMIC ids tagged with this tag
 	@Persistent
-	private List<Key> comicsWithTag;
+	private List<Long> comicsWithTag;
 	
 	//empty constructor
 	public Tag(){
 	}
 
 	//Getters and setters
-	public Key getKey() {
-		return k;
+	public Long getId() {
+		return id;
 	}
 
-	public void setKey(Key k) {
-		this.k = k;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -43,13 +41,12 @@ public class Tag {
 		this.name = name;
 	}
 
-	public List<Key> getComicsWithTag() {
+	public List<Long> getComicsWithTag() {
 		return comicsWithTag;
 	}
 
-	public void setComicsWithTag(List<Key> comicsWithTag) {
+	public void setComicsWithTag(List<Long> comicsWithTag) {
 		this.comicsWithTag = comicsWithTag;
 	}
-	
-	
+		
 }
