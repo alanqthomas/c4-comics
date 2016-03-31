@@ -9,12 +9,6 @@ nav a {
   padding: 6px 12px;
   text-decoration: none; }
 
-.testing {
-  background-color: green; }
-
-.container1 {
-  background: #ffffff url("https://www.planwallpaper.com/static/images/6790904-free-background-wallpaper.jpg") no-repeat center center; }
-
 footer {
   background-color: #d3d3d3;
   color: #ffffff; }
@@ -36,5 +30,20 @@ footer {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
+
+.testing {
+  background-color: green; }
+
+.container1 {
+  background: #ffffff url("https://www.planwallpaper.com/static/images/6790904-free-background-wallpaper.jpg") no-repeat center center; }
+
+.h1_hover {
+  cursor: pointer; }
+
+.span12 {
+  text-align: center; }
+
+.h3_hover {
+  cursor: pointer; }
 
 /*# sourceMappingURL=styles.css.map */

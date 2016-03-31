@@ -4,8 +4,9 @@
 
 var app = angular.module('c4');
 
+
 app.config(function($stateProvider, $urlRouterProvider) {
-	$urlRouterProvider.otherwise("/home");
+	//$urlRouterProvider.otherwise("/home");
 
 	$stateProvider
 		.state('home', {
@@ -58,11 +59,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/subscription.html",
 			authenticate: false
 		})
-		.state('subscriptions', {
-			url: "/subscriptions",
-			templateUrl: "views/subscriptions.html",
-			authenticate: false
-		})
+		
 });
 
 })();
