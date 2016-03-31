@@ -51,6 +51,23 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			);
 		}
 		
+		$(document).ready(function(){
+				$('#series').click(function(){
+				
+					$('#srs-cont').hide();
+					//	$('#series').text() = '+';
+					//}
+					//else 
+					//{
+					//	$('#series-container').hide();	
+					//	$('#series').text() = '-';
+					//	alert("not visible reached");
+					//}
+				
+			})
+		});
+		
+		
 		
 		
 		
