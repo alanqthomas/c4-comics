@@ -5,19 +5,24 @@ import com.maximumgreen.c4.PMF;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.lang.Long;
 
 import javax.annotation.Nullable;
 import javax.inject.Named;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import com.google.api.server.spi.response.*;
 
 @Api(name = "c4userendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class C4UserEndpoint {
@@ -77,11 +82,16 @@ public class C4UserEndpoint {
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getC4User")
-	public C4User getC4User(@Named("id") String id) {
+	public C4User getC4User(@Named("id") String id) throws BadRequestException, NotFoundException {
+		if (id == null)
+			throw new BadRequestException("User ID must be specified");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		C4User c4user = null;
 		try {
 			c4user = mgr.getObjectById(C4User.class, id);
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("User ID not yet registered with C4");
 		} finally {
 			mgr.close();
 		}
@@ -97,11 +107,14 @@ public class C4UserEndpoint {
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertC4User")
-	public C4User insertC4User(C4User c4user) {
+	public C4User insertC4User(C4User c4user) throws BadRequestException {
+		if (c4user.getUserID() == null || c4user.getUsername() == null || c4user.getEmail() == null)
+			throw new BadRequestException("One or more required fields are missing");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (containsC4User(c4user)) {
-				throw new EntityExistsException("Object already exists");
+				throw new BadRequestException("User already exists");
 			}
 			mgr.makePersistent(c4user);
 		} finally {
@@ -131,7 +144,7 @@ public class C4UserEndpoint {
 		}
 		return c4user;
 	}
-
+	
 	/**
 	 * This method removes the entity with primary key id.
 	 * It uses HTTP DELETE method.
@@ -149,6 +162,114 @@ public class C4UserEndpoint {
 		}
 	}
 
+	//CUSTOM METHODS
+	
+	/**
+	 * This method adds the specified series id to the specified user's subscription list
+	 * @param userId the user's unique user id
+	 * @param seriesId the id of the series to add to the user's subscription list
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	@ApiMethod(name="addSubscription")
+	public void addSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			C4User user = getC4User(userId);
+			List<Long> list;
+			if (user.getSubscriptions() == null){
+				list = new ArrayList<Long>();
+				user.setSubscriptions(list);
+			}
+			else
+				list = user.getSubscriptions();
+			boolean success = list.add(seriesId);
+			if (!success)
+				throw new BadRequestException("Error adding " + seriesId + " to " + userId + "'s subs");
+			mgr.makePersistent(user);
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	/**
+	 * This method deletes the specified series id to the specified user's subscription list
+	 * @param googleId the user's googleId
+	 * @param seriesId the id of the series to delete from the user's subscription list
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	@ApiMethod(name="deleteSubscription")
+	public void deleteSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			C4User user = getC4User(userId);
+			if (user.getSubscriptions() == null)
+				throw new NotFoundException("User is not subscribed to anything.");
+			boolean success = user.deleteSubscription(seriesId);
+			if (!success)
+				throw new BadRequestException("Error deleting " + seriesId + " from " + userId + "'s subs");
+			mgr.makePersistent(user);
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	/**
+	 * This method adds the specified author key to the specified user's follow list
+	 * @param userId the user's unique user id
+	 * @param seriesId the id of the author to add to the user's follow list
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	@ApiMethod(name="addFollow")
+	public void addFollow(@Named("userId") String userId, @Named("authorId") String authorId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			C4User user = getC4User(userId);
+			List<String> list;
+			if (user.getFollowing() == null){
+				list = new ArrayList<String>();
+				user.setFollowing(list);
+			}
+			else
+				list = user.getFollowing();
+			boolean success = list.add(authorId);
+			if (!success)
+				throw new BadRequestException("Error adding " + authorId + " to " + userId + "'s subs");
+			mgr.makePersistent(user);
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	/**
+	 * This method deletes the specified author id to the specified user's follow list
+	 * @param googleId the user's googleId
+	 * @param authorId the id of the series to delete from the user's subscription list
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	@ApiMethod(name="deleteFollow")
+	public void deleteFollow(@Named("userId") String userId, @Named("authorId") String authorId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			C4User user = getC4User(userId);
+			if (user.getFollowing() == null)
+				throw new NotFoundException("User is not following any authors.");
+			boolean success = user.deleteFollow(authorId);
+			if (!success)
+				throw new BadRequestException("Error deleting " + authorId + " from " + userId + "'s follows");
+			mgr.makePersistent(user);
+		} finally {
+			mgr.close();
+		}
+	}
+	
 	private boolean containsC4User(C4User c4user) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;

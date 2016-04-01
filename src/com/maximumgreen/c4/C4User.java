@@ -204,7 +204,7 @@ public class C4User {
 		return subscriptions.add(id);
 	}
 	public boolean deleteSubscription(Long id){
-		return notifications.remove(id);
+		return subscriptions.remove(id);
 	}
 	
 	public  boolean addFollow(String id) {
