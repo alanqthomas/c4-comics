@@ -22,7 +22,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.api.server.spi.response.*;
+//import com.google.api.server.spi.response.*;
 
 @Api(name = "c4userendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class C4UserEndpoint {
@@ -132,7 +132,9 @@ public class C4UserEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updateC4User")
-	public C4User updateC4User(C4User c4user) {
+	public C4User updateC4User(C4User c4user) throws BadRequestException {
+		if (c4user.getUserID() == null)
+			throw new BadRequestException("One or more required fields are missing");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (!containsC4User(c4user)) {

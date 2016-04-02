@@ -31,13 +31,21 @@ public class C4User {
 	@Persistent
 	private String biography;
 	
-	//Key to retrieve user's profile picture from the blobstore
+	//Key to retrieve user's profile picture from GCS if necessary
 	@Persistent
 	private BlobKey profileImage;
 	
-	//Key to retrieve user's custom background image from the blobstore
+	//URL to profile image
+	@Persistent
+	private String profileImageURL;
+	
+	//Key to retrieve user's custom background image from GCS if necessary
 	@Persistent
 	private BlobKey bgImage;
+	
+	//URL to bg image
+	@Persistent
+	private String bgImageURL;
 	
 	//User's rating, to be calculated from their series/comics ratings
 	@Persistent
@@ -126,6 +134,22 @@ public class C4User {
 
 	public void setBgImage(BlobKey bgImage) {
 		this.bgImage = bgImage;
+	}
+
+	public String getProfileImageURL() {
+		return profileImageURL;
+	}
+
+	public void setProfileImageURL(String profileImageURL) {
+		this.profileImageURL = profileImageURL;
+	}
+
+	public String getBgImageURL() {
+		return bgImageURL;
+	}
+
+	public void setBgImageURL(String bgImageURL) {
+		this.bgImageURL = bgImageURL;
 	}
 
 	public double getRating() {

@@ -17,6 +17,10 @@ public class Page {
     @Persistent
     private BlobKey imageKey;
     
+    //URL to image
+    @Persistent
+    private String imageURL;
+    
     //Date the page was created
     @Persistent
     private Date dateCreated;
@@ -40,6 +44,14 @@ public class Page {
 
 	public void setImageKey(BlobKey imageKey) {
 		this.imageKey = imageKey;
+	}
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	public Date getDateCreated() {

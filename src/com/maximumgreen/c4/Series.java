@@ -30,6 +30,10 @@ public class Series {
 	@Persistent
 	private BlobKey bgImage;
 	
+	//URL to bgImage
+	@Persistent
+	private String bgImageURL;
+	
 	//Date the SERIES was created
 	@Persistent 
 	private Date dateCreated;
@@ -93,6 +97,14 @@ public class Series {
 
 	public void setBgImage(BlobKey bgImage) {
 		this.bgImage = bgImage;
+	}
+
+	public String getBgImageURL() {
+		return bgImageURL;
+	}
+
+	public void setBgImageURL(String bgImageURL) {
+		this.bgImageURL = bgImageURL;
 	}
 
 	public Date getDateCreated() {

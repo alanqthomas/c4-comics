@@ -5,7 +5,9 @@ import com.maximumgreen.c4.Series;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
@@ -77,11 +79,16 @@ public class SeriesEndpoint {
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getSeries")
-	public Series getSeries(@Named("id") Long id) {
+	public Series getSeries(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		if (id == null)
+			throw new BadRequestException("User ID must be specified");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		Series series = null;
 		try {
 			series = mgr.getObjectById(Series.class, id);
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Invalid Series ID");
 		} finally {
 			mgr.close();
 		}
@@ -97,7 +104,9 @@ public class SeriesEndpoint {
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertSeries")
-	public Series insertSeries(Series series) {
+	public Series insertSeries(Series series) throws BadRequestException {
+		if (series.getId() == null)
+			throw new BadRequestException("One or more required fields are missing");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (containsSeries(series)) {
@@ -119,7 +128,9 @@ public class SeriesEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updateSeries")
-	public Series updateSeries(Series series) {
+	public Series updateSeries(Series series) throws BadRequestException {
+		if (series.getId() == null)
+			throw new BadRequestException("One or more required fields are missing");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (!containsSeries(series)) {

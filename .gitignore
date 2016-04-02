@@ -45,3 +45,6 @@ war/css/styles.css.map
 war/css/styles.min.css
 war/js/dist/scripts.js
 war/js/dist/scripts.min.js
+
+#test
+test/*
