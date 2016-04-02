@@ -153,7 +153,7 @@ public class PageEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Page.class, page.getKey());
+			mgr.getObjectById(Page.class, page.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

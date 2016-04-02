@@ -10,57 +10,71 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Comic {
-	//Key will contain parent Series key
-	@PrimaryKey
+	//Unique Generated Id
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key k;
+	@PrimaryKey
+	private Long id;
+	
+	//ID of series
+	@Persistent
+	private Long seriesId;
 	
 	//List of tags the author has added to the comic
 	@Persistent
-	private List<Tag> tags;
+	private List<Long> tags;
 	
-	//List of PAGE keys within this comic. Series -> Comics -> Pages
+	//List of PAGE Id within this comic. Series -> Comics -> Pages
 	@Persistent 
-	private List<Key> pages;
+	private List<Long> pages;
 	
-	//Date the SERIES was created
+	//Date the COMIC was created
 	@Persistent 
 	private Date dateCreated;
 	
-	//List of COMMENTS for the specific comic
+	//List of COMMENT IDs for the specific comic
 	@Persistent
-	private List<Comment> comments;
+	private List<Long> comments;
 	
 	//Map of User keys and Integer rating given to this comic by specific user
 	@Persistent
-	private Map<Key, Integer> ratings;
-
-	//Getters and Setters
-	public Key getKey() {
-		return k;
+	private Map<String, Integer> ratings;
+	
+	//Empty constructor
+	public Comic(){
 	}
 
-	public void setKey(Key k) {
-		this.k = k;
+	//Getters and setters
+	public Long getId() {
+		return id;
 	}
 
-	public List<Tag> getTags() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getSeriesId() {
+		return seriesId;
+	}
+
+	public void setSeriesId(Long seriesId) {
+		this.seriesId = seriesId;
+	}
+
+	public List<Long> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Long> tags) {
 		this.tags = tags;
 	}
 
-	public List<Key> getPages() {
+	public List<Long> getPages() {
 		return pages;
 	}
 
-	public void setPages(List<Key> pages) {
+	public void setPages(List<Long> pages) {
 		this.pages = pages;
 	}
 
@@ -72,19 +86,19 @@ public class Comic {
 		this.dateCreated = dateCreated;
 	}
 
-	public List<Comment> getComments() {
+	public List<Long> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<Long> comments) {
 		this.comments = comments;
 	}
 
-	public Map<Key, Integer> getRatings() {
+	public Map<String, Integer> getRatings() {
 		return ratings;
 	}
 
-	public void setRatings(Map<Key, Integer> ratings) {
+	public void setRatings(Map<String, Integer> ratings) {
 		this.ratings = ratings;
 	}
 	

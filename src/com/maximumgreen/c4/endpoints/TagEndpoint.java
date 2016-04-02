@@ -153,7 +153,7 @@ public class TagEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Tag.class, tag.getKey());
+			mgr.getObjectById(Tag.class, tag.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

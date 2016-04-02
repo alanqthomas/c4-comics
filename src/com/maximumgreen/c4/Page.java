@@ -5,17 +5,21 @@ import java.util.Date;
 import javax.jdo.annotations.*;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Page {
+	//Generate a unique id
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key k;
+    private Long id;
     
     //BlobKey to retrieve actual image from datastore
     @Persistent
     private BlobKey imageKey;
+    
+    //URL to image
+    @Persistent
+    private String imageURL;
     
     //Date the page was created
     @Persistent
@@ -26,12 +30,12 @@ public class Page {
     }
 
     //Getters and Setters
-	public Key getKey() {
-		return k;
+	public Long getId() {
+		return id;
 	}
 
-	public void setKey(Key k) {
-		this.k = k;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public BlobKey getImageKey() {
@@ -42,6 +46,14 @@ public class Page {
 		this.imageKey = imageKey;
 	}
 
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -49,6 +61,5 @@ public class Page {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-    
     
 }
