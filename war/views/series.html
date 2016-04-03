@@ -1,13 +1,46 @@
 <div ng-controller="seriesCtrl">
-	<h1>Series Page</h1>
-	<a ui-sref="profile">Author</a>
-	<p id="description">Default description.</p>
-	<h2>Comics</h2>
-	<!-- <div>
-		<span ng-repeat="x in Comics">
-			<span>{{x.title}}</span>
-			<img src={{x.url}} alt={{x.title}}>
-			<span>{{x.pageNum}}</span>
-		</span>
-	</div> -->
+	<div class='container1'>
+		<div> 
+			<!-- have some way of extracting current user -->
+			<br><br><br><br><br><br>
+			<div class='container'>
+				<div class="row">
+					<h1 class="h1_centered" id="name" style='text-align:center'>Series Name</h1>
+				</div>
+			</div>
+			<br><br><br><br><br><br>
+		</div>
+	</div>
+	
+	<div class='container'>
+		<div class='row'>
+			<h3 class="h3_hover" ng-click='goToAuthor()'>{{author_name}}</h3>
+		</div>
+		<div class='row'>
+			<h3>Summary</h3>
+		</div>
+		<div class='row'>
+			<p>{{summary}}</p>
+		</div>
+	</div>
+	
+	<div class='container'>
+		<div class='row'>
+			<h3>Pages</h3>
+		</div>
+		<!-- if there are pages -->
+		<div ng-if='pages_bool==true'>
+			<!-- TODO, need to dynamically generate pages -->
+			<!-- to my understanding how infi scroll works
+			calls loadMore() everytime at end. Ng-repeat to generate images
+			 -->
+			<div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+			  <img ng-repeat='image in images' ng-src='http://placehold.it/225x250&text={{image}}'>
+			</div>
+		</div>
+		<!-- if there are no pages -->
+		<div ng-if='pages_bool!=true'>
+			<p>No Pages Available, Sorry :(</p>
+		</div>
+	</div>
 </div>
