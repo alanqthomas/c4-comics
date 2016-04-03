@@ -255,6 +255,9 @@ public class C4UserEndpoint {
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		if (userId.compareTo(authorId) == 0)
+			throw new BadRequestException("User cannot follow themself.");
+		
 		C4User user;
 		C4User author;
 		
