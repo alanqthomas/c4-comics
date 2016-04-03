@@ -55,9 +55,13 @@ public class C4User {
 	@Persistent
 	private List<Long> userSeries;
 	
-	//List of users favorites SERIES' Keys.  User does NOT get update notifications
+	//List of users favorite SERIES' ids.  User does NOT get update notifications
 	@Persistent
 	private List<Long> favorites;
+	
+	//List of users favorite AUTHORS.  User does NOT get update notifications
+	@Persistent
+	private List<String> favoriteAuthors;
 	
 	//List of users SERIES subscriptions by key.  User WILL get update notifications
 	@Persistent
@@ -180,6 +184,14 @@ public class C4User {
 		this.favorites = favorites;
 	}
 
+	public List<String> getFavoriteAuthors() {
+		return favoriteAuthors;
+	}
+
+	public void setFavoriteAuthors(List<String> favoriteAuthors) {
+		this.favoriteAuthors = favoriteAuthors;
+	}
+	
 	public List<Long> getSubscriptions() {
 		return subscriptions;
 	}
@@ -234,6 +246,13 @@ public class C4User {
 	}
 	public boolean deleteFavorite(Long id){
 		return favorites.remove(id);
+	}
+	
+	public boolean addFavoriteAuthor(String id){
+		return favoriteAuthors.add(id);
+	}
+	public boolean deleteFavoriteAuthor(String id){
+		return favoriteAuthors.remove(id);
 	}
 	
 	public  boolean addSubscription(Long id) {

@@ -175,7 +175,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException 
 	 * @throws BadRequestException 
 	 */
-	@ApiMethod(name="addSubscription")
+	@ApiMethod(name="addsubscription")
 	public void addSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
@@ -216,7 +216,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException 
 	 * @throws BadRequestException 
 	 */
-	@ApiMethod(name="deleteSubscription")
+	@ApiMethod(name="deletesubscription")
 	public void deleteSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
@@ -250,7 +250,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException 
 	 * @throws BadRequestException 
 	 */
-	@ApiMethod(name="addFollow")
+	@ApiMethod(name="addfollow")
 	public void addFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
@@ -291,7 +291,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException 
 	 * @throws BadRequestException 
 	 */
-	@ApiMethod(name="deleteFollow")
+	@ApiMethod(name="deletefollow")
 	public void deleteFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
@@ -315,6 +315,55 @@ public class C4UserEndpoint {
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new EntityNotFoundException("User or Author Id invalid");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	/**
+	 * This method add a favorite to a users favorites depending on the paramaters
+	 * @param userId id of user to add favorites to
+	 * @param authorId id of author to add to favorite
+	 * @param otherId id of series or comic to add to favorite
+	 * @throws BadRequestException
+	 * @throws NotFoundException
+	 */
+	@ApiMethod(name="addfavorite")
+	public void addFavorite(@Named("userId") String userId, 
+			@Nullable @Named("authorId") String authorId, @Nullable @Named("otherId") Long otherId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		if (authorId == null && otherId == null)
+			throw new BadRequestException("Both Ids cannot be null");
+		if (authorId != null && otherId != null)
+			throw new BadRequestException("One Id must be null");
+		
+		C4User user;
+		
+		try {
+			user = mgr.getObjectById(C4User.class, userId);
+			
+			if (authorId != null){
+				if (user.getFavoriteAuthors() == null){
+					List<String> list = new ArrayList<String>();
+					user.setFavoriteAuthors(list);
+				}
+				user.addFavoriteAuthor(authorId);
+			}
+			
+			if (otherId != null){
+				if (user.getFavorites() == null){
+					List<Long> list = new ArrayList<Long>();
+					user.setFavorites(list);
+				}
+				user.addFavorite(otherId);
+			}
+			
+			mgr.makePersistent(user);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User id invalid");
 		} finally {
 			mgr.close();
 		}
