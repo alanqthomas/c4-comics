@@ -35,9 +35,9 @@
 <body ng-app="c4">
 	<div class="container-fluid" ng-controller="navCtrl">
 <!-- C4comics search not prof dropdown -->
-		<div class="row-fluid" id="desktopRow">
+		<div class="row-fluid" id="navRow">
 			<div class="col-xs-4" align="left">C4comics</div>
-			<div class="col-xs-8" align="right">
+			<div class="col-xs-4" align="center">
 				<form ng-submit="navSearch()" class="hidden-xs">
 					<input type="text" placeholder="Search" ng-model="searchTerms" ng></input>
 					<i class="material-icons" ng-click="navSearch()">search</i>
@@ -46,21 +46,21 @@
 					<!-- Make a dropdown thing on ng-click-->
 					<i class="material-icons">search</i>
 				</form>
+			</div>
+			<div class="col-xs-4" align="center">
 				<!-- Make a dropdown thing on ng-click -->
 				<i class="material-icons">notifications</i>
 				{{username}}
 				<!-- <img class="img-circle" id="profilePicDesktop"> -->
-				<span>
-				<li class="dropdown">
+				<span class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						<i class="material-icons">list</i>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu dropdown-menu-right">
 							<li><a ui-sref="browse">Browse</a></li>
 							<li data-toggle="modal" data-target="#settingsModal"><a>Settings</a></li>
 							<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
 						</ul>
 					</a>
-				</li>
 				</span>
 			</div>
 		</div>
@@ -102,16 +102,15 @@
 			</div>
 		</div>
 	</div> -->
-
 	<div>
-		<span ui-sref-active="active"><a ui-sref="home">Home</a></span>
-		<span ui-sref-active="active"><a ui-sref="profile">Profile</a></span>
-		<span ui-sref-active="active"><a ui-sref="series">Series</a></span>
-		<span ui-sref-active="active"><a ui-sref="comic">Comic</a></span>
-		<span ui-sref-active="active"><a ui-sref="editComic">Edit Comic</a></span>
-		<span ui-sref-active="active"><a ui-sref="draw">Draw</a></span>
-		<span ui-sref-active="active"><a ui-sref="browse">Browse</a></span>
-		<span ui-sref-active="active"><a ui-sref="search">Search</a></span>
+		<a ui-sref="home">Home</a>
+		<a ui-sref="profile">Profile</a>
+		<a ui-sref="series">Series</a>
+		<a ui-sref="comic">Comic</a>
+		<a ui-sref="editComic">Edit Comic</a>
+		<a ui-sref="draw">Draw</a>
+		<a ui-sref="browse">Browse</a>
+		<a ui-sref="search">Search</a>
 	</div>
 	<div ui-view></div>
 
