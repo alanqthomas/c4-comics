@@ -139,11 +139,11 @@ public class Series {
 		this.subscribers = subscribers;
 	}
 
-	public List<Comment> getComments() {
+	public List<Long> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<Long> comments) {
 		this.comments = comments;
 	}
 	

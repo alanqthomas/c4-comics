@@ -105,12 +105,14 @@ public class SeriesEndpoint {
 	 */
 	@ApiMethod(name = "insertSeries")
 	public Series insertSeries(Series series) throws BadRequestException {
-		if (series.getId() == null)
-			throw new BadRequestException("One or more required fields are missing");
+		if (series.getTitle() == null || series.getAuthorId() == null)
+			throw new BadRequestException("Title or Author missing.");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsSeries(series)) {
-				throw new EntityExistsException("Object already exists");
+			if (series.getId() != null) {
+				if (containsSeries(series)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
 			mgr.makePersistent(series);
 		} finally {
