@@ -128,6 +128,11 @@ public class GcsEndpoint {
 		return url;
 	}
 	
+	private void deleteServingURL(BlobKey blobKey){
+		ImagesService is = ImagesServiceFactory.getImagesService();
+		is.deleteServingUrl(blobKey);
+	}
+	
 	private static PersistenceManager getPersistenceManager() {
 		return PMF.get().getPersistenceManager();
 	}
