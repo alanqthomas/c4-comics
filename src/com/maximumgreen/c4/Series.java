@@ -50,9 +50,9 @@ public class Series {
 	@Persistent
 	private List<String> subscribers;
 	
-	//List of COMMENTS for the series as a whole
+	//List of COMMENT ids for the series as a whole
 	@Persistent
-	private List<Comment> comments;
+	private List<Long> comments;
 	
 	//empty constructor
 	public Series(){
