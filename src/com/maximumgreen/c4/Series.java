@@ -147,4 +147,12 @@ public class Series {
 		this.comments = comments;
 	}
 	
+	//Custom Methods
+	public boolean addSubscriber(String id){
+		return subscribers.add(id);
+	}
+	
+	public boolean deleteSubscriber(String id){
+		return subscribers.remove(id);
+	}
 }

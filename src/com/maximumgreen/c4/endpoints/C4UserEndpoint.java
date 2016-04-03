@@ -1,7 +1,9 @@
 package com.maximumgreen.c4.endpoints;
 
-import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.PMF;
+import com.maximumgreen.c4.C4User;
+import com.maximumgreen.c4.Series;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -177,19 +179,31 @@ public class C4UserEndpoint {
 	public void addSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		Series series;
+		
 		try {
-			C4User user = getC4User(userId);
-			List<Long> list;
+			user = mgr.getObjectById(C4User.class, userId);
+			series = mgr.getObjectById(Series.class, seriesId);
+			
 			if (user.getSubscriptions() == null){
-				list = new ArrayList<Long>();
+				List<Long> list = new ArrayList<Long>();
 				user.setSubscriptions(list);
 			}
-			else
-				list = user.getSubscriptions();
-			boolean success = list.add(seriesId);
-			if (!success)
-				throw new BadRequestException("Error adding " + seriesId + " to " + userId + "'s subs");
+			if (series.getSubscribers() == null){
+				List<String> list = new ArrayList<String>();
+				series.setSubscribers(list);
+			}
+			
+			user.addSubscription(seriesId);
+			series.addSubscriber(userId);
+			
 			mgr.makePersistent(user);
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("User or Series Id invalid");
 		} finally {
 			mgr.close();
 		}
@@ -206,14 +220,24 @@ public class C4UserEndpoint {
 	public void deleteSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		Series series;
+		
 		try {
-			C4User user = getC4User(userId);
-			if (user.getSubscriptions() == null)
-				throw new NotFoundException("User is not subscribed to anything.");
-			boolean success = user.deleteSubscription(seriesId);
-			if (!success)
-				throw new BadRequestException("Error deleting " + seriesId + " from " + userId + "'s subs");
+			user = mgr.getObjectById(C4User.class, userId);
+			series = mgr.getObjectById(Series.class, seriesId);
+			
+			if (user.getSubscriptions() != null)
+				user.deleteSubscription(seriesId);
+			if (series.getSubscribers() != null)
+				series.deleteSubscriber(userId);
+			
 			mgr.makePersistent(user);
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User or Series Id invalid");
 		} finally {
 			mgr.close();
 		}
@@ -230,19 +254,31 @@ public class C4UserEndpoint {
 	public void addFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		C4User author;
+		
 		try {
-			C4User user = getC4User(userId);
-			List<String> list;
+			user = getC4User(userId);
+			author = getC4User(authorId);
+			
 			if (user.getFollowing() == null){
-				list = new ArrayList<String>();
+				List<String> list = new ArrayList<String>();
 				user.setFollowing(list);
 			}
-			else
-				list = user.getFollowing();
-			boolean success = list.add(authorId);
-			if (!success)
-				throw new BadRequestException("Error adding " + authorId + " to " + userId + "'s subs");
+			if (author.getFollowers() == null){
+				List<String> list = new ArrayList<String>();
+				author.setFollowers(list);
+			}
+			
+			user.addFollow(authorId);
+			author.addFollower(userId);
+			
 			mgr.makePersistent(user);
+			mgr.makePersistent(author);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User or Author Id invalid");
 		} finally {
 			mgr.close();
 		}
@@ -259,14 +295,26 @@ public class C4UserEndpoint {
 	public void deleteFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		C4User author;
+		
 		try {
-			C4User user = getC4User(userId);
-			if (user.getFollowing() == null)
-				throw new NotFoundException("User is not following any authors.");
-			boolean success = user.deleteFollow(authorId);
-			if (!success)
-				throw new BadRequestException("Error deleting " + authorId + " from " + userId + "'s follows");
+			user = getC4User(userId);
+			author = getC4User(authorId);
+			
+			if (user.getFollowing() != null){
+				user.deleteFollow(authorId);
+			}
+			if (author.getFollowers() != null){
+				author.deleteFollower(userId);
+			}
+			
 			mgr.makePersistent(user);
+			mgr.makePersistent(author);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User or Author Id invalid");
 		} finally {
 			mgr.close();
 		}

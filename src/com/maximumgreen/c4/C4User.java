@@ -67,6 +67,10 @@ public class C4User {
 	@Persistent
 	private List<String> following;
 	
+	//List of FOLLOWERS by id following this user
+	@Persistent
+	private List<String> followers;
+	
 	//Map of COMICS keys to the PAGE key that the user last read
 	@Persistent
 	private Map<Long, Long> lastRead;
@@ -192,6 +196,14 @@ public class C4User {
 		this.following = following;
 	}
 
+	public List<String> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<String> followers) {
+		this.followers = followers;
+	}
+	
 	public Map<Long, Long> getLastRead() {
 		return lastRead;
 	}
@@ -236,6 +248,13 @@ public class C4User {
 	}
 	public boolean deleteFollow(String id){
 		return following.remove(id);
+	}
+	
+	public  boolean addFollower(String id) {
+		return followers.add(id);
+	}
+	public boolean deleteFollower(String id){
+		return followers.remove(id);
 	}
 	
 	public  boolean addNotification(Long id) {
