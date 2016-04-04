@@ -29,7 +29,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			//execute using (endpoint, method for endpoint, parameter for method)
 			//then do (if true) $scope.value = resp.items (get the result)
 			//(if false) print error
-			GApi.execute("UserEndpoint", "getAuthor", resultReq).then(
+			GApi.execute("C4UserEndpoint", "getAuthor", resultReq).then(
 				function(resp){
 					//Getting the whole Author object. Need to distinguish between id and name
 					$scope.author_name=resp.items;
@@ -46,7 +46,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			var resultReq={
 				'series_id':$scope.series_id
 			};
-			GApi.execute("UserEndpoint", "getSummary", resultReq).then(
+			GApi.execute("C4UserEndpoint", "getSummary", resultReq).then(
 				function(resp){
 					$scope.bio=resp.items;
 				},function(resp){
@@ -61,7 +61,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			var resultReq={
 				'series_id':$scope.series_id
 			};
-			GApi.execute("UserEndpoint", "getPages", resultReq).then(
+			GApi.execute("C4UserEndpoint", "getPages", resultReq).then(
 				function(resp){
 					$scope.pages=resp.items;
 					$scope.pages_boolean = true;
