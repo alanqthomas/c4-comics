@@ -3,7 +3,8 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth','GApi', 'GData',
                                   function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
-
+//replace with a check to see if someone is signed in?
+	$scope.username = "No user";
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
 		$scope.username = GData.getUser().name;
@@ -12,8 +13,9 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 				console.log("User information retrieved from db.");
 				$scope.userName=resp.username;
 				$scope.notifications=resp.notifications;
-				$scope.profilePic=resp.profilePic;
-				$scope.userSettings=resp.userSettings;
+				$scope.profilePic=resp.profileImageURL;
+				$scope.hideProfilePic=false;
+				//$scope.userSettings=resp.userSettings;
 			}, 
 			function(resp){
 				console.log("No user information found in db.");
@@ -23,8 +25,8 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 					function(resp){
 						console.log("User inserted into db.");
 						$scope.userName=u.email;
-						$scope.notifications=[];
 						$scope.profilePic=u.picture;
+						$scope.hideProfilePic=false;
 						//$scope.userSettings=;
 					}, function(resp){
 						console.log("Error insering user into db.");
@@ -33,10 +35,6 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 			}
 		);
 	}
-
-	$scope.username = "No user";		
-
-
 	$scope.doAuth = function(){
 		if($scope.signMsg == "Sign In"){
 			GAuth.checkAuth().then(
@@ -53,9 +51,9 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 			GAuth.logout().then(function(){
 				$scope.signMsg = "Sign In";
 				$scope.username = "No user";
-				$scope.notifications=null;
-				$scope.profilePic=null;
-				$scope.userSettings=null;
+				//$scope.notifications=null;
+				$scope.hideProfilePic=true;
+				//$scope.userSettings=null;
 			});
 		}
 	};
