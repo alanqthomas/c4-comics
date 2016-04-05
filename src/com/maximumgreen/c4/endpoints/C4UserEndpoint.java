@@ -104,6 +104,8 @@ public class C4UserEndpoint {
 	 * This inserts a new entity into App Engine datastore. If the entity already
 	 * exists in the datastore, an exception is thrown.
 	 * It uses HTTP POST method.
+	 * 
+	 * This is for login. 
 	 *
 	 * @param c4user the entity to be inserted.
 	 * @return The inserted entity.

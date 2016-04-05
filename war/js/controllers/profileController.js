@@ -27,6 +27,8 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			$("#follow-cont").hide();
 		
 		
+			
+		//init
 		$scope.profile_id = $stateParams.id;
 		$scope.name = "Profile Name";
 		$scope.comics;
@@ -34,24 +36,33 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		$scope.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quae cum essent dicta, finem fecimus et ambulandi et disputandi. Quod quidem iam fit etiam in Academia. Quam nemo umquam voluptatem appellavit, appellat Qui autem esse poteris, nisi te amor ipse ceperit? Quaerimus enim finem bonorum. Duo Reges: constructio interrete. Erit enim instructus ad mortem contemnendam, ad exilium, ad ipsum etiam dolorem. Quae contraria sunt his, malane? Hoc sic expositum dissimile est superiori. Semper enim ex eo, quod maximas partes continet latissimeque funditur, tota res appellatur. Rhetorice igitur, inquam, nos mavis quam dialectice disputare? Ab his oratores, ab his imperatores ac rerum publicarum principes extiterunt.";
 		
 		
-		$scope.getUser=function(){
-			var resultReq={
-				"id":$scope.profile_id
+		//get user info
+		var resultReq={
+			"id":$scope.profile_id
+		};
+		
+		GApi.execute("c4userendpoint","getC4User",resultReq).then(
+			function(resp){	
+				console.log(resp);
+				/*
+				//dont know how to actually get 
+				$scope.name=resp.items.username;
+				$scope.comics=resp.items.userSeries;
+				$scope.fav=resp.items.favorites;
+				$scope.bio=resp.items.biography;
+				alert("user found");
+				//console.log("user found");
+				*/
+			}, function(resp){
+				console.log("error no user found");
+				$scope.name="Not Found";
+				alert("not found");
 			}
-			GApi.execute("C4UserEndpoint","getC4User",resultReq).then(
-				function(resp){	
-					//dont know how to actually get 
-					$scope.name=resp.items.username;
-					$scope.comics=resp.items.userSeries;
-					$scope.fav=resp.items.favorites;
-					$scope.bio=resp.items.biography;
-				}, function(resp){
-					console.log("error no name");
-					$scope.name="Profile Name";
-				}
-			);
-			$scope.$apply;
-		}
+		);
+		$scope.$apply;
+		
+	
+		
 		
 		
 		/*
