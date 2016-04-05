@@ -4,11 +4,12 @@
 	<div>
 	<h4 id="authorName"></h2><input type="color"></input>
 	</div>
-	<div class='container1'>
+	<div class='container1'><!-- I don;t think container1 is bootstrap??? -->
 		<div> 
-			<!-- have some way of extracting current user -->
+			<!--this br buisness is horrible html, set height with css. -->
 			<br><br><br><br><br><br><br><br>
 			<br><br><br>
+			<!-- idk what you are tring to do here, but cols go in rows, not containers.-->
 			<div class="row">
 				<div class="container">
 					<div class="col-xs-2">
@@ -50,16 +51,16 @@
 		        	<div class='container'>
 						<div class='row'>
 							<!-- need to dynamically load images -->		
-							<div class='col-xs-3'>
+							<div class='col-sm-4 col-md-3 col-lg-2' ng-repeat="x in series">
 								<img src='http://media.salon.com/2014/10/archie_comics.jpg' class='img-responsive'>
 							</div>
-							<div class='col-xs-3'>
+							<div class='col-sm-4 col-md-3 col-lg-2'>
 								<img src="http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif" class='img-responsive'>
 							</div>
-							<div class='col-xs-3'>
+							<div class='col-sm-4 col-md-3 col-lg-2'>
 								<img src="http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg" class='img-responsive'>
 							</div>
-							<div class='col-xs-3'>
+							<div class='col-sm-4 col-md-3 col-lg-2'>
 								<img src="http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg" class="img-responsive">		
 							</div>
 						</div>

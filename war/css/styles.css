@@ -43,6 +43,9 @@ footer {
     vertical-align: middle;
     color: black; }
 
+#profilePicNav {
+  width: 25%; }
+
 .span12 {
   text-align: center; }
 

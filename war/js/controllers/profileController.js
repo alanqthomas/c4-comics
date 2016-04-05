@@ -25,38 +25,25 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			$scope.msg = "Hello, profile";
 			$("#fav-cont").hide();
 			$("#follow-cont").hide();
-		
-		
 			
 		//init
 		$scope.profile_id = $stateParams.id;
 		$scope.name = "Profile Name";
 		$scope.comics;
 		$scope.fav;
-		$scope.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quae cum essent dicta, finem fecimus et ambulandi et disputandi. Quod quidem iam fit etiam in Academia. Quam nemo umquam voluptatem appellavit, appellat Qui autem esse poteris, nisi te amor ipse ceperit? Quaerimus enim finem bonorum. Duo Reges: constructio interrete. Erit enim instructus ad mortem contemnendam, ad exilium, ad ipsum etiam dolorem. Quae contraria sunt his, malane? Hoc sic expositum dissimile est superiori. Semper enim ex eo, quod maximas partes continet latissimeque funditur, tota res appellatur. Rhetorice igitur, inquam, nos mavis quam dialectice disputare? Ab his oratores, ab his imperatores ac rerum publicarum principes extiterunt.";
-		
-		
-		//get user info
-		var resultReq={
-			"id":$scope.profile_id
-		};
-		
-		GApi.execute("c4userendpoint","getC4User",resultReq).then(
+		$scope.bio = "Write a biography here!",
+		//fetch our db user info.
+		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
 			function(resp){	
 				console.log(resp);
-				/*
-				//dont know how to actually get 
-				$scope.name=resp.items.username;
-				$scope.comics=resp.items.userSeries;
-				$scope.fav=resp.items.favorites;
-				$scope.bio=resp.items.biography;
-				alert("user found");
-				//console.log("user found");
-				*/
+				$scope.name=resp.username;
+				$scope.comics=resp.userSeries;
+				$scope.fav=resp.favorites;
+				$scope.bio=resp.biography;
+				console.log("user found with url ID");
 			}, function(resp){
-				console.log("error no user found");
+				console.log("error no user found for url ID");
 				$scope.name="Not Found";
-				alert("not found");
 			}
 		);
 		$scope.$apply;

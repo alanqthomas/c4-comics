@@ -6,7 +6,32 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
-		$scope.username = GData.getUser().name
+		$scope.username = GData.getUser().name;
+		GApi.execute("c4userendpoint","getC4User",{id:GData.getUser().id}).then(
+			function(resp){
+				console.log("User information retrieved from db.");
+				$scope.userName=resp.username;
+				$scope.notifications=resp.notifications;
+				$scope.profilePic=resp.profilePic;
+				$scope.userSettings=resp.userSettings;
+			}, 
+			function(resp){
+				console.log("No user information found in db.");
+				var u = GData.getUser();
+				var insertParam = createUser(u.id, u.email, u.picture);
+				GApi.execute("c4userendpoint","insertC4User", insertParam).then(
+					function(resp){
+						console.log("User inserted into db.");
+						$scope.userName=u.email;
+						$scope.notifications=[];
+						$scope.profilePic=u.picture;
+						//$scope.userSettings=;
+					}, function(resp){
+						console.log("Error insering user into db.");
+					}
+				);
+			}
+		);
 	}
 
 	$scope.username = "No user";		
@@ -28,6 +53,9 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 			GAuth.logout().then(function(){
 				$scope.signMsg = "Sign In";
 				$scope.username = "No user";
+				$scope.notifications=null;
+				$scope.profilePic=null;
+				$scope.userSettings=null;
 			});
 		}
 	};
