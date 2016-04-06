@@ -2,7 +2,8 @@
 
 <div ng-controller="profileCtrl">
 	<div>
-	<h4 id="authorName"></h2><input type="color"></input>
+	<h4 id="authorName"></h4>
+	<input type="color" ></input><i ng-show="editVisible" class="material-icons">format_color_text</i>
 	</div>
 	<div class='container1'><!-- I don;t think container1 is bootstrap??? -->
 		<div> 
@@ -30,7 +31,7 @@
 		</div>
 		<!-- need to dynamically load bio -->
 		<div class='row'>
-			<p>{{bio}}</p>
+			<p>{{bio}}</p><i class="material-icons">edit</i>
 		</div>
 	</div>
 	

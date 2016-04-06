@@ -47,8 +47,9 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			}
 		);
 		$scope.$apply;
+		//set display boolean
+		$scope.editVisible = ($scope.profile_id == $scope.userId);
 		
-	
 		
 		
 		

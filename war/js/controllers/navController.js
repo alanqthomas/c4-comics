@@ -8,6 +8,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
 		$scope.username = GData.getUser().name;
+		$scope.userId = GData.getUser().id;
 		GApi.execute("c4userendpoint","getC4User",{id:GData.getUser().id}).then(
 			function(resp){
 				console.log("User information retrieved from db.");
@@ -49,6 +50,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 			);
 		} else {
 			GAuth.logout().then(function(){
+				$scope.userId = null;
 				$scope.signMsg = "Sign In";
 				$scope.username = "No user";
 				//$scope.notifications=null;
@@ -70,6 +72,10 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 	$scope.navSearch = function(){
 		//this makes an error, unclear why.
 		$state.go('search',{"list": $scope.searchTerms});
+	}
+	$scope.navProfile = function(){
+		//this makes an error, unclear why.
+		$state.go('profile',{"id": $scope.userId});
 	}
 }]);
 

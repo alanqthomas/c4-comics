@@ -9,7 +9,6 @@
 	<script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- lodash -->
 	<script src="lib/lodash/lodash.min.js"></script>
-
 	<!-- Bootstrap JS -->
 	<script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- Angular -->
@@ -30,10 +29,8 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
 	<!-- Angular App -->
 	<script src="js/dist/scripts.js"></script>
-	
 	<!-- Angular Bootstrap -->
 	<script src="lib/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-	
 	<!-- Angular Infinite Scroll -->
 	<script src="lib/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 	
@@ -43,22 +40,22 @@
 	<div class="container-fluid" ng-controller="navCtrl">
 <!-- C4comics search not prof dropdown -->
 		<div class="row-fluid" id="navRow">
-			<div class="col-xs-4" align="left">C4comics</div>
-			<div class="col-xs-4" align="center">
+			<div class="col-xs-4"><span ui-sref="home">C4comics</span></div>
+			<div class="col-xs-4">
 				<form ng-submit="navSearch()" class="hidden-xs">
-					<input type="text" placeholder="Search" ng-model="searchTerms" ng></input>
+					<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
 					<i class="material-icons" ng-click="navSearch()">search</i>
 				</form>
 				<span class="visible-xs-block">
 					<!-- Make a dropdown thing on ng-click-->
 					<i class="material-icons">search</i>
-				</form>
+				</span>
 			</div>
-			<div class="col-xs-4" align="center">
+			<div class="col-xs-4">
 				<!-- Make a dropdown thing on ng-click -->
 				<i class="material-icons">notifications</i>
 				{{username}}
-				<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-hide="hideProfilePic">
+				<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-hide="hideProfilePic" ng-click="navProfile()">
 				<span class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						<i class="material-icons">list</i>
@@ -91,7 +88,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 
+	<!-- Make this a notifications dropdown somehow.
 	<div>
 		<div class="row-fluid" ng-repeat="x in notifications">
 			<div class="span3">
