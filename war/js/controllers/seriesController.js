@@ -3,45 +3,54 @@
 //any news made page needs to add to the grunt.js file
 (function() {
 
-angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state',
-                                    function(	 $scope, $http,   GApi,   $state ){
+angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams',
+                                    function(	 $scope, $http,   GApi,   $state,   $stateParams ){
 
+		
+		$scope.series_id=$stateParams.id;
+		$scope.series_name="Series Name";
+		$scope.summary="Default Summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex velit, commodo ac dolor sed, auctor commodo nisi. Fusce quis purus enim. Fusce in lobortis magna. Vestibulum sit amet aliquam nibh. Quisque ac porta dolor, sed tincidunt neque. Nullam tristique commodo nunc at sagittis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi elit est, consectetur vel dui at, placerat venenatis eros. Curabitur porta mi eu velit efficitur, id varius arcu vehicula. Sed at felis ante. Maecenas pretium erat dolor, vitae congue tellus finibus et. Aliquam ac congue arcu. Nulla elementum, tellus non lacinia lobortis, sapien ante tincidunt lectus, nec bibendum tortor risus eget tortor.";
+		
+		
 		//author name
 		$scope.author_name="Author Name";
 		//author id, default -1
 		$scope.author_id=-1;
 		
-		$scope.summary="Default Summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex velit, commodo ac dolor sed, auctor commodo nisi. Fusce quis purus enim. Fusce in lobortis magna. Vestibulum sit amet aliquam nibh. Quisque ac porta dolor, sed tincidunt neque. Nullam tristique commodo nunc at sagittis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi elit est, consectetur vel dui at, placerat venenatis eros. Curabitur porta mi eu velit efficitur, id varius arcu vehicula. Sed at felis ante. Maecenas pretium erat dolor, vitae congue tellus finibus et. Aliquam ac congue arcu. Nulla elementum, tellus non lacinia lobortis, sapien ante tincidunt lectus, nec bibendum tortor risus eget tortor.";
-		//this series' id
-		$scope.series_id=0;
-		//aggregate pages
-		$scope.pages=null;
 		
+		
+		//aggregate pages
+		$scope.comics=null;
 		//page boolean, false if no pages available, true if at least 1 page is available
 		$scope.pages_bool=true;
 		
 		
-		$scope.getAuthor=function(){
-			//this is the parameter object
-			var resultReq={
-				"series_id":$scope.series_id
-			};
-			//execute using (endpoint, method for endpoint, parameter for method)
-			//then do (if true) $scope.value = resp.items (get the result)
-			//(if false) print error
-			GApi.execute("C4UserEndpoint", "getAuthor", resultReq).then(
-				function(resp){
-					//Getting the whole Author object. Need to distinguish between id and name
-					$scope.author_name=resp.items;
-					$scope.author_id=resp.items;
-				},function(resp){
-					$scope.author_name="Default Author";
-					$scope.author_id=-1;
-					console.log("error no author result");
-				}
-			);
-		}
 		
+		
+		//this is the parameter object
+		
+		//execute using (endpoint, method for endpoint, parameter for method)
+		//then do (if true) $scope.value = resp.items (get the result)
+		//(if false) print error
+		GApi.execute("SeriesEndpoint", "getSeries", {"id":$scope.series_id}).then(
+			function(resp){
+				$scope.author_id=resp.authorId;
+				$scope.series_name=resp.title;
+				$scope.summary=resp.description;
+				$scope.comics=resp.comics;
+			},function(resp){
+				$scope.author_name="Default Author";
+				$scope.author_id=-1;
+				console.log("error no series result");
+			}
+		);
+		
+		//queries for author name
+		
+		
+		
+		/*
+		 *
 		$scope.getSummary=function(){
 			var resultReq={
 				'series_id':$scope.series_id
@@ -72,6 +81,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			)
 		}
+		*/
 		
 		$scope.goToAuthor=function(){
 			if($scope.author_id==-1){
@@ -79,6 +89,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			}
 			else{
 				//Suppose to go to the state with parameters, but i dont know how to implement these
+				//$scope.author_id is the id of the author
 				var res={referer:"what", param2:37};
 				$state.go('profile',res);
 			}
@@ -104,10 +115,5 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		};
 
 		
-		
-		
-		
 }]);
-
-
 })();
