@@ -17,13 +17,17 @@ public class Comic {
 	@PrimaryKey
 	private Long id;
 	
-	//ID of series
+	//ID of parent series
 	@Persistent
 	private Long seriesId;
 	
+	//Name of comic
+	@Persistent
+	private String title;
+	
 	//List of tags the author has added to the comic
 	@Persistent
-	private List<Tag> tags;
+	private List<Long> tags;
 	
 	//List of PAGE Id within this comic. Series -> Comics -> Pages
 	@Persistent 
@@ -62,11 +66,11 @@ public class Comic {
 		this.seriesId = seriesId;
 	}
 
-	public List<Tag> getTags() {
+	public List<Long> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Long> tags) {
 		this.tags = tags;
 	}
 
@@ -102,4 +106,11 @@ public class Comic {
 		this.ratings = ratings;
 	}
 	
+	public void setTitle(String title){
+		this.title = title;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
 }

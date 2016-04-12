@@ -5,6 +5,7 @@ import com.maximumgreen.c4.PMF;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
@@ -97,11 +98,16 @@ public class ComicEndpoint {
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertComic")
-	public Comic insertComic(Comic comic) {
+	public Comic insertComic(Comic comic) throws BadRequestException {
+		if (comic.getTitle() == null || comic.getSeriesId() == null) {
+			throw new BadRequestException("Title or seriesId field missing");
+		}
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsComic(comic)) {
-				throw new EntityExistsException("Object already exists");
+			if (comic.getId() != null){
+				if (containsComic(comic)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
 			mgr.makePersistent(comic);
 		} finally {
