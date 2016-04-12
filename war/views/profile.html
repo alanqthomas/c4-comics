@@ -41,12 +41,14 @@
 	<div class='container'>
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
-	          {{ tab.content }} 
+	        	<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat='x in tab.content'>
+	        		<img src={{x}} class='img-responsive'>
+	        	</div>
 	        </uib-tab>
 	          <!-- 
 	        <uib-tab heading="tab1">Tab 1 content</uib-tab>
 	        <uib-tab heading='tab2'>Tab 2 content</uib-tab> -->
-	    </tabset>
+	    </uib-tabset>
 	</div>
 	
 	
@@ -54,6 +56,7 @@
 	
 	<div class='container'>
 		<!-- example tab -->
+		<p> older stuff</p>
 		<div class="container">
 		    <ul class="nav nav-tabs">
 		        <li class="nav active"><a href="#srs" aria-control='srs'data-toggle="tab">Series</a></li>
@@ -67,7 +70,7 @@
 		        	<div class='container'>
 						<div class='row'>
 							<!-- need to dynamically load images -->		
-							<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat="x in series">
+							<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat="x in seriess">
 								<img src='http://media.salon.com/2014/10/archie_comics.jpg' class='img-responsive'>
 							</div>
 							<div class='col-sm-6 col-md-4 col-lg-3'>
@@ -79,6 +82,7 @@
 							<div class='col-sm-6 col-md-4 col-lg-3'>
 								<img src="http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg" class="img-responsive">		
 							</div>
+
 						</div>
 					</div>
 				</div>
