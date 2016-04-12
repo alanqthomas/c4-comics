@@ -5,6 +5,7 @@ import com.maximumgreen.c4.Tag;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
@@ -97,11 +98,15 @@ public class TagEndpoint {
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertTag")
-	public Tag insertTag(Tag tag) {
+	public Tag insertTag(Tag tag) throws BadRequestException {
+		if (tag.getName() == null)
+			throw new BadRequestException("Title or Author missing.");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsTag(tag)) {
-				throw new EntityExistsException("Object already exists");
+			if (tag.getId() != null) {
+				if (containsTag(tag)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
 			mgr.makePersistent(tag);
 		} finally {

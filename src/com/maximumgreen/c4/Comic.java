@@ -23,7 +23,7 @@ public class Comic {
 	
 	//List of tags the author has added to the comic
 	@Persistent
-	private List<Long> tags;
+	private List<Tag> tags;
 	
 	//List of PAGE Id within this comic. Series -> Comics -> Pages
 	@Persistent 
@@ -62,11 +62,11 @@ public class Comic {
 		this.seriesId = seriesId;
 	}
 
-	public List<Long> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Long> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 
