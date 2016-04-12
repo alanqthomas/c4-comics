@@ -17,9 +17,13 @@ public class Comic {
 	@PrimaryKey
 	private Long id;
 	
-	//ID of series
+	//ID of parent series
 	@Persistent
 	private Long seriesId;
+	
+	//Name of comic
+	@Persistent
+	private String title;
 	
 	//List of tags the author has added to the comic
 	@Persistent
@@ -102,4 +106,11 @@ public class Comic {
 		this.ratings = ratings;
 	}
 	
+	public void setTitle(String title){
+		this.title = title;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
 }
