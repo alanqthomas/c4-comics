@@ -11,7 +11,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 	
 	
 	
-
+		//this is image url for initial display
 		$scope.series = ['http://media.salon.com/2014/10/archie_comics.jpg',
 		                 "http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
 		                 "http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
@@ -26,7 +26,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		
 		
 		
-		
+		//this is added for infinite scroll
 		$scope.series_reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
@@ -96,8 +96,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                            
 		                           ];
 		
-		
-		
 		$scope.tabs = [{
 	        slug: 'series',
 	        title: "Series",
@@ -107,20 +105,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 	        title: "Favorites",
 	        content: $scope.favorites
 	      }];
-		
-		
-		$scope.series_tab = {
-			slug: 'series',
-	        title: "Series",
-	        content: $scope.series
-		};
-		$scope.fav_tab = {
-			slug:'fav',
-			title: "Favorites",
-			content: $scope.favorites
-		};
-		
-		
 		
 		
 		//init
