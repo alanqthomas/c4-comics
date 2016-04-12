@@ -6,7 +6,7 @@
 		<h2>Top Rated</h2>
 		<h2>Popular</h2>
 		<h2>Top Authors</h2>
-		<uib-tabset vertical='true'>
+		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
         		<p>{{tab.content}}</p>
         		
