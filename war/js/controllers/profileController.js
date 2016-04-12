@@ -1,31 +1,37 @@
 "use strict";
-
-
-
 (function() {
-
-
 //angular.module('c4', ['ngAnimate', 'ui.bootstrap']);
 angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams',
                                     function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams){	
-	
-	
-	
+		//initalize and query db
+		$scope.profile_id = $stateParams.id;
+		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
+			function(resp){	
+				console.log(resp);
+				$scope.name = resp.username;
+				$scope.comics = resp.userSeries;
+				$scope.fav = resp.favorites;
+				$scope.bio = resp.biography;
+				$scope.series = resp.series;
+				console.log("user found with url ID");
+			}, function(resp){
+				console.log("error no user found for url ID");
+				$scope.name = "No User Found For This ID";
+				$scope.comics;
+				$scope.fav;
+				$scope.bio = "Write a biography here!";
+			}
+		);
+		$scope.$apply;
 		//this is image url for initial display
 		$scope.series = ['http://media.salon.com/2014/10/archie_comics.jpg',
 		                 "http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
 		                 "http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
 		                 "http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg"
 		                 ];
-	
 		$scope.favorites = ['http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
 		                    'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
 		                    ];
-		
-		
-		
-		
-		
 		//this is added for infinite scroll
 		$scope.series_reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
@@ -79,9 +85,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/25.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/26.jpg",
 		                   ];
-		
-		
-		
 		$scope.favorites_reserved= ["http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
@@ -105,40 +108,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 	        title: "Favorites",
 	        content: $scope.favorites
 	      }];
-		
-		
-		//init
-		$scope.profile_id = $stateParams.id;
-		$scope.name = "Profile Name";
-		$scope.comics;
-		$scope.fav;
-		$scope.bio = "Write a biography here!",
-		//fetch our db user info.
-		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
-			function(resp){	
-				console.log(resp);
-				$scope.name=resp.username;
-				$scope.comics=resp.userSeries;
-				$scope.fav=resp.favorites;
-				$scope.bio=resp.biography;
-				console.log("user found with url ID");
-			}, function(resp){
-				console.log("error no user found for url ID");
-				$scope.name="Not Found";
-			}
-		);
-		$scope.$apply;
-		//set display boolean
-		$scope.editVisible = ($scope.profile_id == $scope.userId);
-		
-		
-		
-		
-		
-		
-		
 		$scope.series_loadMore = function(parameter1) {
-			
 			//pushes images to the array. load more
 			if ($scope.series_reserves.length > 0){
 				for(var i = 1; i <= 1; i++) {

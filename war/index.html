@@ -47,41 +47,32 @@
 </head>
 
 <body ng-app="c4">
-	<div class="container-fluid" ng-controller="navCtrl">
-<!-- C4comics search not prof dropdown -->
-		<div class="row-fluid" id="navRow">
-			<div class="col-xs-4"><span ui-sref="home">C4comics</span></div>
-			<div class="col-xs-4">
-				<form ng-submit="navSearch()" class="hidden-xs">
-					<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
-					<i class="material-icons" ng-click="navSearch()">search</i>
-				</form>
-				<span class="visible-xs-block">
-					<!-- Make a dropdown thing on ng-click-->
-					<i class="material-icons">search</i>
-				</span>
-			</div>
-			<div class="col-xs-4">
-				<!-- Make a dropdown thing on ng-click -->
-				<i class="material-icons">notifications</i>
-				{{username}}
-				<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-hide="hideProfilePic" ng-click="navProfile()">
-				<span class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<i class="material-icons">list</i>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a ui-sref="browse">Browse</a></li>
-							<li data-toggle="modal" data-target="#settingsModal"><a>Settings</a></li>
-							<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
-						</ul>
-					</a>
-				</span>
-			</div>
-		</div>
-
+	<div ng-controller="navCtrl" id="navRow">
+		<span ui-sref="home" class="navSpan">C4comics</span>
+		<form ng-submit="navSearch()" class="hidden-xs">
+			<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
+			<i class="material-icons" ng-click="navSearch()">search</i>
+		</form>
+		<span class="visible-xs-block navSpan">
+		<!-- Make a dropdown thing on ng-click-->
+			<i class="material-icons">search</i>
+		</span>
+		<!-- Make a dropdown thing on ng-click -->
+		<i class="material-icons">notifications</i>{{username}}<!-- 
+	 --><img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-hide="hideProfilePic" ng-click="navProfile()">
+		<span class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown">
+				<i class="material-icons">list</i>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a ui-sref="browse">Browse</a></li>
+					<li data-toggle="modal" data-target="#settingsModal"><a>Settings</a></li>
+					<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
+				</ul>
+			</a>
+		</span>
 	<!-- Navbar Settings Modal -->
 	<div id="settingsModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -126,7 +117,8 @@
 		<a ui-sref="browse">Browse</a>
 		<a ui-sref="search">Search</a>
 	</div>
-	<div ui-view></div>
+</div>
+<div ui-view></div>
 
 	<!-- Enable livereload for development -->
 	<script src="//localhost:35729/livereload.js"></script>

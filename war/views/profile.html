@@ -1,5 +1,3 @@
-
-
 <div ng-controller="profileCtrl">
 	<div>
 	<h4 id="authorName"></h4>
@@ -11,14 +9,13 @@
 			<br><br><br><br><br><br><br><br>
 			<br><br><br>
 			<!-- idk what you are tring to do here, but cols go in rows, not containers.-->
-			<div class="row">
-				<div class="container">
+			<div class="container">
+				<div class="row">
 					<div class="col-xs-2">
 						<img src='http://s3.amazonaws.com/37assets/svn/765-default-avatar.png' class='img-repsonsive' width=150px height=150px>
 					</div>
-					<div class='col-xs-7'>
-						<h1 id="name">name: {{name}}</h1>
-						<h1>profile id: {{profile_id}}</h1>
+					<div class='col-xs-10'>
+						<h1 id="name">{{name}}</h1>
 					</div>
 				</div>
 			</div>
@@ -34,12 +31,12 @@
 			<p>{{bio}}</p><i class="material-icons">edit</i>
 		</div>
 	</div>
-	
 	<div class='container'>
 		<uib-tabset>
-	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
+	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
+
 	        	<div infinite-scroll='series_loadMore()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
-		        	<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat='x in tab.content'>
+		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
 		        		<img ng-src={{x}} class='img-responsive'>
 		        	</div>
 				</div>
