@@ -20,8 +20,66 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 	
 		$scope.favorites = ['http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
 		                    'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
-		                    
 		                    ];
+		
+		
+		
+		
+		
+		
+		$scope.reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/4.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/5.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/6.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/7.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/8.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/9.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/10.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/11.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/12.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/13.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/14.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/15.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/16.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/17.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/18.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/19.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/20.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/22.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/23.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/24.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/25.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/1.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/2.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/3.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/4.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/5.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/6.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/7.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/8.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/9.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/10.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/11.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/12.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/13.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/14.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/15.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/16.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/17.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/18.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/19.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/20.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/21.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/22.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/23.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/24.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/25.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/16/26.jpg",
+		                   
+		                   ];
 		
 		
 		
@@ -62,6 +120,23 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		$scope.$apply;
 		//set display boolean
 		$scope.editVisible = ($scope.profile_id == $scope.userId);
+		
+		
+		
+		
+		
+		
+		
+		$scope.loadMore = function() {
+			
+			//pushes images to the array. load more
+			if ($scope.reserves.length > 0){
+				for(var i = 1; i <= 1; i++) {
+					var image = $scope.reserves.shift();
+					$scope.series.push(image);
+				}
+			}
+		};
 		
 		
 		
