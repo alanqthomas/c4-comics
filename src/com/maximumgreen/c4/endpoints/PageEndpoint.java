@@ -100,8 +100,10 @@ public class PageEndpoint {
 	public Page insertPage(Page page) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsPage(page)) {
-				throw new EntityExistsException("Object already exists");
+			if (page.getId() != null){
+				if (containsPage(page)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
 			mgr.makePersistent(page);
 		} finally {
