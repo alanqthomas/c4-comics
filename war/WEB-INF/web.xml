@@ -7,7 +7,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>com.maximumgreen.c4.endpoints.C4UserEndpoint,com.maximumgreen.c4.endpoints.ComicEndpoint,com.maximumgreen.c4.endpoints.CommentEndpoint,com.maximumgreen.c4.endpoints.GcsEndpoint,com.maximumgreen.c4.endpoints.PageEndpoint,com.maximumgreen.c4.endpoints.SeriesEndpoint,com.maximumgreen.c4.endpoints.TagEndpoint</param-value>
+   <param-value>com.maximumgreen.c4.endpoints.BrowseEndpoint,com.maximumgreen.c4.endpoints.C4UserEndpoint,com.maximumgreen.c4.endpoints.ComicEndpoint,com.maximumgreen.c4.endpoints.CommentEndpoint,com.maximumgreen.c4.endpoints.GcsEndpoint,com.maximumgreen.c4.endpoints.PageEndpoint,com.maximumgreen.c4.endpoints.SeriesEndpoint,com.maximumgreen.c4.endpoints.TagEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>
