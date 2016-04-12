@@ -44,7 +44,10 @@ footer {
     color: black; }
 
 #profilePicNav {
-  width: 25%; }
+  height: 25%; }
+
+.navSpan {
+  display: table-cell; }
 
 .span12 {
   text-align: center; }
