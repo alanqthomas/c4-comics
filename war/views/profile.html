@@ -40,14 +40,33 @@
 	
 	<div class='container'>
 		<uib-tabset>
+			
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
 	        	
-	        	<div infinite-scroll='loadMore()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
+				
+	        	<div infinite-scroll='series_loadMore()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
 		        	<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat='x in tab.content'>
 		        		<img ng-src={{x}} class='img-responsive'>
 		        	</div>
 				</div>
 	        </uib-tab>
+	        
+	         <!-- 
+	        <uib-tab heading="{{series_tab.title}}" active="series_tab.active" select="onTabSelected(series_tab.slug)">
+	        	<div infinite-scroll='series_loadMore()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
+		        	<div class='col-sm-6 col-md-4 col-lg-3' ng-repeat='x in {{series_tab.content}}'>
+		        		<img ng-src={{x}} class='img-responsive'>
+		        	</div>
+				</div>
+	        </uib-tab>
+	        
+	        <uib-tab heading="{{fav_tab.title}}" active="fav_tab.active" select='onTabSelected(fav_tab.slug)'>
+	        	stuff again
+	        </uib-tab>
+	        
+	         -->
+	        
+	        
 	          <!-- 
 	        <uib-tab heading="tab1">Tab 1 content</uib-tab>
 	        <uib-tab heading='tab2'>Tab 2 content</uib-tab> -->

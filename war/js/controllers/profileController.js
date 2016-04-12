@@ -27,7 +27,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		
 		
 		
-		$scope.reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
+		$scope.series_reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/4.jpg",
@@ -78,8 +78,23 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/24.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/25.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/26.jpg",
-		                   
 		                   ];
+		
+		
+		
+		$scope.favorites_reserved= ["http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/4.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/5.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/6.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/7.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/8.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/9.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/10.jpg",
+		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/11.jpg",
+		                            
+		                           ];
 		
 		
 		
@@ -93,6 +108,17 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 	        content: $scope.favorites
 	      }];
 		
+		
+		$scope.series_tab = {
+			slug: 'series',
+	        title: "Series",
+	        content: $scope.series
+		};
+		$scope.fav_tab = {
+			slug:'fav',
+			title: "Favorites",
+			content: $scope.favorites
+		};
 		
 		
 		
@@ -127,17 +153,22 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		
 		
 		
-		$scope.loadMore = function() {
+		$scope.series_loadMore = function(parameter1) {
 			
 			//pushes images to the array. load more
-			if ($scope.reserves.length > 0){
+			if ($scope.series_reserves.length > 0){
 				for(var i = 1; i <= 1; i++) {
-					var image = $scope.reserves.shift();
+					var image = $scope.series_reserves.shift();
 					$scope.series.push(image);
 				}
 			}
+			if ($scope.favorites_reserved.length > 0){
+				for(var i = 1; i <= 1; i++) {
+					var image = $scope.favorites_reserved.shift();
+					$scope.favorites.push(image);
+				}
+			}
 		};
-		
 		
 		
 		
