@@ -8,6 +8,22 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		$scope.predicate = 'name';
 		
 		
+
+		$scope.tabs = [{
+		    slug: 'trending',
+		    title: "Trending/Hot",
+		    content: "TRENDS/HOT"
+		}, {
+		    slug: 'newest',
+		    title: "Recent",
+		    content: "newest this week"
+		},{
+			slug: "top",
+			title: "Top",
+			content: "Top stuff here"
+		}];
+
+		
 		
 		$scope.order = function(predicate){
 			$scope.predicate = predicate;
