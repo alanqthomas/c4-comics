@@ -10,22 +10,18 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
                                     function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams){	
 	
 		$scope.tabs = [{
-	        slug: 'dashboard',
-	        title: "Dashboard",
-	        content: "Your Dashboard"
+	        slug: 'series',
+	        title: "Series",
+	        content: "Series"
 	      }, {
-	        slug: 'room-1',
-	        title: "Room 1",
-	        content: "Dynamic content 1"
-	      }, {
-	        slug: 'room-2',
-	        title: "Room 2",
-	        content: "Dynamic content 2"
+	        slug: 'fav',
+	        title: "Favorites",
+	        content: "Favorites"
 	      }];
-			$scope.msg = "Hello, profile";
-			$("#fav-cont").hide();
-			$("#follow-cont").hide();
+		
 			
+			
+		
 		//init
 		$scope.profile_id = $stateParams.id;
 		$scope.name = "Profile Name";

@@ -37,6 +37,21 @@
 	
 	<!-- bootstrap tabs -->
 	
+	
+	<div class='container'>
+		<uib-tabset>
+	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
+	          {{ tab.content }} 
+	        </uib-tab>
+	          <!-- 
+	        <uib-tab heading="tab1">Tab 1 content</uib-tab>
+	        <uib-tab heading='tab2'>Tab 2 content</uib-tab> -->
+	    </tabset>
+	</div>
+	
+	
+	
+	
 	<div class='container'>
 		<!-- example tab -->
 		<div class="container">
@@ -132,12 +147,8 @@
 		
 	-->
 		  
-	<tabset>
-        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
-          {{ tab.content }}
-        </tab>
-    </tabset>
-		
+	<!--  -->
+	
 		
 	
 	
