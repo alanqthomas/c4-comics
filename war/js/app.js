@@ -8,7 +8,7 @@ var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi',
 app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authService',
  function(GAuth,   GData,   GApi,   $rootScope,   $window,   $state,   authService){
 				
-		var CLIENT = '432508624556-h5pq1n44nmg5p21r55mubj54cnuptojv.apps.googleusercontent.com';
+		var CLIENT = '1083248008700-71nc8q8mmgq8fvtuocveont6su4djrne.apps.googleusercontent.com';
 		var BASE = '//' + window.location.host + '/_ah/api';
 		
 		GApi.load('c4userendpoint', 'v1', BASE).then(function(res){
