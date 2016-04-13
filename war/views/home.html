@@ -1,6 +1,17 @@
 <div ng-controller="homeCtrl">
-	<h1>Home Page</h1>
-	<h2>Top Rated</h2>
-	<h2>Popular</h2>
-	<h2>Top Authors</h2>
+
+	
+	<div class='container'>
+		<h1>Home Page</h1>
+		<h2>Top Rated</h2>
+		<h2>Popular</h2>
+		<h2>Top Authors</h2>
+		<uib-tabset>
+	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
+        		<p>{{tab.content}}</p>
+        		
+	        </uib-tab>
+	    </uib-tabset>
+	</div>
+
 </div>

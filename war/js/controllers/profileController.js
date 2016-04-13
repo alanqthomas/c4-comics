@@ -3,37 +3,17 @@
 //angular.module('c4', ['ngAnimate', 'ui.bootstrap']);
 angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams',
                                     function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams){	
-		//initalize and query db
-		$scope.profile_id = $stateParams.id;
-		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
-			function(resp){	
-				console.log(resp);
-				$scope.name = resp.username;
-				$scope.comics = resp.userSeries;
-				$scope.fav = resp.favorites;
-				$scope.bio = resp.biography;
-				$scope.series = resp.series;
-				console.log("user found with url ID");
-			}, function(resp){
-				console.log("error no user found for url ID");
-				$scope.name = "No User Found For This ID";
-				$scope.comics;
-				$scope.fav;
-				$scope.bio = "Write a biography here!";
-			}
-		);
-		$scope.$apply;
+	
+		//PLACE HOLDERS
 		//this is image url for initial display
-		$scope.series = ['http://media.salon.com/2014/10/archie_comics.jpg',
-		                 "http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
-		                 "http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
-		                 "http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg"
-		                 ];
-		$scope.favorites = ['http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
-		                    'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
-		                    ];
+		$scope.series = ['http://media.salon.com/2014/10/archie_comics.jpg'];
+		$scope.favorites = ['http://downloadicons.net/sites/default/files/favorite-icon-47070.png'];
 		//this is added for infinite scroll
-		$scope.series_reserves = ["http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
+		$scope.series_reserves = [
+							"http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
+							"http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
+							"http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg",
+		                   "http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/15/4.jpg",
@@ -85,7 +65,9 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/25.jpg",
 		                   "http://www.readcomics.net/images/manga/the-bunker/16/26.jpg",
 		                   ];
-		$scope.favorites_reserved= ["http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
+		$scope.favorites_reserved= [
+		                              'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
+		                              "http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/4.jpg",
@@ -98,15 +80,133 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/11.jpg",
 		                            
 		                           ];
-		$scope.tabs = [{
-	        slug: 'series',
-	        title: "Series",
-	        content: $scope.series
-	      }, {
-	        slug: 'fav',
-	        title: "Favorites",
-	        content: $scope.favorites
-	      }];
+		//initalize and query for profileEndpoints
+		$scope.profile_id = $stateParams.id;
+		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
+			function(resp){	
+				console.log(resp);
+				$scope.name = resp.username;
+				$scope.bio = resp.biography;
+				$scope.series_id = resp.userSeries;
+				//favorite series
+				$scope.favorites_series_id = resp.favoriteSeries;
+				//favorite author
+				$scope.favorites_author_id = resp.favoriteAuthors;
+				//favorite comics
+				$scope.favorites_comics_id = resp.favoriteComics;
+			}, function(resp){
+				console.log("error no user found for url ID");
+				$scope.name = "No User Found For This ID";
+				$scope.bio = "Write a biography here!";
+				$scope.series_id = [];
+				$scope.favorites_id = [];
+			}
+		);
+		//query for series
+		//take out following comment to take out placeholder
+		//$scope.series = [];
+		//$scope.favorites=[];
+		if($scope.series_id == null){
+			console.log("no seires")
+		}
+		else{
+			for(var i = 0;i < $scope.series_id.length; i ++){
+				GApi.execute("seriesendpoint","getSeries", {"id":$scope.series_id[i]}).then(
+					function(){$scope.series.push({
+							id:resp.id,
+							url:resp.bgImageURL,
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("no series found for "+$scope.series_id[i]);
+					}
+				);
+			}
+		}
+		
+		
+		//query for favorites series
+		if($scope.favorites_series_id == null){
+			console.log("no favorites series");
+		}
+		else{
+			for(var i = 0;i < $scope.favorite_series_id.length; i ++){
+				GApi.execute("seriesendpoint","getSeries", {"id":$scope.favorites_series_id[i]}).then(
+					function(){$scope.favorites.push({
+							id:resp.id,
+							url:resp.bgImageURL,
+							title:resp.title,
+							type:"series"
+						});
+					},
+					function(){
+						console.log("no series found for "+$scope.favorites_series_id[i]);
+					}
+				);
+			}
+		}
+		
+		//query for favorites comics
+		if($scope.favorites_comics_id == null){
+			console.log("no favorites comics");
+		}
+		else{
+			for(var i = 0;i < $scope.favorite_comics_id.length; i ++){
+				GApi.execute("comicendpoint","getComic", {"id":$scope.favorites_comics_id[i]}).then(
+					function(){$scope.favorites.push({
+							id:resp.id,
+							url:resp.bgImageURL,
+							title:resp.title,
+							type:"comic"
+						});
+					},
+					function(){
+						console.log("no comics found for "+$scope.favorites_comics_id[i]);
+					}
+				);
+			}
+		}
+		
+		//query for favorites author
+		if($scope.favorites_author_id == null){
+			console.log("no favorites author");
+		}
+		else{
+			for(var i = 0;i < $scope.favorite_author_id.length; i ++){
+				GApi.execute("c4userendpoint","getC4User", {"id":$scope.favorites_author_id[i]}).then(
+					function(){$scope.favorites.push({
+							id:resp.id,
+							url:resp.profileImageURL,
+							title:resp.username,
+							type:"user"
+						});
+					},
+					function(){
+						console.log("no comics found for "+$scope.favorites_comics_id[i]);
+					}
+				);
+			}
+		}
+
+		$scope.$apply;
+
+		//display tabs based on content
+		$scope.tabs = [];
+		if($scope.series.length>0){
+			$scope.tabs.push({
+				slug: 'series',
+		        title: "Series",
+		        content: $scope.series
+			});
+		}
+		if($scope.favorites.length>0){
+			$scope.tabs.push({
+				slug: 'fav',
+		        title: "Favorites",
+		        content: $scope.favorites
+			});
+		}
 		$scope.series_loadMore = function(parameter1) {
 			//pushes images to the array. load more
 			if ($scope.series_reserves.length > 0){

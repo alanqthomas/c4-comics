@@ -18,13 +18,13 @@ $nav-min-height: 32px;
 		vertical-align: middle;
 		color: $nav-text-color;
 	}
-	.hidden-xs {
-		display: inline;
-	}
 }
 #profilePicNav{
 	height: 100%;
 }
-.navSpan{
-	display: table-cell; 
+#navForm{
+	display: inline;
+}
+#navTitle{
+	display: inline;
 }

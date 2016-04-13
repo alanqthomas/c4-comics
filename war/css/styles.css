@@ -35,10 +35,6 @@ footer {
   display: none !important; }
 
 #navBuff {
-  left: 0px;
-  top: 0px;
-  min-height: 32px;
-  height: 8%;
   width: 100%; }
 
 #navRow {
@@ -54,14 +50,15 @@ footer {
   #navRow div {
     vertical-align: middle;
     color: black; }
-  #navRow .hidden-xs {
-    display: inline; }
 
 #profilePicNav {
   height: 100%; }
 
-.navSpan {
-  display: table-cell; }
+#navForm {
+  display: inline; }
+
+#navTitle {
+  display: inline; }
 
 .span12 {
   text-align: center; }

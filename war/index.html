@@ -39,17 +39,21 @@
 	<script src="https://code.angularjs.org/1.2.24/angular-animate.js"></script>
 </head>
 <body ng-app="c4">
-	<div id="navBuff" ng-style=" 'height' : {{navHeight}}+'px' "></div>
+	<div id="navBuff"></div>
 	<div ng-controller="navCtrl" id="navRow">
-		<span ui-sref="home" class="navSpan">C4comics</span><!--  
-	--><form ng-submit="navSearch()" class="hidden-xs">
-			<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
-			<i class="material-icons" ng-click="navSearch()">search</i>
-		</form>
-		<span class="visible-xs-inline navSpan">
-		<!-- Make a dropdown thing on ng-click-->
-			<i class="material-icons">search</i>
-		</span>
+		<span ui-sref="home" class="navSpan" id="navTitle">C4comics</span>
+		<!-- <span> -->
+			<form ng-submit="navSearch()" id="navForm">
+				<span class="hidden-xs">
+					<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
+					<i class="material-icons" ng-click="navSearch()">search</i>
+				</span>
+				<span class="visible-xs-inline">
+					<!-- Make a dropdown thing on ng-click -->
+					<i class="material-icons">search</i> 
+				</span>
+			</form>
+		<!-- </span> -->
 		<!-- Make a dropdown thing on ng-click -->
 		<i class="material-icons" ng-show="signedIn">notifications</i>
 		<span ng-show="signedIn">{{username}}</span>

@@ -4,7 +4,7 @@
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth','GApi', 'GData',
                                   function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
 	//display variables
-	$scope.navHeight = #navRow.css('height');
+	$('#navBuff').css('height', $('#navRow').css('height') );
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";

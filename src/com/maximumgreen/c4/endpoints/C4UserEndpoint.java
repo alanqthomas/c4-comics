@@ -335,14 +335,17 @@ public class C4UserEndpoint {
 	 */
 	@ApiMethod(name="addfavorite")
 	public void addFavorite(@Named("userId") String userId, 
-			@Nullable @Named("authorId") String authorId, @Nullable @Named("otherId") Long otherId)
+			@Nullable @Named("authorId") String authorId, @Nullable @Named("seriesId") Long seriesId,
+			@Nullable @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
-		if (authorId == null && otherId == null)
-			throw new BadRequestException("Both Ids cannot be null");
-		if (authorId != null && otherId != null)
-			throw new BadRequestException("One Id must be null");
+		if (authorId == null && seriesId == null && comicId == null)
+			throw new BadRequestException("All three Ids cannot be null");
+		if ((authorId != null && (seriesId != null || comicId != null))
+				|| (seriesId != null && (authorId != null || comicId != null))
+				|| (comicId != null && (authorId != null || seriesId != null)))
+			throw new BadRequestException("Two Ids must be null");
 		
 		C4User user;
 		
@@ -357,12 +360,20 @@ public class C4UserEndpoint {
 				user.addFavoriteAuthor(authorId);
 			}
 			
-			if (otherId != null){
-				if (user.getFavorites() == null){
+			if (seriesId != null){
+				if (user.getFavoriteSeries() == null){
 					List<Long> list = new ArrayList<Long>();
-					user.setFavorites(list);
+					user.setFavoriteSeries(list);
 				}
-				user.addFavorite(otherId);
+				user.addFavoriteSeries(seriesId);
+			}
+			
+			if (comicId != null){
+				if (user.getFavoriteComics() == null){
+					List<Long> list = new ArrayList<Long>();
+					user.setFavoriteComics(list);
+				}
+				user.addFavoriteComic(comicId);
 			}
 			
 			mgr.makePersistent(user);
@@ -384,14 +395,18 @@ public class C4UserEndpoint {
 	 */
 	@ApiMethod(name="deletefavorite")
 	public void deleteFavorite(@Named("userId") String userId, 
-			@Nullable @Named("authorId") String authorId, @Nullable @Named("otherId") Long otherId)
+			@Nullable @Named("authorId") String authorId, @Nullable @Named("seriesId") Long seriesId,
+			@Nullable @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
-		if (authorId == null && otherId == null)
-			throw new BadRequestException("Both Ids cannot be null");
-		if (authorId != null && otherId != null)
-			throw new BadRequestException("One Id must be null");
+		if (authorId == null && seriesId == null && comicId == null)
+			throw new BadRequestException("All three Ids cannot be null");
+		if ((authorId != null && (seriesId != null || comicId != null))
+				|| (seriesId != null && (authorId != null || comicId != null))
+				|| (comicId != null && (authorId != null || seriesId != null)))
+			throw new BadRequestException("Two Ids must be null");
+		
 		
 		C4User user;
 		
@@ -404,9 +419,15 @@ public class C4UserEndpoint {
 				}
 			}
 			
-			if (otherId != null){
-				if (user.getFavorites() == null){
-					user.deleteFavorite(otherId);
+			if (seriesId != null){
+				if (user.getFavoriteSeries() == null){
+					user.deleteFavoriteSeries(seriesId);
+				}
+			}
+			
+			if (comicId != null){
+				if (user.getFavoriteComics() == null){
+					user.deleteFavoriteComic(comicId);
 				}
 			}
 			

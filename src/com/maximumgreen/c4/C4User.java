@@ -57,7 +57,10 @@ public class C4User {
 	
 	//List of users favorite SERIES' ids.  User does NOT get update notifications
 	@Persistent
-	private List<Long> favorites;
+	private List<Long> favoriteSeries;
+	
+	//List of users favorite COMICS ids.  User does not get update notifications
+	private List<Long> favoriteComics;
 	
 	//List of users favorite AUTHORS.  User does NOT get update notifications
 	@Persistent
@@ -176,14 +179,22 @@ public class C4User {
 		this.userSeries = userSeries;
 	}
 
-	public List<Long> getFavorites() {
-		return favorites;
+	public List<Long> getFavoriteSeries() {
+		return favoriteSeries;
 	}
 
-	public void setFavorites(List<Long> favorites) {
-		this.favorites = favorites;
+	public void setFavoriteSeries(List<Long> favoriteSeries) {
+		this.favoriteSeries = favoriteSeries;
 	}
 
+	public List<Long> getFavoriteComics() {
+		return favoriteComics;
+	}
+
+	public void setFavoriteComics(List<Long> favoriteComics) {
+		this.favoriteComics = favoriteComics;
+	}
+	
 	public List<String> getFavoriteAuthors() {
 		return favoriteAuthors;
 	}
@@ -241,11 +252,18 @@ public class C4User {
 		return userSeries.remove(id);
 	}
 	
-	public  boolean addFavorite(Long id) {
-		return favorites.add(id);
+	public  boolean addFavoriteSeries(Long id) {
+		return favoriteSeries.add(id);
 	}
-	public boolean deleteFavorite(Long id){
-		return favorites.remove(id);
+	public boolean deleteFavoriteSeries(Long id){
+		return favoriteSeries.remove(id);
+	}
+	
+	public  boolean addFavoriteComic(Long id) {
+		return favoriteComics.add(id);
+	}
+	public boolean deleteFavoriteComic(Long id){
+		return favoriteComics.remove(id);
 	}
 	
 	public boolean addFavoriteAuthor(String id){
