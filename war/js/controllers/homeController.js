@@ -7,11 +7,29 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		$scope.msg = "Scores";
 		$scope.predicate = 'name';
 		
+		$scope.top_comics = [];
+		$scope.top_comics_reserve = [];
+		$scope.popular_comics = [];
+		$scope.popular_comics_reserve = [];
+		$scope.hot_comics = [];
+		$scope.hot_comics_reserve = [];
+		$scope.recent_comics = [];
+		$scope.recent_comics_reserve = [];
+			
+		
+		
+		
+		$scope.top_load_more = function(){
+			if($scope.top_comics_reserve.length>0){
+				$scope.top_comics.push($scope.top_comics_reserve.shift());
+			}
+		};
+		
 		$scope.tabs = [{
 			slug: "top",
 			title: "Top",
-			content: $scope.top_comics,
-			load_m: "top_load_more()",
+			content:$scope.top_comics,
+			load_m: $scope.top_load_more,
 			def_text:"No Top Comics Yet"
 		},{
 			slug: "popular",
@@ -34,15 +52,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		}];
 		
 		
-		$scope.top_comics = [];
-		$scope.top_comics_reserve = [];
-		$scope.popular_comics = [];
-		$scope.popular_comics_reserve = [];
-		$scope.hot_comics = [];
-		$scope.hot_comics_reserve = [];
-		$scope.recent_comics = [];
-		$scope.recent_comics_reserve = [];
-		
+		$scope.s = $scope.top_load_more;
 		
 		//query for homepage. 
 		GApi.execute( "homeendpoint","getHomepage").then(
@@ -82,7 +92,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				);
 			}
 			if($scope.top_comics_reseve.length>0){
-				$scope.tabs[0].def_text='';
+				
 				$scope.top_comics.push($scope.top_comics_reserve.shift());
 			}
 		}	
@@ -105,7 +115,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				);
 			}
 			if($scope.popular_comics_reseve.length>0){
-				$scope.tabs[1].def_text='';
+
 				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
 			}
 		}
@@ -127,7 +137,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				);
 			}
 			if($scope.hot_comics_reseve.length>0){
-				$scope.tabs[2].def_text='';
+
 				$scope.hot_comics.push($scope.hot_comics_reserve.shift());
 			}
 		}
@@ -150,16 +160,52 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				);
 			}
 			if($scope.recent_comics_reseve.length>0){
-				$scope.tabs[3].def_text='';
+
 				$scope.recent_comics.push($scope.recent_comics_reserve.shift());
 			}
 		}
 		
-		$scope.top_load_more = function(){
-			if($scope.top_comics_reserve.length>0){
-				$scope.top_comics.push($scope.top_comics_reserve.shift());
-			}
-		};
+		
+		$scope.top_comics.push({
+			src:"http://www.readcomics.net/images/manga/dc-comics-bombshells/1/2.jpg"
+		});
+		$scope.top_comics.push({
+			src:"http://www.readcomics.net/images/manga/dc-comics-bombshells/1/3.jpg"
+		});
+		
+		$scope.top_comics_reserve.push({
+			src:"http://www.readcomics.net/images/manga/adventure-time/1/1.jpg"
+		});
+		$scope.top_comics_reserve.push({
+			src:"http://www.readcomics.net/images/manga/adventure-time/1/2.jpg"
+		});
+		$scope.top_comics_reserve.push({
+			src:"http://www.readcomics.net/images/manga/adventure-time/1/3.jpg"
+		});
+		$scope.top_comics_reserve.push({
+			src:"http://www.readcomics.net/images/manga/adventure-time/1/4.jpg"
+		});
+		
+		
+		
+		
+		if($scope.top_comics.length > 0 ){
+			$scope.tabs[0].def_text='';
+		}
+		if($scope.popular_comics.length>0){
+			$scope.tabs[1].def_text='';
+		}
+		if($scope.hot_comics.length>0){
+			$scope.tabs[2].def_text='';
+		}
+		if($scope.recent_comics.length>0){
+			$scope.tabs[3].def_text='';
+		}
+		
+		
+		
+		//$scope.top_load_more();
+		
 		$scope.popular_load_more = function(){
 			if($scope.popular_comics_reserve.length>0){
 				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
@@ -182,7 +228,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		
 		
 		
-		
+		/*
 		$scope.order = function(predicate){
 			$scope.predicate = predicate;
 		};		
@@ -228,7 +274,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				});
 			});
 		};
-		
+		*/
 }]);
 
 
