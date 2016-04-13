@@ -1,6 +1,4 @@
-#################
-## Eclipse
-#################
+# Eclipse
 
 *.pydevproject
 .metadata
@@ -12,6 +10,7 @@ tmp/
 *~.nib
 local.properties
 .loadpath
+.prefs
 
 # Folder config file
 Desktop.ini
@@ -26,6 +25,7 @@ $RECYCLE.BIN/
 *.jar
 *.class
 *.api
+.bin
 war/WEB-INF/lib/
 
 # NPM
