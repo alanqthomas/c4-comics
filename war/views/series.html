@@ -1,12 +1,13 @@
 <div ng-controller="seriesCtrl">
 	<div class='container1'>
 		<div> 
+			<p>{{bg_img}}</p>
 			<!-- have some way of extracting current user -->
 			<br><br><br><br><br><br>
 			<div class='container'>
 				<div class="row">
-					<h1 class="h1_centered" style='text-align:center'>series name:{{series_name}}</h1>
-					<h1 class="h1_centered" style='text-align:center'>by: {{author_name}}</h1>
+					<h1 class="h1_centered" style='text-align:center'>{{series_name}}</h1>
+					<h1 class="h1_centered" style='text-align:center'>{{author_name}}</h1>
 				</div>
 			</div>
 			<br><br><br><br><br><br>
@@ -30,17 +31,17 @@
 			<h3>Comics</h3>
 		</div>
 		<!-- if there are pages -->
-		<div ng-if='pages_bool==true'>
+		<div ng-if='comics.length > 0'>
 			<!-- TODO, need to dynamically generate pages -->
 			<!-- to my understanding how infi scroll works
 			calls loadMore() everytime at end. Ng-repeat to generate images
 			 -->
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
-			  <img ng-repeat='image in images' ng-src='http://placehold.it/225x250&text={{image}}'>
+			  <img ng-repeat='image in comics' ng-src='http://placehold.it/225x250&text={{image}}'>
 			</div>
 		</div>
 		<!-- if there are no pages -->
-		<div ng-if='pages_bool!=true'>
+		<div ng-if='comics.length == 0'>
 			<p>No Pages Available, Sorry :(</p>
 		</div>
 	</div>

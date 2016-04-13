@@ -3,8 +3,6 @@
 //angular.module('c4', ['ngAnimate', 'ui.bootstrap']);
 angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams',
                                     function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams){	
-			
-	
 		//PLACE HOLDERS
 		//this is image url for initial display
 		$scope.series = ['http://media.salon.com/2014/10/archie_comics.jpg'];
@@ -81,9 +79,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/11.jpg",
 		                            
 		                           ];
-	
-	
-	
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
 		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
@@ -107,6 +102,10 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			}
 		);
 		
+		//for the images, the url is created by buildURL(id, type);
+		
+		
+		
 		//query for series
 		//take out following comment to take out placeholder
 		//$scope.series = [];
@@ -117,7 +116,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.series_id.length; i ++){
 				GApi.execute("seriesendpoint","getSeries", {"id":$scope.series_id[i]}).then(
-					function(){$scope.series.push({
+					function(){$scope.series_reserve.push({
 							id:resp.id,
 							url:resp.bgImageURL,
 							title:resp.title
@@ -127,9 +126,12 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 						console.log("no series found for "+$scope.series_id[i]);
 					}
 				);
+				//put one in the initial
+				if($scope.series_reserve.length > 0){
+					$scope.series.push($scope.series_reserve.shift());
+				}
 			}
 		}
-		
 		
 		//query for favorites series
 		if($scope.favorites_series_id == null){
@@ -138,7 +140,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_series_id.length; i ++){
 				GApi.execute("seriesendpoint","getSeries", {"id":$scope.favorites_series_id[i]}).then(
-					function(){$scope.favorites.push({
+					function(){$scope.favorites_reserve.push({
 							id:resp.id,
 							url:resp.bgImageURL,
 							title:resp.title,
@@ -159,7 +161,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_comics_id.length; i ++){
 				GApi.execute("comicendpoint","getComic", {"id":$scope.favorites_comics_id[i]}).then(
-					function(){$scope.favorites.push({
+					function(){$scope.favorites_reserve.push({
 							id:resp.id,
 							url:resp.bgImageURL,
 							title:resp.title,
@@ -180,7 +182,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_author_id.length; i ++){
 				GApi.execute("c4userendpoint","getC4User", {"id":$scope.favorites_author_id[i]}).then(
-					function(){$scope.favorites.push({
+					function(){$scope.favorites_reserve.push({
 							id:resp.id,
 							url:resp.profileImageURL,
 							title:resp.username,
@@ -193,19 +195,10 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				);
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
+		if($scope.favorites_reserve != null && $scope.favorites_reserve.length > 0){
+			$scope.favorites.push($scope.favorites.shift());
+		}
 		$scope.$apply;
-		
-		
-		
-		
 		
 		//display tabs base on content
 		$scope.tabs = [];
@@ -223,167 +216,15 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		        content: $scope.favorites
 			});
 		}
-		
-		
-		/*
-		$scope.tabs = [{
-	        slug: 'series',
-	        title: "Series",
-	        content: $scope.series
-	      }, {
-	        slug: 'fav',
-	        title: "Favorites",
-	        content: $scope.favorites
-	      }];*/
-		
-		$scope.series_loadMore = function(parameter1) {
+		$scope.series_loadMore = function() {
 			//pushes images to the array. load more
 			if ($scope.series_reserves.length > 0){
-				for(var i = 1; i <= 1; i++) {
-					var image = $scope.series_reserves.shift();
-					$scope.series.push(image);
-				}
+				$scope.series.push($scope.series_reserves.shift());
 			}
 			if ($scope.favorites_reserved.length > 0){
-				for(var i = 1; i <= 1; i++) {
-					var image = $scope.favorites_reserved.shift();
-					$scope.favorites.push(image);
-				}
+				$scope.favorites.push($scope.favorites_reserved.shift());
 			}
 		};
-		
-		
-		
-		
-		
-		
-		/*
-		since its only get user, i dont need extra methods
-		
-		$scope.getComics=function(){
-			//this is the parameter object
-			var resultReq={
-				"id":$scope.profile_id
-			};
-			//execute using (endpoint, method for endpoint, parameter for method)
-			//then do (if true) $scope.value = resp.items (get the result)
-			//(if false) print error
-			GApi.execute("C4UserEndpoint", "getC4User", resultReq).then(
-				function(resp){
-					//there is only getC4User, not sure how to generate comics from there
-					$scope.comics=resp.items;
-				},function(resp){
-					console.log("error no result");
-				}
-			);
-		}
-		
-		
-		$scope.getFavorites=function(){
-			var resultReq={
-				"id":$scope.profile_id
-			};
-			GApi.execute("C4UserEndpoint","getC4User",resultReg).then(
-				function(resp){
-					//this is the user object, not sure how to generate the favorites from the C4User
-					$scope.fav=resp.items;
-				},function(resp){
-					console.log("error no favs");
-				}
-			);
-		}
-		
-		
-		$scope.getBio=function(){
-			var resultReq={
-				"id":$scope.profile_id
-			};
-			GApi.execute("C4UserEndpoint","getBio", resultReq).then(
-				function(resp){
-					$scope.bio=resp.items;
-				},function(resp){
-					console.log("errors no bio");
-				}
-			);
-		}
-		*/
-		
-		/*
-		old tabs js
-		$('#series').click(function(){
-		
-			if($('#srs-cont').is(':visible'))
-			{
-				$('#srs-cont').hide();
-				$('#series').css('color','black');
-			}
-			else 
-			{
-				$('#srs-cont').show();
-				$('#series').css('color','red');
-				//hide others
-				if($('#fav-cont').is(':visible'))
-				{
-					$('#fav-cont').hide();
-					$('#fav').css('color','black');
-				}
-				if($('#follow-cont').is(':visible'))
-				{
-					$('#follow-cont').hide();
-					$('#follow').css('color','black');
-				}
-			}
-		});
-
-		$('#fav').click(function(){
-			if($('#fav-cont').is(':visible'))
-			{
-				$('#fav-cont').hide();
-				$('#fav').css('color','black');
-			}
-			else
-			{
-				$('#fav-cont').show();
-				$('#fav').css('color','red');
-				//hide others
-				if($('#srs-cont').is(':visible'))
-				{
-					$('#srs-cont').hide();
-					$('#series').css('color','black');
-				}
-				if($('#follow-cont').is(':visible'))
-				{
-					$('#follow-cont').hide();
-					$('#follow').css('color','black');
-				}
-			}
-		});
-	
-		$('#follow').click(function(){
-			if($('#follow-cont').is(':visible'))
-			{
-				$('#follow-cont').hide();
-				$('#follow').css('color','black');
-			}
-			else
-			{
-				$('#follow-cont').show();
-				$('#follow').css('color','red');
-				//hide others
-				if($('#srs-cont').is(':visible'))
-				{
-					$('#srs-cont').hide();
-					$('#series').css('color','black');
-				}
-				if($('#fav-cont').is(':visible'))
-				{
-					$('#fav-cont').hide();
-					$('#fav').css('color','black');
-				}
-			}
-		});
-		
-		*/
 }]);
 })();
 

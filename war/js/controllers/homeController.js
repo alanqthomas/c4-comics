@@ -7,22 +7,180 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		$scope.msg = "Scores";
 		$scope.predicate = 'name';
 		
-		
-
 		$scope.tabs = [{
-		    slug: 'trending',
-		    title: "Trending/Hot",
-		    content: "TRENDS/HOT"
-		}, {
-		    slug: 'newest',
-		    title: "Recent",
-		    content: "newest this week"
-		},{
 			slug: "top",
 			title: "Top",
-			content: "Top stuff here"
+			content: $scope.top_comics,
+			load_m: "top_load_more()",
+			def_text:"No Top Comics Yet"
+		},{
+			slug: "popular",
+			title: "Popular",
+			content: $scope.popular_comics,
+			load_m: "popular_load_more()",
+			def_text:"No Popular Comics Yet"
+		},{
+		    slug: 'hot',
+		    title: "Hot",
+		    content: $scope.hot_comics,
+		    load_m: "hot_load_more()",
+		    def_text: "No Hot Comics Yet"
+		},{
+		    slug: 'newest',
+		    title: "Recent",
+		    content: $scope.recent_comics,
+		    load_m: "newest_load_more()",
+		    def_text: "No Recent Comics Yet"
 		}];
-
+		
+		
+		$scope.top_comics = [];
+		$scope.top_comics_reserve = [];
+		$scope.popular_comics = [];
+		$scope.popular_comics_reserve = [];
+		$scope.hot_comics = [];
+		$scope.hot_comics_reserve = [];
+		$scope.recent_comics = [];
+		$scope.recent_comics_reserve = [];
+		
+		
+		//query for homepage. 
+		GApi.execute( "homeendpoint","getHomepage").then(
+			function(resp){	
+				//they are all comics, not series
+				//rating
+				$scope.top_comics_id = resp.topComicsId;
+				//most viewed
+				$scope.popular_comics_id = resp.popularComicsId;
+				//viewed over time
+				$scope.hot_comics_id = resp.hotComicsId;
+				//newest
+				$scope.recent_comics = resp.recentComicsId;
+			}, function(resp){
+				$scope.top_comics_id = null;
+				$scope.popular_comics_id = null;
+				$scope.hot_comics_id = null;
+				$scope.recent_comics = null;
+			}
+		);
+		
+		//query for each category of comics
+		//TOP 
+		if($scope.top_comics_id != null){
+			for(var i = 0; i < $scope.top_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.top_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.top_comics_id[i]);
+					}
+				);
+			}
+			if($scope.top_comics_reseve.length>0){
+				$scope.tabs[0].def_text='';
+				$scope.top_comics.push($scope.top_comics_reserve.shift());
+			}
+		}	
+		
+		
+		//POPULAR
+		if($scope.popular_comics_id != null){
+			for(var i = 0; i < $scope.popular_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.popular_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.popular_comics_id[i]);
+					}
+				);
+			}
+			if($scope.popular_comics_reseve.length>0){
+				$scope.tabs[1].def_text='';
+				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
+			}
+		}
+		
+		//HOT
+		if($scope.hot_comics_id != null){
+			for(var i = 0; i < $scope.hot_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.hot_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.hot_comics_id[i]);
+					}
+				);
+			}
+			if($scope.hot_comics_reseve.length>0){
+				$scope.tabs[2].def_text='';
+				$scope.hot_comics.push($scope.hot_comics_reserve.shift());
+			}
+		}
+		
+		
+		//RECENT
+		if($scope.recent_comics_id != null){
+			for(var i = 0; i < $scope.recent_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.recent_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.recent_comics_id[i]);
+					}
+				);
+			}
+			if($scope.recent_comics_reseve.length>0){
+				$scope.tabs[3].def_text='';
+				$scope.recent_comics.push($scope.recent_comics_reserve.shift());
+			}
+		}
+		
+		$scope.top_load_more = function(){
+			if($scope.top_comics_reserve.length>0){
+				$scope.top_comics.push($scope.top_comics_reserve.shift());
+			}
+		};
+		$scope.popular_load_more = function(){
+			if($scope.popular_comics_reserve.length>0){
+				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
+			}
+		};
+		$scope.hot_load_more = function(){
+			if($scope.hot_comics_reserve.length>0){
+				$scope.hot_comics.push($scope.hot_comics_reserve.shift());
+			}
+		};
+		$scope.recent_load_more = function(){
+			if($scope.recent_comics_reserve.length>0){
+				$scope.recent_comics.push($scope.recent_comics_reserve.shift());
+			}
+		};
+		
+		
+		
+		
+		
+		
 		
 		
 		$scope.order = function(predicate){

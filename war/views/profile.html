@@ -34,7 +34,6 @@
 	<div class='container'>
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
-
 	        	<div infinite-scroll='series_loadMore()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
 		        		<img ng-src={{x}} class='img-responsive'>

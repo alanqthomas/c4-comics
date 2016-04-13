@@ -79,4 +79,8 @@ footer {
 .list-inline {
   white-space: nowrap; }
 
+.container-full {
+  margin: 0 auto;
+  width: 90%; }
+
 /*# sourceMappingURL=styles.css.map */

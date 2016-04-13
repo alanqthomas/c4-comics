@@ -1,17 +1,18 @@
 <div ng-controller="homeCtrl">
-
-	
-	<div class='container'>
+	<div class='container-full' style='text-align:center'>
 		<h1>Home Page</h1>
 		<h2>Top Rated</h2>
 		<h2>Popular</h2>
 		<h2>Top Authors</h2>
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
-        		<p>{{tab.content}}</p>
-        		
+        		<div infinite-scroll=tab.load_m infinite-scroll-distance='0.01' infinite-scroll-immediate-check="false">
+        			<p>{{tab.def_text}}</p>
+        			<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
+		        		<img ng-src={{x.src}} class='img-responsive'>
+		        	</div>
+        		</div>
 	        </uib-tab>
 	    </uib-tabset>
 	</div>
-
 </div>
