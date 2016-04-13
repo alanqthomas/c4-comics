@@ -34,17 +34,31 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
+#navBuff {
+  left: 0px;
+  top: 0px;
+  min-height: 32px;
+  height: 8%;
+  width: 100%; }
+
 #navRow {
+  position: fixed;
+  left: 0px;
+  top: 0px;
   vertical-align: middle;
-  color: black; }
+  color: black;
+  min-height: 32px;
+  height: 8%; }
   #navRow a {
     color: black; }
   #navRow div {
     vertical-align: middle;
     color: black; }
+  #navRow .hidden-xs {
+    display: inline; }
 
 #profilePicNav {
-  height: 25%; }
+  height: 100%; }
 
 .navSpan {
   display: table-cell; }

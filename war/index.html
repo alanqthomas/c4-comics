@@ -33,39 +33,33 @@
 	<script src="lib/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 	<!-- Angular Infinite Scroll -->
 	<script src="lib/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-
 	<!-- this version of angular bootstrap work for tabs.  -->
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.1.js"></script>
-    
-    
     <!-- Angular Animation  -->
 	<script src="https://code.angularjs.org/1.2.24/angular-animate.js"></script>
-
-
-	
-	
 </head>
-
 <body ng-app="c4">
+	<div id="navBuff" ng-style=" 'height' : {{navHeight}}+'px' "></div>
 	<div ng-controller="navCtrl" id="navRow">
-		<span ui-sref="home" class="navSpan">C4comics</span>
-		<form ng-submit="navSearch()" class="hidden-xs">
+		<span ui-sref="home" class="navSpan">C4comics</span><!--  
+	--><form ng-submit="navSearch()" class="hidden-xs">
 			<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
 			<i class="material-icons" ng-click="navSearch()">search</i>
 		</form>
-		<span class="visible-xs-block navSpan">
+		<span class="visible-xs-inline navSpan">
 		<!-- Make a dropdown thing on ng-click-->
 			<i class="material-icons">search</i>
 		</span>
 		<!-- Make a dropdown thing on ng-click -->
-		<i class="material-icons">notifications</i>{{username}}<!-- 
-	 --><img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-hide="hideProfilePic" ng-click="navProfile()">
+		<i class="material-icons" ng-show="signedIn">notifications</i>
+		<span ng-show="signedIn">{{username}}</span>
+		<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
 		<span class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown">
 				<i class="material-icons">list</i>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a ui-sref="browse">Browse</a></li>
-					<li data-toggle="modal" data-target="#settingsModal"><a>Settings</a></li>
+					<li data-toggle="modal" data-target="#settingsModal" ng-show="signedIn"><a>Settings</a></li>
 					<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
 				</ul>
 			</a>
@@ -119,8 +113,7 @@
 	</div>
 </div>
 <div ui-view></div>
-
-	<!-- Enable livereload for development -->
-	<script src="//localhost:35729/livereload.js"></script>
+<!-- Enable livereload for development -->
+<script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>

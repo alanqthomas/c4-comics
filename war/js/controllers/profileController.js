@@ -98,7 +98,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		                            "http://www.readcomics.net/images/manga/deadpool-2016/1/11.jpg",
 		                            
 		                           ];
-		
 		$scope.tabs = [{
 	        slug: 'series',
 	        title: "Series",
@@ -123,12 +122,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				}
 			}
 		};
-		
-		
-		
-		
-		
-		
+		$scope.$apply;
 		/*
 		since its only get user, i dont need extra methods
 		

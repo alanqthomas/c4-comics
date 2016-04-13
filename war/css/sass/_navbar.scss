@@ -1,7 +1,16 @@
-$nav-text-color:rgba(0,0,0,255);
+$nav-text-color: rgba(0,0,0,255);
+$nav-min-height: 32px;
+#navBuff{
+	width: 100%;
+}
 #navRow{
+	position:fixed;
+	left: 0px;
+	top: 0px;
 	vertical-align: middle;
 	color: $nav-text-color;
+	min-height: $nav-min-height;
+	height: 8%;
 	a {
 		color: $nav-text-color;
 	}
@@ -9,9 +18,12 @@ $nav-text-color:rgba(0,0,0,255);
 		vertical-align: middle;
 		color: $nav-text-color;
 	}
+	.hidden-xs {
+		display: inline;
+	}
 }
 #profilePicNav{
-	height: 25%;
+	height: 100%;
 }
 .navSpan{
 	display: table-cell; 
