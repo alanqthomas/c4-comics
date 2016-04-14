@@ -65,7 +65,7 @@
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
 		        		<img ng-src={{x.src}} class='img-responsive' ng-click="page_go(x.type,x.id)">
 		        		<div ng-if="(isOwner)&&(tab.slug == 'fav')" class="profTabRTC">
-		        			<i class="material-icons" ng-click="deleteFav(x.id)">delete_forever</i>
+		        			<i class="material-icons" ng-click="deleteFav(x)">delete_forever</i>
 		        		</div>
 		        	</div>
 				</div>

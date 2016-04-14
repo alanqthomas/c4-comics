@@ -92,7 +92,8 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.series_id.length; i ++){
 				GApi.execute("seriesendpoint","getSeries", {"id":$scope.series_id[i]}).then(
-					function(){$scope.series_reserve.push({
+					function(){
+						$scope.series_reserve.push({
 							id:resp.id,
 							url:buildImageURL("series", resp.id),
 							title:resp.title,
@@ -116,7 +117,8 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_series_id.length; i ++){
 				GApi.execute("seriesendpoint","getSeries", {"id":$scope.favorites_series_id[i]}).then(
-					function(){$scope.favorites_reserve.push({
+					function(){
+						$scope.favorites_reserve.push({
 							id:resp.id,
 							url:buildImageURL("series", resp.id),
 							title:resp.title,
@@ -136,7 +138,8 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_comics_id.length; i ++){
 				GApi.execute("comicendpoint","getComic", {"id":$scope.favorites_comics_id[i]}).then(
-					function(){$scope.favorites_reserve.push({
+					function(){
+						$scope.favorites_reserve.push({
 							id:resp.id,
 							url:buildImageURL("comic", resp.id),
 							title:resp.title,
@@ -156,7 +159,8 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		else{
 			for(var i = 0;i < $scope.favorite_author_id.length; i ++){
 				GApi.execute("c4userendpoint","getC4User", {"id":$scope.favorites_author_id[i]}).then(
-					function(){$scope.favorites_reserve.push({
+					function(){
+						$scope.favorites_reserve.push({
 							id:resp.id,
 							url:buildImageURL("profile", resp.id),
 							title:resp.username,
@@ -173,7 +177,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			$scope.favorites.push($scope.favorites.shift());
 		}
 		//owner boolean
-		$scope.isOwner = (scope.userId == $stateParams.id)
+		$scope.isOwner = (GData.getUser().id == $stateParams.id)
 		//add tab if content or owner
 		$scope.tabs = [];
 		if($scope.series.length > 0 || $scope.isOwner){
@@ -231,11 +235,19 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				$state.go('series',{"id": param_id});
 			}
 		}
-		$scope.deleteFav = function(){
+		$scope.deleteFav = function(object){
 			//prompt confirm?
 			//endpoint delete fav call.
+			$scope.favorites.splice($scope.favorites.indexOf(object), 1);
 		}
-		$scope.go_to_series=function(param_id){
+		$scope.page_go = function(type, id){
+			if(type == "series"){
+				$scope.go_to_series(id);
+			} else if(type == "profile"){
+				$scope.go_to_profile(id);
+			}
+		}
+		$scope.go_to_series = function(param_id){
 			if(param_id==null){
 				$state.go('error');
 			}
