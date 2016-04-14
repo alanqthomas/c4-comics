@@ -5,58 +5,58 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		//PLACE HOLDERS
 		//this is image url for initial display
 		$scope.series = [{
-			title:"series1"
+			title:"series1",
 		    src:'http://media.salon.com/2014/10/archie_comics.jpg',
 		    id:1}];
 		$scope.favorites = [{
-			title:"fav0"
+			title:"fav0",
 			src: 'http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
 			id:26}];
 		
 		//this is added for infinite scroll
 		$scope.series_reserves = [{
-			title:"series2"
+			title:"series2",
 			url:"http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
 			id:2
 		},{
-			title:"series3"
+			title:"series3",
 			url: "http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
 			id:3
 		},{
-			title:"series4"
+			title:"series4",
 			url: "http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg",
 			id:4
 		},{
-			title:"series5"
+			title:"series5",
 			url:"http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
 			id:5
 		},{
-			title:"series6"
+			title:"series6",
 			url:"http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
 			id:6
 		},{
-			title:"series7"
+			title:"series7",
 			url:"http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
 			id:7
 		},{
-			title:"series8"
+			title:"series8",
 			src:"http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
 			id:25
 		}];
 		$scope.favorites_reserved=[{
-			title:"fav1"
+			title:"fav1",
 			src:'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
 			id:27
       	},{
-      		title:"fav2"
+      		title:"fav2",
       		src:" http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
       		id:28
       	},{
-      		title:"fav3"
+      		title:"fav3",
       		src:"http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
       		id:29
       	},{
-      		title:"fav4"
+      		title:"fav4",
       		src: "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
       		id: 30
       	}];
@@ -82,8 +82,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				$scope.favorites_id = [];
 			}
 		);
-		//for the images, the url is created by buildURL(id, type);
-		//query for series
+		//for the images, the url is created by buildImageURL(id, type);
 		//take out following comment to take out placeholder
 		//$scope.series = [];
 		//$scope.favorites=[];
@@ -139,7 +138,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				GApi.execute("comicendpoint","getComic", {"id":$scope.favorites_comics_id[i]}).then(
 					function(){$scope.favorites_reserve.push({
 							id:resp.id,
-							url:resp.bgImageURL,
+							url:buildImageURL("comic", resp.id),
 							title:resp.title,
 							type:"comic"
 						});
@@ -159,9 +158,9 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				GApi.execute("c4userendpoint","getC4User", {"id":$scope.favorites_author_id[i]}).then(
 					function(){$scope.favorites_reserve.push({
 							id:resp.id,
-							url:resp.profileImageURL,
+							url:buildImageURL("profile", resp.id),
 							title:resp.username,
-							type:"user"
+							type:"profile"
 						});
 					},
 					function(){
@@ -230,8 +229,15 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 				$state.go('series',{"id": param_id});
 			}
 		}
-		
-}]);
-})();
+		$scope.go_to_profile=function(param_id){
+			if(param_id==null){
+				$state.go('error');
+			}
+			else{
+				$state.go('profile',{"id": param_id});
+			}
+		}
+	}]);
+});
 
 
