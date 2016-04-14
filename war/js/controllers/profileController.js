@@ -1,7 +1,6 @@
 "use strict";
 (function() {
-angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state",
-                                    function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams,   $state){
+	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", function($scope, $http, GApi, GAuth, GData, $stateParams, $state){
 		//PLACE HOLDERS
 		//this is image url for initial display
 		$scope.series = [{
@@ -177,7 +176,11 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			$scope.favorites.push($scope.favorites.shift());
 		}
 		//owner boolean
-		$scope.isOwner = (GData.getUser().id == $stateParams.id)
+		if(GData.getUser() == null){
+			$scope.isOwner = false;
+		} else {
+			$scope.isOwner = (GData.getUser().id == $stateParams.id);
+		}
 		//add tab if content or owner
 		$scope.tabs = [];
 		if($scope.series.length > 0 || $scope.isOwner){
@@ -264,6 +267,6 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			}
 		}
 	}]);
-});
+})();
 
 
