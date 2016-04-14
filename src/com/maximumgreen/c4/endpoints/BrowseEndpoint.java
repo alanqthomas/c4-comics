@@ -10,7 +10,6 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.lang.Long;
 
@@ -21,8 +20,17 @@ import javax.jdo.PersistenceManager;
 @Api(name = "browseendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class BrowseEndpoint {
 		
-	@ApiMethod(name = "listResults")
-	public BrowseSearch listResults(BrowseSearch search) throws BadRequestException {
+	@ApiMethod(name = "getResults")
+	public BrowseSearch getResults(BrowseSearch search) throws BadRequestException {
+		
+		if (search.getNumResults() == 0)
+			throw new BadRequestException("num results is 0");
+		
+		if (search.getSearchIds() == null)
+			throw new BadRequestException("search id list is null");
+		
+		if (search.getSearchIds().get(0) == null)
+			throw new BadRequestException("get(0) is null");
 		
 		PersistenceManager mgr = null;
 		Long fetch;
