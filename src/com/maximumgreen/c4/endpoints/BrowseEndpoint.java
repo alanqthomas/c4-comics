@@ -45,8 +45,13 @@ public class BrowseEndpoint {
 			for (Long id: t.getComicsWithTag())
 				search.getResults().add(id);
 			
-			//Now iterate over the comics
+			//Now iterate over the comics (via a temp list)
+			List<Long> templist = new ArrayList<Long>();
 			for (Long id : search.getResults()){
+				templist.add(id);
+			}
+			
+			for (Long id : templist){
 				//Get the comic
 				Comic c = mgr.getObjectById(Comic.class, id);
 				//Iterate over the remaining tags
@@ -58,11 +63,13 @@ public class BrowseEndpoint {
 						search.getResults().remove(id);
 				}
 			}
+			
 			//Check if we should return the comics or more tags
 			if (search.getResults().size() <= search.getNumResults()){
 				search.setComics(true);
 				return search;
 			}
+			
 			//Change the results to be relevant tags to narrow down search
 			else {
 				//Now check the resulting comics for tags not in the passed in tags list and add them
