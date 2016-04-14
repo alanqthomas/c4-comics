@@ -59,7 +59,7 @@
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
 	        	<div infinite-scroll='tab.load_m()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
-	        		<div ng-if="isOwner" ng-click="newComic()">
+	        		<div ng-if="isOwner" ng-click="newComic()" class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 	        			<i class="material-icons">note_add</i>
 	        		</div>
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
