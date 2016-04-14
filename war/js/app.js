@@ -15,14 +15,20 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
     // Load C4 APIs
     var APIS = [ // List of APIs
       {'name': 'c4userendpoint', 'version': 'v1'},
+      {'name': 'comicendpoint', 'version': 'v1'},
       {'name': 'pageendpoint', 'version': 'v1'}
     ];
 
     for(var i = 0; i < APIS.length; i++){
       GApi.load(APIS[i].name, APIS[i].version, BASE).then(function(res){
         console.log("Loaded API: ", res);
-      })
+      });
     }
+
+    // Load Google APIs
+    GApi.load('storage', 'v1').then(function(res){
+      console.log("Loaded API: ", res);
+    });
 
 		GAuth.setClient(CLIENT);
 		GAuth.setScope("https://www.googleapis.com/auth/userinfo.email");

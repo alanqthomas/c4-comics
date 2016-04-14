@@ -2,20 +2,29 @@
 
 (function() {
 
-angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$stateParams',
-                                    function(	 $scope,   $http,   GApi,   $stateParams){
+angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams',
+                                    function(	 $scope,   $http,   GApi,   $state,   $stateParams){
 
-		$scope.msg = "Hello, profile";
+		var BASE = "https://storage.googleapis.com/c4-comics.appspot.com/";
 
+    var id;
+    if($stateParams.id){
+      id = $stateParams.id;
+    } else{
+      $state.go('home');
+    }
 
-    var id = $stateParams.id;
+    $scope.pages = [];
 
-    GApi.execute("pageendpoint", "getPage", {"id": id}).then(
+    GApi.execute("comicendpoint", "getComic", {"id": id}).then(
       function(res){
-        console.log("Found: ", res);
+        for(var i = 0; i < res.pages.length; i++){
+          $scope.pages.push("" + BASE + "page-" + res.pages[i])
+        }
       },
       function(res){
         console.log("ERROR. Page not found.", res);
+        $state.go('home');
       }
     );
 
