@@ -2,8 +2,8 @@
 
 (function() {
 
-angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams',
-                                    function(	 $scope,   $http,   GApi,   $state,   $stateParams){
+angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES',
+                                    function(	 $scope,   $http,   GApi,   $state,   $stateParams,   imgService,   IMG_PREFIXES){
 
 		var BASE = "https://storage.googleapis.com/c4-comics.appspot.com/";
 
@@ -19,7 +19,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
     GApi.execute("comicendpoint", "getComic", {"id": id}).then(
       function(res){
         for(var i = 0; i < res.pages.length; i++){
-          $scope.pages.push("" + BASE + "page-" + res.pages[i])
+          //$scope.pages.push("" + BASE + "page-" + res.pages[i])
+          $scope.pages.push(imgService.getURL(IMG_PREFIXES.PAGE, res.pages[i]));
         }
       },
       function(res){

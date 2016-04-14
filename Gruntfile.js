@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 	        	options: {
 	          		// Replace all 'use strict' statements in the code with a single one at the top
 		            banner: "'use strict';\n",
-		            process: function(src, filepath) {return '// Source: ' + filepath + '\n' + 
+		            process: function(src, filepath) {return '// Source: ' + filepath + '\n' +
 		            		src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
 		        	}
 	        	},
@@ -28,7 +28,8 @@ module.exports = function(grunt) {
               'war/js/controllers/profileController.js',
               'war/js/controllers/searchController.js',
               'war/js/controllers/seriesController.js',
-              'war/js/services/authService.js'],
+              'war/js/services/authService.js',
+							'war/js/services/imgService.js'],
               dest: 'war/js/dist/scripts.js'
 			}
 		},
