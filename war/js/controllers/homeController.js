@@ -2,29 +2,251 @@
 	
 (function() {
 
-angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService',
-                                  function(	  $scope,   $http,   GApi,   authService){	
+angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService', '$state', '$stateParams',
+                                  function(	  $scope,   $http,   GApi,   authService,  $state, $stateParams){	
 		$scope.msg = "Scores";
 		$scope.predicate = 'name';
 		
+		//list of comics to populate page
+		$scope.top_comics = [];
+		$scope.top_comics_reserve = [];
+		$scope.popular_comics = [];
+		$scope.popular_comics_reserve = [];
+		$scope.hot_comics = [];
+		$scope.hot_comics_reserve = [];
+		$scope.recent_comics = [];
+		$scope.recent_comics_reserve = [];
 		
-
+		$scope.top_load_more = function(){
+			if($scope.top_comics_reserve.length>0){
+				$scope.top_comics.push($scope.top_comics_reserve.shift());
+			}
+		};
+		$scope.popular_load_more = function(){
+			if($scope.popular_comics_reserve.length>0){
+				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
+			}
+		};
+		$scope.hot_load_more = function(){
+			if($scope.hot_comics_reserve.length>0){
+				$scope.hot_comics.push($scope.hot_comics_reserve.shift());
+			}
+		};
+		$scope.recent_load_more = function(){
+			if($scope.recent_comics_reserve.length>0){
+				$scope.recent_comics.push($scope.recent_comics_reserve.shift());
+			}
+		};
 		$scope.tabs = [{
-		    slug: 'trending',
-		    title: "Trending/Hot",
-		    content: "TRENDS/HOT"
-		}, {
-		    slug: 'newest',
-		    title: "Recent",
-		    content: "newest this week"
-		},{
 			slug: "top",
 			title: "Top",
-			content: "Top stuff here"
+			content:$scope.top_comics,
+			load_m: $scope.top_load_more,
+			def_text:"No Top Comics Yet"
+		},{
+			slug: "popular",
+			title: "Popular",
+			content: $scope.popular_comics,
+			load_m: $scope.popular_load_more,
+			def_text:"No Popular Comics Yet"
+		},{
+		    slug: 'hot',
+		    title: "Hot",
+		    content: $scope.hot_comics,
+		    load_m: $scope.hot_load_more,
+		    def_text: "No Hot Comics Yet"
+		},{
+		    slug: 'newest',
+		    title: "Recent",
+		    content: $scope.recent_comics,
+		    load_m: $scope.newest_load_more,
+		    def_text: "No Recent Comics Yet"
 		}];
+		//query for homepage. 
+		GApi.execute( "homeendpoint","getHomepage").then(
+			function(resp){	
+				//they are all comics, not series
+				//rating
+				$scope.top_comics_id = resp.topComicsId;
+				//most viewed
+				$scope.popular_comics_id = resp.popularComicsId;
+				//viewed over time
+				$scope.hot_comics_id = resp.hotComicsId;
+				//newest
+				$scope.recent_comics = resp.recentComicsId;
+			}, function(resp){
+				$scope.top_comics_id = null;
+				$scope.popular_comics_id = null;
+				$scope.hot_comics_id = null;
+				$scope.recent_comics = null;
+			}
+		);
+		//query for each category of comics
+		//TOP 
+		if($scope.top_comics_id != null){
+			for(var i = 0; i < $scope.top_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.top_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.top_comics_id[i]);
+					}
+				);
+			}
+			if($scope.top_comics_reseve.length>0){
+				
+				$scope.top_comics.push($scope.top_comics_reserve.shift());
+			}
+		}	
+		//POPULAR
+		if($scope.popular_comics_id != null){
+			for(var i = 0; i < $scope.popular_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.popular_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.popular_comics_id[i]);
+					}
+				);
+			}
+			if($scope.popular_comics_reseve.length>0){
 
+				$scope.popular_comics.push($scope.popular_comics_reserve.shift());
+			}
+		}
+		//HOT
+		if($scope.hot_comics_id != null){
+			for(var i = 0; i < $scope.hot_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.hot_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.hot_comics_id[i]);
+					}
+				);
+			}
+			if($scope.hot_comics_reseve.length>0){
+
+				$scope.hot_comics.push($scope.hot_comics_reserve.shift());
+			}
+		}
+		//RECENT
+		if($scope.recent_comics_id != null){
+			for(var i = 0; i < $scope.recent_comics_id.length; i ++){
+				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
+					function(){
+						$scope.recent_comics.reserve.push({
+							id:resp.id,
+							//use the create url
+							title:resp.title
+						});
+					},
+					function(){
+						console.log("No comic found for " +$scope.recent_comics_id[i]);
+					}
+				);
+			}
+			if($scope.recent_comics_reseve.length>0){
+
+				$scope.recent_comics.push($scope.recent_comics_reserve.shift());
+			}
+		}
+		
+		//Generating Placeholder
+		if($scope.top_comics.length == 0){
+			
+			$scope.top_comics.push({
+				src:"http://www.readcomics.net/images/manga/adventure-time/1/1.jpg",
+				id:1
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/adventure-time/1/2.jpg",
+				id:2
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/adventure-time/1/3.jpg",
+				id:3
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/spider-man-2016/1/1.jpg",
+				id:4
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/spider-man-2016/2/1.jpg",
+				id:5
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/spider-man-2016/3/1.jpg",
+				id:6
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/hellboy/1/1.jpg",
+				id:7
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/simpsons-comics/1/1.jpg",
+				id:8
+			});
+			$scope.top_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/suicide-squad-most-wanted-deadshot-and-katana-2016/1/1.jpg",
+				id:9
+			});
+		}
+		if($scope.hot_comics.length==0){
+			$scope.hot_comics.push({
+				src:"http://www.readcomics.net/images/manga/wonder-woman/1/1.jpg",
+				id:10
+			});
+			$scope.hot_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/wonder-woman/2/1.jpg",
+				id:11
+			});
+			$scope.hot_comics_reserve.push({
+				src:"http://www.readcomics.net/images/manga/wonder-woman/3/1.jpg",
+				id:12
+			});
+			
+		}
 		
 		
+		if($scope.top_comics.length > 0 ){
+			$scope.tabs[0].def_text='';
+		}
+		if($scope.popular_comics.length>0){
+			$scope.tabs[1].def_text='';
+		}
+		if($scope.hot_comics.length>0){
+			$scope.tabs[2].def_text='';
+		}
+		if($scope.recent_comics.length>0){
+			$scope.tabs[3].def_text='';
+		}
+		
+		$scope.go_to_comic=function(param_id){
+			if(param_id==null){
+				$state.go('error');
+			}
+			else{
+				$state.go('comic',{"id": param_id});
+			}
+		}
+		
+		/*
 		$scope.order = function(predicate){
 			$scope.predicate = predicate;
 		};		
@@ -70,7 +292,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				});
 			});
 		};
-		
+		*/
 }]);
 
 

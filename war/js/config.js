@@ -48,6 +48,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/search.html",
 			authenticate: false
 		})
+		.state('error', {
+			url: "/error/",
+			templateUrl: "views/error.html",
+			authenticate: false
+		})
 });
 
 })();
