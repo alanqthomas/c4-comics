@@ -20,7 +20,7 @@ import javax.jdo.PersistenceManager;
 @Api(name = "browseendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class BrowseEndpoint {
 		
-	@ApiMethod(name = "getResults")
+	@ApiMethod(name = "getResults", httpMethod = "POST")
 	public BrowseSearch getResults(BrowseSearch search) throws BadRequestException {
 		
 		if (search.getNumResults() == 0)
@@ -33,21 +33,28 @@ public class BrowseEndpoint {
 			throw new BadRequestException("get(0) is null");
 		
 		PersistenceManager mgr = null;
-		Long fetch;
 				
 		try {
 			mgr = getPersistenceManager();
 			//Use the first tag from the list to get all comics with that tag
-			fetch = search.getSearchIds().get(0);
-			Tag t = mgr.getObjectById(Tag.class, fetch);
-			search.setResults(t.getComicsWithTag());
+			Tag t = mgr.getObjectById(Tag.class, search.getSearchIds().get(0));
+			if (search.getResults() == null){
+				List<Long> list = new ArrayList<Long>();
+				search.setResults(list);
+			}	
+			for (Long id: t.getComicsWithTag())
+				search.getResults().add(id);
 			
-			//If the comics in the result list do not have one of the remaining tags, remove them from the list
-			for (int i = 1; i < search.getResults().size(); i++){
-				fetch = search.getSearchIds().get(i);
-				t = mgr.getObjectById(Tag.class, fetch);
-				for (Long id : search.getResults()){
-					if (!t.getComicsWithTag().contains(id))
+			//Now iterate over the comics
+			for (Long id : search.getResults()){
+				//Get the comic
+				Comic c = mgr.getObjectById(Comic.class, id);
+				//Iterate over the remaining tags
+				for (Long id2 : search.getSearchIds()){
+					if (id2 == search.getSearchIds().get(0)) 
+						continue;
+					//If the comic doesn't have one of the remaining tags, remove it from the results
+					if (!c.getTags().contains(id2))
 						search.getResults().remove(id);
 				}
 			}
@@ -63,7 +70,7 @@ public class BrowseEndpoint {
 				for (Long id : search.getResults()) {
 					Comic c = mgr.getObjectById(Comic.class, id);
 					for (Long tagId : c.getTags()){
-						if (!search.getSearchIds().contains(tagId)) {
+						if (!search.getSearchIds().contains(tagId) && !temp.contains(tagId)) {
 							temp.add(tagId);
 						}
 					}
