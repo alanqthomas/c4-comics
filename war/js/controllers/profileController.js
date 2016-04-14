@@ -1,7 +1,7 @@
 "use strict";
 (function() {
 angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state",
-                                    function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams,   $state){	
+                                    function(	 $scope,   $http,  GApi, 	GAuth, 	GData,	 $stateParams,   $state){
 		//PLACE HOLDERS
 		//this is image url for initial display
 		$scope.series = [{
@@ -172,9 +172,11 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		if($scope.favorites_reserve != null && $scope.favorites_reserve.length > 0){
 			$scope.favorites.push($scope.favorites.shift());
 		}
-		//add tab if content
+		//owner boolean
+		$scope.isOwner = (scope.userId == $stateParams.id)
+		//add tab if content or owner
 		$scope.tabs = [];
-		if($scope.series.length>0){
+		if($scope.series.length > 0 || $scope.isOwner){
 			$scope.tabs.push({
 				slug: 'series',
 		        title: "Series",
@@ -182,7 +184,7 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 		        load_m: $scope.series_loadMore
 			});
 		}
-		if($scope.favorites.length>0){
+		if($scope.favorites.length > 0 || $scope.isOwner){
 			$scope.tabs.push({
 				slug: 'fav',
 		        title: "Favorites",
@@ -218,9 +220,21 @@ angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAut
 			}
 		}
 		*/
-		$scope.$apply;
-
 		
+		$scope.$apply;
+		$scope.newSeries = function(){
+			//call seriesEndpoint, insert new one, get the id back.
+			if(param_id==null){
+				$state.go('error');
+			}
+			else{
+				$state.go('series',{"id": param_id});
+			}
+		}
+		$scope.deleteFav = function(){
+			//prompt confirm?
+			//endpoint delete fav call.
+		}
 		$scope.go_to_series=function(param_id){
 			if(param_id==null){
 				$state.go('error');

@@ -13,9 +13,15 @@
 				<div class="row">
 					<div class="col-xs-2">
 						<img src='http://s3.amazonaws.com/37assets/svn/765-default-avatar.png' class='img-repsonsive' width=150px height=150px>
+						<span ng-if="isOwner">
+							<i class="material-icons">settings_applications</i>
+						</span>
 					</div>
 					<div class='col-xs-10'>
 						<h1 id="name">{{name}}</h1>
+						<span class='col-xs-1' ng-if="isOwner">
+							<i class="material-icons">edit</i>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -23,19 +29,44 @@
 	</div>
 	<div class='container'>
 		<div class='row'>
-			<h1>Bio</h1>
+			<div class='col-xs-12' ng-if="! isOwner" >
+				<h1>Bio</h1>
+			</div>
+			<div class='col-xs-10' ng-if="isOwner" >
+				<h1>Bio</h1>
+			</div>
+			<div class='col-xs-2' ng-if="isOwner" >
+				<i class="material-icons">settings_applications</i>
+			</div>
 		</div>
 		<!-- need to dynamically load bio -->
-		<div class='row'>
-			<p>{{bio}}</p><i class="material-icons">edit</i>
+		<div class='row' ng-if="isOwner">
+			<div class='col-xs-11'>
+				{{bio}}
+			</div>
+			<div class='col-xs-1' ng-if="isOwner">
+				<i class="material-icons">edit</i>
+				<!-- this needs to change the bio to an input. -->
+			</div>
+		</div>
+		<div class='row' ng-if="! isOwner">
+			<div class='col-xs-12'>
+				{{bio}}
+			</div>
 		</div>
 	</div>
 	<div class='container'>
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
 	        	<div infinite-scroll='tab.load_m()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
+	        		<div ng-if="isOwner" ng-click="newComic()">
+	        			<i class="material-icons">note_add</i>
+	        		</div>
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
-		        		<img ng-src={{x.src}} class='img-responsive' ng-click="go_to_series(x.id)">
+		        		<img ng-src={{x.src}} class='img-responsive' ng-click="page_go(x.type,x.id)">
+		        		<div ng-if="(isOwner)&&(tab.slug == 'fav')" class="profTabRTC">
+		        			<i class="material-icons" ng-click="deleteFav(x.id)">delete_forever</i>
+		        		</div>
 		        	</div>
 				</div>
 	        </uib-tab>
