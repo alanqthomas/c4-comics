@@ -172,53 +172,67 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 			
 			$scope.top_comics.push({
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/1.jpg",
-				id:1
+				id:1,
+				title: "adventure time"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/2.jpg",
-				id:2
+				id:2,
+				title: "adventure time"
+				
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/3.jpg",
-				id:3
+				id:3,
+				title: "adventure time"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/spider-man-2016/1/1.jpg",
-				id:4
+				id:4,
+				title: "spider man"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/spider-man-2016/2/1.jpg",
-				id:5
+				id:5,
+				title: "spider man"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/spider-man-2016/3/1.jpg",
-				id:6
+				id:6,
+				title: "spider man"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/hellboy/1/1.jpg",
-				id:7
+				id:7,
+				title: "hellboy"
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/simpsons-comics/1/1.jpg",
-				id:8
+				id:8,
+				title: "simpsons"
+				
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/suicide-squad-most-wanted-deadshot-and-katana-2016/1/1.jpg",
-				id:9
+				id:9,
+				title: "suicide squad"
 			});
 		}
 		if($scope.hot_comics.length==0){
 			$scope.hot_comics.push({
 				src:"http://www.readcomics.net/images/manga/wonder-woman/1/1.jpg",
-				id:10
+				id:10,
+				title: "wonder woman"
 			});
 			$scope.hot_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/wonder-woman/2/1.jpg",
-				id:11
+				id:11,
+				title: "wonder woman"
 			});
 			$scope.hot_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/wonder-woman/3/1.jpg",
-				id:12
+				id:12,
+				title: "wonder woman"
 			});
 			
 		}
