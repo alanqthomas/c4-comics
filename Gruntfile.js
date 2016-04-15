@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 		src: ['war/js/app.js',
 		      'war/js/config.js',
 		      'war/js/emptyEndpointConstructors.js',
+		      'war/js/sharedFunctions.js',
 		      'war/js/controllers/browseController.js',
 		      'war/js/controllers/comicController.js',
 		      'war/js/controllers/drawController.js',

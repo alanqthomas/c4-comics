@@ -6,24 +6,25 @@
 			Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.
 		</div>
 		<div id ="tagsDisplayBrowse">
-			<div class="span12">
-				<h5>Current Tags:</h5>
-				<div id="tagListBrowse">
-					<span class="tagDisplay" ng-repeat="x in selTags">
-						{{x}}<i class="material-icons" ng-click="removeTag(x)">close</i>
+			<h5>Current Tags:</h5>
+			<div id="tagListBrowse">
+				<span class="tagDisplay" ng-repeat="x in selTags">
+					{{x}}
+					<span class="tagClose">
+						<i class="material-icons" ng-click="removeTag(x)">close</i>
 					</span>
-				</div>
+				</span>
 			</div>
 		</div>
 		<div class="row" id="displayTagBrowse">
 			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags">
 			<!-- but with a lot more styling. -->
-				<span style="backfround-image:url({{x.previewUrl}})">{{x.tag}}s</span>
+				<span style="backfround-image:url({{x.url}})">{{x.tag}}</span>
 			</div>
 		</div>
 		<div class="row" id="displayResultBrowse">
 			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" hidden>
-				<span style="backfround-image:url({{x.previewUrl}})">{{x.title}} by {{x.author}}</span>
+				<span style="backfround-image:url({{x.purl}})">{{x.title}} by {{x.author}}</span>
 			</div>
 		</div>
 	</div>
