@@ -20,7 +20,7 @@
 				<img class="bigPageDisplay" src={{x.url}} alt="{{x.comic}} . {{x.pagenumber}}">
 			</div>
 		</div> -->
-		
+
 	</div>
 	<h4>Tags</h4>
 	<form>
@@ -40,10 +40,16 @@
 					<div class="container-fluid">
 						<div class="row-fluid">
 							<div class="col-xs-6" align="center">
+								<!--
 								<button type="button" class="btn btn-default" data-dismiss="modal">
 									<i class="material-icons">file_upload</i>
 									<p>Upload A Page</p>
 								</button>
+							-->
+								<form>
+									<input type="file" ngf-select ng-model="file" accept=".png,.jpg,.tiff" ngf-max-size="5MB"/>
+									<button type="submit" class="btn btn-default" ng-click="upload()" data-dismiss="modal">Upload</button>
+								</form>
 							</div>
 							<div class="col-xs-6" align="center">
 								<button type="button" class="btn btn-default" data-dismiss="modal">

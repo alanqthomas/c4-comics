@@ -2,7 +2,7 @@
 
 (function() {
 
-var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'ui.bootstrap', 'infinite-scroll']);
+var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'ui.bootstrap', 'infinite-scroll', 'ngFileUpload']);
 
 // Initialize angular-google-gapi
 app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authService',
@@ -50,5 +50,9 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
 
 
 }]);
+
+app.constant('IMG_PREFIXES', {
+  'PAGE' : 'page'
+});
 
 })();
