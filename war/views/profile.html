@@ -1,28 +1,18 @@
 <div ng-controller="profileCtrl">
-	<div>
-	<h4 id="authorName"></h4>
-	<input type="color" ></input><i ng-show="editVisible" class="material-icons">format_color_text</i>
-	</div>
-	<div class='container1'><!-- I don;t think container1 is bootstrap??? -->
-		<div> 
-			<!--this br buisness is horrible html, set height with css. -->
-			<br><br><br><br><br><br><br><br>
-			<br><br><br>
-			<!-- idk what you are tring to do here, but cols go in rows, not containers.-->
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-2">
-						<img src='http://s3.amazonaws.com/37assets/svn/765-default-avatar.png' class='img-repsonsive' width=150px height=150px>
-						<span ng-if="isOwner">
-							<i class="material-icons">settings_applications</i>
-						</span>
-					</div>
-					<div class='col-xs-10'>
-						<h1 id="name">{{name}}</h1>
-						<span class='col-xs-1' ng-if="isOwner">
-							<i class="material-icons">edit</i>
-						</span>
-					</div>
+	<div id='profBackground' ng-style="bgStyle">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-2">
+					<img src='http://s3.amazonaws.com/37assets/svn/765-default-avatar.png' class='img-repsonsive' width=150px height=150px>
+					<span ng-if="isOwner">
+						<i class="material-icons">settings_applications</i>
+					</span>
+				</div>
+				<div class='col-xs-10'>
+					<h1 id="name">{{name}}</h1>
+					<span class='col-xs-1' ng-if="isOwner">
+						<i class="material-icons">edit</i>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -59,7 +49,7 @@
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
 	        	<div infinite-scroll='tab.load_m()' infinite-scroll-distance='.01' infinite-scroll-immediate-check="false">
-	        		<div ng-if="isOwner" ng-click="newComic()" class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
+	        		<div ng-if="isOwner" ng-click="newSeries()" class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 	        			<i class="material-icons">note_add</i>
 	        		</div>
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>

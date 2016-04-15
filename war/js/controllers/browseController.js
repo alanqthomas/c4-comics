@@ -19,7 +19,7 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
 	$scope.addTag = function(tagToAdd){
 		$scope.selTags.push(tagToAdd);
 	}
-//gets tags for further sorting, sorted by popullarity.
+//gets tags for further sorting, sorted by popularity.
 	$scope.getTopTags= function(){
 		var resultReq = {
 			"tags": $scope.selTags,

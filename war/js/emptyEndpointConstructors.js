@@ -9,3 +9,9 @@ function createUser(id, email, picture){
 		profileImageURL:picture,
 	}
 }
+function createSeries(authorId){
+	return {
+		authorId: authorId,
+		description:"Write a description here!",
+	}
+}

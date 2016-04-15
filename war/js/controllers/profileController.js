@@ -227,21 +227,39 @@
 			}
 		}
 		*/
-		
+		//set css.
+		var bgStyleStr = '#ffffff url('+buildImageURL("profilebg", $scope.profile_id)+') no-repeat center center';
+		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
+		
 		$scope.newSeries = function(){
-			//call seriesEndpoint, insert new one, get the id back.
-			if(param_id==null){
-				$state.go('error');
-			}
-			else{
-				$state.go('series',{"id": param_id});
+			if($scope.isOwner){
+				var param = createSeries($scope.profile_id);
+				GApi.execute( "seriesendpoint","insertSeries", param).then(
+					function(resp){	
+						$scope.go_to_series(resp.id);
+					}, function(resp){
+						console.log("Failed to create new series.");
+						console.log(resp);
+					}
+				);
 			}
 		}
+		//push delete and change local variable.
 		$scope.deleteFav = function(object){
-			//prompt confirm?
-			//endpoint delete fav call.
-			$scope.favorites.splice($scope.favorites.indexOf(object), 1);
+			if($scope.isOwner){
+				var paramName = object.type+"Id";
+				var param = {"userId":$scope.profile_id, 
+						paramName: object.id}
+				GApi.execute( "c4userendpoint","deletefavorite",param).then(
+						function(resp){	
+							$scope.favorites.splice($scope.favorites.indexOf(object), 1);
+						}, function(resp){
+							console.log("Failed to delete favorite.");
+							console.log(resp);
+						}
+					);
+			}
 		}
 		$scope.page_go = function(type, id){
 			if(type == "series"){
