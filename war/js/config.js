@@ -53,6 +53,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: "views/error.html",
 			authenticate: false
 		})
+		.state('page',{
+			url: "/page/",
+			templateUrl: "views.page.html",
+			authenticate: false
+		})
 });
 
 })();
