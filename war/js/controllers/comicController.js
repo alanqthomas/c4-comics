@@ -11,7 +11,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
     if($stateParams.id){
       id = $stateParams.id;
     } else{
-      $state.go('home');
+      $state.go('error');
     }
 
     $scope.pages = [];
@@ -25,7 +25,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
       },
       function(res){
         console.log("ERROR. Page not found.", res);
-        $state.go('home');
+        $state.go('error');
       }
     );
 

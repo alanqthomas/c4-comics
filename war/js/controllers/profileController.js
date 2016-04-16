@@ -1,64 +1,78 @@
 "use strict";
 (function() {
-	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", function($scope, $http, GApi, GAuth, GData, $stateParams, $state){
+	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 
+	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state){
+		//THIS MUST BE BEFORE Tab is created
+		$scope.series_loadMore = function() {
+			//pushes images to the array. load more
+			if ($scope.series_reserves.length > 0){
+				$scope.series.push($scope.series_reserves.shift());
+			}
+		};
+		$scope.favorites_loadMore = function() {
+			if ($scope.favorites_reserved.length > 0){
+				$scope.favorites.push($scope.favorites_reserved.shift());
+			}
+		}
 		//PLACE HOLDERS
+		//*****************************
 		//this is image url for initial display
 		$scope.series = [{
 			title:"series1",
 		    src:'http://media.salon.com/2014/10/archie_comics.jpg',
-		    id:1}];
+		    type:"series",
+		    id:1}
+		];
 		$scope.favorites = [{
 			title:"fav0",
 			src: 'http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
+		    type:"comic",
 			id:26}];
 		
-		//this is added for infinite scroll
 		$scope.series_reserves = [{
 			title:"series2",
-			url:"http://cpassets-a.akamaihd.net/images/comic/original/126_lrg-en.gif",
-			id:2
+			src:"http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
+			type: "series",
+			id:20
 		},{
 			title:"series3",
-			url: "http://nerdist.com/wp-content/uploads/2014/12/BongoSimpsons-1.jpg",
-			id:3
+			src:"http://www.readcomics.net/images/manga/the-bunker/15/22.jpg",
+			type: "series",
+			id:21
 		},{
 			title:"series4",
-			url: "http://www.jinxthemonkey.com/comics/comic_img/comic04-color.jpg",
-			id:4
+			src:"http://www.readcomics.net/images/manga/the-bunker/15/23.jpg",
+			type: "series",
+			id:22
 		},{
 			title:"series5",
-			url:"http://www.readcomics.net/images/manga/the-bunker/15/1.jpg",
-			id:5
-		},{
-			title:"series6",
-			url:"http://www.readcomics.net/images/manga/the-bunker/15/2.jpg",
-			id:6
-		},{
-			title:"series7",
-			url:"http://www.readcomics.net/images/manga/the-bunker/15/3.jpg",
-			id:7
-		},{
-			title:"series8",
-			src:"http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
-			id:25
+			src:"http://www.readcomics.net/images/manga/the-bunker/15/24.jpg",
+			type: "series",
+			id:23
 		}];
+		
 		$scope.favorites_reserved=[{
 			title:"fav1",
 			src:'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
+		    type:"series",
 			id:27
       	},{
       		title:"fav2",
       		src:" http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
+		    type:"series",
       		id:28
       	},{
       		title:"fav3",
       		src:"http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
+		    type:"series",
       		id:29
       	},{
       		title:"fav4",
       		src: "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
+		    type:"series",
       		id: 30
       	}];
+		//*********************** PLACEHOLDER END
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
 		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
@@ -81,10 +95,10 @@
 				$scope.favorites_id = [];
 			}
 		);
-		//for the images, the url is created by buildImageURL(id, type);
-		//take out following comment to take out placeholder
+		//TAKE OUT THE FOLLOWING COMMMENT TO TAKE OUT PLACEHOLDER
 		//$scope.series = [];
 		//$scope.favorites=[];
+		
 		if($scope.series_id == null){
 			console.log("no series")
 		}
@@ -181,54 +195,10 @@
 		} else {
 			$scope.isOwner = (GData.getUser().id == $stateParams.id);
 		}
-		//add tab if content or owner
-		$scope.tabs = [];
-		if($scope.series.length > 0 || $scope.isOwner){
-			$scope.tabs.push({
-				slug: 'series',
-		        title: "Series",
-		        content: $scope.series,
-		        load_m: $scope.series_loadMore
-			});
-		}
-		if($scope.favorites.length > 0 || $scope.isOwner){
-			$scope.tabs.push({
-				slug: 'fav',
-		        title: "Favorites",
-		        content: $scope.favorites,
-		        load_m: $scope.favorites_loadMore
-			});
-		}
-		$scope.series_loadMore = function(parameter1) {
-			//pushes images to the array. load more
-			if ($scope.series_reserves.length > 0){
-				for(var i = 1; i <= 1; i++) {
-					var image = $scope.series_reserves.shift();
-					$scope.series.push(image);
-				}
-			}
-			if ($scope.favorites_reserved.length > 0){
-				for(var i = 1; i <= 1; i++) {
-					var image = $scope.favorites_reserved.shift();
-					$scope.favorites.push(image);
-				}
-			}
-		};
-		/*
-		$scope.series_loadMore = function() {
-			//pushes images to the array. load more
-			if ($scope.series_reserves.length > 0){
-				$scope.series.push($scope.series_reserves.shift());
-			}
-		};
-		$scope.favorites_loadMore = function() {
-			if ($scope.favorites_reserved.length > 0){
-				$scope.favorites.push($scope.favorites_reserved.shift());
-			}
-		}
-		*/
+		
 		//set css.
-		var bgStyleStr = '#ffffff no-repeat center center'
+
+		var bgStyleStr = '#ffffff no-repeat center center';
 			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
@@ -236,7 +206,7 @@
 		$scope.newSeries = function(){
 			if($scope.isOwner){
 				var param = createSeries($scope.profile_id);
-				GApi.execute( "seriesendpoint","insertSeries", param).then(
+				GApi.execute("seriesendpoint","insertSeries", param).then(
 					function(resp){	
 						$scope.go_to_series(resp.id);
 					}, function(resp){
@@ -262,11 +232,33 @@
 					);
 			}
 		}
+		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER
+		//add tab if content or owner
+		$scope.tabs = [];
+		if($scope.series.length > 0 || $scope.isOwner){
+			$scope.tabs.push({
+				slug: 'series',
+		        title: "Series",
+		        content: $scope.series,
+		        load_m: $scope.series_loadMore
+			});
+		}
+		if($scope.favorites.length > 0 || $scope.isOwner){
+			$scope.tabs.push({
+				slug: 'fav',
+		        title: "Favorites",
+		        content: $scope.favorites,
+		        load_m: $scope.favorites_loadMore
+			});
+		}
+		
 		$scope.page_go = function(type, id){
 			if(type == "series"){
 				$scope.go_to_series(id);
 			} else if(type == "profile"){
 				$scope.go_to_profile(id);
+			} else if(type == "comic"){
+				$scope.go_to_comics(id);
 			}
 		}
 		$scope.go_to_series = function(param_id){
@@ -283,6 +275,14 @@
 			}
 			else{
 				$state.go('profile',{"id": param_id});
+			}
+		}
+		$scope.go_to_comics=function(param_id){
+			if(param_id==null){
+				$state.go("error");
+			}
+			else{
+				$state.go("comic",{"id":param_id});
 			}
 		}
 	}]);

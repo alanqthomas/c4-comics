@@ -39,7 +39,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			 * images is the array of all images. ng-repeat is going on those
 			 * infi scroll is going to call a function to update images.
 			 */
-			
+			/*
 			$scope.comics = [1, 2, 3, 4, 5, 6, 7, 8];
 			//the infinite load function
 			$scope.loadMore = function() {
@@ -49,7 +49,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				for(var i = 1; i <= 8; i++) {
 					$scope.comics.push(last + i);
 				}
-			};
+			};*/
 		} else{
 			//query for comics_ids 
 			for(var i = 0; i < $scope.comics_id.length; i ++){
