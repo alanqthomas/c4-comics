@@ -5,7 +5,7 @@
 angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES',
                                     function(	 $scope,   $http,   GApi,   $state,   $stateParams,   imgService,   IMG_PREFIXES){
 
-		var BASE = "https://storage.googleapis.com/c4-comics.appspot.com/";
+	var BASE = "https://storage.googleapis.com/c4-comics.appspot.com/";
 
     var id;
     if($stateParams.id){

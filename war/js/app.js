@@ -16,7 +16,8 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
     var APIS = [ // List of APIs
       {'name': 'c4userendpoint', 'version': 'v1'},
       {'name': 'comicendpoint', 'version': 'v1'},
-      {'name': 'pageendpoint', 'version': 'v1'}
+      {'name': 'pageendpoint', 'version': 'v1'},
+      {'name': 'seriesendpoint', 'version': 'v1'}
     ];
 
     for(var i = 0; i < APIS.length; i++){

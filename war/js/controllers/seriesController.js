@@ -11,35 +11,74 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.comics=[];
 		$scope.comics_reserve=[];
 		//execute using (endpoint, method for endpoint, parameter for method)
-		GApi.execute("SeriesEndpoint", "getSeries", {"id":$scope.series_id}).then(
+		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
+				/*
 				$scope.author_id=resp.authorId;
 				$scope.series_name=resp.title;
 				$scope.summary=resp.description;
 				$scope.comics_id=resp.comics;
 				$scope.rating = resp.rating;
-				$scope.bg_imageURL = resp.resp.bgImage;
+				$scope.bg_imageURL = resp.bgImageURL;
+				*/
+				$scope.series = {
+					authorId: resp.authorId,
+					title: resp.title,
+					description: resp.description,
+					comics_id: resp.comics,
+					rating: resp.rating,
+				};
+				
 			},function(resp){
+				/*
 				$scope.author_id=null;
 				$scope.author_name="No Author Found";
 				$scope.summary="No Summary Found";
 				$scope.comics_id = null;
 				$scope.rating = null;
 				$scope.bg_imageURL = null;
-				console.log("error no series result");
+				console.log("error no series result");*/
+				
+				$scope.series = {
+					authorId: null,
+					title: "No Summary Found",
+					description: "No Summary Found",
+					comics: [],
+					rating: null,
+					bgImageURL: null
+				};
 			}
 		);
+		
+		//query for author name
+		GApi.execute("c4userendpoint","getC4User", {"id": $scope.author_id}).then(
+			function(resp){
+				
+			},
+			function(resp){
+				
+			}
+		);
+		
+		
+		
 		//checking for null values when the query returns null
 		if($scope.author_name == null){
 			$scope.author_name="Author Name Not Found";
 		}
-		if($scope.series_name == null){
-			$scope.series_name="Title Not Found";
+		
+		
+		
+		
+		
+		if($scope.series.title == null){
+			$scope.series.title="Title Not Found";
 		}
-		if($scope.summary== null){
-			$scope.summary="No Summary Found";
+		if($scope.series.description== null){
+			$scope.series.description="No Summary Found";
 		}
-		if($scope.comics_id == null){
+		
+		if($scope.series.comics == null){
 			//PLACE HOLDERS if there are no comics_id, populate placeholder
 			/* to my understanding how infi scroll works
 			 * images is the array of all images. ng-repeat is going on those
@@ -58,8 +97,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			};*/
 		} else{
 			//query for comics_ids 
-			for(var i = 0; i < $scope.comics_id.length; i ++){
-				GApi.execute("comicendpoint","getComic", {"id":$scope.comics_id[i]}).then(
+			for(var i = 0; i < $scope.series.comics.length; i ++){
+				GApi.execute("comicendpoint","getComic", {"id":$scope.series.comics[i]}).then(
 					function(){
 						$scope.comics_reserve.push({
 							id:resp.id,
@@ -69,7 +108,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						});
 					},
 					function(){
-						console.log("no comics found for " + $scope.comics_id[i]);
+						console.log("no comics found for " + $scope.series.comics[i]);
 					}
 				);
 			}
@@ -81,11 +120,11 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.bg_img="{'background-color':'red'}";
 		*/
 		$scope.goToAuthor=function(){
-			if($scope.author_id==null){
+			if($scope.series.authorId==null){
 				$state.go('error');
 			}
 			else{
-				$state.go('profile',{"id": $scope.author_id});
+				$state.go('profile',{"id": $scope.series.authorId});
 			}
 		}
 		
