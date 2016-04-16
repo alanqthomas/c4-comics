@@ -78,6 +78,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 	$scope.navProfile = function(){
 		$state.go('profile',{"id": $scope.userId});
 	}
+	$scope.notificationsBool = ($scope.notifications == null);
 }]);
 
 })();

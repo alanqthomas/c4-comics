@@ -59,7 +59,20 @@
 			</form>
 		</span>
 		<span id="navRight">
-			<i class="material-icons" ng-show="signedIn">notifications</i>
+			<i class="material-icons dropdown-toggle" ng-show="signedIn"  data-toggle = "dropdown">
+				notifications
+			</i>
+			<ul class = "dropdown-menu" role = "menu">
+				<li ng-if="! notificationsBool">
+					No Notifications.
+				</li>
+				<li ng-repeat-start="notificaton in notificatons">
+					<img class='navNotImg' src='notification.url'>
+					<span>Notification</span>
+					{{notification.title}} by {{notification.author}}
+				</li>
+				<li ng-repeat-end class = "divider">
+			</ul>
 			<!-- Make a dropdown thing on ng-click -->
 			<span ng-show="signedIn">{{username}}</span>
 			<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">

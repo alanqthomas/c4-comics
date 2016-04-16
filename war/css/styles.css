@@ -64,6 +64,9 @@ footer {
 #navForm {
   display: inline; }
 
+.navNotImg {
+  float: left; }
+
 .span12 {
   text-align: center; }
 
