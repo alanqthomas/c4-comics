@@ -1,5 +1,5 @@
 $nav-text-color: rgba(0,0,0,255);
-$nav-min-height: 32px;
+$nav-min-height: 16px;
 #navRight{
 	float:right;
 	 margin:auto 0 auto auto;
@@ -18,7 +18,7 @@ $nav-min-height: 32px;
 	vertical-align: middle;
 	color: $nav-text-color;
 	min-height: $nav-min-height;
-	height: 8%;
+	height: 5%;
 	//text-align:center;
 	a {
 		color: $nav-text-color;
