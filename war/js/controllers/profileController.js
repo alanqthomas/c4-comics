@@ -94,7 +94,7 @@
 					function(){
 						$scope.series_reserve.push({
 							id:resp.id,
-							url:buildImageURL("series", resp.id),
+							//url:buildImageURL("series", resp.id),
 							title:resp.title,
 							type:"series"
 						});
@@ -119,7 +119,7 @@
 					function(){
 						$scope.favorites_reserve.push({
 							id:resp.id,
-							url:buildImageURL("series", resp.id),
+							//url:buildImageURL("series", resp.id),
 							title:resp.title,
 							type:"series"
 						});
@@ -140,7 +140,7 @@
 					function(){
 						$scope.favorites_reserve.push({
 							id:resp.id,
-							url:buildImageURL("comic", resp.id),
+							//url:buildImageURL("comic", resp.id),
 							title:resp.title,
 							type:"comic"
 						});
@@ -161,7 +161,7 @@
 					function(){
 						$scope.favorites_reserve.push({
 							id:resp.id,
-							url:buildImageURL("profile", resp.id),
+							//url:buildImageURL("profile", resp.id),
 							title:resp.username,
 							type:"profile"
 						});
@@ -228,7 +228,8 @@
 		}
 		*/
 		//set css.
-		var bgStyleStr = '#ffffff url('+buildImageURL("profilebg", $scope.profile_id)+') no-repeat center center';
+		var bgStyleStr = '#ffffff no-repeat center center'
+			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
 		

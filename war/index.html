@@ -42,12 +42,14 @@
 </head>
 <body ng-app="c4">
 	<div id="navBuff"></div>
-	<div ng-controller="navCtrl" id="navRow">
-		<span ui-sref="home" class="navSpan" id="navTitle">C4comics</span>
-		<!-- <span> -->
+	<div ng-controller="navCtrl" id="navRow" >
+		<span ui-sref="home" class="navLeft" id="navTitle">
+			C4comics
+		</span>
+		<span id="navCenter"><!-- use to center -->
 			<form ng-submit="navSearch()" id="navForm">
 				<span class="hidden-xs">
-					<input type="text" placeholder="Search" ng-model="searchTerms" ></input>
+					<input type="text" placeholder="Search" ng-model="searchTerms"></input>
 					<i class="material-icons" ng-click="navSearch()">search</i>
 				</span>
 				<span class="visible-xs-inline">
@@ -55,20 +57,22 @@
 					<i class="material-icons">search</i> 
 				</span>
 			</form>
-		<!-- </span> -->
-		<!-- Make a dropdown thing on ng-click -->
-		<i class="material-icons" ng-show="signedIn">notifications</i>
-		<span ng-show="signedIn">{{username}}</span>
-		<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
-		<span class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown">
-				<i class="material-icons">list</i>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a ui-sref="browse">Browse</a></li>
-					<li data-toggle="modal" data-target="#settingsModal" ng-show="signedIn"><a>Settings</a></li>
-					<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
-				</ul>
-			</a>
+		</span>
+		<span id="navRight">
+			<i class="material-icons" ng-show="signedIn">notifications</i>
+			<!-- Make a dropdown thing on ng-click -->
+			<span ng-show="signedIn">{{username}}</span>
+			<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
+			<span class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown">
+					<i class="material-icons">list</i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a ui-sref="browse">Browse</a></li>
+						<li data-toggle="modal" data-target="#settingsModal" ng-show="signedIn"><a>Settings</a></li>
+						<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
+					</ul>
+				</a>
+			</span>
 		</span>
 	<!-- Navbar Settings Modal -->
 	<div id="settingsModal" class="modal fade" role="dialog">
@@ -107,16 +111,17 @@
 			</div>
 		</div>
 	</div> -->
-	<div>
-		<a ui-sref="home">Home</a>
-		<a ui-sref="profile">Profile</a>
-		<a ui-sref="series">Series</a>
-		<a ui-sref="comic">Comic</a>
-		<a ui-sref="editComic">Edit Comic</a>
-		<a ui-sref="draw">Draw</a>
-		<a ui-sref="browse">Browse</a>
-		<a ui-sref="search">Search</a>
-	</div>
+
+</div>
+<div>
+	<a ui-sref="home">Home</a>
+	<a ui-sref="profile">Profile</a>
+	<a ui-sref="series">Series</a>
+	<a ui-sref="comic">Comic</a>
+	<a ui-sref="editComic">Edit Comic</a>
+	<a ui-sref="draw">Draw</a>
+	<a ui-sref="browse">Browse</a>
+	<a ui-sref="search">Search</a>
 </div>
 <div ui-view></div>
 <!-- Enable livereload for development -->

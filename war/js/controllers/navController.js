@@ -5,6 +5,10 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
                                   function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
 	//display variables
 	$('#navBuff').css('height', $('#navRow').css('height') );
+	$('#navCenter').css('height', $('#navRow').css('height') );
+	$('#navRight').css('height', $('#navRow').css('height') );
+	$('#navLeft').css('height', $('#navRow').css('height') );
+
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";

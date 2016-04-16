@@ -17,14 +17,14 @@
 			</div>
 		</div>
 		<div class="row" id="displayTagBrowse">
-			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags">
+			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags" ng-show='resultsBool'>
 			<!-- but with a lot more styling. -->
-				<span style="backfround-image:url({{x.url}})">{{x.tag}}</span>
+				<span ng-style="tagDisplayStyle">{{x.tag}}</span>
 			</div>
 		</div>
 		<div class="row" id="displayResultBrowse">
-			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" hidden>
-				<span style="backfround-image:url({{x.purl}})">{{x.title}} by {{x.author}}</span>
+			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" ng-show='resultsBool'>
+				<span style="backfround-image:url({{x.url}})">{{x.title}} by {{x.author}}</span>
 			</div>
 		</div>
 	</div>

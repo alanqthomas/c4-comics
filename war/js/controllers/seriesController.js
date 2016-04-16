@@ -18,18 +18,12 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$scope.summary=resp.description;
 				$scope.comics_id=resp.comics;
 				$scope.rating = resp.rating;
-				$scope.bg_imageURL = resp.resp.bgImage;
 			},function(resp){
-				$scope.author_id=null;
-				$scope.author_name="No Author Found";
-				$scope.summary="No Summary Found";
-				$scope.comics_id = null;
-				$scope.rating = null;
-				$scope.bg_imageURL = null;
-				console.log("error no series result");
+				//should add info to error.
+				$state.go('error');
 			}
 		);
-		//checking for null values when the query returns null
+		//checking for null values when the query returns null why?
 		if($scope.author_name == null){
 			$scope.author_name="Author Name Not Found";
 		}
@@ -69,7 +63,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						});
 					},
 					function(){
-						console.log("no comics found for " + $scope.comics_id[i]);
+						console.log("no comic found for " + $scope.comics_id[i]);
 					}
 				);
 			}

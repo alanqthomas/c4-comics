@@ -34,6 +34,13 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
+#navRight {
+  float: right;
+  margin: auto 0 auto auto; }
+
+#navLeft {
+  margin: auto auto auto 0; }
+
 #navBuff {
   width: 100%; }
 
@@ -55,9 +62,6 @@ footer {
   height: 100%; }
 
 #navForm {
-  display: inline; }
-
-#navTitle {
   display: inline; }
 
 .span12 {
