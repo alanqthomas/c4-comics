@@ -5,6 +5,11 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
                                   function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
 	//display variables
 	$('#navBuff').css('height', $('#navRow').css('height') );
+	$('#navCenter').css('height', $('#navRow').css('height') );
+	$('#navRight').css('height', $('#navRow').css('height') );
+	$('#navLeft').css('height', $('#navRow').css('height') );
+
+	$scope.notifications=[];
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
@@ -54,7 +59,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 				$scope.userId = null;
 				$scope.signMsg = "Sign In";
 				$scope.username = null;
-				$scope.notifications=null;
+				$scope.notifications=[];
 				$scope.signedIn=false;
 				//$scope.userSettings=null;
 			});
@@ -74,6 +79,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 	$scope.navProfile = function(){
 		$state.go('profile',{"id": $scope.userId});
 	}
+	$scope.notificationsBool = ($scope.notifications.length > 0);
 }]);
 
 })();

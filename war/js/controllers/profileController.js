@@ -2,9 +2,6 @@
 (function() {
 	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 
 	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state){
-		
-		
-		
 		//THIS MUST BE BEFORE Tab is created
 		$scope.series_loadMore = function() {
 			//pushes images to the array. load more
@@ -17,7 +14,6 @@
 				$scope.favorites.push($scope.favorites_reserved.shift());
 			}
 		}
-		
 		//PLACE HOLDERS
 		//*****************************
 		//this is image url for initial display
@@ -201,15 +197,16 @@
 		}
 		
 		//set css.
-		/*
-		var bgStyleStr = '#ffffff url('+buildImageURL("profilebg", $scope.profile_id)+') no-repeat center center';
+
+		var bgStyleStr = '#ffffff no-repeat center center';
+			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
 		
 		$scope.newSeries = function(){
 			if($scope.isOwner){
 				var param = createSeries($scope.profile_id);
-				GApi.execute( "seriesendpoint","insertSeries", param).then(
+				GApi.execute("seriesendpoint","insertSeries", param).then(
 					function(resp){	
 						$scope.go_to_series(resp.id);
 					}, function(resp){
@@ -234,7 +231,7 @@
 						}
 					);
 			}
-		}*/
+		}
 		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER
 		//add tab if content or owner
 		$scope.tabs = [];

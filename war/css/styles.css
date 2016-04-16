@@ -34,6 +34,13 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
+#navRight {
+  float: right;
+  margin: auto 0 auto auto; }
+
+#navLeft {
+  margin: auto auto auto 0; }
+
 #navBuff {
   width: 100%; }
 
@@ -43,8 +50,8 @@ footer {
   top: 0px;
   vertical-align: middle;
   color: black;
-  min-height: 32px;
-  height: 8%; }
+  min-height: 16px;
+  height: 5%; }
   #navRow a {
     color: black; }
   #navRow div {
@@ -57,8 +64,8 @@ footer {
 #navForm {
   display: inline; }
 
-#navTitle {
-  display: inline; }
+.navNotImg {
+  float: left; }
 
 .span12 {
   text-align: center; }

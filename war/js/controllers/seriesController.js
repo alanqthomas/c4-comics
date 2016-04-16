@@ -109,6 +109,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					},
 					function(){
 						console.log("no comics found for " + $scope.series.comics[i]);
+
 					}
 				);
 			}

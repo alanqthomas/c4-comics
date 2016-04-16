@@ -9,6 +9,7 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
 	}else{
 		$scope.selTags = [];
 	}
+	$scope.resultsBool = false;
 	$scope.displayTags = [];
 	$scope.removeTag = function(tagToRemove){
 		var index = $scope.selTags.indexOf(tagToRemove);
@@ -19,48 +20,37 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
 	$scope.addTag = function(tagToAdd){
 		$scope.selTags.push(tagToAdd);
 	}
-//gets tags for further sorting, sorted by popularity.
-	$scope.getTopTags= function(){
-		var resultReq = {
-			"tags": $scope.selTags,
-		};
-		/*GApi.execute('browseEndpoint', 'getTags', resultReq).then( 
-			function(resp) {
-			$scope.value = resp.items;//add here
-			//result is placed in $scope.displayTags.
-			}, function(resp) {
-				console.log("error :(");
-			}
-		);*/
+	$scope.tagDisplayStyle = {
+		'background':'rbga(0,0,0,225)',
+		'color' : 'rbga(255,255,255,215)'
+	};
+	function prepareComic(part){
+		part.url = buildImageURL('comic', part.id);
 	}
-	$scope.checkResults=function(){
-		var resultReq = {
-			"tags": $scope.selTags,
-			"numResults": $scope.resultSwitch
-		};
-		/*GApi.execute('browseEndpoint', 'checkResults', resultReq).then( 
-			function(resp) {
-			$scope.value = resp.items;//extract a boolean, call methods.
-			}, function(resp) {
-				console.log("error :(");
-			}
-		);*/
-	}
-	
-//gets matching comics, sorted by popularity.
 	$scope.getResults= function(){
 		var resultReq = {
 			"tags": $scope.selTags,
-			"numResults": $scope.resultSwitch
+			"numResults" : $scope.resultSwitch
 		};
-		/*GApi.execute('browseEndpoint', 'getResults', resultReq).then( 
+		GApi.execute('browseendpoint', 'getResults', resultReq).then( 
 			function(resp) {
-			$scope.value = resp.items;//add here
-			//result is placed in $scope.browseResults.
-			}, function(resp) {
-				console.log("error :(");
+			console.log(resp);
+			$scope.resultsBool = resp.comics;
+			if($scope.resultsBool){
+				$scope.displayTags = null;
+				$scope.browseResults = resp.results;
+				$scope.browseResults.forEach(prepareResult(part));
+			} else {
+				$scope.browseResults = null;
+				$scope.displayTags = resp.results;
 			}
-		);*/
+
+			//result is placed in $scope.displayTags.
+			}, function(resp) {
+				console.log("Result call failed.");
+				console.log(resp);
+			}
+		);
 	}
 }]);
 })();
