@@ -5,8 +5,7 @@
 			<!-- have some way of extracting current user -->
 			<div class='container'>
 				<div class="row">
-					<h1 class="h1_centered" style='text-align:center'>{{series_name}}</h1>
-					<h1 class="h1_centered" style='text-align:center'>{{author_name}}</h1>
+					<h1 class="h1_centered" style='text-align:center'>{{series.title}}</h1>
 				</div>
 			</div>
 		</div>
@@ -17,10 +16,13 @@
 			<h3 class="h3_hover" ng-click='goToAuthor()'>{{author_name}}</h3>
 		</div>
 		<div class='row'>
+			<p>Rating {{series.rating}}/10</p>
+		</div>
+		<div class='row'>
 			<h3>Summary</h3>
 		</div>
 		<div class='row'>
-			<p>{{summary}}</p>
+			<p>{{series.title}}</p>
 		</div>
 	</div>
 	

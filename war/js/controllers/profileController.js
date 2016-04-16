@@ -28,7 +28,6 @@
 			src: 'http://downloadicons.net/sites/default/files/favorite-icon-47070.png',
 		    type:"comic",
 			id:26}];
-		
 		$scope.series_reserves = [{
 			title:"series2",
 			src:"http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
@@ -50,7 +49,6 @@
 			type: "series",
 			id:23
 		}];
-		
 		$scope.favorites_reserved=[{
 			title:"fav1",
 			src:'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
@@ -73,119 +71,133 @@
       		id: 30
       	}];
 		//*********************** PLACEHOLDER END
+		
+		$scope.profile = {
+			username: "No Username Found",
+			biography: "Write a biography here!",
+			userSeries: [],
+			favoriteSeries: [],
+			favoriteAuthors : [],
+			favoriteComics: [],
+			profileImageURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
+		};
+		//TAKE OUT THE FOLLOWING COMMMENT TO TAKE OUT PLACEHOLDER
+		$scope.series = [];
+		$scope.favorites=[];
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
-		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id} ).then(
+		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 			function(resp){	
 				console.log(resp);
-				$scope.name = resp.username;
-				$scope.bio = resp.biography;
-				$scope.series_id = resp.userSeries;
-				//favorite series
-				$scope.favorites_series_id = resp.favoriteSeries;
-				//favorite author
-				$scope.favorites_author_id = resp.favoriteAuthors;
-				//favorite comics
-				$scope.favorites_comics_id = resp.favoriteComics;
+				$scope.profile = resp;
+				console.log($scope.profile.profileImageURL);
+				$scope.query_for_series();
 			}, function(resp){
-				console.log("error no user found for url ID");
-				$scope.name = "No User Found For This ID";
-				$scope.bio = "Write a biography here!";
-				$scope.series_id = [];
-				$scope.favorites_id = [];
+				
 			}
 		);
-		//TAKE OUT THE FOLLOWING COMMMENT TO TAKE OUT PLACEHOLDER
-		//$scope.series = [];
-		//$scope.favorites=[];
 		
-		if($scope.series_id == null){
-			console.log("no series")
-		}
-		else{
-			for(var i = 0;i < $scope.series_id.length; i ++){
-				GApi.execute("seriesendpoint","getSeries", {"id":$scope.series_id[i]}).then(
-					function(){
-						$scope.series_reserve.push({
-							id:resp.id,
-							//url:buildImageURL("series", resp.id),
-							title:resp.title,
-							type:"series"
-						});
-					},
-					function(){
-						console.log("no series found for "+$scope.series_id[i]);
+		
+		
+		
+		
+		$scope.query_for_series = function() {
+			//query for series
+			if($scope.profile.userSeries == null){
+				console.log("no user series")
+			}
+			else{
+				for(var i = 0;i < $scope.profile.userSeries.length; i ++){
+					GApi.execute("seriesendpoint","getSeries", {"id":$scope.profile.userSeries[i]}).then(
+						function(){
+							$scope.series_reserve.push({
+								id:resp.id,
+								//url:buildImageURL("series", resp.id),
+								title:resp.title,
+								type:"series"
+							});
+						},
+						function(){
+						}
+					);
+					//put one in the initial
+					if($scope.series_reserve.length > 0){
+						$scope.series.push($scope.series_reserve.shift());
 					}
-				);
-				//put one in the initial
-				if($scope.series_reserve.length > 0){
-					$scope.series.push($scope.series_reserve.shift());
+				}
+			}
+			//query for favorites series
+			if($scope.profile.favoriteSeries == null){
+				console.log("no favorites series");
+			}
+			else{
+				for(var i = 0;i < $scope.profile.favoriteSeries.length; i ++){
+					GApi.execute("seriesendpoint","getSeries", {"id":$scope.profile.favoriteSeries[i]}).then(
+						function(){
+							$scope.favorites_reserve.push({
+								id:resp.id,
+								//url:buildImageURL("series", resp.id),
+								title:resp.title,
+								type:"series"
+							});
+						},
+						function(){
+						}
+					);
+				}
+			}	
+			//query for favorites comics
+			if($scope.profile.favoriteComics == null){
+				console.log("no favorites comics");
+			}
+			else{
+				for(var i = 0;i < $scope.profile.favoriteComics.length; i ++){
+					GApi.execute("comicendpoint","getComic", {"id":$scope.profile.favoriteComics[i]}).then(
+						function(){
+							$scope.favorites_reserve.push({
+								id:resp.id,
+								//url:buildImageURL("comic", resp.id),
+								title:resp.title,
+								type:"comic"
+							});
+						},
+						function(){
+							
+						}
+					);
+				}
+			}
+			//query for favorites author
+			if($scope.profile.favoriteAuthors == null){
+				console.log("no favorites author");
+			}
+			else{
+				for(var i = 0;i < $scope.profile.favoriteAuthors.length; i ++){
+					GApi.execute("c4userendpoint","getC4User", {"id":$scope.profile.favoriteAuthors[i]}).then(
+						function(){
+							$scope.favorites_reserve.push({
+								id:resp.id,
+								//url:buildImageURL("profile", resp.id),
+								title:resp.username,
+								type:"profile"
+							});
+						},
+						function(){
+							
+						}
+					);
 				}
 			}
 		}
-		//query for favorites series
-		if($scope.favorites_series_id == null){
-			console.log("no favorites series");
-		}
-		else{
-			for(var i = 0;i < $scope.favorite_series_id.length; i ++){
-				GApi.execute("seriesendpoint","getSeries", {"id":$scope.favorites_series_id[i]}).then(
-					function(){
-						$scope.favorites_reserve.push({
-							id:resp.id,
-							//url:buildImageURL("series", resp.id),
-							title:resp.title,
-							type:"series"
-						});
-					},
-					function(){
-						console.log("no series found for "+$scope.favorites_series_id[i]);
-					}
-				);
-			}
-		}	
-		//query for favorites comics
-		if($scope.favorites_comics_id == null){
-			console.log("no favorites comics");
-		}
-		else{
-			for(var i = 0;i < $scope.favorite_comics_id.length; i ++){
-				GApi.execute("comicendpoint","getComic", {"id":$scope.favorites_comics_id[i]}).then(
-					function(){
-						$scope.favorites_reserve.push({
-							id:resp.id,
-							//url:buildImageURL("comic", resp.id),
-							title:resp.title,
-							type:"comic"
-						});
-					},
-					function(){
-						console.log("no comics found for "+$scope.favorites_comics_id[i]);
-					}
-				);
-			}
-		}
-		//query for favorites author
-		if($scope.favorites_author_id == null){
-			console.log("no favorites author");
-		}
-		else{
-			for(var i = 0;i < $scope.favorite_author_id.length; i ++){
-				GApi.execute("c4userendpoint","getC4User", {"id":$scope.favorites_author_id[i]}).then(
-					function(){
-						$scope.favorites_reserve.push({
-							id:resp.id,
-							//url:buildImageURL("profile", resp.id),
-							title:resp.username,
-							type:"profile"
-						});
-					},
-					function(){
-						console.log("no comics found for "+$scope.favorites_comics_id[i]);
-					}
-				);
-			}
-		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if($scope.favorites_reserve != null && $scope.favorites_reserve.length > 0){
 			$scope.favorites.push($scope.favorites.shift());
 		}

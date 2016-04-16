@@ -10,73 +10,33 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//aggregate comics
 		$scope.comics=[];
 		$scope.comics_reserve=[];
+		$scope.author_name="Author Name Not Found";
+		$scope.series = {
+				authorId: null,
+				title: "No Title Found",
+				description: "No Summary Found",
+				comics: [],
+				rating: null,
+				bgImageURL: null
+		};
 		//execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
-				/*
-				$scope.author_id=resp.authorId;
-				$scope.series_name=resp.title;
-				$scope.summary=resp.description;
-				$scope.comics_id=resp.comics;
-				$scope.rating = resp.rating;
-				$scope.bg_imageURL = resp.bgImageURL;
-				*/
-				$scope.series = {
-					authorId: resp.authorId,
-					title: resp.title,
-					description: resp.description,
-					comics_id: resp.comics,
-					rating: resp.rating,
-				};
-				
+				$scope.series = resp;
+				//query for author name
+				GApi.execute( "c4userendpoint","getC4User", {"id":$scope.series.authorId}).then(
+					function(resp){
+						$scope.author_name = resp.username;
+					},
+					function(resp){
+						
+					}
+				);
 			},function(resp){
-				/*
-				$scope.author_id=null;
-				$scope.author_name="No Author Found";
-				$scope.summary="No Summary Found";
-				$scope.comics_id = null;
-				$scope.rating = null;
-				$scope.bg_imageURL = null;
-				console.log("error no series result");*/
-				
-				$scope.series = {
-					authorId: null,
-					title: "No Summary Found",
-					description: "No Summary Found",
-					comics: [],
-					rating: null,
-					bgImageURL: null
-				};
-			}
-		);
-		
-		//query for author name
-		GApi.execute("c4userendpoint","getC4User", {"id": $scope.author_id}).then(
-			function(resp){
-				
-			},
-			function(resp){
 				
 			}
 		);
-		
-		
-		
-		//checking for null values when the query returns null
-		if($scope.author_name == null){
-			$scope.author_name="Author Name Not Found";
-		}
-		
-		
-		
-		
-		
-		if($scope.series.title == null){
-			$scope.series.title="Title Not Found";
-		}
-		if($scope.series.description== null){
-			$scope.series.description="No Summary Found";
-		}
+	
 		
 		if($scope.series.comics == null){
 			//PLACE HOLDERS if there are no comics_id, populate placeholder
@@ -128,6 +88,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go('profile',{"id": $scope.series.authorId});
 			}
 		}
+		$scope.$apply;
 		
 }]);
 })();

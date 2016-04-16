@@ -30,7 +30,6 @@ module.exports = function(grunt) {
               'war/js/controllers/searchController.js',
               'war/js/controllers/seriesController.js',
               'war/js/controllers/errorController.js',
-              'war/js/controllers/pageController.js',
               'war/js/services/authService.js',
 			  'war/js/services/imgService.js'],
               dest: 'war/js/dist/scripts.js'

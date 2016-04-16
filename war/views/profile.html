@@ -3,13 +3,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-2">
-					<img src='http://s3.amazonaws.com/37assets/svn/765-default-avatar.png' class='img-repsonsive' width=150px height=150px>
+					<img src={{profile.profileImageURL}} class='img-repsonsive' width=150px height=150px>
 					<span ng-if="isOwner">
 						<i class="material-icons">settings_applications</i>
 					</span>
 				</div>
 				<div class='col-xs-10'>
-					<h1 id="name">{{name}}</h1>
+					<h1 id="name">{{profile.username}}</h1>
 					<span class='col-xs-1' ng-if="isOwner">
 						<i class="material-icons">edit</i>
 					</span>
@@ -32,7 +32,7 @@
 		<!-- need to dynamically load bio -->
 		<div class='row' ng-if="isOwner">
 			<div class='col-xs-11'>
-				{{bio}}
+				{{profile.biography}}
 			</div>
 			<div class='col-xs-1' ng-if="isOwner">
 				<i class="material-icons">edit</i>
@@ -41,7 +41,7 @@
 		</div>
 		<div class='row' ng-if="! isOwner">
 			<div class='col-xs-12'>
-				{{bio}}
+				{{profile.biography}}
 			</div>
 		</div>
 	</div>
