@@ -20,6 +20,7 @@ public class Series {
 	
 	//Title of Series
 	@Persistent
+	@Index
 	private String title;
 	
 	//Series description
