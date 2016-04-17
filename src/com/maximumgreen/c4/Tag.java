@@ -14,6 +14,7 @@ public class Tag {
 	//Name of tag, which should be unique across the datastore
 	@Persistent
 	@Unique
+	@Index
 	private String name;
 	
 	//List of COMIC ids tagged with this tag

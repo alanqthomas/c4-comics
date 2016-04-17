@@ -21,6 +21,7 @@ public class C4User {
 	//User's name that gets displayed. Must be unique within datastore.
 	@Persistent
 	@Unique
+	@Index
 	private String username;
 	
 	//Use to determine if user is administrator or not
