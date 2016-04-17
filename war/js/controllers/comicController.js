@@ -13,7 +13,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
     } else{
       $state.go('error');
     }
-
+    $scope.seriesTitle = "NO TITLE";
     $scope.pages = [];
     //$scope.comics = [];
     GApi.execute("comicendpoint", "getComic", {"id": id}).then(
@@ -36,14 +36,33 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
           //$scope.pages.push("" + BASE + "page-" + res.pages[i])
           $scope.pages.push(imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]));
         }
+        
+        //query for series title
+        $scope.seriesId = resp.seriesId;
+        if($scope.seriesId != null){
+        	GApi.execute("seriesendpoint", "getSeries", {"id":resp.seriesId}).then(
+        		function(resp){
+        			$scope.seriesTitle = resp.title;
+        		},
+        		function(resp){
+        			
+        		}
+        	);
+        }
       },
       function(resp){
-        console.log("ERROR. Page not found.", res);
-        $state.go('error');
+        console.log("ERROR. Page not found.", resp);
+        //$state.go('error');
       }
     );
 
+    $scope.goToSeries = function(id){
+    	if(id == null){
+    		$state.go("error");
+    	}
+    	else {
+    		$state.go("series", {"id":id});
+    	}
+    }
 }]);
-
-
 })();

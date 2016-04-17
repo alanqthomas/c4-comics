@@ -37,7 +37,9 @@
 			calls loadMore() everytime at end. Ng-repeat to generate images
 			 -->
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
-			  <img ng-repeat='image in comics' ng-src='http://placehold.it/225x250&text={{image}}'>
+				<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='comic in comics'>
+					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive' ng-click="goToComics(comic.id)">
+				</div>
 			</div>
 		</div>
 		<!-- if there are no pages -->

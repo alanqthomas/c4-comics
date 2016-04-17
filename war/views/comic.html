@@ -1,5 +1,8 @@
 <div ng-controller="comicCtrl">
 	<h1>Comic Page</h1>
+	<a class='h3_hover' ng-click="goToSeries(seriesId)">
+		{{seriesTitle}}
+	</a>
 	<div ng-repeat="p in pages">
 		<img ng-src="{{p}}" />
 	</div>
