@@ -20,6 +20,7 @@ public class Series {
 	
 	//Title of Series
 	@Persistent
+	@Index
 	private String title;
 	
 	//Series description
@@ -154,5 +155,13 @@ public class Series {
 	
 	public boolean deleteSubscriber(String id){
 		return subscribers.remove(id);
+	}
+	
+	public boolean addSeriesComic(Long id){
+		return comics.add(id);
+	}
+	
+	public boolean deleteSeriesComic(Long id){
+		return comics.remove(id);
 	}
 }

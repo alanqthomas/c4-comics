@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -23,6 +24,7 @@ public class Comic {
 	
 	//Name of comic
 	@Persistent
+	@Index
 	private String title;
 	
 	//List of tags the author has added to the comic
@@ -112,5 +114,13 @@ public class Comic {
 	
 	public String getTitle(){
 		return title;
+	}
+	
+	public boolean addComicPage(Long id){
+		return pages.add(id);
+	}
+	
+	public boolean deleteComicPage(Long id){
+		return pages.remove(id);
 	}
 }

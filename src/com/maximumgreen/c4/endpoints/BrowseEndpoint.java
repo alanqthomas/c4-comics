@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Long;
 
-import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 
 

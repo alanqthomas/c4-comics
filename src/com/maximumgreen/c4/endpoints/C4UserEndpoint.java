@@ -169,6 +169,51 @@ public class C4UserEndpoint {
 	}
 
 	//CUSTOM METHODS
+	@ApiMethod(name="adduserseries")
+	public void addUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		
+		try {
+			user = mgr.getObjectById(C4User.class, userId);
+			
+			if (user.getUserSeries() == null){
+				List<Long> list = new ArrayList<Long>();
+				user.setUserSeries(list);
+			}
+			
+			user.addUserSeries(seriesId);
+			
+			mgr.makePersistent(user);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("User Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deleteuserseries")
+	public void deleteUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		
+		try {
+			user = mgr.getObjectById(C4User.class, userId);
+			user.deleteUserSeries(seriesId);
+			
+			mgr.makePersistent(user);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("User Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
 	
 	/**
 	 * This method adds the specified series id to the specified user's subscription list
