@@ -24,6 +24,12 @@
 		<div class='row'>
 			<p>{{series.title}}</p>
 		</div>
+		<div class='row' ng-if='logged_in && subbed < 0'>
+			<button type='button' class='btn btn-primary'> Subscribe </button>
+		</div>
+		<div class='row' ng-if='logged_in && subbed > -1'>
+			<button type='button' class='btn btn-primary' ng-click='unsubscribe()'> Unsubscribe </button>
+		</div>
 	</div>
 	
 	<div class='container'>
