@@ -11,6 +11,7 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -162,6 +163,53 @@ public class SeriesEndpoint {
 		}
 	}
 
+	//CUSTOM METHODS
+	@ApiMethod(name="addseriescomic")
+	public void addSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Series series;
+		
+		try {
+			series = mgr.getObjectById(Series.class, seriesId);
+			
+			if (series.getComics() == null){
+				List<Long> list = new ArrayList<Long>();
+				series.setComics(list);
+			}
+			
+			series.addSeriesComic(comicId);
+			
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Series Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deleteseriescomic")
+	public void deleteComicPage(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Series series;
+		
+		try {
+			series = mgr.getObjectById(Series.class, seriesId);
+			series.deleteSeriesComic(comicId);
+			
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Series Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
 	private boolean containsSeries(Series series) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;

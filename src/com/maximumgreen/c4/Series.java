@@ -155,4 +155,12 @@ public class Series {
 	public boolean deleteSubscriber(String id){
 		return subscribers.remove(id);
 	}
+	
+	public boolean addSeriesComic(Long id){
+		return comics.add(id);
+	}
+	
+	public boolean deleteSeriesComic(Long id){
+		return comics.remove(id);
+	}
 }
