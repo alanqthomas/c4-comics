@@ -181,7 +181,7 @@ public class C4UserEndpoint {
 			
 			if (user.getUserSeries() == null){
 				List<Long> list = new ArrayList<Long>();
-				user.setSubscriptions(list);
+				user.setUserSeries(list);
 			}
 			
 			user.addUserSeries(seriesId);
