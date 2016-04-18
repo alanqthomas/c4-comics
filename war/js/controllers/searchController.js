@@ -1,9 +1,9 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller(('browseCtrl', ['$scope', '$http',	'GApi',
-                                    function(	$scope,   $http,	 GApi){
-	$scope.results=[];
+angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES',
+	function(	 $scope,   $http,   GApi,   imgService,   IMG_PREFIXES){
+	$scope.results = [];
 	$scope.getResults= function(){
 		var resultReq = {
 			"input": $scope.searchTerms
