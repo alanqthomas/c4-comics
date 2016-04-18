@@ -9,9 +9,13 @@
 					</span>
 				</div>
 				<div class='col-xs-10'>
-					<h1 id="name">{{profile.username}}</h1>
-					<span class='col-xs-1' ng-if="isOwner">
-						<i class="material-icons">edit</i>
+					<h1 ng-show="! editName" id="name">{{profile.username}}</h1>
+					<form ng-submit="saveSettings()" ng-show="editName">
+						<input type="text" ng-model="profile.username"></input>
+						<input type="color"></input>
+					</form>
+					<span ng-if="isOwner">
+						<i class="material-icons" ng-click="toggle('editName')">edit</i>
 					</span>
 				</div>
 			</div>

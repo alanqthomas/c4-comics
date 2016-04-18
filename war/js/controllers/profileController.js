@@ -20,6 +20,17 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
+//init display settings
+		$scope.editName = false;
+//display functions.
+		$scope.toggle= function(toToggle){
+			$scope.toToggle = !($scope.toToggle);
+			$scope.apply;
+		}
+		$scope.saveSettings= function(){
+			//push a user object to database
+			;
+		}
 		//PLACE HOLDERS
 		//*****************************
 		//this is image url for initial display
