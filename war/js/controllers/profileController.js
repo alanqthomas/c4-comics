@@ -248,7 +248,7 @@
 					function(resp){
 						GApi.execute("c4userendpoint", "adduserseries", {"userId" : $scope.profile_id,"seriesId" : resp.id}).then(
 							function(resp1){
-								$scope.go_to_series(resp1.id);
+								$scope.go_to_series(resp.id);
 							},
 							function(resp1){
 								console.log("SEVERE ERROR: Series not associated with user.")
