@@ -3,7 +3,28 @@
 	<a class='h3_hover' ng-click="goToSeries(seriesId)">
 		{{seriesTitle}}
 	</a>
+	<aside>
+	You are reading <br>
+	{{seriesTitle}}, by {{authorName}}.
+	</aside>
+	<div class = "comicTitleBar">
+		<h4>{{comic.title}}</h4>
+		<span class= "comicTitleBarFL">
+			{{comic.rating}}
+		</span>
+	</div>
 	<div ng-repeat="p in pages">
-		<img ng-src="{{p}}" />
+		<img ng-src="p.url" />
+	</div>
+	<div ng-repeat="c in comics">
+		<div class = "comicTitleBar">
+			<h4>{{c.title}}</h4>
+			<span class= "comicTitleBarFL">
+				{{c.rating}}
+			</span>
+		</div>
+		<div ng-repeat="p in c.pages">
+			<img ng-src="p.url" alt="{{p.id}}"/>
+		</div>
 	</div>
 </div>

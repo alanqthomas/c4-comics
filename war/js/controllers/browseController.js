@@ -4,7 +4,7 @@
 
 angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
                                     function(	$scope,   $http,	 GApi){
-	if($stateParams.tagList == null){
+	if($stateParams.tagList != null){
 		$scope.selTags = $stateParams.tagList;
 	}else{
 		$scope.selTags = [];

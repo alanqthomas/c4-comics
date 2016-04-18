@@ -1,3 +1,20 @@
 <div ng-controller="searchCtrl">
-	<h1>Search Page</h1>
+	<h3>Search</h3>
+	<div class="container-fluid">
+		<div id ="mainSearch">
+			<form ng-submit="getResults()">
+				<input type="text" ng-model="searchTerms"></input>
+			</form>
+		</div>
+		<div id="optionsDisplaySearch">
+			Area for search options.
+			Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.
+		</div>
+		<div class="row" id="displayResultSearch">
+			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in searchResults">
+				<span style="backfround-image:url({{x.url}})">{{x.title}} by {{x.author}}</span>
+			</div>
+		</div>
+	</div>
 </div>
+
