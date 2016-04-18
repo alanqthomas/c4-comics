@@ -1,7 +1,7 @@
 "use strict";
 (function() {
-	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 
-	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state){
+	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 'imgService', 'IMG_PREFIXES',
+	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state,  imgService,   IMG_PREFIXES){
 		//TODO Link Profile to SERIES
 		//THIS MUST BE BEFORE Tab is created
 		$scope.series_loadMore = function() {
@@ -101,19 +101,13 @@
 		$scope.profile_id = $stateParams.id;
 		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 			function(resp){	
-				console.log(resp);
 				$scope.profile = resp;
-				console.log($scope.profile.profileImageURL);
-				//queries for series
 				$scope.query_for_series();
 			}, function(resp){
-				
+				console.log("error geting user.");
+				console.log(resp);
 			}
 		);
-		
-		
-		
-		
 		
 		$scope.query_for_series = function() {
 			//query for series
@@ -126,7 +120,7 @@
 						function(resp1){
 							$scope.series_reserve.push({
 								id:resp1.id,
-								//url:buildImageURL("series", resp.id),
+								src: imgService.getURL(IMG_PREFIXES.SERIES, resp1.id),
 								title:resp1.title,
 								type:"series"
 							});
@@ -150,7 +144,7 @@
 						function(resp1){
 							$scope.favorites_reserve.push({
 								id:resp1.id,
-								//url:buildImageURL("series", resp.id),
+								src: imgService.getURL(IMG_PREFIXES.SERIES, resp1.id),
 								title:resp1.title,
 								type:"series"
 							});
@@ -170,7 +164,7 @@
 						function(resp1){
 							$scope.favorites_reserve.push({
 								id:resp1.id,
-								//url:buildImageURL("comic", resp.id),
+								src: imgService.getURL(IMG_PREFIXES.COMIC, resp1.id),
 								title:resp1.title,
 								type:"comic"
 							});
@@ -191,7 +185,7 @@
 						function(resp1){
 							$scope.favorites_reserve.push({
 								id:resp1.id,
-								//url:buildImageURL("profile", resp.id),
+								src: imgService.getURL(IMG_PREFIXES.PROFILE, resp1.id),
 								title:resp1.username,
 								type:"profile"
 							});
@@ -213,7 +207,7 @@
 						function(resp1){
 							$scope.subscriptions_reserve.push({
 								id:resp1.id,
-								//url:buildImageURL("series", resp.id),
+								src: imgService.getURL(IMG_PREFIXES.SERIES, resp1.id),
 								title:resp1.title,
 								type:"series"
 							});
@@ -241,13 +235,25 @@
 			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
-		
+		function createSeries(authorId){
+			return {
+				authorId: authorId,
+				description:"Write a description here!",
+			}
+		}
 		$scope.newSeries = function(){
 			if($scope.isOwner){
 				var param = createSeries($scope.profile_id);
 				GApi.execute("seriesendpoint","insertSeries", param).then(
-					function(resp){	
-						$scope.go_to_series(resp.id);
+					function(resp){
+						GApi.execute("c4userendpoint", "adduserseries", {"userId" : $scope.profile_id,"seriesId" : resp.id}).then(
+							function(resp1){
+								$scope.go_to_series(resp1.id);
+							},
+							function(resp1){
+								console.log("SEVERE ERROR: Series not associated with user.")
+							}
+						);
 					}, function(resp){
 						console.log("Failed to create new series.");
 						console.log(resp);
@@ -298,9 +304,7 @@
 				load_m: $scope.subscriptions_loadMore
 			});
 		}
-		
-		
-		
+		//navigation
 		$scope.page_go = function(type, id){
 			if(type == "series"){
 				$scope.go_to_series(id);

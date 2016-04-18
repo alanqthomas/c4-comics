@@ -4,6 +4,7 @@
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth','GApi', 'GData',
                                   function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
 	//display variables
+	$('#navBase').css({'position' : 'relative', 'z-index': '1'});
 	$('#navBuff').css('height', $('#navRow').css('height') );
 	$('#navCenter').css('height', $('#navRow').css('height') );
 	$('#navRight').css('height', $('#navRow').css('height') );
@@ -80,6 +81,15 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 		$state.go('profile',{"id": $scope.userId});
 	}
 	$scope.notificationsBool = ($scope.notifications.length > 0);
+	function createUser(id, email, picture){
+		return {
+			userID: id,
+			email:email,
+			username:email,
+			biography:"Write a biography here!",
+			profileImageURL:picture
+		}
+	}
 }]);
 
 })();

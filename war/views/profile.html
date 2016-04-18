@@ -1,4 +1,4 @@
-<div ng-controller="profileCtrl">
+<div ng-controller="profileCtrl" id="profPage">
 	<div id='profBackground' ng-style="bgStyle">
 		<div class="container">
 			<div class="row">
@@ -49,8 +49,8 @@
 		<uib-tabset>
 	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
 	        	<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-	        		<div ng-if="isOwner" ng-click="newSeries()" class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
-	        			<i class="material-icons">note_add</i>
+	        		<div ng-if="isOwner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
+	        			<i class="material-icons" ng-click="newSeries()">note_add</i>
 	        		</div> 
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
 		        		<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>

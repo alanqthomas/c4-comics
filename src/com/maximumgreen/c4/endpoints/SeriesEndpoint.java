@@ -106,8 +106,8 @@ public class SeriesEndpoint {
 	 */
 	@ApiMethod(name = "insertSeries")
 	public Series insertSeries(Series series) throws BadRequestException {
-		if (series.getTitle() == null || series.getAuthorId() == null)
-			throw new BadRequestException("Title or Author missing.");
+		if (series.getAuthorId() == null)
+			throw new BadRequestException("Author missing.");
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (series.getId() != null) {
