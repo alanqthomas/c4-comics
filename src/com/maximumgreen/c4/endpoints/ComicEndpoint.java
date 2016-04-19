@@ -222,6 +222,98 @@ public class ComicEndpoint {
 		}
 	}
 	
+	@ApiMethod(name="addcomictag")
+	public void addComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Comic comic;
+		
+		try {
+			comic = mgr.getObjectById(Comic.class, comicId);
+			
+			if (comic.getTags() == null){
+				List<Long> list = new ArrayList<Long>();
+				comic.setPages(list);
+			}
+			
+			comic.addComicTag(tagId);
+			
+			mgr.makePersistent(comic);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Comic Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deletecomictag")
+	public void deleteComicTag(@Named("comicId") Long comicId, @Named("pageId") Long tagId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Comic comic;
+		
+		try {
+			comic = mgr.getObjectById(Comic.class, comicId);
+			comic.deleteComicTag(tagId);
+			
+			mgr.makePersistent(comic);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Comic Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="addcomiccomment")
+	public void addComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Comic comic;
+		
+		try {
+			comic = mgr.getObjectById(Comic.class, comicId);
+			
+			if (comic.getComments() == null){
+				List<Long> list = new ArrayList<Long>();
+				comic.setComments(list);
+			}
+			
+			comic.addComicComment(commentId);
+			
+			mgr.makePersistent(comic);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Comic Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deletecomiccomment")
+	public void deleteComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Comic comic;
+		
+		try {
+			comic = mgr.getObjectById(Comic.class, comicId);
+			comic.deleteComicComment(commentId);
+			
+			mgr.makePersistent(comic);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Comic Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
 	private boolean containsComic(Comic comic) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;

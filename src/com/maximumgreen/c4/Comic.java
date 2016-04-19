@@ -135,4 +135,20 @@ public class Comic {
 	public boolean deleteComicPage(Long id){
 		return pages.remove(id);
 	}
+	
+	public boolean addComicTag(Long id){
+		return tags.add(id);
+	}
+	
+	public boolean deleteComicTag(Long id){
+		return tags.remove(id);
+	}
+	
+	public boolean addComicComment(Long id){
+		return comments.add(id);
+	}
+	
+	public boolean deleteComicComment(Long id){
+		return comments.remove(id);
+	}
 }
