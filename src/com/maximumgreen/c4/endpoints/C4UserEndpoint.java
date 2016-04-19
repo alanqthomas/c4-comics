@@ -136,19 +136,34 @@ public class C4UserEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updateC4User")
-	public C4User updateC4User(C4User c4user) throws BadRequestException {
+	public C4User updateC4User(C4User c4user) throws BadRequestException, NotFoundException {
 		if (c4user.getUserID() == null)
-			throw new BadRequestException("One or more required fields are missing");
+			throw new BadRequestException("User ID can not be null");
 		PersistenceManager mgr = getPersistenceManager();
+		C4User updatedUser;
 		try {
-			if (!containsC4User(c4user)) {
-				throw new EntityNotFoundException("Object does not exist");
-			}
-			mgr.makePersistent(c4user);
+			//get the user from the datastore
+			updatedUser = getC4User(c4user.getUserID());
+			//check every c4user field and see if it's trying to be updated
+			if (c4user.getUsername() != null)
+				updatedUser.setUsername(c4user.getUsername());
+			if (c4user.getBiography() != null)
+				updatedUser.setBiography(c4user.getBiography());
+			if (c4user.isAdministrator() != updatedUser.isAdministrator())
+				updatedUser.setAdministrator(c4user.isAdministrator());
+			if (c4user.getProfileImageURL() != null)
+				updatedUser.setProfileImageURL(c4user.getProfileImageURL());
+			if (c4user.getRating() != 0 && (c4user.getRating() != updatedUser.getRating()))
+				updatedUser.setRating(c4user.getRating());
+			//save the updates
+			mgr.makePersistent(updatedUser);
+		} catch (NotFoundException ex) {
+			throw ex;
 		} finally {
 			mgr.close();
 		}
-		return c4user;
+		//return the updated object
+		return updatedUser;
 	}
 	
 	/**

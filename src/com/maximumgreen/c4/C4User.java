@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.jdo.annotations.*;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class C4User {
 	//Use unique Google ID as the user ID
@@ -31,22 +29,10 @@ public class C4User {
 	//Biography for user page
 	@Persistent
 	private String biography;
-	
-	//Key to retrieve user's profile picture from GCS if necessary
-	@Persistent
-	private BlobKey profileImage;
-	
+
 	//URL to profile image
 	@Persistent
 	private String profileImageURL;
-	
-	//Key to retrieve user's custom background image from GCS if necessary
-	@Persistent
-	private BlobKey bgImage;
-	
-	//URL to bg image
-	@Persistent
-	private String bgImageURL;
 	
 	//User's rating, to be calculated from their series/comics ratings
 	@Persistent
@@ -132,36 +118,12 @@ public class C4User {
 		this.biography = biography;
 	}
 
-	public BlobKey getProfileImage() {
-		return profileImage;
-	}
-
-	public void setProfileImage(BlobKey profileImage) {
-		this.profileImage = profileImage;
-	}
-
-	public BlobKey getBgImage() {
-		return bgImage;
-	}
-
-	public void setBgImage(BlobKey bgImage) {
-		this.bgImage = bgImage;
-	}
-
 	public String getProfileImageURL() {
 		return profileImageURL;
 	}
 
 	public void setProfileImageURL(String profileImageURL) {
 		this.profileImageURL = profileImageURL;
-	}
-
-	public String getBgImageURL() {
-		return bgImageURL;
-	}
-
-	public void setBgImageURL(String bgImageURL) {
-		this.bgImageURL = bgImageURL;
 	}
 
 	public double getRating() {

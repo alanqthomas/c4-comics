@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.jdo.annotations.*;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Series {
 	//Unique generated id
@@ -26,10 +24,6 @@ public class Series {
 	//Series description
 	@Persistent
 	private String description;
-	
-	//Background image used on Series page
-	@Persistent
-	private BlobKey bgImage;
 	
 	//URL to bgImage
 	@Persistent
@@ -90,14 +84,6 @@ public class Series {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public BlobKey getBgImage() {
-		return bgImage;
-	}
-
-	public void setBgImage(BlobKey bgImage) {
-		this.bgImage = bgImage;
 	}
 
 	public String getBgImageURL() {
@@ -163,5 +149,13 @@ public class Series {
 	
 	public boolean deleteSeriesComic(Long id){
 		return comics.remove(id);
+	}
+	
+	public boolean addSeriesComment(Long id){
+		return comments.add(id);
+	}
+	
+	public boolean deleteSeriesComment(Long id){
+		return comments.remove(id);
 	}
 }

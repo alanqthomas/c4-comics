@@ -5,7 +5,9 @@ import com.maximumgreen.c4.Page;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
@@ -15,7 +17,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
@@ -77,11 +78,16 @@ public class PageEndpoint {
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getPage")
-	public Page getPage(@Named("id") Long id) {
+	public Page getPage(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		if (id == null)
+			throw new BadRequestException("Page ID must be specified");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		Page page = null;
 		try {
 			page = mgr.getObjectById(Page.class, id);
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Page ID doesn't exist");
 		} finally {
 			mgr.close();
 		}
@@ -121,17 +127,25 @@ public class PageEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updatePage")
-	public Page updatePage(Page page) {
+	public Page updatePage(Page page) throws BadRequestException, NotFoundException{
+		if (page.getId() == null)
+			throw new BadRequestException("Page ID can not be null");
 		PersistenceManager mgr = getPersistenceManager();
+		Page updatedPage;
 		try {
-			if (!containsPage(page)) {
-				throw new EntityNotFoundException("Object does not exist");
-			}
-			mgr.makePersistent(page);
+			//get the page to update from the datastore
+			updatedPage = getPage(page.getId());
+			//update the provided fields
+			if (page.getImageURL() != null)
+				updatedPage.setImageURL(page.getImageURL());
+			if (page.getDateCreated() != null)
+				updatedPage.setDateCreated(page.getDateCreated());
+			
+			mgr.makePersistent(updatedPage);
 		} finally {
 			mgr.close();
 		}
-		return page;
+		return updatedPage;
 	}
 
 	/**

@@ -18,6 +18,10 @@ public class Comic {
 	@PrimaryKey
 	private Long id;
 	
+	//ID of author
+	@Persistent
+	private String authorId;
+	
 	//ID of parent series
 	@Persistent
 	private Long seriesId;
@@ -67,7 +71,15 @@ public class Comic {
 	public void setSeriesId(Long seriesId) {
 		this.seriesId = seriesId;
 	}
-
+	
+	public String getAuthorId() {
+		return authorId;
+	}
+	
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
+	}
+	
 	public List<Long> getTags() {
 		return tags;
 	}
@@ -122,5 +134,21 @@ public class Comic {
 	
 	public boolean deleteComicPage(Long id){
 		return pages.remove(id);
+	}
+	
+	public boolean addComicTag(Long id){
+		return tags.add(id);
+	}
+	
+	public boolean deleteComicTag(Long id){
+		return tags.remove(id);
+	}
+	
+	public boolean addComicComment(Long id){
+		return comments.add(id);
+	}
+	
+	public boolean deleteComicComment(Long id){
+		return comments.remove(id);
 	}
 }

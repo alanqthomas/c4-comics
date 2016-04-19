@@ -13,13 +13,11 @@ import com.google.api.server.spi.response.BadRequestException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Long;
 
-import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-
+@SuppressWarnings("unchecked")
 @Api(name = "searchendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class SearchEndpoint {
 		
