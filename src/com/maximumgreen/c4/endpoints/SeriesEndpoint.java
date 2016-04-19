@@ -18,7 +18,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
@@ -131,19 +130,33 @@ public class SeriesEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updateSeries")
-	public Series updateSeries(Series series) throws BadRequestException {
+	public Series updateSeries(Series series) throws BadRequestException, NotFoundException {
 		if (series.getId() == null)
-			throw new BadRequestException("One or more required fields are missing");
+			throw new BadRequestException("Series ID can not be null");
 		PersistenceManager mgr = getPersistenceManager();
+		Series updatedSeries;
 		try {
-			if (!containsSeries(series)) {
-				throw new EntityNotFoundException("Object does not exist");
-			}
-			mgr.makePersistent(series);
+			//get the series to update from the datastore
+			updatedSeries = getSeries(series.getId());
+			//update the provided fields
+			if (series.getAuthorId() != null)
+				updatedSeries.setAuthorId(series.getAuthorId());
+			if (series.getTitle() != null)
+				updatedSeries.setTitle(series.getTitle());
+			if (series.getDescription() != null)
+				updatedSeries.setDescription(series.getDescription());
+			if (series.getBgImageURL() != null)
+				updatedSeries.setBgImageURL(series.getBgImageURL());
+			if (series.getDateCreated() != null)
+				updatedSeries.setDateCreated(series.getDateCreated());
+			if (series.getRating() != 0 && (series.getRating() != updatedSeries.getRating()))
+				updatedSeries.setRating(series.getRating());
+			
+			mgr.makePersistent(updatedSeries);
 		} finally {
 			mgr.close();
 		}
-		return series;
+		return updatedSeries;
 	}
 
 	/**
@@ -191,7 +204,7 @@ public class SeriesEndpoint {
 	}
 	
 	@ApiMethod(name="deleteseriescomic")
-	public void deleteComicPage(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
+	public void deleteSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -210,6 +223,51 @@ public class SeriesEndpoint {
 		}
 	}
 	
+	@ApiMethod(name="addseriescomment")
+	public void addSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Series series;
+		
+		try {
+			series = mgr.getObjectById(Series.class, seriesId);
+			
+			if (series.getComments() == null){
+				List<Long> list = new ArrayList<Long>();
+				series.setComments(list);
+			}
+			
+			series.addSeriesComment(commentId);
+			
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Series Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deleteseriescomment")
+	public void deleteSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Series series;
+		
+		try {
+			series = mgr.getObjectById(Series.class, seriesId);
+			series.deleteSeriesComment(commentId);
+			
+			mgr.makePersistent(series);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Series Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
 	private boolean containsSeries(Series series) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
