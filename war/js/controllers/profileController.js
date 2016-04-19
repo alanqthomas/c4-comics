@@ -24,8 +24,11 @@
 		$scope.editName = false;
 //display functions.
 		$scope.toggle= function(toToggle){
-			$scope.toToggle = !($scope.toToggle);
-			$scope.apply;
+			if(toToggle == "editName"){
+				$scope.editName = !(scope.editName);
+				$scope.$apply;
+			}
+			//$scope.toToggle = !($scope.toToggle);
 		}
 		$scope.saveSettings= function(){
 			//push a user object to database

@@ -9,10 +9,10 @@
 					</span>
 				</div>
 				<div class='col-xs-10'>
-					<h1 ng-show="! editName" id="name">{{profile.username}}</h1>
-					<form ng-submit="saveSettings()" ng-show="editName">
-						<input type="text" ng-model="profile.username"></input>
-						<input type="color"></input>
+					<h1 ng-hide="editName" id="name">{{profile.username}}</h1>
+					<form ng-submit="saveSettings()">
+						<input ng-show="editName" type="text" ng-model="profile.username"></input>
+						<input ng-show="editName" type="color"></input>
 					</form>
 					<span ng-if="isOwner">
 						<i class="material-icons" ng-click="toggle('editName')">edit</i>
@@ -60,7 +60,7 @@
 		        		<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
 		        		<img ng-src={{x.src}} class='img-responsive' ng-click="page_go(x.type,x.id)">
 		        		
-		        		<div ng-if="(isOwner)&&(tab.slug == 'fav')" class="profTabRTC">
+		        		<div ng-if="(isOwner)" class="profTabRTC">
 		        			<i class="material-icons" ng-click="deleteFav(x)">delete_forever</i>
 		        		</div> 
 		        	</div>

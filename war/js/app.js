@@ -14,10 +14,15 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
 
     // Load C4 APIs
     var APIS = [ // List of APIs
-      {'name': 'c4userendpoint', 'version': 'v1'},
-      {'name': 'comicendpoint', 'version': 'v1'},
-      {'name': 'pageendpoint', 'version': 'v1'},
-      {'name': 'seriesendpoint', 'version': 'v1'}
+      {'name': 'browseendpoint', 	'version': 'v1'},
+      {'name': 'c4userendpoint', 	'version': 'v1'},
+      {'name': 'comicendpoint', 	'version': 'v1'},
+      {'name': 'commentendpoint', 	'version': 'v1'},
+      {'name': 'gcsendpoint', 		'version': 'v1'},
+      {'name': 'pageendpoint', 		'version': 'v1'},
+      {'name': 'searchendpoint', 	'version': 'v1'},
+      {'name': 'seriesendpoint', 	'version': 'v1'},
+      {'name': 'tagendpoint', 		'version': 'v1'}
     ];
 
     for(var i = 0; i < APIS.length; i++){

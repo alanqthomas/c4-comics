@@ -34,17 +34,16 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http',	'GApi',
 		};
 		GApi.execute('browseendpoint', 'getResults', resultReq).then( 
 			function(resp) {
-			console.log(resp);
-			$scope.resultsBool = resp.comics;
-			if($scope.resultsBool){
-				$scope.displayTags = null;
-				$scope.browseResults = resp.results;
-				$scope.browseResults.forEach(prepareResult(part));
-			} else {
-				$scope.browseResults = null;
-				$scope.displayTags = resp.results;
-			}
-
+				//console.log(resp);
+				$scope.resultsBool = resp.comics;
+				if($scope.resultsBool){
+					$scope.displayTags = null;
+					$scope.browseResults = resp.results;
+					$scope.browseResults.forEach(prepareResult(part));
+				} else {
+					$scope.browseResults = null;
+					$scope.displayTags = resp.results;
+				}
 			//result is placed in $scope.displayTags.
 			}, function(resp) {
 				console.log("Result call failed.");
