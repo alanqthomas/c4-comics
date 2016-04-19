@@ -4,18 +4,12 @@ import java.util.Date;
 
 import javax.jdo.annotations.*;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Page {
 	//Generate a unique id
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
-    
-    //BlobKey to retrieve actual image from datastore
-    @Persistent
-    private BlobKey imageKey;
     
     //URL to image
     @Persistent
@@ -36,14 +30,6 @@ public class Page {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public BlobKey getImageKey() {
-		return imageKey;
-	}
-
-	public void setImageKey(BlobKey imageKey) {
-		this.imageKey = imageKey;
 	}
 
 	public String getImageURL() {
