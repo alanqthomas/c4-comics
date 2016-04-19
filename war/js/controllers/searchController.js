@@ -1,8 +1,13 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES',
-	function(	 $scope,   $http,   GApi,   imgService,   IMG_PREFIXES){
+angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$state' , 
+	function(									$scope,   $http,   GApi,   imgService,   IMG_PREFIXES,  $stateParams,    $state){
+
+	if($stateParams.list != null){
+		$scope.searchTerms= $stateParams.list;
+		$scope.getResults();
+	}
 	$scope.results = [];
 	$scope.getResults= function(){
 		var resultReq = {
@@ -33,9 +38,6 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 			}
 		);
 	};
-	if($stateParams.list != null){
-		$scope.searchTerms= $stateParams.list;
-		$scope.getResults();
-	}
+	
 }]);
 })();
