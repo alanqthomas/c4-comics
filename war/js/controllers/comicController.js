@@ -14,7 +14,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		$state.go('error');
 	}
 	$scope.seriesTitle = "NO TITLE";
-	//$scope.pages = [];
+	$scope.pages = [];
 	$scope.comics = [];
 	
 	$scope.getComic= function(passedId){GApi.execute("comicendpoint", "getComic", {"id": passedId}).then(
@@ -29,10 +29,10 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 			rating=ratingSum/resp.ratings.length;
 			$scope.comics.push({
-			title : resp.title,
-			comments : resp.comments,
-			pages : [],
-			rating: rating
+				title : resp.title,
+				comments : resp.comments,
+				pages : [],
+				rating: rating
 			});
 			if(resp.pages != null){
 				for(var i = 0; i < resp.pages.length; i++){
