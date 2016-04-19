@@ -18,7 +18,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
@@ -80,11 +79,16 @@ public class ComicEndpoint {
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getComic")
-	public Comic getComic(@Named("id") Long id) {
+	public Comic getComic(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		if (id == null)
+			throw new BadRequestException("Comic ID must be specified");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		Comic comic = null;
 		try {
 			comic = mgr.getObjectById(Comic.class, id);
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Comic ID doesn't exist");
 		} finally {
 			mgr.close();
 		}
@@ -127,17 +131,31 @@ public class ComicEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updateComic")
-	public Comic updateComic(Comic comic) {
+	public Comic updateComic(Comic comic) throws BadRequestException, NotFoundException {
+		if (comic.getId() == null)
+			throw new BadRequestException("Comic ID can not be null");
 		PersistenceManager mgr = getPersistenceManager();
+		Comic updatedComic;
 		try {
-			if (!containsComic(comic)) {
-				throw new EntityNotFoundException("Object does not exist");
-			}
-			mgr.makePersistent(comic);
+			//get the comic to update from the datastore
+			updatedComic = getComic(comic.getId());
+			//update the provided fields
+			if (comic.getAuthorId() != null)
+				updatedComic.setAuthorId(comic.getAuthorId());
+			if (comic.getSeriesId() != null)
+				updatedComic.setSeriesId(comic.getSeriesId());
+			if (comic.getTitle() != null)
+				updatedComic.setTitle(comic.getTitle());
+			if (comic.getDateCreated() != null)
+				updatedComic.setDateCreated(comic.getDateCreated());
+			
+			mgr.makePersistent(updatedComic);
+		} catch (NotFoundException ex) {
+			throw ex;
 		} finally {
 			mgr.close();
 		}
-		return comic;
+		return updatedComic;
 	}
 
 	/**
