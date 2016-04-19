@@ -49,5 +49,12 @@ public class Tag {
 	public void setComicsWithTag(List<Long> comicsWithTag) {
 		this.comicsWithTag = comicsWithTag;
 	}
-		
+	
+	public boolean addTaggedComic(Long comicId){
+		return comicsWithTag.add(comicId);
+	}
+	
+	public boolean deleteTaggedComic(Long comicId){
+		return comicsWithTag.remove(comicId);
+	}
 }

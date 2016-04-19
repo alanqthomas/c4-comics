@@ -268,6 +268,7 @@ public class SeriesEndpoint {
 			mgr.close();
 		}
 	}
+	
 	private boolean containsSeries(Series series) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;

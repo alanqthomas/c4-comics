@@ -7,9 +7,11 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -154,6 +156,52 @@ public class TagEndpoint {
 		}
 	}
 
+	@ApiMethod(name="addtaggedcomic")
+	public void addTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Tag tag;
+		
+		try {
+			tag = mgr.getObjectById(Tag.class, tagId);
+			
+			if (tag.getComicsWithTag() == null){
+				List<Long> list = new ArrayList<Long>();
+				tag.setComicsWithTag(list);
+			}
+			
+			tag.addTaggedComic(comicId);
+			
+			mgr.makePersistent(tag);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Tag Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name="deletetaggedcomment")
+	public void deleteTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Tag tag;
+		
+		try {
+			tag = mgr.getObjectById(Tag.class, tagId);
+			tag.deleteTaggedComic(comicId);
+			
+			mgr.makePersistent(tag);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Tag Id invalid.");
+		} finally {
+			mgr.close();
+		}
+	}
+	
 	private boolean containsTag(Tag tag) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
