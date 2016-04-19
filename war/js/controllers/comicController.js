@@ -22,15 +22,17 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		  //supporting displaying multiple comics.
 		  var rating = 0;
 		  var ratingsSum =0;
+		  /*
 		  for(var i = 0; i < resp.ratings.length; i++){
 			  ratingsSum += resp.ratings[i];
 		  }
 		  rating=ratingSum/resp.ratings.length;
+		  */
 		  $scope.comics.push({
 			title : resp.title,
 			comments : resp.comments,
-			pages : [],
-			rating: rating
+			pages : []
+			//rating: rating
 			});
 			for(var i = 0; i < resp.pages.length; i++){
 				$scope.comics[$scope.comics.length -1].pages.push(
@@ -68,6 +70,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(function(resp){
 			var rating = 0;
 			var ratingsSum = 0;
+			/*
 			for(var i = 0; i < resp.ratings.length; i++){
 				ratingsSum += resp.ratings[i];
 			}
@@ -77,7 +80,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				comments : resp.comments,
 				pages : [],
 				rating: rating
-			});
+			});*/
 			for(var i = 0; i < resp.pages.length; i++){
 				$scope.comics[$scope.comics.length -1].pages.push(
 				{

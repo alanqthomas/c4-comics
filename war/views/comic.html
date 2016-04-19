@@ -14,7 +14,7 @@
 		</span>
 	</div>
 	<div ng-repeat="p in pages">
-		<img ng-src="p.url" />
+		<img ng-src="{{p.url}}" />
 	</div>
 	<div ng-repeat="c in comics">
 		<div class = "comicTitleBar">
@@ -24,7 +24,7 @@
 			</span>
 		</div>
 		<div ng-repeat="p in c.pages">
-			<img ng-src="p.url" alt="{{p.id}}"/>
+			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
 		</div>
 	</div>
 </div>
