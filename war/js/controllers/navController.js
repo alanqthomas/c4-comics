@@ -1,8 +1,8 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth','GApi', 'GData',
-                                  function(	 $scope,   $http,	$state,		 GAuth,	 GApi,   GData){
+angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData',
+                                  function(	 $scope,   $http,	$state,   $window,   GAuth,	 GApi,   GData){
 	//display variables
 	$('#navBase').css({'position' : 'relative', 'z-index': '1'});
 	$('#navBuff').css('height', $('#navRow').css('height') );
@@ -62,6 +62,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state',	'GAuth'
 				$scope.username = null;
 				$scope.notifications=[];
 				$scope.signedIn=false;
+				$window.location.reload();
 				//$scope.userSettings=null;
 			});
 		}
