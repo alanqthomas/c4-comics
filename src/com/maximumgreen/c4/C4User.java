@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.jdo.annotations.*;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class C4User {
 	//Use unique Google ID as the user ID
