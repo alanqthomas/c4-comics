@@ -208,50 +208,50 @@ public class C4User {
 
 	//PUBLIC METHODS ACCESSIBLE FROM ENDPOINT
 	//add/delete user own series, favorites, subscriptions, following, notifications
-	public  boolean addUserSeries(Long id) {
-		return userSeries.add(id);
+	public void addUserSeries(Long id) {
+		userSeries.add(0, id);
 	}
 	public boolean deleteUserSeries(Long id){
 		return userSeries.remove(id);
 	}
 	
-	public  boolean addFavoriteSeries(Long id) {
-		return favoriteSeries.add(id);
+	public void addFavoriteSeries(Long id) {
+		favoriteSeries.add(0, id);
 	}
 	public boolean deleteFavoriteSeries(Long id){
 		return favoriteSeries.remove(id);
 	}
 	
-	public  boolean addFavoriteComic(Long id) {
-		return favoriteComics.add(id);
+	public void addFavoriteComic(Long id) {
+		favoriteComics.add(0, id);
 	}
 	public boolean deleteFavoriteComic(Long id){
 		return favoriteComics.remove(id);
 	}
 	
-	public boolean addFavoriteAuthor(String id){
-		return favoriteAuthors.add(id);
+	public void addFavoriteAuthor(String id){
+		favoriteAuthors.add(0, id);
 	}
 	public boolean deleteFavoriteAuthor(String id){
 		return favoriteAuthors.remove(id);
 	}
 	
-	public  boolean addSubscription(Long id) {
-		return subscriptions.add(id);
+	public void addSubscription(Long id) {
+		subscriptions.add(0, id);
 	}
 	public boolean deleteSubscription(Long id){
 		return subscriptions.remove(id);
 	}
 	
-	public  boolean addFollow(String id) {
-		return following.add(id);
+	public void addFollow(String id) {
+		following.add(0, id);
 	}
 	public boolean deleteFollow(String id){
 		return following.remove(id);
 	}
 	
-	public  boolean addFollower(String id) {
-		return followers.add(id);
+	public void addFollower(String id) {
+		followers.add(0, id);
 	}
 	public boolean deleteFollower(String id){
 		return followers.remove(id);
