@@ -185,7 +185,7 @@ public class C4UserEndpoint {
 
 	//CUSTOM METHODS
 	@ApiMethod(name="adduserseries")
-	public void addUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+	public C4User addUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -208,10 +208,12 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	@ApiMethod(name="deleteuserseries")
-	public void deleteUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+	public C4User deleteUserSeries(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -228,6 +230,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -238,7 +242,7 @@ public class C4UserEndpoint {
 	 * @throws BadRequestException 
 	 */
 	@ApiMethod(name="addsubscription")
-	public void addSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+	public C4User addSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -269,6 +273,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -279,7 +285,7 @@ public class C4UserEndpoint {
 	 * @throws BadRequestException 
 	 */
 	@ApiMethod(name="deletesubscription")
-	public void deleteSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
+	public C4User deleteSubscription(@Named("userId") String userId, @Named("seriesId") Long seriesId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -303,6 +309,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -313,7 +321,7 @@ public class C4UserEndpoint {
 	 * @throws BadRequestException 
 	 */
 	@ApiMethod(name="addfollow")
-	public void addFollow(@Named("userId") String userId, @Named("authorId") String authorId)
+	public C4User addFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -347,6 +355,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -357,7 +367,7 @@ public class C4UserEndpoint {
 	 * @throws BadRequestException 
 	 */
 	@ApiMethod(name="deletefollow")
-	public void deleteFollow(@Named("userId") String userId, @Named("authorId") String authorId)
+	public C4User deleteFollow(@Named("userId") String userId, @Named("authorId") String authorId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -383,6 +393,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -394,7 +406,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException
 	 */
 	@ApiMethod(name="addfavorite")
-	public void addFavorite(@Named("userId") String userId, 
+	public C4User addFavorite(@Named("userId") String userId, 
 			@Nullable @Named("authorId") String authorId, @Nullable @Named("seriesId") Long seriesId,
 			@Nullable @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
@@ -443,6 +455,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	/**
@@ -454,7 +468,7 @@ public class C4UserEndpoint {
 	 * @throws NotFoundException
 	 */
 	@ApiMethod(name="deletefavorite")
-	public void deleteFavorite(@Named("userId") String userId, 
+	public C4User deleteFavorite(@Named("userId") String userId, 
 			@Nullable @Named("authorId") String authorId, @Nullable @Named("seriesId") Long seriesId,
 			@Nullable @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
@@ -498,6 +512,8 @@ public class C4UserEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return user;
 	}
 	
 	private boolean containsC4User(C4User c4user) {

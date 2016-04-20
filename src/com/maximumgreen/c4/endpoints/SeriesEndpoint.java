@@ -178,7 +178,7 @@ public class SeriesEndpoint {
 
 	//CUSTOM METHODS
 	@ApiMethod(name="addseriescomic")
-	public void addSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
+	public Series addSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -201,10 +201,12 @@ public class SeriesEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return series;
 	}
 	
 	@ApiMethod(name="deleteseriescomic")
-	public void deleteSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
+	public Series deleteSeriesComic(@Named("seriesId") Long seriesId, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -221,10 +223,12 @@ public class SeriesEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return series;
 	}
 	
 	@ApiMethod(name="addseriescomment")
-	public void addSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+	public Series addSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -247,10 +251,12 @@ public class SeriesEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return series;
 	}
 	
 	@ApiMethod(name="deleteseriescomment")
-	public void deleteSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+	public Series deleteSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -267,6 +273,8 @@ public class SeriesEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return series;
 	}
 	
 	private boolean containsSeries(Series series) {
