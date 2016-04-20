@@ -2,7 +2,6 @@
 (function() {
 	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 'imgService', 'IMG_PREFIXES',
 	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state,  imgService,   IMG_PREFIXES){
-		//TODO Link Profile to SERIES
 		//THIS MUST BE BEFORE Tab is created
 		$scope.series_loadMore = function() {
 			//pushes images to the array. load more
@@ -20,20 +19,40 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
-//init display settings
+		//init display settings
 		$scope.editName = false;
-//display functions.
+		//initalize and query for profileEndpoints
+		$scope.profile_id = $stateParams.id;
+		
+		
+		$scope.saveSettings= function(){
+			var newUser = {
+				id: $scope.profile_id,
+				username: $scope.profile.username
+			};
+			GApi.execute("c4userendpoint", "updateC4User", newUser).then(
+				function(resp){
+		
+				},
+				function(resp){
+					
+				}
+			);
+			$scope.getUser();
+			console.log($scope.profile.username);
+			
+		}
+		//display functions.
 		$scope.toggle= function(toToggle){
 			if(toToggle == "editName"){
-				$scope.editName = !(scope.editName);
-				$scope.$apply;
+				if($scope.editName == true){
+					$scope.saveSettings();
+				}
+				$scope.editName = !($scope.editName);
+				
 			}
-			//$scope.toToggle = !($scope.toToggle);
 		}
-		$scope.saveSettings= function(){
-			//push a user object to database
-			;
-		}
+		
 		//PLACE HOLDERS
 		//*****************************
 		//this is image url for initial display
@@ -111,9 +130,9 @@
 		
 		$scope.subscriptions = [];
 		$scope.subscriptions_reserve = [];
-		//initalize and query for profileEndpoints
-		$scope.profile_id = $stateParams.id;
-		GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
+		
+		
+		$scope.getUser = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 			function(resp){	
 				$scope.profile = resp;
 				$scope.query_for_series();
@@ -122,6 +141,12 @@
 				console.log(resp);
 			}
 		);
+		};
+		$scope.getUser();
+		
+		
+		
+		
 		
 		$scope.query_for_series = function() {
 			//query for series

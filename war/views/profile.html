@@ -10,7 +10,7 @@
 				</div>
 				<div class='col-xs-10'>
 					<h1 ng-hide="editName" id="name">{{profile.username}}</h1>
-					<form ng-submit="saveSettings()">
+					<form name='name'>
 						<input ng-show="editName" type="text" ng-model="profile.username"></input>
 						<input ng-show="editName" type="color"></input>
 					</form>
