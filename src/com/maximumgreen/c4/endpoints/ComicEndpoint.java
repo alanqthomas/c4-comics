@@ -2,6 +2,7 @@ package com.maximumgreen.c4.endpoints;
 
 import com.maximumgreen.c4.Comic;
 import com.maximumgreen.c4.PMF;
+import com.maximumgreen.c4.Page;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -177,11 +178,13 @@ public class ComicEndpoint {
 	
 	//CUSTOM METHODS
 	@ApiMethod(name="addcomicpage")
-	public void addComicPage(@Named("comicId") Long comicId, @Named("pageId") Long pageId)
+	// @Named("pageId") Long pageId
+	public Page addComicPage(@Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Comic comic;
+		Page page = new Page();
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
@@ -191,7 +194,9 @@ public class ComicEndpoint {
 				comic.setPages(list);
 			}
 			
-			comic.addComicPage(pageId);
+			mgr.makePersistent(page);
+			
+			comic.addComicPage(page.getId());
 			
 			mgr.makePersistent(comic);
 			
@@ -200,10 +205,12 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return page;
 	}
 	
 	@ApiMethod(name="deletecomicpage")
-	public void deleteComicPage(@Named("comicId") Long comicId, @Named("pageId") Long pageId)
+	public Comic deleteComicPage(@Named("comicId") Long comicId, @Named("pageId") Long pageId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -220,10 +227,12 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return comic;
 	}
 	
 	@ApiMethod(name="addcomictag")
-	public void addComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
+	public Comic addComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -246,10 +255,12 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return comic;
 	}
 	
 	@ApiMethod(name="deletecomictag")
-	public void deleteComicTag(@Named("comicId") Long comicId, @Named("pageId") Long tagId)
+	public Comic deleteComicTag(@Named("comicId") Long comicId, @Named("pageId") Long tagId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -266,10 +277,12 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return comic;
 	}
 	
 	@ApiMethod(name="addcomiccomment")
-	public void addComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+	public Comic addComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -292,10 +305,12 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return comic;
 	}
 	
 	@ApiMethod(name="deletecomiccomment")
-	public void deleteComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+	public Comic deleteComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -312,6 +327,8 @@ public class ComicEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return comic;
 	}
 	
 	private boolean containsComic(Comic comic) {

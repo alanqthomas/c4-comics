@@ -157,7 +157,7 @@ public class TagEndpoint {
 	}
 
 	@ApiMethod(name="addtaggedcomic")
-	public void addTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
+	public Tag addTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -180,10 +180,12 @@ public class TagEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return tag;
 	}
 	
 	@ApiMethod(name="deletetaggedcomment")
-	public void deleteTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
+	public Tag deleteTaggedComic(@Named("tagId") Long tagId, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -200,6 +202,8 @@ public class TagEndpoint {
 		} finally {
 			mgr.close();
 		}
+		
+		return tag;
 	}
 	
 	private boolean containsTag(Tag tag) {
