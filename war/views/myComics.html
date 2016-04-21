@@ -23,8 +23,8 @@
         <tbody>
           <tr ng-repeat="l in list" ng-click="getComics(l.comics, l.title)">
             <td>{{l.title}}</td>
-            <td>{{l.subscribers.length}}</td>
-            <td>{{l.comments.length}}</td>
+            <td>{{l.subscribers.length}}<span ng-if="!l.subscribers">0</span></td>
+            <td>{{l.comments.length}}<span ng-if="!l.comments">0</span></td>
             <td>{{l.rating}}</td>
             <td>
               <button class="btn btn-sm btn-default" ng-click="goToSeries(l.id)">
@@ -48,7 +48,7 @@
           <tr ng-repeat="l in list">
             <td>{{l.title}}</td>
             <td>{{l.dateCreated}}</td>
-            <td>{{l.pages.length}}</td>
+            <td>{{l.pages.length}}<span ng-if="!l.pages">0</span></td>
             <td>{{l.rating}}</td>
             <td>
               <button class="btn btn-sm btn-default" ng-click="goToComic(l.id)">
