@@ -22,15 +22,17 @@ module.exports = function(grunt) {
 		      'war/js/controllers/comicController.js',
 		      'war/js/controllers/drawController.js',
 		      'war/js/controllers/editComicController.js',
-              'war/js/controllers/homeController.js',
-              'war/js/controllers/navController.js',
-              'war/js/controllers/profileController.js',
-              'war/js/controllers/searchController.js',
-              'war/js/controllers/seriesController.js',
-              'war/js/controllers/errorController.js',
-              'war/js/services/authService.js',
-			  'war/js/services/imgService.js'],
-              dest: 'war/js/dist/scripts.js'
+          'war/js/controllers/homeController.js',
+          'war/js/controllers/navController.js',
+          'war/js/controllers/profileController.js',
+          'war/js/controllers/searchController.js',
+          'war/js/controllers/seriesController.js',
+          'war/js/controllers/errorController.js',
+					'war/js/controllers/myComicsController.js',
+          'war/js/services/authService.js',
+			  	'war/js/services/imgService.js',
+					'war/js/directives/navBar.js'],
+          dest: 'war/js/dist/scripts.js'
 			}
 		},
 		watch: {

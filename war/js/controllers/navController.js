@@ -3,14 +3,9 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData',
                                   function(	 $scope,   $http,	$state,   $window,   GAuth,	 GApi,   GData){
-	//display variables
-	$('#navBase').css({'position' : 'relative', 'z-index': '1'});
-	$('#navBuff').css('height', $('#navRow').css('height') );
-	$('#navCenter').css('height', $('#navRow').css('height') );
-	$('#navRight').css('height', $('#navRow').css('height') );
-	$('#navLeft').css('height', $('#navRow').css('height') );
 
 	$scope.notifications=[];
+  var toggle = false;
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
@@ -23,8 +18,9 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 				$scope.notifications=resp.notifications;
 				$scope.profilePic=resp.profileImageURL;
 				$scope.signedIn=true;
+        $state.go($state.current, {}, {'reload': true});
 				//$scope.userSettings=resp.userSettings;
-			}, 
+			},
 			function(resp){
 				console.log("No user information found in db.");
 				var u = GData.getUser();
@@ -43,30 +39,33 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			}
 		);
 	}
+
 	$scope.doAuth = function(){
-		if($scope.signMsg == "Sign In"){
-			GAuth.checkAuth().then(
-				function(){
+		GAuth.checkAuth().then(
+			function(){
+				doLogin();
+			},
+			function(){
+				GAuth.login().then(function(){
 					doLogin();
-				},
-				function(){
-					GAuth.login().then(function(){
-						doLogin();
-					});
-				}
-			);
-		} else {
-			GAuth.logout().then(function(){
-				$scope.userId = null;
-				$scope.signMsg = "Sign In";
-				$scope.username = null;
-				$scope.notifications=[];
-				$scope.signedIn=false;
-				$window.location.reload();
-				//$scope.userSettings=null;
-			});
-		}
+				});
+			}
+		);
 	};
+
+  $scope.signOut = function(){
+    GAuth.logout().then(function(){
+      $scope.userId = null;
+      $scope.signMsg = "Sign In";
+      $scope.username = null;
+      $scope.notifications=[];
+      $scope.signedIn=false;
+      $window.location.reload();
+      //$scope.userSettings=null;
+    });
+  }
+
+  /*
 	GAuth.checkAuth().then(
 		function(){
 			$scope.signMsg = "Sign Out";
@@ -75,14 +74,19 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			$scope.signMsg = "Sign In";
 		}
 	);
+  */
+
 	$scope.navSearch = function(){
 		$state.go('search',{"list": $scope.searchTerms});
-	}
+	};
+
 	$scope.navProfile = function(){
 		$state.go('profile',{"id": $scope.userId});
-	}
+	};
+
 	$scope.notificationsBool = ($scope.notifications.length > 0);
-	function createUser(id, email, picture){
+
+  function createUser(id, email, picture){
 		return {
 			userID: id,
 			email:email,
@@ -91,6 +95,17 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			profileImageURL:picture
 		}
 	}
+
+  $scope.toggleSideNav = function(){
+    if(!toggle){
+      $("#side-nav").css("width", "150px");
+      toggle = true;
+    } else {
+      $("#side-nav").css("width", "0px");
+      toggle = false;
+    }
+  }
+
 }]);
 
 })();

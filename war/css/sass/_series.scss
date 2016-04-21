@@ -1,8 +1,27 @@
-//must import
-.span12{
-	text-align:center;
+.cover {
+	background-image: url("https://storage.googleapis.com/c4-comics.appspot.com/series-bg");
+	width: 650px;
+	height: 300px;
+	position: relative;
+	margin: 0 auto;
+	color: white;
+
+	h2 {
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		color: white;
+		overflow: hidden;
+	}
+
+	button {
+		position: absolute;
+		bottom: 20px;
+		right: 10px;
+	}
 }
 
-.h3_hover{
-	cursor:pointer;
+.content-wrapper {
+	padding-left: 30px;
+	padding-right: 30px;
 }

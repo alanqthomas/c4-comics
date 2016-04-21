@@ -1,0 +1,55 @@
+<nav class="top-nav">
+  <div class="nav-logo">
+      <img ui-sref="home"class="logo-img" src="https://storage.googleapis.com/c4-comics.appspot.com/c4-logo.png" />
+  </div>
+  <div  class="nav-search">
+    <form class="form-inline" ng-submit="navSearch()">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </div>
+        <input class="nav-search-bar" type="text" placeholder="Search"/>
+      </div>
+    </form>
+  </div>
+
+  <div class="nav-buttons">
+    <button ng-if="!signedIn" ng-click="doAuth()" class="btn btn-primary">Sign In</button>
+
+    <div ng-if="signedIn">
+      <i class="fa fa-bell"></i>
+      <img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
+      <button class="btn btn-sm btn-default" ng-click="toggleSideNav()">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<nav id="side-nav" class="side-nav">
+  <a href="#" ng-click="navProfile()">Profile</a>
+  <a ui-sref="myComics">My Comics</a>
+  <a href="#" data-toggle="modal" data-target="#settingsModal">Settings</a>
+  <a href="#" ng-click="signOut()">Sign Out</a>
+</nav>
+
+  <!-- Navbar Settings Modal -->
+  <div id="settingsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+        <div class="modal-body">
+          <p>Put all the nice settings here.</p>
+          <span>Example Setting On/Off: <input type="checkbox" name="exampleCheckbox" checked></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Apply</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
