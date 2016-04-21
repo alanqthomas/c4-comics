@@ -18,6 +18,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 				$scope.notifications=resp.notifications;
 				$scope.profilePic=resp.profileImageURL;
 				$scope.signedIn=true;
+        $state.go($state.current, {}, {'reload': true});
 				//$scope.userSettings=resp.userSettings;
 			},
 			function(resp){

@@ -49,7 +49,9 @@
 	<body ng-app="c4">
 		<div ng-controller="navCtrl">
 			<nav-bar></nav-bar>
-		</div>	
+		</div>
+
+		<div ui-view></div>
 
 		<!-- Temporary Nav -->
 		<div>
@@ -63,7 +65,7 @@
 			<a ui-sref="search">Search</a>
 		</div>
 
-		<div ui-view></div>
+
 
 		<!-- Enable livereload for development -->
 		<script src="//localhost:35729/livereload.js"></script>
