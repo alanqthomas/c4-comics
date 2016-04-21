@@ -8,7 +8,11 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row text-center" ng-show="noSeries">
+    <h5>Better get to work and <a ng-click="newSeries()">create</a> a new series!</h5>
+  </div>
+
+  <div class="row" ng-hide="noSeries">
     <div class="col-xs-11 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
       <table ng-if="series" class="table table-striped table-hover">
         <thead>
