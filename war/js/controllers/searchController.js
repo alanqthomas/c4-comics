@@ -1,22 +1,21 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$state' , 
-	function(									$scope,   $http,   GApi,   imgService,   IMG_PREFIXES,  $stateParams,    $state){
-		//init
-		if($stateParams.list != null){
-			$scope.searchTerms= $stateParams.list;
-		} else {
-			$scope.searchTerms= "";
-		}
+angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$state', 'searchScope',
+																			 function($scope,   $http,   GApi,   imgService,   IMG_PREFIXES,  $stateParams,    $state,   searchScope){
+
+		$scope.search = searchScope.data;
+		$scope.$watch('search.terms', function(newValue, oldValue){
+			$scope.getResults();
+		});
 		$scope.tabs = [];
 		//funtions
 		$scope.getResults= function(){
 			var resultReq = {
-				"input": $scope.searchTerms
+				"input": $scope.search.terms
 			};
 			$scope.tabs = [];
-			GApi.execute('searchendpoint', 'getResults', resultReq).then( 
+			GApi.execute('searchendpoint', 'getResults', resultReq).then(
 				function(resp) {
 					$scope.comicResults=[];
 					$scope.comicDisplay=[];
@@ -103,7 +102,7 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 		};
 		//infinite scroll functions
 		$scope.comic_loadMore = function(){
-			
+
 			if ($scope.comicResults!= null && $scope.comicResults.length > 0) {
 				$scope.comicDisplay.push($scope.comicResults.shift());
 			};
@@ -167,7 +166,5 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 				$state.go("browse",{"searchIds":[param_id]});
 			}
 		}
-		//main
-		$scope.getResults();
 }]);
 })();
