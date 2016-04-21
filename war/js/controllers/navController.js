@@ -5,7 +5,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
                                   function(	 $scope,   $http,	$state,   $window,   GAuth,	 GApi,   GData){
 
 	$scope.notifications=[];
-  var toggle = false;
+	var toggle = false;
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
