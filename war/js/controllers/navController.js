@@ -77,7 +77,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
   */
 
 	$scope.navSearch = function(){
-		$state.go('search',{"list": $scope.searchTerms});
+		$state.go('search',{"input": $scope.searchTerms});
 	};
 
 	$scope.navProfile = function(){
