@@ -20,6 +20,9 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+#GAE Local Datastore
+war/WEB-INF/appengine-generated/local_db.bin
+
 # Mac crap
 .DS_Store
 
