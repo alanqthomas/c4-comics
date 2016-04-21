@@ -45,105 +45,13 @@
 		<script src="js/dist/scripts.js"></script>
 
 	</head>
+
 	<body ng-app="c4">
-
-		<nav ng-controller="navCtrl">
-			<div class="nav-logo">
-					<img ui-sref="home"class="logo-img" src="http://i.imgur.com/78Y9idl.png" />
-			</div>
-			<div  class="nav-search">
-				<form class="form-inline" ng-submit="navSearch()">
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-search"></i>
-						</div>
-						<input class="nav-search-bar" type="text" placeholder="Search"/>
-					</div>
-				</form>
-			</div>
-
-			<div class="nav-buttons">
-				<button ng-if="!signedIn" ng-click="doAuth()" class="btn btn-primary">Sign In</button>
-
-				<div ng-if="signedIn">
-					<i class="fa fa-bell"></i>
-					<img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
-					<i class="fa fa-bars"></i>
-				</div>
-			</div>
-		</nav>
-
-		<!-- div ng-controller="navCtrl" id="navBase">
-			<div id="navRow">
-				<span ui-sref="home" class="navLeft" id="navTitle">
-					C4comics
-				</span>
-				<span id="navCenter">
-					<form ng-submit="navSearch()" id="navForm">
-						<span class="hidden-xs">
-							<input type="text" placeholder="Search" ng-model="searchTerms"></input>
-							<i class="material-icons" ng-click="navSearch()">search</i>
-						</span>
-						<span class="visible-xs-inline">
-
-							<i class="material-icons">search</i>
-						</span>
-					</form>
-				</span>
-				<span id="navRight">
-					<i class="material-icons dropdown-toggle" ng-show="signedIn"  data-toggle = "dropdown">
-						notifications
-					</i>
-					<ul class = "dropdown-menu" role = "menu">
-						<li ng-if="! notificationsBool">
-							No Notifications.
-						</li>
-						<li ng-repeat-start="notificaton in notificatons">
-							<img class='navNotImg' src='notification.url'>
-							<span>Notification</span>
-							{{notification.title}} by {{notification.author}}
-						</li>
-						<li ng-repeat-end class = "divider">
-					</ul>
-
-
-					<span ng-show="signedIn">{{username}}</span>
-					<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
-					<span class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<i class="material-icons">list</i>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a ui-sref="browse">Browse</a></li>
-								<li data-toggle="modal" data-target="#settingsModal" ng-show="signedIn"><a>Settings</a></li>
-								<li ng-click="doAuth()"><a>{{signMsg}}</a></li>
-							</ul>
-						</a>
-					</span>
-				</span>
-			</div -->
-
-			<!-- Navbar Settings Modal -->
-			<div id="settingsModal" class="modal fade" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Settings</h4>
-						</div>
-						<div class="modal-body">
-							<p>Put all the nice settings here.</p>
-							<span>Example Setting On/Off: <input type="checkbox" name="exampleCheckbox" checked></span>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Apply</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div ng-controller="navCtrl">
+			<nav-bar></nav-bar>
 		</div>
 
-
+		<!-- Temporary Nav -->
 		<div>
 			<a ui-sref="home">Home</a>
 			<a ui-sref="profile">Profile</a>
@@ -154,6 +62,7 @@
 			<a ui-sref="browse">Browse</a>
 			<a ui-sref="search">Search</a>
 		</div>
+
 		<div ui-view></div>
 
 		<!-- Enable livereload for development -->
