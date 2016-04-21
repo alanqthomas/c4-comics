@@ -21,27 +21,27 @@
 		}
 		//init display settings
 		$scope.editName = false;
+		$scope.editBio = false;
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
 		
-		
 		$scope.saveSettings= function(){
-			var newUser = {
-				id: $scope.profile_id,
-				username: $scope.profile.username
+			$scope.newUser = {
+				userID: $scope.profile_id,
+				username: $scope.profile.username,
+				biography: $scope.profile.biography
 			};
-			GApi.execute("c4userendpoint", "updateC4User", newUser).then(
+			GApi.execute("c4userendpoint", "updateC4User", $scope.newUser).then(
 				function(resp){
-		
+					$scope.updateUser();
 				},
 				function(resp){
 					
 				}
 			);
-			$scope.getUser();
-			console.log($scope.profile.username);
 			
 		}
+		
 		//display functions.
 		$scope.toggle= function(toToggle){
 			if(toToggle == "editName"){
@@ -49,7 +49,12 @@
 					$scope.saveSettings();
 				}
 				$scope.editName = !($scope.editName);
-				
+			}
+			if(toToggle == "editBio"){
+				if($scope.editBio == true){
+					$scope.saveSettings();
+				}
+				$scope.editBio = !($scope.editBio);
 			}
 		}
 		
@@ -132,21 +137,26 @@
 		$scope.subscriptions_reserve = [];
 		
 		
+		$scope.updateUser = function(){
+			GApi.execute("c4userendpoint", "getC4User",{"id":$scope.profile_id}).then(
+				function(resp){	
+					$scope.profile.username = resp.username;
+					$scope.profile.biography = resp.biography;
+				}, function(resp){
+				}
+			);
+		};
+		
+		
 		$scope.getUser = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
-			function(resp){	
-				$scope.profile = resp;
-				$scope.query_for_series();
-			}, function(resp){
-				console.log("error geting user.");
-				console.log(resp);
-			}
-		);
+				function(resp){	
+					$scope.profile = resp;
+					$scope.query_for_series();
+				}, function(resp){
+				}
+			);
 		};
 		$scope.getUser();
-		
-		
-		
-		
 		
 		$scope.query_for_series = function() {
 			//query for series

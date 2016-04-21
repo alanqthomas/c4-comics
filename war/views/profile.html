@@ -10,9 +10,11 @@
 				</div>
 				<div class='col-xs-10'>
 					<h1 ng-hide="editName" id="name">{{profile.username}}</h1>
-					<form name='name'>
-						<input ng-show="editName" type="text" ng-model="profile.username"></input>
-						<input ng-show="editName" type="color"></input>
+					<form class='form-inline'>
+						<form name='name'>
+							<input class="form-control input-lg" ng-show="editName" type="text" ng-model="profile.username"></input>
+							<input ng-show="editName" type="color"></input>
+						</form>
 					</form>
 					<span ng-if="isOwner">
 						<i class="material-icons" ng-click="toggle('editName')">edit</i>
@@ -29,6 +31,7 @@
 			<div class='col-xs-10' ng-if="isOwner" >
 				<h1>Bio</h1>
 			</div>
+			
 			<div class='col-xs-2' ng-if="isOwner" >
 				<i class="material-icons">settings_applications</i>
 			</div>
@@ -36,16 +39,29 @@
 		<!-- need to dynamically load bio -->
 		<div class='row' ng-if="isOwner">
 			<div class='col-xs-11'>
-				{{profile.biography}}
+				<p ng-hide="editBio" id="bio">{{profile.biography}}</p>
 			</div>
+			
+			<div class='col-xs-12'>
+				<form class='form-inline'>
+					<form name='bio'>
+						<input class="form-control" ng-show="editBio" type="text" ng-model="profile.biography" size='50'></input>
+						<input ng-show="editBio" type="color" size='10'></input>
+					</form>
+				</form>
+			</div>
+			
 			<div class='col-xs-1' ng-if="isOwner">
-				<i class="material-icons">edit</i>
+				<i class="material-icons" ng-click="toggle('editBio')">edit</i>
 				<!-- this needs to change the bio to an input. -->
 			</div>
+			
+			
+			
 		</div>
 		<div class='row' ng-if="! isOwner">
 			<div class='col-xs-12'>
-				{{profile.biography}}
+				<p>{{profile.biography}}</p>
 			</div>
 		</div>
 	</div>
