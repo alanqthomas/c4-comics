@@ -10,13 +10,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('home', {
 			url: "/home",
-			templateUrl: "views/home.html",
-			authenticate: false
+			templateUrl: "views/home.html"
 		})
 		.state('profile', {
 			url: "/profile/:id",
-			templateUrl: "views/profile.html",
-			authenticate: false
+			templateUrl: "views/profile.html"
 		})
 		.state('comic', {
 			url: "/comic/:id",
@@ -25,33 +23,31 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('browse', {
 			url: "/browse",
-			templateUrl: "views/browse.html",
-			authenticate: false
+			templateUrl: "views/browse.html"
 		})
 		.state('series', {
 			url: "/series/:id",
-			templateUrl: "views/series.html",
-			authenticate: false
+			templateUrl: "views/series.html"
 		})
 		.state('draw', {
 			url: "/draw/:id",
-			templateUrl: "views/draw.html",
-			authenticate: false
+			templateUrl: "views/draw.html"
 		})
 		.state('editComic', {
 			url: "/editComic/:id",
-			templateUrl: "views/editComic.html",
-			authenticate: false
+			templateUrl: "views/editComic.html"
 		})
 		.state('search', {
 			url: "/search/:list",
-			templateUrl: "views/search.html",
-			authenticate: false
+			templateUrl: "views/search.html"
+		})
+		.state('myComics', {
+			url: "/myComics",
+			templateUrl: "views/myComics.html"
 		})
 		.state('error', {
 			url: "/error/",
-			templateUrl: "views/error.html",
-			authenticate: false
+			templateUrl: "views/error.html"
 		})
 });
 

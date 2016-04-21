@@ -28,6 +28,7 @@ module.exports = function(grunt) {
           'war/js/controllers/searchController.js',
           'war/js/controllers/seriesController.js',
           'war/js/controllers/errorController.js',
+					'war/js/controllers/myComicsController.js',
           'war/js/services/authService.js',
 			  	'war/js/services/imgService.js',
 					'war/js/directives/navBar.js'],

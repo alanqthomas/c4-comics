@@ -1,6 +1,6 @@
 <nav class="top-nav">
   <div class="nav-logo">
-      <img ui-sref="home"class="logo-img" src="http://i.imgur.com/78Y9idl.png" />
+      <img ui-sref="home"class="logo-img" src="https://storage.googleapis.com/c4-comics.appspot.com/c4-logo.png" />
   </div>
   <div  class="nav-search">
     <form class="form-inline" ng-submit="navSearch()">
@@ -27,60 +27,11 @@
 </nav>
 
 <nav id="side-nav" class="side-nav">
-  <a href="#">About</a>
-  <a href="#">Services</a>
-  <a href="#">Clients</a>
-  <a href="#">Contact</a>
+  <a href="#" ng-click="navProfile()">Profile</a>
+  <a ui-sref="myComics">My Comics</a>
+  <a href="#" data-toggle="modal" data-target="#settingsModal">Settings</a>
+  <a href="#" ng-click="signOut()">Sign Out</a>
 </nav>
-
-<!-- div ng-controller="navCtrl" id="navBase">
-  <div id="navRow">
-    <span ui-sref="home" class="navLeft" id="navTitle">
-      C4comics
-    </span>
-    <span id="navCenter">
-      <form ng-submit="navSearch()" id="navForm">
-        <span class="hidden-xs">
-          <input type="text" placeholder="Search" ng-model="searchTerms"></input>
-          <i class="material-icons" ng-click="navSearch()">search</i>
-        </span>
-        <span class="visible-xs-inline">
-
-          <i class="material-icons">search</i>
-        </span>
-      </form>
-    </span>
-    <span id="navRight">
-      <i class="material-icons dropdown-toggle" ng-show="signedIn"  data-toggle = "dropdown">
-        notifications
-      </i>
-      <ul class = "dropdown-menu" role = "menu">
-        <li ng-if="! notificationsBool">
-          No Notifications.
-        </li>
-        <li ng-repeat-start="notificaton in notificatons">
-          <img class='navNotImg' src='notification.url'>
-          <span>Notification</span>
-          {{notification.title}} by {{notification.author}}
-        </li>
-        <li ng-repeat-end class = "divider">
-      </ul>
-
-
-      <span ng-show="signedIn">{{username}}</span>
-      <img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
-      <span class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown">
-          <i class="material-icons">list</i>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li><a ui-sref="browse">Browse</a></li>
-            <li data-toggle="modal" data-target="#settingsModal" ng-show="signedIn"><a>Settings</a></li>
-            <li ng-click="doAuth()"><a>{{signMsg}}</a></li>
-          </ul>
-        </a>
-      </span>
-    </span>
-  </div -->
 
   <!-- Navbar Settings Modal -->
   <div id="settingsModal" class="modal fade" role="dialog">

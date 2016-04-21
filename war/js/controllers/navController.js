@@ -38,31 +38,33 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			}
 		);
 	}
+
 	$scope.doAuth = function(){
-		if($scope.signMsg == "Sign In"){
-			GAuth.checkAuth().then(
-				function(){
+		GAuth.checkAuth().then(
+			function(){
+				doLogin();
+			},
+			function(){
+				GAuth.login().then(function(){
 					doLogin();
-				},
-				function(){
-					GAuth.login().then(function(){
-						doLogin();
-					});
-				}
-			);
-		} else {
-			GAuth.logout().then(function(){
-				$scope.userId = null;
-				$scope.signMsg = "Sign In";
-				$scope.username = null;
-				$scope.notifications=[];
-				$scope.signedIn=false;
-				$window.location.reload();
-				//$scope.userSettings=null;
-			});
-		}
+				});
+			}
+		);
 	};
 
+  $scope.signOut = function(){
+    GAuth.logout().then(function(){
+      $scope.userId = null;
+      $scope.signMsg = "Sign In";
+      $scope.username = null;
+      $scope.notifications=[];
+      $scope.signedIn=false;
+      $window.location.reload();
+      //$scope.userSettings=null;
+    });
+  }
+
+  /*
 	GAuth.checkAuth().then(
 		function(){
 			$scope.signMsg = "Sign Out";
@@ -71,6 +73,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			$scope.signMsg = "Sign In";
 		}
 	);
+  */
 
 	$scope.navSearch = function(){
 		$state.go('search',{"list": $scope.searchTerms});
