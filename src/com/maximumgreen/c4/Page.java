@@ -19,6 +19,10 @@ public class Page {
     @Persistent
     private Date dateCreated;
     
+    //String formatted date
+    @Persistent
+    private String dateString;
+    
     //empty constructor
     public Page(){
     }
@@ -46,6 +50,14 @@ public class Page {
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
 	}
     
 }

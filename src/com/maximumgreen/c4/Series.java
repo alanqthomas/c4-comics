@@ -33,6 +33,10 @@ public class Series {
 	@Persistent 
 	private Date dateCreated;
 	
+	//String formatted date
+	@Persistent
+	private String dateString;
+	
 	//SERIES rating, to be calculated from their COMICS ratings
 	@Persistent
 	private double rating;
@@ -182,4 +186,13 @@ public class Series {
 	public void setCssFontColor(String cssFontColor) {
 		this.cssFontColor = cssFontColor;
 	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+	
 }

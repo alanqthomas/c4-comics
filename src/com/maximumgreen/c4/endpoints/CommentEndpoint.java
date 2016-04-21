@@ -9,6 +9,9 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,9 +103,16 @@ public class CommentEndpoint {
 	public Comment insertComment(Comment comment) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsComment(comment)) {
-				throw new EntityExistsException("Object already exists");
+			if (comment.getId() != null){
+				if (containsComment(comment)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
+			//set the date and date string to the date of creation (now)
+			Date now = Calendar.getInstance().getTime();
+			comment.setDate(now);
+			comment.setDateString(formatDate(now));
+			
 			mgr.makePersistent(comment);
 		} finally {
 			mgr.close();
@@ -165,5 +175,9 @@ public class CommentEndpoint {
 	private static PersistenceManager getPersistenceManager() {
 		return PMF.get().getPersistenceManager();
 	}
-
+	
+	private String formatDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
+		return formatter.format(date);
+	}
 }

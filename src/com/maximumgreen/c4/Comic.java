@@ -43,6 +43,10 @@ public class Comic {
 	@Persistent 
 	private Date dateCreated;
 	
+	//Creation Date in String form
+	@Persistent
+	private String dateString;
+	
 	//List of COMMENT IDs for the specific comic
 	@Persistent
 	private List<Long> comments;
@@ -150,5 +154,13 @@ public class Comic {
 	
 	public boolean deleteComicComment(Long id){
 		return comments.remove(id);
+	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
 	}
 }

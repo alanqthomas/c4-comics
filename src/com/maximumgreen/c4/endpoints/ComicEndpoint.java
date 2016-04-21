@@ -12,7 +12,10 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -116,6 +119,11 @@ public class ComicEndpoint {
 					throw new EntityExistsException("Object already exists");
 				}
 			}
+			//set the date and date string to the date of creation (now)
+			Date now = Calendar.getInstance().getTime();
+			comic.setDateCreated(now);
+			comic.setDateString(formatDate(now));
+			
 			mgr.makePersistent(comic);
 		} finally {
 			mgr.close();
@@ -346,6 +354,11 @@ public class ComicEndpoint {
 
 	private static PersistenceManager getPersistenceManager() {
 		return PMF.get().getPersistenceManager();
+	}
+	
+	private String formatDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
+		return formatter.format(date);
 	}
 
 }

@@ -11,7 +11,10 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -114,6 +117,11 @@ public class SeriesEndpoint {
 					throw new EntityExistsException("Object already exists");
 				}
 			}
+			//set the date and date string to the date of creation (now)
+			Date now = Calendar.getInstance().getTime();
+			series.setDateCreated(now);
+			series.setDateString(formatDate(now));
+
 			mgr.makePersistent(series);
 		} finally {
 			mgr.close();
@@ -298,4 +306,9 @@ public class SeriesEndpoint {
 		return PMF.get().getPersistenceManager();
 	}
 
+	private String formatDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
+		return formatter.format(date);
+	}
+	
 }

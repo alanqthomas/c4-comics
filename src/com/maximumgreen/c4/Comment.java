@@ -23,6 +23,10 @@ public class Comment {
     @Persistent
     private Date date;
     
+    //Formatted string of date
+    @Persistent
+    private String dateString;
+    
     //empty constructor
     public Comment(){
     }
@@ -59,6 +63,13 @@ public class Comment {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-    
-    
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+
 }
