@@ -6,3 +6,34 @@
 .h1_hover{
 	cursor:pointer;
 }
+
+.imgWrap {
+  	position: relative;
+}
+
+.preview{
+	cursor:pointer;
+	margin-bottom: 25px;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.imgDescription {
+	position: absolute;
+	top: 0;
+	left: 30;
+	background: rgba(29, 106, 154, 0.72);
+	color: #fff;
+	visibility: hidden;
+	opacity: 0;
+	cursor:pointer;
+	//-webkit-transition:-webkit-transform 1s;
+	-webkit-transition: visibility opacity 0.2s;
+	
+	
+}
+
+.imgWrap:hover .imgDescription {
+	visibility: visible;
+  	opacity: 1;
+}

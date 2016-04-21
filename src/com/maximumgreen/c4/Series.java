@@ -49,6 +49,13 @@ public class Series {
 	@Persistent
 	private List<Long> comments;
 	
+	//CUSTOM CSS FIELDS
+	@Persistent
+	private String cssBgColor;
+	
+	@Persistent
+	private String cssFontColor;
+	
 	//empty constructor
 	public Series(){
 	}
@@ -157,5 +164,22 @@ public class Series {
 	
 	public boolean deleteSeriesComment(Long id){
 		return comments.remove(id);
+	}
+	
+	//css getters/setters
+	public String getCssBgColor() {
+		return cssBgColor;
+	}
+
+	public void setCssBgColor(String cssBgColor) {
+		this.cssBgColor = cssBgColor;
+	}
+
+	public String getCssFontColor() {
+		return cssFontColor;
+	}
+
+	public void setCssFontColor(String cssFontColor) {
+		this.cssFontColor = cssFontColor;
 	}
 }

@@ -151,6 +151,10 @@ public class SeriesEndpoint {
 				updatedSeries.setDateCreated(series.getDateCreated());
 			if (series.getRating() != 0 && (series.getRating() != updatedSeries.getRating()))
 				updatedSeries.setRating(series.getRating());
+			if (series.getCssBgColor() != null)
+				updatedSeries.setCssBgColor(series.getCssBgColor());
+			if (series.getCssFontColor() != null)
+				updatedSeries.setCssFontColor(series.getCssFontColor());
 			
 			mgr.makePersistent(updatedSeries);
 		} finally {
