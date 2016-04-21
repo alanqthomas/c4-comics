@@ -155,6 +155,11 @@ public class C4UserEndpoint {
 				updatedUser.setProfileImageURL(c4user.getProfileImageURL());
 			if (c4user.getRating() != 0 && (c4user.getRating() != updatedUser.getRating()))
 				updatedUser.setRating(c4user.getRating());
+			if (c4user.getCssBgColor() != null)
+				updatedUser.setCssBgColor(c4user.getCssBgColor());
+			if (c4user.getCssFontColor() != null)
+				updatedUser.setCssFontColor(c4user.getCssFontColor());
+			
 			//save the updates
 			mgr.makePersistent(updatedUser);
 		} catch (NotFoundException ex) {

@@ -73,6 +73,13 @@ public class C4User {
 	@Persistent
 	private List<Long> notifications;
 	
+	//CUSTOM CSS FIELDS
+	@Persistent
+	private String cssBgColor;
+	
+	@Persistent
+	private String cssFontColor;
+	
 	//Empty constructor
 	public C4User(){
 	}
@@ -270,6 +277,23 @@ public class C4User {
 			return lastRead.get(id);
 		else
 			return null;
+	}
+	
+	//css getters/setters
+	public String getCssBgColor() {
+		return cssBgColor;
+	}
+
+	public void setCssBgColor(String cssBgColor) {
+		this.cssBgColor = cssBgColor;
+	}
+
+	public String getCssFontColor() {
+		return cssFontColor;
+	}
+
+	public void setCssFontColor(String cssFontColor) {
+		this.cssFontColor = cssFontColor;
 	}
 
 }
