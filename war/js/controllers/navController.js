@@ -5,6 +5,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
                                   function(	 $scope,   $http,	$state,   $window,   GAuth,	 GApi,   GData){
 
 	$scope.notifications=[];
+  var toggle = false;
 	//replace with a check to see if someone is signed in?
 	var doLogin = function(){
 		$scope.signMsg = "Sign Out";
@@ -61,6 +62,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			});
 		}
 	};
+
 	GAuth.checkAuth().then(
 		function(){
 			$scope.signMsg = "Sign Out";
@@ -69,14 +71,18 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			$scope.signMsg = "Sign In";
 		}
 	);
+
 	$scope.navSearch = function(){
 		$state.go('search',{"list": $scope.searchTerms});
-	}
+	};
+
 	$scope.navProfile = function(){
 		$state.go('profile',{"id": $scope.userId});
-	}
+	};
+
 	$scope.notificationsBool = ($scope.notifications.length > 0);
-	function createUser(id, email, picture){
+
+  function createUser(id, email, picture){
 		return {
 			userID: id,
 			email:email,
@@ -85,6 +91,17 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 			profileImageURL:picture
 		}
 	}
+
+  $scope.toggleSideNav = function(){
+    if(!toggle){
+      $("#side-nav").css("width", "150px");
+      toggle = true;
+    } else {
+      $("#side-nav").css("width", "0px");
+      toggle = false;
+    }
+  }
+
 }]);
 
 })();

@@ -1,4 +1,4 @@
-<nav ng-controller="navCtrl">
+<nav class="top-nav">
   <div class="nav-logo">
       <img ui-sref="home"class="logo-img" src="http://i.imgur.com/78Y9idl.png" />
   </div>
@@ -19,9 +19,18 @@
     <div ng-if="signedIn">
       <i class="fa fa-bell"></i>
       <img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
-      <i class="fa fa-bars"></i>
+      <button class="btn btn-sm btn-default" ng-click="toggleSideNav()">
+        <i class="fa fa-bars"></i>
+      </button>
     </div>
   </div>
+</nav>
+
+<nav id="side-nav" class="side-nav">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
 </nav>
 
 <!-- div ng-controller="navCtrl" id="navBase">

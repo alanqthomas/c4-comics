@@ -34,7 +34,7 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
-nav {
+.top-nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -46,57 +46,66 @@ nav {
   text-align: center;
   color: white;
   box-shadow: 0px 2px 8px #888888; }
+  .top-nav .nav-section, .top-nav .nav-logo, .top-nav .nav-search, .top-nav .nav-buttons {
+    float: left;
+    width: 33.33333%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); }
+  .top-nav .nav-logo {
+    text-align: left; }
+  .top-nav .logo-img {
+    height: 45px; }
+  .top-nav .nav-search {
+    text-align: center; }
+  .top-nav .nav-search-bar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0px 3px 3px 0px !important;
+    border-bottom: 0px;
+    box-shadow: none !important; }
+  .top-nav ::-webkit-input-placeholder {
+    color: white; }
+  .top-nav :-moz-placeholder {
+    color: white; }
+  .top-nav ::-moz-placeholder {
+    color: white; }
+  .top-nav :-ms-input-placeholder {
+    color: white; }
+  .top-nav .nav-buttons {
+    text-align: right;
+    font-size: 20px; }
+  .top-nav .img-circle {
+    border-radius: 50%;
+    height: 45px;
+    margin-right: 10px;
+    margin-left: 10px; }
+  .top-nav .input-group-addon {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white; }
 
-.nav-section, .nav-logo, .nav-search, .nav-buttons {
-  float: left;
-  width: 33.33333%;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%); }
-
-.nav-logo {
-  text-align: left; }
-
-.logo-img {
-  height: 45px; }
-
-.nav-search {
-  text-align: center; }
-
-.nav-search-bar {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 0px 3px 3px 0px !important;
-  border-bottom: 0px;
-  box-shadow: none !important; }
-
-::-webkit-input-placeholder {
-  color: white; }
-
-:-moz-placeholder {
-  color: white; }
-
-::-moz-placeholder {
-  color: white; }
-
-:-ms-input-placeholder {
-  color: white; }
-
-.nav-buttons {
-  text-align: right;
-  font-size: 20px; }
-
-.img-circle {
-  border-radius: 50%;
-  height: 45px;
-  margin-right: 10px;
-  margin-left: 10px; }
-
-.input-group-addon {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white; }
+.side-nav {
+  margin-top: 65px;
+  background-color: white;
+  height: 100%;
+  width: 0px;
+  position: fixed;
+  z-index: 888;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  box-shadow: -1px 0px 4px #888888;
+  transition: 0.5s; }
+  .side-nav a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.87); }
+  .side-nav a:hover {
+    background-color: #E0E0E0; }
 
 body {
-  margin-top: 85px; }
+  margin-top: 85px;
+  background-color: #FAFAFA; }
 
 .span12 {
   text-align: center; }

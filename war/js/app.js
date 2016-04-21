@@ -18,7 +18,6 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
       {'name': 'c4userendpoint', 	'version': 'v1'},
       {'name': 'comicendpoint', 	'version': 'v1'},
       {'name': 'commentendpoint', 	'version': 'v1'},
-      {'name': 'gcsendpoint', 		'version': 'v1'},
       {'name': 'pageendpoint', 		'version': 'v1'},
       {'name': 'searchendpoint', 	'version': 'v1'},
       {'name': 'seriesendpoint', 	'version': 'v1'},
