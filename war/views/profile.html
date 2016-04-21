@@ -56,18 +56,9 @@
 	        		<div ng-if="isOwner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 	        			<i class="material-icons" ng-click="newSeries()">note_add</i>
 	        		</div> 
-		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
-		        		
-		        		
-		        		
-		        		
-		        		<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
-		        		<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-		        		
-		        		
-		        		
-		        		
-		        		
+		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2' ng-repeat='x in tab.content'>
+		        		<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
+		        		<img ng-src={{x.src}} class='img-responsive' ng-click="page_go(x.type,x.id)">
 		        		
 		        		<div ng-if="(isOwner)" class="profTabRTC">
 		        			<i class="material-icons" ng-click="deleteFav(x)">delete_forever</i>
