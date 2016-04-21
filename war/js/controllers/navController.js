@@ -1,11 +1,13 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies',
-                                  function(	 $scope,   $http,	  $state,   $window,   GAuth,	 GApi,   GData,   $cookies){
+angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies', 'searchScope',
+                                  function(	 $scope,   $http,	  $state,   $window,   GAuth,	 GApi,   GData,   $cookies,   searchScope){
+
 
 	var toggle = false;
   $scope.notifications = [];
+  $scope.search = searchScope.data;
 
   // Check
   if($cookies.get('userId')){
@@ -70,9 +72,11 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
     });
   };
 
-	$scope.navSearch = function(){
-		$state.go('search',{"input": $scope.searchTerms});
+
+	$scope.navSearch = function(){    
+		$state.go('search');
 	};
+
 
 	$scope.navProfile = function(){
 		$state.go('profile',{"id": GData.getUser().id});
