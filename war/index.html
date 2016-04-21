@@ -5,6 +5,7 @@
 		<meta content="utf-8" http-equiv="encoding">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Maximum Green</title>
+
 		<!-- JQuery -->
 		<script src="lib/bower_components/jquery/dist/jquery.min.js"></script>
 		<!-- lodash -->
@@ -21,41 +22,71 @@
 		<script	src="lib/bower_components/angular-google-gapi/dist/angular-google-gapi.min.js"></script>
 		<!-- NG-File-Upload -->
 		<script src="lib/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
-		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
-		<!-- Material Icons -->
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
-		<!-- Angular App -->
-		<script src="js/dist/scripts.js"></script>
 		<!-- Angular Bootstrap -->
 		<script src="lib/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 		<!-- Angular Infinite Scroll -->
 		<script src="lib/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 		<!-- this version of angular bootstrap work for tabs.  -->
-	    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.1.js"></script>
-	    <!-- Angular Animation  -->
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.1.js"></script>
+    <!-- Angular Animation  -->
 		<script src="https://code.angularjs.org/1.2.24/angular-animate.js"></script>
+
+		<!-- Material Icons -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css'>
+
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/styles.min.css" />
+
+		<!-- Angular App -->
+		<script src="js/dist/scripts.js"></script>
+
 	</head>
 	<body ng-app="c4">
-		<div id="navBuff"></div>
-		<div ng-controller="navCtrl" id="navBase">
+
+		<nav ng-controller="navCtrl">
+			<div class="nav-logo">
+					<img ui-sref="home"class="logo-img" src="http://i.imgur.com/78Y9idl.png" />
+			</div>
+			<div  class="nav-search">
+				<form class="form-inline" ng-submit="navSearch()">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</div>
+						<input class="nav-search-bar" type="text" placeholder="Search"/>
+					</div>
+				</form>
+			</div>
+
+			<div class="nav-buttons">
+				<button ng-if="!signedIn" ng-click="doAuth()" class="btn btn-primary">Sign In</button>
+
+				<div ng-if="signedIn">
+					<i class="fa fa-bell"></i>
+					<img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
+					<i class="fa fa-bars"></i>
+				</div>
+			</div>
+		</nav>
+
+		<!-- div ng-controller="navCtrl" id="navBase">
 			<div id="navRow">
 				<span ui-sref="home" class="navLeft" id="navTitle">
 					C4comics
 				</span>
-				<span id="navCenter"><!-- use to center -->
+				<span id="navCenter">
 					<form ng-submit="navSearch()" id="navForm">
 						<span class="hidden-xs">
 							<input type="text" placeholder="Search" ng-model="searchTerms"></input>
 							<i class="material-icons" ng-click="navSearch()">search</i>
 						</span>
 						<span class="visible-xs-inline">
-							<!-- Make a dropdown thing on ng-click -->
-							<i class="material-icons">search</i> 
+
+							<i class="material-icons">search</i>
 						</span>
 					</form>
 				</span>
@@ -74,7 +105,8 @@
 						</li>
 						<li ng-repeat-end class = "divider">
 					</ul>
-					<!-- Make a dropdown thing on ng-click -->
+
+
 					<span ng-show="signedIn">{{username}}</span>
 					<img class="img-circle" id="profilePicNav" ng-src="{{profilePic}}" ng-show="signedIn" ng-click="navProfile()">
 					<span class="dropdown">
@@ -88,7 +120,8 @@
 						</a>
 					</span>
 				</span>
-			</div>
+			</div -->
+
 			<!-- Navbar Settings Modal -->
 			<div id="settingsModal" class="modal fade" role="dialog">
 				<div class="modal-dialog">
@@ -109,6 +142,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<div>
 			<a ui-sref="home">Home</a>
 			<a ui-sref="profile">Profile</a>
@@ -120,7 +155,8 @@
 			<a ui-sref="search">Search</a>
 		</div>
 		<div ui-view></div>
-	<!-- Enable livereload for development -->
+
+		<!-- Enable livereload for development -->
 		<script src="//localhost:35729/livereload.js"></script>
 	</body>
 </html>

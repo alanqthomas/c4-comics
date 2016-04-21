@@ -1,6 +1,6 @@
 <div ng-controller="seriesCtrl">
 	<div class='container1'>
-		<div> 
+		<div>
 			<p>{{bg_img}}</p>
 			<!-- have some way of extracting current user -->
 			<div class='container'>
@@ -10,7 +10,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class='container'>
 		<div class='row'>
 			<h3 class="h3_hover" ng-click='goToAuthor()'>{{author_name}}</h3>
@@ -24,7 +24,7 @@
 		<div class='row'>
 			<p>{{series.description}}</p>
 		</div>
-		
+
 		<div ng-show='logged_in && !is_owner'>
 			<div class='row' ng-if='!subbed'>
 				<button type='button' class='btn btn-primary' ng-click="subscribe()"> Subscribe </button>
@@ -33,9 +33,9 @@
 				<button type='button' class='btn btn-primary' ng-click='unsubscribe()'> Unsubscribe </button>
 			</div>
 		</div>
-		
+
 	</div>
-	
+
 	<div class='container'>
 		<div class='row'>
 			<h3>Comics</h3>
@@ -54,7 +54,7 @@
 		</div>
 		<!-- if there are no pages -->
 		<div ng-if='comics.length == 0'>
-			<p>No Pages Available, Sorry :(</p>
+			<p>No comics in this series! :(</p>
 		</div>
 	</div>
 </div>

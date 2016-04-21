@@ -34,38 +34,69 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
-#navRight {
-  float: right;
-  margin: auto 0 auto auto; }
-
-#navLeft {
-  margin: auto auto auto 0; }
-
-#navBuff {
-  width: 100%; }
-
-#navRow {
+nav {
   position: fixed;
-  left: 0px;
-  top: 0px;
-  vertical-align: middle;
-  color: black;
-  min-height: 16px;
-  height: 5%; }
-  #navRow a {
-    color: black; }
-  #navRow div {
-    vertical-align: middle;
-    color: black; }
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 65px;
+  background-color: #4CAF50;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 2px 8px #888888; }
 
-#profilePicNav {
-  height: 100%; }
+.nav-section, .nav-logo, .nav-search, .nav-buttons {
+  float: left;
+  width: 33.33333%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
 
-#navForm {
-  display: inline; }
+.nav-logo {
+  text-align: left; }
 
-.navNotImg {
-  float: left; }
+.logo-img {
+  height: 45px; }
+
+.nav-search {
+  text-align: center; }
+
+.nav-search-bar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0px 3px 3px 0px !important;
+  border-bottom: 0px;
+  box-shadow: none !important; }
+
+::-webkit-input-placeholder {
+  color: white; }
+
+:-moz-placeholder {
+  color: white; }
+
+::-moz-placeholder {
+  color: white; }
+
+:-ms-input-placeholder {
+  color: white; }
+
+.nav-buttons {
+  text-align: right;
+  font-size: 20px; }
+
+.img-circle {
+  border-radius: 50%;
+  height: 45px;
+  margin-right: 10px;
+  margin-left: 10px; }
+
+.input-group-addon {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white; }
+
+body {
+  margin-top: 85px; }
 
 .span12 {
   text-align: center; }

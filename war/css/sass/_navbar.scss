@@ -1,39 +1,73 @@
-$nav-text-color: rgba(0,0,0,255);
-$nav-min-height: 16px;
-#navRight{
-	float:right;
-	 margin:auto 0 auto auto;
-}
-#navLeft{
-	//float:left;
-	margin:auto auto auto 0;
-}
-#navBuff{
+$img_url: 'http://i.imgur.com/78Y9idl.png';
+$nav_color: #4CAF50;
+$nav_height: 65px;
+$search_bar_color: rgba(255, 255, 255, 0.2);
+
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
 	width: 100%;
+	height: $nav_height;
+	background-color: $nav_color;
+	padding: 10px;
+	text-align: center;
+	color: white;
+	box-shadow: 0px 2px 8px #888888;
 }
-#navRow{
-	position:fixed;
-	left: 0px;
-	top: 0px;
-	vertical-align: middle;
-	color: $nav-text-color;
-	min-height: $nav-min-height;
-	height: 5%;
-	//text-align:center;
-	a {
-		color: $nav-text-color;
-	}
-	div {
-		vertical-align: middle;
-		color: $nav-text-color;
-	}
-}
-#profilePicNav{
-	height: 100%;
-}
-#navForm{
-	display: inline;
-}
-.navNotImg{
+
+.nav-section{
 	float: left;
+	width: 33.33333%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.nav-logo {
+	@extend .nav-section;
+	text-align: left;
+}
+
+.logo-img {
+	height: $nav_height - 20;
+}
+
+.nav-search {
+	@extend .nav-section;
+	text-align: center;
+}
+
+.nav-search-bar {
+	background-color: $search_bar_color;
+	border-radius: 0px 3px 3px 0px !important;
+	border-bottom: 0px;
+	box-shadow: none !important;
+}
+
+@include placeholder {
+	color: white;
+}
+
+.nav-buttons {
+	@extend .nav-section;
+	text-align: right;
+	font-size: 20px;
+}
+
+.img-circle {
+	border-radius: 50%;
+	height: $nav_height - 20;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.input-group-addon{
+	background-color: $search_bar_color;
+	color: white;
+}
+
+body {
+	margin-top: $nav_height + 20;
 }

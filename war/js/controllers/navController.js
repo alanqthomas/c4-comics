@@ -3,12 +3,6 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData',
                                   function(	 $scope,   $http,	$state,   $window,   GAuth,	 GApi,   GData){
-	//display variables
-	$('#navBase').css({'position' : 'relative', 'z-index': '1'});
-	$('#navBuff').css('height', $('#navRow').css('height') );
-	$('#navCenter').css('height', $('#navRow').css('height') );
-	$('#navRight').css('height', $('#navRow').css('height') );
-	$('#navLeft').css('height', $('#navRow').css('height') );
 
 	$scope.notifications=[];
 	//replace with a check to see if someone is signed in?
@@ -24,7 +18,7 @@ angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$windo
 				$scope.profilePic=resp.profileImageURL;
 				$scope.signedIn=true;
 				//$scope.userSettings=resp.userSettings;
-			}, 
+			},
 			function(resp){
 				console.log("No user information found in db.");
 				var u = GData.getUser();
