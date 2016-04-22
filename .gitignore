@@ -22,6 +22,7 @@ $RECYCLE.BIN/
 
 #GAE Local Datastore
 war/WEB-INF/appengine-generated/local_db.bin
+war/WEB-INF/appengine-generated
 
 # Mac crap
 .DS_Store
@@ -31,6 +32,7 @@ war/WEB-INF/appengine-generated/local_db.bin
 *.class
 *.api
 war/WEB-INF/lib/
+
 
 # NPM
 node_modules/

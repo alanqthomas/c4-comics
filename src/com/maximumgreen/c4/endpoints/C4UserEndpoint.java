@@ -13,9 +13,14 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.maximumgreen.c4.endpoints.IndexService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 import java.lang.Long;
 
 import javax.annotation.Nullable;
@@ -29,6 +34,8 @@ import javax.jdo.Query;
 @Api(name = "c4userendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class C4UserEndpoint {
 
+	private final static Logger log = Logger.getLogger(C4UserEndpoint.class.getName());
+	
 	/**
 	 * This method lists all the entities inserted in datastore.
 	 * It uses HTTP GET method and paging support.
@@ -121,6 +128,14 @@ public class C4UserEndpoint {
 				throw new BadRequestException("User already exists");
 			}
 			mgr.makePersistent(c4user);
+			
+			// Index newly created user
+			Document doc = Document.newBuilder()
+					.addField(Field.newBuilder().setName("id").setText(c4user.getUserID()))
+					.addField(Field.newBuilder().setName("username").setText(c4user.getUsername()))
+					.addField(Field.newBuilder().setName("email").setText(c4user.getEmail()))
+					.build();
+			IndexService.IndexDocument(IndexService.USER, doc);
 		} finally {
 			mgr.close();
 		}
