@@ -6,13 +6,26 @@ import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Series;
 import com.maximumgreen.c4.Comic;
 import com.maximumgreen.c4.Tag;
+import com.maximumgreen.c4.endpoints.IndexService;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 
+import com.google.appengine.api.search.Index;
+import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchServiceFactory;
+import com.google.appengine.api.search.SearchBaseException;
+import com.google.appengine.api.search.SearchException;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -24,6 +37,10 @@ public class SearchEndpoint {
 	@ApiMethod(name = "getResults", httpMethod = "POST")
 	public SearchHelper getResults(SearchHelper search) throws BadRequestException {
 		
+		Logger log = Logger.getLogger(SearchEndpoint.class.getName());
+		
+		log.info(search.getInput());
+		
 		if (search.getInput() == null)
 			throw new BadRequestException("Search input cannot be null.");
 		
@@ -31,8 +48,43 @@ public class SearchEndpoint {
 			return search;
 
 		PersistenceManager mgr = null;
-		String input = search.getInput();
-
+		String query = search.getInput();
+		
+		
+		IndexSpec userIndexSpec = IndexSpec.newBuilder().setName(IndexService.USER).build();
+		Index userIndex = SearchServiceFactory.getSearchService().getIndex(userIndexSpec);
+		
+		IndexSpec seriesIndexSpec = IndexSpec.newBuilder().setName(IndexService.SERIES).build();
+		Index seriesIndex = SearchServiceFactory.getSearchService().getIndex(seriesIndexSpec);
+		
+		IndexSpec comicIndexSpec = IndexSpec.newBuilder().setName(IndexService.COMIC).build();
+		Index comicIndex = SearchServiceFactory.getSearchService().getIndex(comicIndexSpec);
+		
+		IndexSpec tagIndexSpec = IndexSpec.newBuilder().setName(IndexService.TAG).build();
+		Index tagIndex = SearchServiceFactory.getSearchService().getIndex(tagIndexSpec);
+		
+		Collection<ScoredDocument> userDocs = null;
+		
+		try{
+			Results<ScoredDocument> result = userIndex.search(query);
+			userDocs = result.getResults();
+			log.info("Docs:" + userDocs.toString());
+		} catch (SearchException e){
+			log.warning("Search error");
+		}
+		
+		for(ScoredDocument doc : userDocs){
+			log.info("Doc: " + doc.toString());
+			Iterable<Field> fields = doc.getFields("id");
+			log.info("Fields: " + fields.toString());
+			for(Field f : fields){
+				log.info("id: " + f.getText());
+			}
+		}
+		
+		
+		 
+		/*
 		try {
 			mgr = getPersistenceManager();
 			Query q = mgr.newQuery(C4User.class);
@@ -90,6 +142,7 @@ public class SearchEndpoint {
 		} finally {
 			mgr.close();
 		}
+		*/
 		
 		return search;
 		
