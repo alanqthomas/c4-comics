@@ -129,25 +129,7 @@ public class SeriesEndpoint {
 			series.setDateString(formatDate(now));
 
 			mgr.makePersistent(series);
-			
-			C4User user;
-			
-			try{
-				user = mgr.getObjectById(C4User.class, series.getAuthorId());
-			} catch (javax.jdo.JDOObjectNotFoundException e){
-				throw new NotFoundException("User does not exist");
-			} finally {
-				mgr.close();
-			}
-			
-			// Index newly created series
-			Document doc = Document.newBuilder()
-					.addField(Field.newBuilder().setName("id").setText(series.getId().toString()))
-					.addField(Field.newBuilder().setName("title").setText(series.getTitle()))
-					.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
-					.addField(Field.newBuilder().setName("description").setText(series.getDescription()))
-					.build();
-			IndexService.IndexDocument(IndexService.SERIES, doc);
+			index(series);
 		} finally {
 			mgr.close();
 		}
@@ -190,6 +172,7 @@ public class SeriesEndpoint {
 				updatedSeries.setCssFontColor(series.getCssFontColor());
 			
 			mgr.makePersistent(updatedSeries);
+			index(updatedSeries);
 		} finally {
 			mgr.close();
 		}
@@ -210,6 +193,7 @@ public class SeriesEndpoint {
 			mgr.deletePersistent(series);
 		} finally {
 			mgr.close();
+			IndexService.removeDocument(IndexService.SERIES, id.toString());
 		}
 	}
 
@@ -232,6 +216,7 @@ public class SeriesEndpoint {
 			series.addSeriesComic(comicId);
 			
 			mgr.makePersistent(series);
+			index(series);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Series Id invalid.");
@@ -254,6 +239,7 @@ public class SeriesEndpoint {
 			series.deleteSeriesComic(comicId);
 			
 			mgr.makePersistent(series);
+			index(series);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Series Id invalid.");
@@ -334,6 +320,29 @@ public class SeriesEndpoint {
 	private String formatDate(Date date){
 		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
 		return formatter.format(date);
+	}
+	
+	private void index(Series series) throws NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		C4User user;
+		
+		try{
+			user = mgr.getObjectById(C4User.class, series.getAuthorId());
+		} catch (javax.jdo.JDOObjectNotFoundException e){
+			throw new NotFoundException("User does not exist");
+		} finally {
+			mgr.close();
+		}
+		
+		// Index newly created series
+		Document doc = Document.newBuilder()
+				.setId(series.getId().toString())
+				.addField(Field.newBuilder().setName("id").setText(series.getId().toString()))
+				.addField(Field.newBuilder().setName("title").setText(series.getTitle()))
+				.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
+				.addField(Field.newBuilder().setName("description").setText(series.getDescription()))
+				.build();
+		IndexService.indexDocument(IndexService.SERIES, doc);
 	}
 	
 }

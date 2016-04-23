@@ -42,24 +42,20 @@ public class SearchEndpoint {
 	@ApiMethod(name = "getResults", httpMethod = "POST")
 	public SearchHelper getResults(SearchHelper search) throws BadRequestException, NotFoundException {
 			
-		if (search.getInput() == null)
+		if (search.getInput() == null){
 			throw new BadRequestException("Search input cannot be null.");
+		}
 		
-		if (search.getInput().equals(""))
+		if (search.getInput().equals("")){
 			return search;
+		}
 
-		PersistenceManager mgr = null;
-		
+		PersistenceManager mgr = null;		
 		String query = search.getInput();		
 		
-		IndexSpec userIndexSpec = IndexSpec.newBuilder().setName(IndexService.USER).build();
-		Index userIndex = SearchServiceFactory.getSearchService().getIndex(userIndexSpec);
-		
-		IndexSpec seriesIndexSpec = IndexSpec.newBuilder().setName(IndexService.SERIES).build();
-		Index seriesIndex = SearchServiceFactory.getSearchService().getIndex(seriesIndexSpec);
-		
-		IndexSpec comicIndexSpec = IndexSpec.newBuilder().setName(IndexService.COMIC).build();
-		Index comicIndex = SearchServiceFactory.getSearchService().getIndex(comicIndexSpec);
+		Index userIndex = IndexService.getIndex(IndexService.USER);
+		Index seriesIndex = IndexService.getIndex(IndexService.SERIES);
+		Index comicIndex = IndexService.getIndex(IndexService.COMIC);
 		
 		Set<String> userIds = new LinkedHashSet<String>();
 		Set<String> seriesIds = new LinkedHashSet<String>();
@@ -68,6 +64,7 @@ public class SearchEndpoint {
 		try{
 			Collection<ScoredDocument> docs = userIndex.search(query).getResults();
 			for(ScoredDocument doc : docs){
+				log.info("search: doc_id: " + doc.getId());
 				Iterable<Field> fields = doc.getFields("id");
 				for(Field f : fields){
 					userIds.add(f.getText());
@@ -91,7 +88,7 @@ public class SearchEndpoint {
 		
 		try{
 			Collection<ScoredDocument> docs = comicIndex.search(query).getResults();
-			for(ScoredDocument doc : docs){
+			for(ScoredDocument doc : docs){				
 				Iterable<Field> fields = doc.getFields("id");
 				for(Field f : fields){
 					comicIds.add(f.getText());
@@ -100,47 +97,41 @@ public class SearchEndpoint {
 		} catch(SearchException e){
 			log.severe("Search error: comic");
 		}		
-		
-		log.info("userIds: " + userIds.toString());
-		log.info("seriesIds: " + seriesIds.toString());
-		log.info("comicIds: " + comicIds.toString());
-		
+				
 		ArrayList userList = new ArrayList();
 		ArrayList seriesList = new ArrayList();
 		ArrayList comicList = new ArrayList();
 		
+		log.info("userIds: " + userIds.toString());
+		
 		try{
 			mgr = getPersistenceManager();
+			
 			for(String s: userIds){
 				C4User user = mgr.getObjectById(C4User.class, s);
 				userList.add(user);					
 			}
-			log.info("user list: " + userList.toString());
 			search.setAuthorResults(userList);
 
 			
 			for(String s: seriesIds){
 				Series series= mgr.getObjectById(Series.class, Long.decode(s));
 				seriesList.add(series);				
-			}
-			log.info("series list: " + seriesList.toString());
+			}			
 			search.setSeriesResults(seriesList);
 		
+			
 			for(String s: comicIds){
 				Comic comic = mgr.getObjectById(Comic.class, Long.decode(s));
 				comicList.add(comic);				
-			}
-			log.info("comic list: " + comicList.toString());
+			}			
 			search.setComicResults(comicList);
+			
 		} catch (javax.jdo.JDOObjectNotFoundException e){
 			throw new NotFoundException("Could not find entity");
 		} finally {
 			mgr.close();
 		}
-		
-		log.info("search.user: " + search.getAuthorResults().toString());
-		log.info("search.series: " + search.getSeriesResults().toString());
-		log.info("search.comic: " + search.getComicResults().toString());
 				
 		return search;
 	}
