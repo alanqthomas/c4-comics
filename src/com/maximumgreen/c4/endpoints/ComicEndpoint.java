@@ -24,16 +24,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.persistence.EntityExistsException;
+
+import org.mortbay.log.Log;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 @Api(name = "comicendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class ComicEndpoint {
 
+	private final static Logger log = Logger.getLogger(IndexService.class.getName());
 	/**
 	 * This method lists all the entities inserted in datastore.
 	 * It uses HTTP GET method and paging support.
@@ -131,34 +136,9 @@ public class ComicEndpoint {
 			comic.setDateCreated(now);
 			comic.setDateString(formatDate(now));
 			
-			mgr.makePersistent(comic);
+			mgr.makePersistent(comic);			
+			index(comic);
 			
-			C4User user;			
-			try{
-				user = mgr.getObjectById(C4User.class, comic.getAuthorId());
-			} catch (javax.jdo.JDOObjectNotFoundException e){
-				throw new NotFoundException("User does not exist");
-			} finally {
-				mgr.close();
-			}
-			
-			Series series = null;			
-			try{
-				user = mgr.getObjectById(C4User.class, comic.getSeriesId());
-			} catch (javax.jdo.JDOObjectNotFoundException e){
-				throw new NotFoundException("Series does not exist");
-			} finally {
-				mgr.close();
-			}
-			
-			Document doc = Document.newBuilder()
-					.addField(Field.newBuilder().setName("id").setNumber(comic.getId()))
-					.addField(Field.newBuilder().setName("title").setText(comic.getTitle()))
-					.addField(Field.newBuilder().setName("series").setText(series.getTitle()))
-					.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
-					.addField(Field.newBuilder().setName("tags").setText(IndexService.BuildTagString(comic.getTags())))
-					.build();
-			IndexService.IndexDocument(IndexService.COMIC, doc);
 		} finally {
 			mgr.close();
 		}
@@ -193,6 +173,7 @@ public class ComicEndpoint {
 				updatedComic.setDateCreated(comic.getDateCreated());
 			
 			mgr.makePersistent(updatedComic);
+			index(updatedComic);
 		} catch (NotFoundException ex) {
 			throw ex;
 		} finally {
@@ -213,6 +194,7 @@ public class ComicEndpoint {
 		try {
 			Comic comic = mgr.getObjectById(Comic.class, id);
 			mgr.deletePersistent(comic);
+			IndexService.removeDocument(IndexService.COMIC, id.toString());
 		} finally {
 			mgr.close();
 		}
@@ -241,6 +223,7 @@ public class ComicEndpoint {
 			comic.addComicPage(page.getId());
 			
 			mgr.makePersistent(comic);
+			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id invalid.");
@@ -263,6 +246,7 @@ public class ComicEndpoint {
 			comic.deleteComicPage(pageId);
 			
 			mgr.makePersistent(comic);
+			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id invalid.");
@@ -291,6 +275,7 @@ public class ComicEndpoint {
 			comic.addComicTag(tagId);
 			
 			mgr.makePersistent(comic);
+			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id invalid.");
@@ -313,6 +298,7 @@ public class ComicEndpoint {
 			comic.deleteComicTag(tagId);
 			
 			mgr.makePersistent(comic);
+			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id invalid.");
@@ -393,6 +379,32 @@ public class ComicEndpoint {
 	private String formatDate(Date date){
 		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
 		return formatter.format(date);
+	}
+	
+	private void index(Comic comic) throws NotFoundException{		
+		PersistenceManager mgr = getPersistenceManager();
+		C4User user;	
+		Series series = null;
+		
+		try{
+			user = mgr.getObjectById(C4User.class, comic.getAuthorId());				
+			series = mgr.getObjectById(Series.class, comic.getSeriesId());
+		} catch (javax.jdo.JDOObjectNotFoundException e){
+			throw new NotFoundException("Series does not exist");
+		} finally {
+			mgr.close();
+		}
+		
+		
+		Document doc = Document.newBuilder()
+				.setId(comic.getId().toString())
+				.addField(Field.newBuilder().setName("id").setText(comic.getId().toString()))
+				.addField(Field.newBuilder().setName("title").setText(comic.getTitle()))
+				.addField(Field.newBuilder().setName("series").setText(series.getTitle()))
+				.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
+				.addField(Field.newBuilder().setName("tags").setText(IndexService.buildTagString(comic.getTags())))
+				.build();
+		IndexService.indexDocument(IndexService.COMIC, doc);
 	}
 
 }

@@ -108,7 +108,7 @@ public class C4User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
 	public boolean isAdministrator() {
 		return administrator;
 	}
