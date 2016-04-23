@@ -12,10 +12,11 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
-
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.Results;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchServiceFactory;
@@ -24,7 +25,9 @@ import com.google.appengine.api.search.SearchException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -33,14 +36,12 @@ import javax.jdo.Query;
 @SuppressWarnings("unchecked")
 @Api(name = "searchendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class SearchEndpoint {
+	
+	private static final Logger log = Logger.getLogger(SearchEndpoint.class.getName());
 		
 	@ApiMethod(name = "getResults", httpMethod = "POST")
-	public SearchHelper getResults(SearchHelper search) throws BadRequestException {
-		
-		Logger log = Logger.getLogger(SearchEndpoint.class.getName());
-		
-		log.info(search.getInput());
-		
+	public SearchHelper getResults(SearchHelper search) throws BadRequestException, NotFoundException {
+			
 		if (search.getInput() == null)
 			throw new BadRequestException("Search input cannot be null.");
 		
@@ -48,8 +49,8 @@ public class SearchEndpoint {
 			return search;
 
 		PersistenceManager mgr = null;
-		String query = search.getInput();
 		
+		String query = search.getInput();		
 		
 		IndexSpec userIndexSpec = IndexSpec.newBuilder().setName(IndexService.USER).build();
 		Index userIndex = SearchServiceFactory.getSearchService().getIndex(userIndexSpec);
@@ -60,92 +61,88 @@ public class SearchEndpoint {
 		IndexSpec comicIndexSpec = IndexSpec.newBuilder().setName(IndexService.COMIC).build();
 		Index comicIndex = SearchServiceFactory.getSearchService().getIndex(comicIndexSpec);
 		
-		IndexSpec tagIndexSpec = IndexSpec.newBuilder().setName(IndexService.TAG).build();
-		Index tagIndex = SearchServiceFactory.getSearchService().getIndex(tagIndexSpec);
-		
-		Collection<ScoredDocument> userDocs = null;
+		Set<String> userIds = new LinkedHashSet<String>();
+		Set<String> seriesIds = new LinkedHashSet<String>();
+		Set<String> comicIds = new LinkedHashSet<String>();
 		
 		try{
-			Results<ScoredDocument> result = userIndex.search(query);
-			userDocs = result.getResults();
-			log.info("Docs:" + userDocs.toString());
+			Collection<ScoredDocument> docs = userIndex.search(query).getResults();
+			for(ScoredDocument doc : docs){
+				Iterable<Field> fields = doc.getFields("id");
+				for(Field f : fields){
+					userIds.add(f.getText());
+				}
+			}
 		} catch (SearchException e){
-			log.warning("Search error");
+			log.severe("Search error: user");
 		}
 		
-		for(ScoredDocument doc : userDocs){
-			log.info("Doc: " + doc.toString());
-			Iterable<Field> fields = doc.getFields("id");
-			log.info("Fields: " + fields.toString());
-			for(Field f : fields){
-				log.info("id: " + f.getText());
+		try{
+			Collection<ScoredDocument> docs = seriesIndex.search(query).getResults();
+			for(ScoredDocument doc : docs){
+				Iterable<Field> fields = doc.getFields("id");
+				for(Field f : fields){
+					seriesIds.add(f.getText());
+				}
 			}
+		} catch(SearchException e){
+			log.severe("Search Error: series");
 		}
 		
+		try{
+			Collection<ScoredDocument> docs = comicIndex.search(query).getResults();
+			for(ScoredDocument doc : docs){
+				Iterable<Field> fields = doc.getFields("id");
+				for(Field f : fields){
+					comicIds.add(f.getText());
+				}
+			}
+		} catch(SearchException e){
+			log.severe("Search error: comic");
+		}		
 		
-		 
-		/*
-		try {
+		log.info("userIds: " + userIds.toString());
+		log.info("seriesIds: " + seriesIds.toString());
+		log.info("comicIds: " + comicIds.toString());
+		
+		ArrayList userList = new ArrayList();
+		ArrayList seriesList = new ArrayList();
+		ArrayList comicList = new ArrayList();
+		
+		try{
 			mgr = getPersistenceManager();
-			Query q = mgr.newQuery(C4User.class);
-			q.setFilter("username == usernameParam");
-			q.declareParameters("String usernameParam");
-			List<C4User> authorResults = (List<C4User>) q.execute(input);
-			if (!authorResults.isEmpty()) {
-				List<C4User> newlist = new ArrayList<C4User>();
-				
-				for (C4User u : authorResults)
-					newlist.add(u);
-				
-				search.setAuthorResults(newlist);
+			for(String s: userIds){
+				C4User user = mgr.getObjectById(C4User.class, s);
+				userList.add(user);					
 			}
+			log.info("user list: " + userList.toString());
+			search.setAuthorResults(userList);
+
 			
-			q = mgr.newQuery(Series.class);
-			q.setFilter("title == titleParam");
-			q.declareParameters("String titleParam");
-			List<Series> seriesResults = (List<Series>) q.execute(input);
-			if (!seriesResults.isEmpty()){
-				List<Series> newlist = new ArrayList<Series>();
-				
-				for (Series s : seriesResults)
-					newlist.add(s);
-				
-				search.setSeriesResults(newlist);
+			for(String s: seriesIds){
+				Series series= mgr.getObjectById(Series.class, Long.decode(s));
+				seriesList.add(series);				
 			}
-			
-			q = mgr.newQuery(Comic.class);
-			q.setFilter("title == titleParam");
-			q.declareParameters("String titleParam");
-			List<Comic> comicResults = (List<Comic>) q.execute(input);
-			if (!comicResults.isEmpty()){
-				List<Comic> newlist = new ArrayList<Comic>();
-				
-				for (Comic c : comicResults)
-					newlist.add(c);
-				
-				search.setComicResults(newlist);
+			log.info("series list: " + seriesList.toString());
+			search.setSeriesResults(seriesList);
+		
+			for(String s: comicIds){
+				Comic comic = mgr.getObjectById(Comic.class, Long.decode(s));
+				comicList.add(comic);				
 			}
-			
-			q = mgr.newQuery(Tag.class);
-			q.setFilter("name == nameParam");
-			q.declareParameters("String nameParam");
-			List<Tag> tagResults = (List<Tag>) q.execute(input);
-			if (!tagResults.isEmpty()){
-				List<Tag> newlist = new ArrayList<Tag>();
-				
-				for (Tag t : tagResults)
-					newlist.add(t);
-				
-				search.setTagResults(newlist);
-			}
-	
+			log.info("comic list: " + comicList.toString());
+			search.setComicResults(comicList);
+		} catch (javax.jdo.JDOObjectNotFoundException e){
+			throw new NotFoundException("Could not find entity");
 		} finally {
 			mgr.close();
 		}
-		*/
 		
+		log.info("search.user: " + search.getAuthorResults().toString());
+		log.info("search.series: " + search.getSeriesResults().toString());
+		log.info("search.comic: " + search.getComicResults().toString());
+				
 		return search;
-		
 	}
 	
 	private static PersistenceManager getPersistenceManager() {

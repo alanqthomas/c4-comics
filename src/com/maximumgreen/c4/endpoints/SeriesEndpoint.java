@@ -142,7 +142,7 @@ public class SeriesEndpoint {
 			
 			// Index newly created series
 			Document doc = Document.newBuilder()
-					.addField(Field.newBuilder().setName("id").setNumber(series.getId()))
+					.addField(Field.newBuilder().setName("id").setText(series.getId().toString()))
 					.addField(Field.newBuilder().setName("title").setText(series.getTitle()))
 					.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
 					.addField(Field.newBuilder().setName("description").setText(series.getDescription()))

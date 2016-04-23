@@ -133,18 +133,12 @@ public class ComicEndpoint {
 			
 			mgr.makePersistent(comic);
 			
-			C4User user;			
-			try{
-				user = mgr.getObjectById(C4User.class, comic.getAuthorId());
-			} catch (javax.jdo.JDOObjectNotFoundException e){
-				throw new NotFoundException("User does not exist");
-			} finally {
-				mgr.close();
-			}
+			C4User user;	
+			Series series = null;
 			
-			Series series = null;			
 			try{
-				user = mgr.getObjectById(C4User.class, comic.getSeriesId());
+				user = mgr.getObjectById(C4User.class, comic.getAuthorId());				
+				series = mgr.getObjectById(Series.class, comic.getSeriesId());
 			} catch (javax.jdo.JDOObjectNotFoundException e){
 				throw new NotFoundException("Series does not exist");
 			} finally {
@@ -152,7 +146,7 @@ public class ComicEndpoint {
 			}
 			
 			Document doc = Document.newBuilder()
-					.addField(Field.newBuilder().setName("id").setNumber(comic.getId()))
+					.addField(Field.newBuilder().setName("id").setText(comic.getId().toString()))
 					.addField(Field.newBuilder().setName("title").setText(comic.getTitle()))
 					.addField(Field.newBuilder().setName("series").setText(series.getTitle()))
 					.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
