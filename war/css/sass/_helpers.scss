@@ -19,8 +19,6 @@
   display: none !important;
 }
 
-[ng-click],
-[data-ng-click],
-[x-ng-click] {
+[ng-click], [data-ng-click], [x-ng-click], img, i {
     cursor: pointer;
 }

@@ -25,27 +25,38 @@ public class IndexService {
 	
 	private final static Logger log = Logger.getLogger(IndexService.class.getName());
 	
-	public IndexService(){
-		
-	}
+	public IndexService(){}
 	
-	public static void IndexDocument(String indexName, Document document){
-		IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
-		Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+	public static void indexDocument(String indexName, Document document){
+		Index index = getIndex(indexName);
 		
 		try{
 			index.put(document);
-			log.info("Document inserted");
+			log.info("Document inserted with id:" + document.getId());
 		} catch (PutException e){
 			if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
 				// retry putting the document
 				index.put(document);
-				log.info("Document inserted on retry");
+				log.info("Document inserted on retry with id:" + document.getId());
 			}
 		}
 	}
 	
-	public static String BuildTagString(List<Long> tags) throws NotFoundException{
+	public static Index getIndex(String indexName){
+		IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
+		Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+		return index;
+	}
+	
+	public static void removeDocument(String indexName, String id){
+		log.info("indexName: " + indexName);
+		log.info("id: " + id);
+		Index index = getIndex(indexName);		
+		index.delete(id);
+		log.info("Document deleted");
+	}
+	
+	public static String buildTagString(List<Long> tags) throws NotFoundException{
 		PersistenceManager mgr = PMF.get().getPersistenceManager();
 		String tagString = "";
 		

@@ -59,6 +59,7 @@
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 0px 3px 3px 0px !important;
     border-bottom: 0px;
+    outline: none !important;
     box-shadow: none !important; }
   .top-nav .nav-buttons {
     text-align: right;
@@ -126,6 +127,9 @@ body {
   visibility: visible;
   opacity: 1; }
 
+.search-x {
+  font-size: 30px !important; }
+
 .cover {
   background-image: url("https://storage.googleapis.com/c4-comics.appspot.com/series-bg");
   width: 650px;
@@ -184,9 +188,7 @@ footer {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
-[ng-click],
-[data-ng-click],
-[x-ng-click] {
+[ng-click], [data-ng-click], [x-ng-click], img, i {
   cursor: pointer; }
 
 /*# sourceMappingURL=styles.css.map */

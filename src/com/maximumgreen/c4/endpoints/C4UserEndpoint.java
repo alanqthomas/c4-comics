@@ -128,14 +128,7 @@ public class C4UserEndpoint {
 				throw new BadRequestException("User already exists");
 			}
 			mgr.makePersistent(c4user);
-			
-			// Index newly created user
-			Document doc = Document.newBuilder()
-					.addField(Field.newBuilder().setName("id").setText(c4user.getUserID()))
-					.addField(Field.newBuilder().setName("username").setText(c4user.getUsername()))
-					.addField(Field.newBuilder().setName("email").setText(c4user.getEmail()))
-					.build();
-			IndexService.IndexDocument(IndexService.USER, doc);
+			index(c4user);
 		} finally {
 			mgr.close();
 		}
@@ -177,6 +170,7 @@ public class C4UserEndpoint {
 			
 			//save the updates
 			mgr.makePersistent(updatedUser);
+			index(updatedUser);
 		} catch (NotFoundException ex) {
 			throw ex;
 		} finally {
@@ -196,8 +190,9 @@ public class C4UserEndpoint {
 	public void removeC4User(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			C4User c4user = mgr.getObjectById(C4User.class, id);
+			C4User c4user = mgr.getObjectById(C4User.class, id);			
 			mgr.deletePersistent(c4user);
+			IndexService.removeDocument(IndexService.USER, c4user.getUserID());
 		} finally {
 			mgr.close();
 		}
@@ -551,6 +546,16 @@ public class C4UserEndpoint {
 
 	private static PersistenceManager getPersistenceManager() {
 		return PMF.get().getPersistenceManager();
+	}
+	
+	private void index(C4User c4user){				
+		Document doc = Document.newBuilder()
+				.setId(c4user.getUserID())
+				.addField(Field.newBuilder().setName("id").setText(c4user.getUserID()))
+				.addField(Field.newBuilder().setName("username").setText(c4user.getUsername()))
+				.addField(Field.newBuilder().setName("email").setText(c4user.getEmail()))
+				.build();
+		IndexService.indexDocument(IndexService.USER, doc);
 	}
 
 }
