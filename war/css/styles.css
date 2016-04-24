@@ -1,3 +1,153 @@
+.tagsDisplayBrowse {
+  text-align: center;
+  align-items: center; }
+
+.comicTitleBar {
+  background-color: #4b647d; }
+
+.comicTitleBarFL {
+  float: right; }
+
+.pageDiv {
+  text-align: center;
+  align-items: center; }
+
+.DocumentList {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 200px;
+  width: 100%;
+  padding: 0 15px; }
+
+.DocumentItem {
+  border: 1px solid black;
+  padding: 0;
+  height: 200px; }
+
+.list-inline {
+  white-space: nowrap; }
+
+.container-full {
+  margin: 0 auto;
+  width: 90%; }
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 65px;
+  background-color: #4CAF50;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 2px 8px #888888; }
+  .top-nav .nav-section, .top-nav .nav-logo, .top-nav .nav-search, .top-nav .nav-buttons {
+    float: left;
+    width: 33.33333%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); }
+  .top-nav .nav-logo {
+    text-align: left; }
+  .top-nav .logo-img {
+    height: 45px; }
+  .top-nav .nav-search {
+    text-align: center; }
+  .top-nav .nav-search-bar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0px 3px 3px 0px !important;
+    border-bottom: 0px;
+    box-shadow: none !important; }
+  .top-nav .nav-buttons {
+    text-align: right;
+    font-size: 20px; }
+  .top-nav .img-circle {
+    border-radius: 50%;
+    height: 45px;
+    margin-right: 10px;
+    margin-left: 10px; }
+  .top-nav .input-group-addon {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white; }
+
+.side-nav {
+  margin-top: 65px;
+  background-color: white;
+  height: 100%;
+  width: 0px;
+  position: fixed;
+  z-index: 888;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  box-shadow: -1px 0px 4px #888888;
+  transition: 0.5s; }
+  .side-nav a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.87); }
+  .side-nav a:hover {
+    background-color: #E0E0E0; }
+
+body {
+  margin-top: 85px;
+  background-color: #FAFAFA; }
+
+.testing {
+  background-color: green; }
+
+.h1_hover {
+  cursor: pointer; }
+
+.imgWrap {
+  position: relative; }
+
+.preview {
+  cursor: pointer;
+  margin-bottom: 25px;
+  margin-right: 0px;
+  margin-left: 0px; }
+
+.imgDescription {
+  position: absolute;
+  top: 0;
+  left: 30;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-transition: visibility opacity 0.2s; }
+
+.imgWrap:hover .imgDescription {
+  visibility: visible;
+  opacity: 1; }
+
+.cover {
+  background-image: url("https://storage.googleapis.com/c4-comics.appspot.com/series-bg");
+  width: 650px;
+  height: 300px;
+  position: relative;
+  margin: 0 auto;
+  color: white; }
+  .cover h2 {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    overflow: hidden; }
+  .cover button {
+    position: absolute;
+    bottom: 20px;
+    right: 10px; }
+
+.content-wrapper {
+  padding-left: 30px;
+  padding-right: 30px; }
+
 nav ul {
   margin: 10px;
   padding: 0;
@@ -38,130 +188,5 @@ footer {
 [data-ng-click],
 [x-ng-click] {
   cursor: pointer; }
-
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 65px;
-  background-color: #4CAF50;
-  padding: 10px;
-  text-align: center;
-  color: white;
-  box-shadow: 0px 2px 8px #888888; }
-  .top-nav .nav-section, .top-nav .nav-logo, .top-nav .nav-search, .top-nav .nav-buttons {
-    float: left;
-    width: 33.33333%;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%); }
-  .top-nav .nav-logo {
-    text-align: left; }
-  .top-nav .logo-img {
-    height: 45px; }
-  .top-nav .nav-search {
-    text-align: center; }
-  .top-nav .nav-search-bar {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 0px 3px 3px 0px !important;
-    border-bottom: 0px;
-    box-shadow: none !important; }
-  .top-nav ::-webkit-input-placeholder {
-    color: white; }
-  .top-nav :-moz-placeholder {
-    color: white; }
-  .top-nav ::-moz-placeholder {
-    color: white; }
-  .top-nav :-ms-input-placeholder {
-    color: white; }
-  .top-nav .nav-buttons {
-    text-align: right;
-    font-size: 20px; }
-  .top-nav .img-circle {
-    border-radius: 50%;
-    height: 45px;
-    margin-right: 10px;
-    margin-left: 10px; }
-  .top-nav .input-group-addon {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white; }
-
-.side-nav {
-  margin-top: 65px;
-  background-color: white;
-  height: 100%;
-  width: 0px;
-  position: fixed;
-  z-index: 888;
-  top: 0;
-  right: 0;
-  overflow-x: hidden;
-  box-shadow: -1px 0px 4px #888888;
-  transition: 0.5s; }
-  .side-nav a {
-    padding: 10px;
-    text-decoration: none;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.87); }
-  .side-nav a:hover {
-    background-color: #E0E0E0; }
-
-body {
-  margin-top: 85px;
-  background-color: #FAFAFA; }
-
-.cover {
-  background-image: url("https://storage.googleapis.com/c4-comics.appspot.com/series-bg");
-  width: 650px;
-  height: 300px;
-  position: relative;
-  margin: 0 auto;
-  color: white; }
-  .cover h2 {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    color: white;
-    overflow: hidden; }
-  .cover button {
-    position: absolute;
-    bottom: 20px;
-    right: 10px; }
-
-.content-wrapper {
-  padding-left: 30px;
-  padding-right: 30px; }
-
-.testing {
-  background-color: green; }
-
-.h1_hover {
-  cursor: pointer; }
-
-.imgWrap {
-  position: relative; }
-
-.preview {
-  cursor: pointer;
-  margin-bottom: 25px;
-  margin-right: 0px;
-  margin-left: 0px; }
-
-.imgDescription {
-  position: absolute;
-  top: 0;
-  left: 30;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-  cursor: pointer;
-  -webkit-transition: visibility opacity 0.2s; }
-
-.imgWrap:hover .imgDescription {
-  visibility: visible;
-  opacity: 1; }
 
 /*# sourceMappingURL=styles.css.map */

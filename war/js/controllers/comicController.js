@@ -17,7 +17,9 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	$scope.pages = [];
 	$scope.comics = [];
 	$scope.series = null;
-	
+	$scope.openComments = function(comic){
+		//open a thing with whatever comments.
+	}
 	$scope.getComic = function(){
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(
 			function(resp){
@@ -56,10 +58,11 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 						GApi.execute("seriesendpoint", "getSeries", {"id":resp.seriesId}).then(
 							function(resp){
 								$scope.seriesTitle = resp.title;
-								$scope.authorName = resp.authorId;
+								//$scope.authorName = resp.authorId;
 							},
 							function(resp){
-								
+								//bad things,
+								console.log(resp);
 							}
 						);
 					}

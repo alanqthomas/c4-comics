@@ -47,9 +47,9 @@ $side_nav_font_color: rgba(0, 0, 0, 0.87);
 		box-shadow: none !important;
 	}
 
-	@include placeholder {
-		color: white;
-	}
+	//@include placeholder {
+	//	color: white;
+	//}
 
 	.nav-buttons {
 		@extend .nav-section;
