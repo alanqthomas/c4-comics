@@ -5,16 +5,11 @@
 angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GApi', '$state',
                                       function(	 $scope,    $http,   GData,   GApi,   $state){
 
-    /* - UNCOMMENT FOR RELEASE
     if(GData.getUser() == null){
       $state.go('home');
     }
-    */
 
-    $scope.list = [];
-    $scope.series = true;
-    $scope.heading = "My Series"
-
+    $scope.noSeries = false;
 
     $scope.getSeries= function(){
       $scope.list = [];
@@ -22,6 +17,10 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
       $scope.heading = "My Series";
       GApi.execute("c4userendpoint", "getC4User", {"id": GData.getUser().id}).then(
         function(res){
+          if(!res.userSeries){
+            $scope.noSeries = true;
+            return;
+          }
           var series = res.userSeries;
           for(var i = 0; i < series.length; i++){
             GApi.execute("seriesendpoint", "getSeries", {"id": series[i]}).then(
@@ -56,6 +55,10 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
         }
       );
     }
+  };
+
+  $scope.newSeries = function(){
+    console.log("TODO: This function");
   };
 
   $scope.goToSeries = function(id){

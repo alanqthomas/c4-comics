@@ -1,4 +1,4 @@
-"use strict";
+ "use strict";
 (function() {
 	angular.module('c4').controller('profileCtrl', ['$scope', '$http', 'GApi', 'GAuth', 'GData', '$stateParams', "$state", 'imgService', 'IMG_PREFIXES',
 	                                        function($scope,   $http,   GApi,   GAuth,   GData,   $stateParams,   $state,  imgService,   IMG_PREFIXES){

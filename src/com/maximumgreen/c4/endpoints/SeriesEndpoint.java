@@ -1,5 +1,6 @@
 package com.maximumgreen.c4.endpoints;
 
+import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.Series;
 import com.google.api.server.spi.config.Api;
@@ -10,6 +11,10 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
+
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.maximumgreen.c4.endpoints.IndexService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -105,9 +110,10 @@ public class SeriesEndpoint {
 	 *
 	 * @param series the entity to be inserted.
 	 * @return The inserted entity.
+	 * @throws NotFoundException 
 	 */
 	@ApiMethod(name = "insertSeries")
-	public Series insertSeries(Series series) throws BadRequestException {
+	public Series insertSeries(Series series) throws BadRequestException, NotFoundException {
 		if (series.getAuthorId() == null)
 			throw new BadRequestException("Author missing.");
 		PersistenceManager mgr = getPersistenceManager();
@@ -123,6 +129,7 @@ public class SeriesEndpoint {
 			series.setDateString(formatDate(now));
 
 			mgr.makePersistent(series);
+			index(series);
 		} finally {
 			mgr.close();
 		}
@@ -165,6 +172,7 @@ public class SeriesEndpoint {
 				updatedSeries.setCssFontColor(series.getCssFontColor());
 			
 			mgr.makePersistent(updatedSeries);
+			index(updatedSeries);
 		} finally {
 			mgr.close();
 		}
@@ -185,6 +193,7 @@ public class SeriesEndpoint {
 			mgr.deletePersistent(series);
 		} finally {
 			mgr.close();
+			IndexService.removeDocument(IndexService.SERIES, id.toString());
 		}
 	}
 
@@ -207,6 +216,7 @@ public class SeriesEndpoint {
 			series.addSeriesComic(comicId);
 			
 			mgr.makePersistent(series);
+			index(series);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Series Id invalid.");
@@ -229,6 +239,7 @@ public class SeriesEndpoint {
 			series.deleteSeriesComic(comicId);
 			
 			mgr.makePersistent(series);
+			index(series);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Series Id invalid.");
@@ -309,6 +320,29 @@ public class SeriesEndpoint {
 	private String formatDate(Date date){
 		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
 		return formatter.format(date);
+	}
+	
+	private void index(Series series) throws NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		C4User user;
+		
+		try{
+			user = mgr.getObjectById(C4User.class, series.getAuthorId());
+		} catch (javax.jdo.JDOObjectNotFoundException e){
+			throw new NotFoundException("User does not exist");
+		} finally {
+			mgr.close();
+		}
+		
+		// Index newly created series
+		Document doc = Document.newBuilder()
+				.setId(series.getId().toString())
+				.addField(Field.newBuilder().setName("id").setText(series.getId().toString()))
+				.addField(Field.newBuilder().setName("title").setText(series.getTitle()))
+				.addField(Field.newBuilder().setName("author").setText(user.getUsername()))
+				.addField(Field.newBuilder().setName("description").setText(series.getDescription()))
+				.build();
+		IndexService.indexDocument(IndexService.SERIES, doc);
 	}
 	
 }

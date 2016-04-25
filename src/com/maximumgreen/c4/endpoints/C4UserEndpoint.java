@@ -13,9 +13,14 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.maximumgreen.c4.endpoints.IndexService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 import java.lang.Long;
 
 import javax.annotation.Nullable;
@@ -29,6 +34,8 @@ import javax.jdo.Query;
 @Api(name = "c4userendpoint", namespace = @ApiNamespace(ownerDomain = "maximumgreen.com", ownerName = "maximumgreen.com", packagePath = "c4"))
 public class C4UserEndpoint {
 
+	private final static Logger log = Logger.getLogger(C4UserEndpoint.class.getName());
+	
 	/**
 	 * This method lists all the entities inserted in datastore.
 	 * It uses HTTP GET method and paging support.
@@ -121,6 +128,7 @@ public class C4UserEndpoint {
 				throw new BadRequestException("User already exists");
 			}
 			mgr.makePersistent(c4user);
+			index(c4user);
 		} finally {
 			mgr.close();
 		}
@@ -162,6 +170,7 @@ public class C4UserEndpoint {
 			
 			//save the updates
 			mgr.makePersistent(updatedUser);
+			index(updatedUser);
 		} catch (NotFoundException ex) {
 			throw ex;
 		} finally {
@@ -181,8 +190,9 @@ public class C4UserEndpoint {
 	public void removeC4User(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			C4User c4user = mgr.getObjectById(C4User.class, id);
+			C4User c4user = mgr.getObjectById(C4User.class, id);			
 			mgr.deletePersistent(c4user);
+			IndexService.removeDocument(IndexService.USER, c4user.getUserID());
 		} finally {
 			mgr.close();
 		}
@@ -536,6 +546,16 @@ public class C4UserEndpoint {
 
 	private static PersistenceManager getPersistenceManager() {
 		return PMF.get().getPersistenceManager();
+	}
+	
+	private void index(C4User c4user){				
+		Document doc = Document.newBuilder()
+				.setId(c4user.getUserID())
+				.addField(Field.newBuilder().setName("id").setText(c4user.getUserID()))
+				.addField(Field.newBuilder().setName("username").setText(c4user.getUsername()))
+				.addField(Field.newBuilder().setName("email").setText(c4user.getEmail()))
+				.build();
+		IndexService.indexDocument(IndexService.USER, doc);
 	}
 
 }

@@ -1,14 +1,11 @@
 <div ng-controller="comicCtrl">
 	<!--  -->
 	<a class='h3_hover' ng-click="goToSeries(seriesId)">{{seriesTitle}}</a>
-	<aside>
-	You are reading <br>
-	{{seriesTitle}}, by {{authorName}}.
-	</aside>
+	<!--<a class='h3_hover' ng-click="goToProfile(authorId)">{{authorName}}</a> -->
 	<div class = "comicTitleBar">
 		<h4>{{comic.title}}</h4>
 		<span class= "comicTitleBarFL">
-			{{comic.rating}}
+			<!--{{comic.rating}}-->
 		</span>
 	</div>
 	<div ng-repeat="p in pages">
@@ -18,10 +15,11 @@
 		<div class = "comicTitleBar">
 			<h4>{{c.title}}</h4>
 			<span class= "comicTitleBarFL">
-				{{c.rating}}
+				<!-- {{c.rating}} need to turn this into stars-->
 			</span>
+			<i class="material-icons" ng-click="openComments(c)">comment</i>
 		</div>
-		<div ng-repeat="p in c.pages">
+		<div ng-repeat="p in c.pages" class= "pageDiv">
 			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
 		</div>
 	</div>

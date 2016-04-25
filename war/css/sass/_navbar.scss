@@ -44,12 +44,13 @@ $side_nav_font_color: rgba(0, 0, 0, 0.87);
 		background-color: $search_bar_color;
 		border-radius: 0px 3px 3px 0px !important;
 		border-bottom: 0px;
+		outline: none !important;
 		box-shadow: none !important;
 	}
 
-	@include placeholder {
-		color: white;
-	}
+	//@include placeholder {
+	//	color: white;
+	//}
 
 	.nav-buttons {
 		@extend .nav-section;

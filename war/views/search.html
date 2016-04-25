@@ -1,13 +1,9 @@
 <div ng-controller="searchCtrl">
+	<i class="fa fa-times search-x" ng-click="goBack()"></i>
 	<h3>Search</h3>
 	<div class="container-fluid">
-		<div id ="mainSearch">
-			<form ng-submit="getResults()">
-				<input type="text" ng-model="searchTerms"></input>
-			</form>
-		</div>
 		<div id="optionsDisplaySearch">
-			Area for search options.
+			Search options: TODO
 			<!--Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.-->
 		</div>
 		<div class="row" id="displayResultSearch">
@@ -16,9 +12,15 @@
 			</div>
 		</div>
 		<uib-tabset>
-			<uib-tab heading='tab1'> stuff</uib-tab>
-			<uib-tab heading='tab2'> stuff 2</uib-tab>
+			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
+				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
+					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
+						<span>{{x.id}}</span>
+						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
+						<p class='imgDescription' ng-click="page_go(x.type, x.id)" >{{x.title}}</p>
+					</div>
+				</div>
+			</uib-tab>
 		</uib-tabset>
 	</div>
 </div>
-
