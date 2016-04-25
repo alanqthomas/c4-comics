@@ -55,7 +55,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					console.log("no comics");
 				} else{
 					//query for comics_ids 
-					console.log($scope.series.comics);
 					for(var i = 0; i < $scope.series.comics.length; i ++){
 						GApi.execute("comicendpoint","getComic", {"id":$scope.series.comics[i]}).then(
 							function(resp2){
@@ -89,19 +88,15 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 							GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 								function(resp){
 									$scope.series = resp;
-									//not updating, thats why
 									if($scope.series.subscribers == null){
 										$scope.subbed = false;
-										console.log("reached sub null check");
 									}
 									else {
 										if($scope.series.subscribers.indexOf($scope.user_id.toString()) >= 0){
 											$scope.subbed = true;
-											console.log("reached index of, true");
 										}
 										else{
 											$scope.subbed = false;
-											console.log("reached index of, false");
 										} 
 									}
 								},

@@ -17,10 +17,102 @@
 			<span class= "comicTitleBarFL">
 				<!-- {{c.rating}} need to turn this into stars-->
 			</span>
-			<i class="material-icons" ng-click="openComments(c)">comment</i>
+			<i class="material-icons" ng-click="toggleComments(c)">comment</i>
 		</div>
 		<div ng-repeat="p in c.pages" class= "pageDiv">
 			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
 		</div>
 	</div>
+	
+	
+	
+	
+	
+	<div ng-if="show_comment">
+		<div class="detailBox">
+		    <div class="titleBox">
+		      <label>Comment Box</label>
+		        <button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
+		    </div>
+		    <div class="commentBox">
+		        <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		    </div>
+		    <div class="actionBox">
+		        <ul class="commentList">
+		            <li ng-repeat="comment in comments">
+		            	<div class="commenterImage">	
+		            		<img ng-src="{{comment.profileImageURL}}">
+		            	</div>
+		            	<p>{{comment.username}}</p>
+		            	<div class="commentText">
+		            		<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
+		            	</div>
+		            </li> 
+		            <!-- 
+		            <li>
+		                <div class="commenterImage">
+		                  <img src="http://lorempixel.com/50/50/people/6" />
+		                </div>
+		                <div class="commentText">
+		                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+		
+		                </div>
+		            </li>
+		            
+		            <li>
+		                <div class="commenterImage">
+		                  <img src="http://lorempixel.com/50/50/people/7" />
+		                </div>
+		                <div class="commentText">
+		                    <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+		
+		                </div>
+		            </li>
+		            <li>
+		                <div class="commenterImage">
+		                  <img src="http://lorempixel.com/50/50/people/9" />
+		                </div>
+		                <div class="commentText">
+		                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+		
+		                </div>
+		            </li>
+		            
+		            <li>
+		            	<div class="commenterImage">
+		            		<img src= "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg">
+		            	</div>
+		            	<p>UziMestah</p>
+		            	<div class="commentText">
+		            		<p class="">Would You Please?</p> <span class="date sub-text">on April 22th, 2016</span>
+		            	</div>
+		            </li>
+		            
+		            <li>
+		            	<div class="commenterImage">
+		            		<img src= "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg">
+		            	</div>
+		            	<p>YouWotMate</p>
+		            	<div class='commentText'>
+		            		<p class="" >wat</p> <span class="date sub-text">on March 5th, 2014</span>
+		            	</div>		
+		            </li>
+		            
+		             -->
+		        </ul>
+		        
+		        <form class="form-inline" role="form">
+		            <div class="form-group">
+		                <input class="form-control" type="text" ng-model="your_comment" placeholder="Insert Your Witty Comment"/>
+		            </div>
+		            <div class="form-group">
+		                <button class="btn btn-default" ng-click="add_comment()">Add</button>
+		            </div>
+		        </form>
+		        
+		        
+		    </div>
+		</div>
+	</div>
+	
 </div>
