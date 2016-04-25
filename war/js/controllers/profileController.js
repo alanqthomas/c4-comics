@@ -279,15 +279,16 @@
 		}
 		
 		//set css.
-
 		var bgStyleStr = '#ffffff no-repeat center center';
 			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
+
+		//functions
 		function createSeries(authorId){
 			return {
 				authorId: authorId,
-				description:"Write a description here!",
+				description: "Write a description here!"
 			}
 		}
 		$scope.newSeries = function(){
@@ -300,7 +301,8 @@
 								$scope.go_to_series(resp.id);
 							},
 							function(resp1){
-								console.log("SEVERE ERROR: Series not associated with user.")
+								console.log("SEVERE ERROR: Series not associated with user.");
+								console.log(resp);
 							}
 						);
 					}, function(resp){
@@ -310,15 +312,39 @@
 				);
 			}
 		}
-		//push delete and change local variable.
-		$scope.deleteFav = function(object){
+
+		//delete Functions: push delete and change local variable.
+		//should make them use GData instead of $scope.profile, but this is good enough.
+		$scope.deleteThing = function(tabSlug, obj){
+			if(tabSlug =='fav'){
+				deleteFav(obj);
+			}else if(tabSlug=='sub'){
+				deleteSub(obj);
+			}else if(tabSlug=='series'){
+ 				deleteSereis(obj);
+ 			} else {
+ 				console.log("Attempted delete from unsupported tab. Add tab to deleteThing().");
+ 			}
+		}
+		function deleteFav(object){
 			if($scope.isOwner){
 				var paramName = object.type+"Id";
-				var param = {"userId":$scope.profile_id, 
-						paramName: object.id}
+				var param = {
+					"userId":$scope.profile_id, 
+					paramName: object.id
+				};
 				GApi.execute( "c4userendpoint","deletefavorite",param).then(
-						function(resp){	
-							$scope.favorites.splice($scope.favorites.indexOf(object), 1);
+						function(resp){
+							if(object.type == 'series'){
+								$scope.profile.favoriteSeries.splice($scope.profile.favoriteSeries.indexOf(object), 1);
+							} else if(object.type == 'profile'){
+								$scope.profile.favoriteAuthors.splice($scope.profile.favoriteAuthors.indexOf(object), 1);
+							} else if(object.type == 'comic'){
+								$scope.profile.favoriteComics.splice($scope.profile.favoriteComics.indexOf(object), 1);
+							} else {//error
+								console.log("Invalid delete type.");
+								console.log(object);
+							}
 						}, function(resp){
 							console.log("Failed to delete favorite.");
 							console.log(resp);
@@ -326,34 +352,41 @@
 					);
 			}
 		}
-		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER
-		//add tab if content or owner
-		$scope.tabs = [];
-		if($scope.series.length > 0 || $scope.isOwner){
-			$scope.tabs.push({
-				slug: 'series',
-		        title: "Series",
-		        content: $scope.series,
-		        load_m: $scope.series_loadMore
-			});
+		function deleteSub(object){
+			if($scope.isOwner){
+				var paramName = object.type+"Id";
+				var param = {
+					"userId":$scope.profile_id, 
+					paramName: object.id
+				};
+				GApi.execute( "c4userendpoint","deletesubscription",param).then(
+						function(resp){	
+							$scope.profile.subscriptions.splice($scope.profile.subscriptions.indexOf(object), 1);
+						}, function(resp){
+							console.log("Failed to delete subscription.");
+							console.log(resp);
+						}
+					);
+			}
 		}
-		if($scope.favorites.length > 0 || $scope.isOwner){
-			$scope.tabs.push({
-				slug: 'fav',
-		        title: "Favorites",
-		        content: $scope.favorites,
-		        load_m: $scope.favorites_loadMore
-			});
+		function deleteSeries(object){
+			if($scope.isOwner){
+				var paramName = object.type+"Id";
+				var param = {
+					"userId":$scope.profile_id, 
+					paramName: object.id
+				};
+				GApi.execute( "c4userendpoint","deleteseries",param).then(
+						function(resp){	
+							$scope.profile.userSeries.splice($scope.profile.userSeries.indexOf(object), 1);
+						}, function(resp){
+							console.log("Failed to delete series.");
+							console.log(resp);
+						}
+					);
+			}
 		}
-		if($scope.isOwner){
-			$scope.tabs.push({
-				slug: 'sub',
-				title: "Subscription",
-				content: $scope.subscriptions,
-				load_m: $scope.subscriptions_loadMore
-			});
-		}
-		//navigation
+		//navigation functions
 		$scope.page_go = function(type, id){
 			if(type == "series"){
 				$scope.go_to_series(id);
@@ -387,6 +420,34 @@
 				$state.go("comic",{"id":param_id});
 			}
 		}
+		//main
+		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER: tab declarations.
+		$scope.tabs = [];
+		if($scope.series.length > 0 || $scope.isOwner){
+			$scope.tabs.push({
+				slug: 'series',
+		        title: "Series",
+		        content: $scope.series,
+		        load_m: $scope.series_loadMore
+			});
+		}
+		if($scope.favorites.length > 0 || $scope.isOwner){
+			$scope.tabs.push({
+				slug: 'fav',
+		        title: "Favorites",
+		        content: $scope.favorites,
+		        load_m: $scope.favorites_loadMore
+			});
+		}
+		if($scope.isOwner){
+			$scope.tabs.push({
+				slug: 'sub',
+				title: "Subscription",
+				content: $scope.subscriptions,
+				load_m: $scope.subscriptions_loadMore
+			});
+		}
+		
 	}]);
 })();
 
