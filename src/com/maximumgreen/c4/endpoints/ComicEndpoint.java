@@ -6,6 +6,7 @@ import com.maximumgreen.c4.Comment;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.Page;
 import com.maximumgreen.c4.Series;
+import com.maximumgreen.c4.Tag;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -261,10 +262,13 @@ public class ComicEndpoint {
 		return comic;
 	}
 	
-	@ApiMethod(name="addcomictag")
-	public Comic addComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
+	@ApiMethod(name="addComicTag")
+	public Comic addComicTag(@Named("tag") String tagName, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		String capTag = capitalizeTag(tagName);
+		Tag tag = buildTag(capTag);
 		
 		Comic comic;
 		
@@ -275,10 +279,19 @@ public class ComicEndpoint {
 				List<Long> list = new ArrayList<Long>();
 				comic.setPages(list);
 			}
+			if (tag.getComicsWithTag() == null){
+				List<Long> list = new ArrayList<Long>();
+				tag.setComicsWithTag(list);
+			}
 			
-			comic.addComicTag(tagId);
+			if (!comic.getTags().contains(tag.getId())){
+				comic.addComicTag(tag.getId());
+				tag.addTaggedComic(comicId);
+			}
 			
 			mgr.makePersistent(comic);
+			mgr.makePersistent(tag);
+			
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
@@ -290,18 +303,24 @@ public class ComicEndpoint {
 		return comic;
 	}
 	
-	@ApiMethod(name="deletecomictag")
-	public Comic deleteComicTag(@Named("comicId") Long comicId, @Named("pageId") Long tagId)
+	@ApiMethod(name="deleteComicTag")
+	public Comic deleteComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Comic comic;
+		Tag tag;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
+			tag = mgr.getObjectById(Tag.class, tagId);
+			
 			comic.deleteComicTag(tagId);
+			tag.deleteTaggedComic(comicId);
 			
 			mgr.makePersistent(comic);
+			mgr.makePersistent(tag);
+			
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
@@ -340,6 +359,7 @@ public class ComicEndpoint {
 			
 			mgr.makePersistent(comic);
 			mgr.makePersistent(user);
+			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id or User Id invalid.");
 		} finally {
@@ -443,5 +463,34 @@ public class ComicEndpoint {
 			mgr.close();
 		}
 	}
-
+	
+	private Tag buildTag(String tagName){
+		Tag returnTag;
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Query q = mgr.newQuery(Tag.class);
+		q.setFilter("name == nameParam");
+		q.declareParameters("String nameParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Tag> tagResults = (List<Tag>) q.execute(tagName);
+		if (!tagResults.isEmpty()){
+			returnTag = tagResults.get(0);
+		}
+		else {
+			returnTag = new Tag();
+			returnTag.setName(tagName);
+			mgr.makePersistent(returnTag);
+		}
+		
+		mgr.close();
+		return returnTag;
+	}
+	
+	private String capitalizeTag(String tag) {
+	    if (tag == null || tag.length() == 0) {
+	        return tag;
+	    }
+	    return tag.substring(0, 1).toUpperCase() + tag.substring(1);
+	}
 }
