@@ -5,6 +5,7 @@
 
 angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth", "GData",
                                     function(	 $scope, $http,   GApi,   $state,   $stateParams, 	imgService,    IMG_PREFIXES,   GAuth,   GData ){
+		//TODO EDIT Name, description
 		//init
 		//DO NOT MOVE THINGS IN INIT
 		$scope.loadMore = function() {
@@ -28,16 +29,51 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				rating: null,
 				bgImageURL: null
 		};
-		$scope.goToComics = function(id){
-			if(id == null){
-				$state.go("error");
+		$scope.editTitle = false;
+		$scope.editDescription = false;
+		//END init
+		//EDIT SERIES FUNCTIONS
+		
+		$scope.saveSettings= function(){
+			$scope.newSeries= {
+				id: $scope.series_id,
+				title: $scope.series.title,
+				description: $scope.series.description
+			};
+			GApi.execute("seriesendpoint", "updateSeries", $scope.newSeries).then(
+				function(resp){
+					$scope.updateSeries();
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		$scope.toggle= function(toToggle){
+			if(toToggle == "editTitle"){
+				if($scope.editTitle == true){
+					$scope.saveSettings();
+				}
+				$scope.editTitle = !($scope.editTitle);
 			}
-			else{
-				$state.go("comic", {"id": id});
+			if(toToggle == "editDescription"){
+				if($scope.editDescription == true){
+					$scope.saveSettings();
+				}
+				$scope.editDescription = !($scope.editDescription);
 			}
 		}
+		$scope.updateSeries = function(){
+			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
+				function(resp){	
+					$scope.series.title= resp.title;
+					$scope.series.description= resp.description;
+				}, function(resp){
+				}
+			);
+		};
+		//END EDIT FUNCTIONS
 		
-		//END init
 		//execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
@@ -83,6 +119,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 							$scope.logged_in = true;
 							$scope.user_id = GData.getUser().id;
 							if($scope.series.authorId == $scope.user_id){
+								//console.log("Comic Author ID: " + $scope.series.authorId);
+								//console.log("User ID: " + $scope.user_id);
 								$scope.is_owner = true;
 							}
 							GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
@@ -129,6 +167,14 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go('profile',{"id": $scope.series.authorId});
 			}
 		}
+		$scope.goToComics = function(id){
+			if(id == null){
+				$state.go("error");
+			}
+			else{
+				$state.go("comic", {"id": id});
+			}
+		}
 		
 		//subscribing and unsubscribing
 		$scope.subscribe = function(){
@@ -153,6 +199,32 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			);
 		};
+		$scope.newComics = function(){
+			
+			if($scope.is_owner){
+				//create a new comic
+				console.log("seriesID: " + $scope.series_id);
+				
+				GApi.execute("comicendpoint","insertComic", {"authorId":$scope.user_id, "description":"New comics description", "seriesId": $scope.series_id}).then(
+					function(resp){
+						//add the new comic
+						GApi.execute("seriesendpoint", "addseriescomic", {"seriesId" : $scope.series_id,"comicId" : resp.id}).then(
+							function(resp1){
+								$scope.goToComics(resp.id);
+							},
+							function(resp1){
+								console.log("SEVERE ERROR: Series not associated with user.")
+							}
+						);
+					}, function(resp){
+						console.log("Failed to create new series.");
+						console.log(resp);
+					}
+				);
+			}
+		}
+		
+		
 		
 }]);
 })();

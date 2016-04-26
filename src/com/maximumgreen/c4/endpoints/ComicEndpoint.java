@@ -121,8 +121,12 @@ public class ComicEndpoint {
 	 */
 	@ApiMethod(name = "insertComic")
 	public Comic insertComic(Comic comic) throws BadRequestException, NotFoundException {
-		if (comic.getTitle() == null || comic.getSeriesId() == null || comic.getAuthorId() == null) {
-			throw new BadRequestException("Title or seriesId field missing");
+		
+		if(comic.getTitle() == null){
+			comic.setTitle("New Comics");
+		}
+		if (comic.getSeriesId() == null || comic.getAuthorId() == null) {
+			throw new BadRequestException("seriesId field missing");
 		}
 		PersistenceManager mgr = getPersistenceManager();
 		try {

@@ -13,7 +13,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	 * 
 	 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 	 * 
-	 * doug hasnt done it yet in the backend, but add will write the comment
+	 * doug hasnt done it yet in the backend, but the 'add' will write the comment
 	 */
 	var id;
 	if($stateParams.id){
@@ -51,18 +51,16 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		}
 	);
 	
-	
+	//need to update with backend
 	$scope.add_comment = function(){
-		GApi.execute("comicendpoint",'addComicComment', {"userId": $scope.user_id, "comicsId:":id, "comment":$scope.your_comment}).then(
+		GApi.execute("comicendpoint",'addComicComment', {"userId": $scope.user_id, "comicId:":id, "comment":$scope.your_comment}).then(
 			function(resp){
-				
+				$scope.update_comments();
 			},
 			function(resp){
 				
 			}
 		);
-		
-		
 	}
 	
 	

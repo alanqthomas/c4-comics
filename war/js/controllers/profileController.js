@@ -25,6 +25,8 @@
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
 		
+		
+		//EDIT PROFILE FUNCTIONS 
 		$scope.saveSettings= function(){
 			$scope.newUser = {
 				userID: $scope.profile_id,
@@ -41,8 +43,7 @@
 			);
 			
 		}
-		
-		//display functions.
+		//toggle edit
 		$scope.toggle= function(toToggle){
 			if(toToggle == "editName"){
 				if($scope.editName == true){
@@ -57,6 +58,32 @@
 				$scope.editBio = !($scope.editBio);
 			}
 		}
+		$scope.updateUser = function(){
+			GApi.execute("c4userendpoint", "getC4User",{"id":$scope.profile_id}).then(
+				function(resp){	
+					$scope.profile.username = resp.username;
+					$scope.profile.biography = resp.biography;
+				}, function(resp){
+				}
+			);
+		};
+		//END OF EDIT FUNCTIONS
+		
+		
+		
+		
+		$scope.getUser = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
+				function(resp){	
+					$scope.profile = resp;
+					$scope.query_for_series();
+				}, function(resp){
+				}
+			);
+		};
+		$scope.getUser();
+		
+		
+		
 		
 		//PLACE HOLDERS
 		//*****************************
@@ -128,35 +155,15 @@
 			profileImageURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
 		};
 		//TAKE OUT THE FOLLOWING COMMMENT TO TAKE OUT PLACEHOLDER
-		/*$scope.series = [];
+		$scope.series = [];
 		$scope.series_reserve = [];
 		$scope.favorites=[];
-		$scope.favorites_reserve = [];*/
+		$scope.favorites_reserve = [];
 		
 		$scope.subscriptions = [];
 		$scope.subscriptions_reserve = [];
 		
 		
-		$scope.updateUser = function(){
-			GApi.execute("c4userendpoint", "getC4User",{"id":$scope.profile_id}).then(
-				function(resp){	
-					$scope.profile.username = resp.username;
-					$scope.profile.biography = resp.biography;
-				}, function(resp){
-				}
-			);
-		};
-		
-		
-		$scope.getUser = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
-				function(resp){	
-					$scope.profile = resp;
-					$scope.query_for_series();
-				}, function(resp){
-				}
-			);
-		};
-		$scope.getUser();
 		
 		$scope.query_for_series = function() {
 			//query for series

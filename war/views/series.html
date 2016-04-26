@@ -1,8 +1,10 @@
 <div ng-controller="seriesCtrl">
-
+	<p> is owner? {{is_owner}}</p>
+	<p> editTitle: {{editTitle}} </p>
+	<p> editDescription: {{editDescription}}</p>
 	<div class="cover">
 		<h2>{{series.title}}</h2>
-
+		
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!subbed" class="btn btn-sm btn-primary" ng-click="subscribe()">
 				Subscribe
@@ -13,23 +15,46 @@
 			</button>
 		</div>
 	</div>
-
 	<div class="container">
-	<div class="content-wrapper">
-		<h4 ng-click="goToAuthor()">Author: {{author_name}}</h4>
-		<h4>Description</h4>
-		<p>{{series.description}}</p>
-
-		<h4>Rating: {{series.rating}}</h4>
-
-	</div>
-	
+		<div class='row' ng-if="is_owner">
+			<p>THIS IS FOR EDITING TITLE</p>
+			<i class="material-icons" ng-click="toggle('editTitle')">edit</i>
+			<form class='form-inline' ng-show='editTitle'>
+				<form ng-submit="toggle('editTitle')" name='name'>
+					<input class="form-control input-lg" type="text" ng-model="series.title"></input>
+					<input type="color"></input>
+				</form>
+			</form>
+		</div>
+		<div class="content-wrapper">
+			<h4 ng-click="goToAuthor()">Author: {{author_name}}</h4>
+			
+			
+			<h4>Description</h4>
+			<p>{{series.description}}</p>
+			<div class='row' ng-if="is_owner">
+				<p>THIS IS FOR EDITING DESCRIPTION</p>
+				<i class="material-icons" ng-click="toggle('editDescription')">edit</i>
+				<form class='form-inline' ng-show='editDescription'>
+					<form ng-submit="toggle('editDescription')" name='name'>
+						<input class="form-control input-lg" type="text" ng-model="series.description"></input>
+						<input type="color"></input>
+					</form>
+				</form>
+			</div>
+			<h4>Rating: {{series.rating}}</h4>
+		</div>
 		<div class='row'>
 			<h3>Comics</h3>
 		</div>
 		<!-- if there are pages -->
-		<div ng-if='comics.length > 0'>
+		<div ng-if='comics.length > 0 || is_owner'>
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
+				
+				<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
+						<i class="material-icons" ng-click="newComics()">note_add</i>
+				</div> 
+				
 				<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
 					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToComics(comic.id)">
 					<p class='imgDescription' ng-click="goToComics(comic.id)" >{{comic.title}}</p>

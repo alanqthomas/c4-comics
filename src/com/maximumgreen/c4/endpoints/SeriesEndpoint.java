@@ -114,6 +114,9 @@ public class SeriesEndpoint {
 	 */
 	@ApiMethod(name = "insertSeries")
 	public Series insertSeries(Series series) throws BadRequestException, NotFoundException {
+		if (series.getTitle() == null){
+			series.setTitle("New Series");
+		}
 		if (series.getAuthorId() == null)
 			throw new BadRequestException("Author missing.");
 		PersistenceManager mgr = getPersistenceManager();
