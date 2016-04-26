@@ -24,13 +24,13 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			$scope.addTag = function(){
 				$scope.comic.tags.push($scope.newTag);
 				//tag text is in $scope.newTag.
-				//GApi.execute("tagendpoint", "addTagToComic")
+				GApi.execute("comicendpoint", "addComicTag", {"" : })
 				$scope.newTag = "";
 			}
 			//main
 			$scope.comic_id = $stateParams.id;
 			if($scope.comic_id != null){
-				GApi.execute("comicendpoint", "getComic", {"id":$scope.comic_id}).then(
+				GApi.execute("comicendpoint", "getComic", {"id" : $scope.comic_id}).then(
 				function(resp){
 					$scope.comic = {
 						"title" : resp.title,
