@@ -57,6 +57,10 @@ public class C4User {
 	@Persistent
 	private List<Long> subscriptions;
 	
+	//List of a users COMMENTS by id
+	@Persistent
+	private List<Long> comments;
+	
 	//List of AUTHORS(users) by key that the user is following
 	@Persistent
 	private List<String> following;
@@ -212,6 +216,14 @@ public class C4User {
 	public void setNotifications(List<Long> notifications) {
 		this.notifications = notifications;
 	}
+	
+	public List<Long> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Long> comments) {
+		this.comments = comments;
+	}
 
 	//PUBLIC METHODS ACCESSIBLE FROM ENDPOINT
 	//add/delete user own series, favorites, subscriptions, following, notifications
@@ -269,6 +281,14 @@ public class C4User {
 	}
 	public boolean deleteNotification(Long id){
 		return notifications.remove(id);
+	}
+	
+	public boolean addUserComment(Long id){
+		return comments.add(id);
+	}
+	
+	public boolean deleteUserComment(Long id){
+		return comments.remove(id);
 	}
 	
 	//Method to retrieve the page key of last read page in a comic, if available

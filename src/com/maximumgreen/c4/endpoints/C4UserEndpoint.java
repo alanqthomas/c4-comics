@@ -1,9 +1,9 @@
 package com.maximumgreen.c4.endpoints;
 
+import com.maximumgreen.c4.Comment;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Series;
-
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -12,7 +12,6 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.maximumgreen.c4.endpoints.IndexService;
@@ -153,8 +152,11 @@ public class C4UserEndpoint {
 			//get the user from the datastore
 			updatedUser = getC4User(c4user.getUserID());
 			//check every c4user field and see if it's trying to be updated
-			if (c4user.getUsername() != null)
+			//if username is updated, update the user's comments
+			if (c4user.getUsername() != null){
 				updatedUser.setUsername(c4user.getUsername());
+				updateComments(updatedUser);
+			}
 			if (c4user.getBiography() != null)
 				updatedUser.setBiography(c4user.getBiography());
 			if (c4user.isAdministrator() != updatedUser.isAdministrator())
@@ -557,5 +559,16 @@ public class C4UserEndpoint {
 				.build();
 		IndexService.indexDocument(IndexService.USER, doc);
 	}
-
+	
+	private void updateComments(C4User user){
+		if (user.getComments() != null) {
+			PersistenceManager mgr = getPersistenceManager();
+			for (Long c : user.getComments()){
+				Comment comment =  mgr.getObjectById(Comment.class, c);
+				comment.setUsername(user.getUsername());
+				mgr.makePersistent(comment);
+			}
+			mgr.close();
+		}
+	}
 }
