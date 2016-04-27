@@ -2,6 +2,7 @@ package com.maximumgreen.c4.endpoints;
 
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Comic;
+import com.maximumgreen.c4.Comment;
 import com.maximumgreen.c4.Notification;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.Series;
@@ -259,27 +260,36 @@ public class SeriesEndpoint {
 		return series;
 	}
 	
-	@ApiMethod(name="addseriescomment")
-	public Series addSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+	@ApiMethod(name="addSeriesComment")
+	public Series addSeriesComment(@Named("userId") String userId, @Named("seriesId") Long seriesId, @Named("comment") String comment)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
 		Series series;
-		
+		Comment newComment = buildComment(userId, comment);
+				
 		try {
+			user = mgr.getObjectById(C4User.class, userId);
 			series = mgr.getObjectById(Series.class, seriesId);
 			
 			if (series.getComments() == null){
 				List<Long> list = new ArrayList<Long>();
 				series.setComments(list);
 			}
+			if (user.getComments() == null){
+				List<Long> list = new ArrayList<Long>();
+				user.setComments(list);
+			}
 			
-			series.addSeriesComment(commentId);
+			series.addSeriesComment(newComment.getId());
+			user.addUserComment(newComment.getId());
 			
 			mgr.makePersistent(series);
+			mgr.makePersistent(user);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
-			throw new NotFoundException("Series Id invalid.");
+			throw new NotFoundException("Series Id or User Id invalid.");
 		} finally {
 			mgr.close();
 		}
@@ -287,21 +297,25 @@ public class SeriesEndpoint {
 		return series;
 	}
 	
-	@ApiMethod(name="deleteseriescomment")
-	public Series deleteSeriesComment(@Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
+	@ApiMethod(name="deleteSeriesComment")
+	public Series deleteSeriesComment(@Named("userId") String userId, @Named("seriesId") Long seriesId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
 		Series series;
 		
 		try {
 			series = mgr.getObjectById(Series.class, seriesId);
 			series.deleteSeriesComment(commentId);
-			
 			mgr.makePersistent(series);
 			
+			user = mgr.getObjectById(C4User.class, userId);
+			user.deleteUserComment(commentId);
+			mgr.makePersistent(user);
+			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
-			throw new NotFoundException("Series Id invalid.");
+			throw new NotFoundException("Series Id or User Id invalid.");
 		} finally {
 			mgr.close();
 		}
@@ -387,5 +401,26 @@ public class SeriesEndpoint {
 			mgr.close();
 		}
 
+	}
+	
+	private Comment buildComment(String userId, String comment) throws NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+
+		try {
+			Comment newComment = new Comment();
+			String username = mgr.getObjectById(C4User.class, userId).getUsername();
+			newComment.setUserId(userId);
+			newComment.setUsername(username);
+			newComment.setComment(comment);
+			Date now = Calendar.getInstance().getTime();
+			newComment.setDate(now);
+			newComment.setDateString(formatDate(now));
+			mgr.makePersistent(newComment);
+			return newComment;
+		} catch (javax.jdo.JDOObjectNotFoundException e) {
+			throw new NotFoundException("User ID doesn't exist");
+		} finally {
+			mgr.close();
+		}
 	}
 }
