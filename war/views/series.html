@@ -54,10 +54,13 @@
 				<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 						<i class="material-icons" ng-click="newComics()">note_add</i>
 				</div> 
-				
-				<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
+				<div ng-if="!is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
 					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToComics(comic.id)">
 					<p class='imgDescription' ng-click="goToComics(comic.id)" >{{comic.title}}</p>
+				</div>
+				<div ng-if="is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
+					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToEditComics(comic.id)">
+					<p class='imgDescription' ng-click="goToEditComics(comic.id)" >{{comic.title}}</p>
 				</div>
 			</div>
 		</div>

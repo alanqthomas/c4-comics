@@ -175,6 +175,14 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go("comic", {"id": id});
 			}
 		}
+		$scope.goToEditComics = function(id){
+			if(id == null){
+				$state.go("error");
+			}
+			else{
+				$state.go("editComic", {"id": id});
+			}
+		}
 		
 		//subscribing and unsubscribing
 		$scope.subscribe = function(){
