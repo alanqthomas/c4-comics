@@ -418,6 +418,30 @@ public class C4UserEndpoint {
 		return user;
 	}
 	
+	@ApiMethod(name="deleteNotification")
+	public C4User deleteNotification(@Named("userId") String userId, @Named("notificationId") Long notificationId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		
+		try {
+			user = getC4User(userId);
+			
+			if (user.getNotifications() != null){
+				user.deleteNotification(notificationId);
+			}
+			
+			mgr.makePersistent(user);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User Id invalid");
+		} finally {
+			mgr.close();
+		}
+		
+		return user;
+	}
 	/**
 	 * This method add a favorite to a users favorites depending on the paramaters
 	 * @param userId id of user to add favorites to
