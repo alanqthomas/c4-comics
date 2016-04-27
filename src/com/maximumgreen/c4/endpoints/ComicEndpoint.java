@@ -376,6 +376,7 @@ public class ComicEndpoint {
 		
 		C4User user;
 		Comic comic;
+		Comment comment;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
@@ -385,6 +386,9 @@ public class ComicEndpoint {
 			user = mgr.getObjectById(C4User.class, userId);
 			user.deleteUserComment(commentId);
 			mgr.makePersistent(user);
+			
+			comment = mgr.getObjectById(Comment.class, commentId);
+			mgr.deletePersistent(comment);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Comic Id or User Id invalid.");

@@ -19,12 +19,20 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
+		/*
+		$scope.follow_loadMore = function(){
+			if ($scope.follow_reserve.length > 0){
+				$scope.follow.push($scope.follow_reserve.shift())
+			}
+		}
+		*/
+		
 		//init display settings
 		$scope.editName = false;
 		$scope.editBio = false;
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
-		
+		$scope.followed = false;
 		
 		//EDIT PROFILE FUNCTIONS 
 		$scope.saveSettings= function(){
@@ -68,23 +76,6 @@
 			);
 		};
 		//END OF EDIT FUNCTIONS
-		
-		
-		
-		
-		$scope.getUser = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
-				function(resp){	
-					$scope.profile = resp;
-					$scope.query_for_series();
-				}, function(resp){
-				}
-			);
-		};
-		$scope.getUser();
-		
-		
-		
-		
 		//PLACE HOLDERS
 		//*****************************
 		//this is image url for initial display
@@ -142,7 +133,6 @@
       		id: 30
       	}];
 		//*********************** PLACEHOLDER END
-		
 		$scope.profile = {
 			username: "No Username Found",
 			biography: "Write a biography here!",
@@ -162,15 +152,91 @@
 		
 		$scope.subscriptions = [];
 		$scope.subscriptions_reserve = [];
+		//INIT QUERY FOR PROFILE 
+		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
+				function(resp){	
+					$scope.profile = resp;
+					$scope.query_for_series();
+					$scope.update_follow();
+				}, function(resp){
+				}
+			);
+		};
+		$scope.getProfile();
+		//END INIT 
 		
 		
+		//FOLLOWING FUNCTIONS 
+		//check if user is logged in and followed
+		$scope.update_follow = function() {GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.profile_id== $scope.user_id){
+						//console.log("Comic Author ID: " + $scope.series.authorId);
+						//console.log("User ID: " + $scope.user_id);
+						$scope.is_owner = true;
+					}
+					else {
+						$scope.is_owner = false;
+					}
+					GApi.execute("c4userendpoint", "getC4User", {"id":$scope.profile_id}).then(
+						function(resp){
+							$scope.profile = resp;
+							if($scope.profile.followers == null){
+								$scope.followed = false;
+							}
+							else {
+								if($scope.profile.followers.indexOf($scope.user_id.toString()) >= 0){
+									$scope.followed = true;
+								}
+								else{
+									$scope.followed = false;
+								} 
+							}
+						},
+						function(resp){	
+						}
+					);
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+				}
+			);
+			//$scope.is_owner = false;
+		};
 		
+		
+		$scope.follow = function(){
+			GApi.execute("c4userendpoint", "addfollow", {"userId": $scope.user_id, "authorId": $scope.profile_id}).then(
+				function(resp){
+					$scope.update_follow();
+					//$scope.subbed = true;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		$scope.unfollow = function(){
+			GApi.execute("c4userendpoint", "deletefollow", {"userId": $scope.user_id, "authorId": $scope.profile_id}).then(
+				function(resp){
+					$scope.update_follow();
+					//$scope.subbed = false;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		//END FOLLOWING FUNCTIONS 
+		
+		
+		//Querying for series 
 		$scope.query_for_series = function() {
 			//query for series
-			if($scope.profile.userSeries == null){
-				console.log("no user series")
-			}
-			else{
+			if($scope.profile.userSeries != null){
 				for(var i = 0;i < $scope.profile.userSeries.length; i ++){
 					GApi.execute("seriesendpoint","getSeries", {"id":$scope.profile.userSeries[i]}).then(
 						function(resp1){
@@ -191,10 +257,7 @@
 				}
 			}
 			//query for favorites series
-			if($scope.profile.favoriteSeries == null){
-				console.log("no favorites series");
-			}
-			else{
+			if($scope.profile.favoriteSeries != null){
 				for(var i = 0;i < $scope.profile.favoriteSeries.length; i ++){
 					GApi.execute("seriesendpoint","getSeries", {"id":$scope.profile.favoriteSeries[i]}).then(
 						function(resp1){
@@ -211,10 +274,7 @@
 				}
 			}	
 			//query for favorites comics
-			if($scope.profile.favoriteComics == null){
-				console.log("no favorites comics");
-			}
-			else{
+			if($scope.profile.favoriteComics != null){
 				for(var i = 0;i < $scope.profile.favoriteComics.length; i ++){
 					GApi.execute("comicendpoint","getComic", {"id":$scope.profile.favoriteComics[i]}).then(
 						function(resp1){
@@ -232,10 +292,7 @@
 				}
 			}
 			//query for favorites author
-			if($scope.profile.favoriteAuthors == null){
-				console.log("no favorites author");
-			}
-			else{
+			if($scope.profile.favoriteAuthors != null){
 				for(var i = 0;i < $scope.profile.favoriteAuthors.length; i ++){
 					GApi.execute("c4userendpoint","getC4User", {"id":$scope.profile.favoriteAuthors[i]}).then(
 						function(resp1){
@@ -252,12 +309,8 @@
 					);
 				}
 			}
-			
 			//query for subscriptions
-			if($scope.profile.subscriptions == null){
-				console.log("no subscriptions");
-			}
-			else {
+			if($scope.profile.subscriptions != null){
 				for(var i = 0; i < $scope.profile.subscriptions.length; i++){
 					GApi.execute("seriesendpoint", "getSeries", {"id": $scope.profile.subscriptions[i]}).then(
 						function(resp1){
@@ -280,9 +333,9 @@
 		}
 		//owner boolean
 		if(GData.getUser() == null){
-			$scope.isOwner = false;
+			$scope.is_owner = false;
 		} else {
-			$scope.isOwner = (GData.getUser().id == $stateParams.id);
+			$scope.is_owner = (GData.getUser().id == $stateParams.id);
 		}
 		
 		//set css.
@@ -291,7 +344,7 @@
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
 
-		//functions
+		//functions to create series 
 		function createSeries(authorId){
 			return {
 				authorId: authorId,
@@ -299,7 +352,7 @@
 			}
 		}
 		$scope.newSeries = function(){
-			if($scope.isOwner){
+			if($scope.is_owner){
 				var param = createSeries($scope.profile_id);
 				GApi.execute("seriesendpoint","insertSeries", param).then(
 					function(resp){
@@ -334,7 +387,7 @@
  			}
 		}
 		function deleteFav(object){
-			if($scope.isOwner){
+			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
 					"userId":$scope.profile_id, 
@@ -360,7 +413,7 @@
 			}
 		}
 		function deleteSub(object){
-			if($scope.isOwner){
+			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
 					"userId":$scope.profile_id, 
@@ -377,7 +430,7 @@
 			}
 		}
 		function deleteSeries(object){
-			if($scope.isOwner){
+			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
 					"userId":$scope.profile_id, 
@@ -430,7 +483,7 @@
 		//main
 		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER: tab declarations.
 		$scope.tabs = [];
-		if($scope.series.length > 0 || $scope.isOwner){
+		if($scope.series.length > 0 || $scope.is_owner){
 			$scope.tabs.push({
 				slug: 'series',
 				title: "Series",
@@ -438,7 +491,7 @@
 				load_m: $scope.series_loadMore
 			});
 		}
-		if($scope.favorites.length > 0 || $scope.isOwner){
+		if($scope.favorites.length > 0 || $scope.is_owner){
 			$scope.tabs.push({
 				slug: 'fav',
 		        title: "Favorites",
@@ -446,7 +499,7 @@
 		        load_m: $scope.favorites_loadMore
 			});
 		}
-		if($scope.isOwner){
+		if($scope.is_owner){
 			$scope.tabs.push({
 				slug: 'sub',
 				title: "Subscription",

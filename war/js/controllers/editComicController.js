@@ -34,10 +34,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				GApi.execute("comicendpoint", "addComicTag", tagParam).then(
 					function(resp){
 						$scope.comic.tags.push({
-							/*
-							'id' : resp. ,
-							'text' : resp.
-							*/
+							'id' : resp.id,
+							'text' : resp.name
 						});
 						$scope.newTag = "";
 					},

@@ -1,7 +1,5 @@
 <div ng-controller="seriesCtrl">
 	<p> is owner? {{is_owner}}</p>
-	<p> editTitle: {{editTitle}} </p>
-	<p> editDescription: {{editDescription}}</p>
 	<div class="cover">
 		<h2>{{series.title}}</h2>
 		
@@ -28,8 +26,6 @@
 		</div>
 		<div class="content-wrapper">
 			<h4 ng-click="goToAuthor()">Author: {{author_name}}</h4>
-			
-			
 			<h4>Description</h4>
 			<p>{{series.description}}</p>
 			<div class='row' ng-if="is_owner">
@@ -43,6 +39,40 @@
 				</form>
 			</div>
 			<h4>Rating: {{series.rating}}</h4>
+		</div>
+		<div ng-if="show_comment">
+			<div class="detailBox">
+				<div class="titleBox">
+				  <label>Comment Box</label>
+					<button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
+				</div>
+				<div class="commentBox">
+					<p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+				</div>
+				<div class="actionBox">
+					<ul class="commentList">
+						<li ng-repeat="comment in comments | orderBy:date" >
+							<div class="commenterImage">	
+								<img ng-src="{{comment.profileImageURL}}">
+							</div>
+							<button ng-show='comment.user_id == user_id' type="button" class="close" aria-hidden="true" ng-click="delete_comment(comment.id)">&times;</button>
+							<p>{{comment.username}}</p>
+							<div class="commentText">
+								<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
+							</div>
+						</li> 
+					</ul>
+					<form class="form-inline" role="form">
+						<div class="form-group">
+							<p> {{your_comment}}</p>
+							<input class="form-control" type="text" ng-model="comment_obj.comment" placeholder="Insert Your Witty Comment" />
+						</div>
+						<div class="form-group">
+							<button class="btn btn-default" ng-click="add_comment()">Add</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 		<div class='row'>
 			<h3>Comics</h3>
