@@ -21,6 +21,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	} else{
 		$state.go('error');
 	}
+	$scope.comic_id = $stateParams.id;
 	$scope.seriesTitle = "NO TITLE";
 	$scope.pages = [];
 	$scope.comics = [];
@@ -28,7 +29,9 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	$scope.comments = [];
 	$scope.comment_ids = [];
 	$scope.show_comment = true;
-	$scope.your_comment = "";
+	//THIS MUST BE AN OBJECT. according to angular api, best practice with 
+	//ng-model is using "."
+	$scope.comment_obj = {comment: ""};
 	$scope.logged_in = false;
 	
 	$scope.toggleComments = function(comic){
@@ -53,9 +56,23 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	
 	//need to update with backend
 	$scope.add_comment = function(){
-		GApi.execute("comicendpoint",'addComicComment', {"userId": $scope.user_id, "comicId:":id, "comment":$scope.your_comment}).then(
+		//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
+		GApi.execute("comicendpoint",'addComicComment', {"userId": $scope.user_id, "comicId":$scope.comic_id, "comment":$scope.comment_obj.comment}).then(
 			function(resp){
-				$scope.update_comments();
+				$scope.getComic();
+				$scope.comment_obj.comment = "";
+			},
+			function(resp){
+				
+			}
+		);
+	}
+	
+	$scope.delete_comment = function(delete_id){
+		//console.log("del reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " commentId: " + delete_id);
+		GApi.execute("comicendpoint", "deleteComicComment", {"userId": $scope.user_id, "comicId": $scope.comic_id, "commentId":delete_id}).then(
+			function(resp){
+				$scope.getComic();
 			},
 			function(resp){
 				
@@ -64,24 +81,27 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	}
 	
 	
-	
-	
-	//get/update the comments
+	//DONOT USE THIS TO UPDATE COMMENTS, use getComic ...get/update the comments
 	$scope.update_comments = function(){
 		if($scope.comment_ids != null){	
 			//query for each comment
+			$scope.comments = [];
 			for(var i = 0; i < $scope.comment_ids.length; i ++){
 				GApi.execute("commentendpoint", "getComment", {"id":$scope.comment_ids[i]}).then(
 					function(commentResp){
 						//query for the author
-						GApi.execute("c4userendpoint","getC4User", {"id":commentResp.user}).then(
+						//console.log(commentResp.userId);
+						GApi.execute("c4userendpoint","getC4User", {"id":commentResp.userId}).then(
 							function(userResp){
 								$scope.comments.push({
+									id: commentResp.id,
+									user_id: commentResp.userId,
 									comment:commentResp.comment,
 									username:userResp.username,
 									dateString:commentResp.dateString,
 									profileImageURL: userResp.profileImageURL
 								});
+								
 							},
 							function(userResp){
 								
@@ -95,6 +115,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 					}
 				);
 			}
+			
 		}
 	};
 	
@@ -113,6 +134,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				}
 				rating=ratingSum/resp.ratings.length;
 				*/
+				$scope.comics = [];
 				$scope.comics.push({
 					title : resp.title,
 					comments : resp.comments,
