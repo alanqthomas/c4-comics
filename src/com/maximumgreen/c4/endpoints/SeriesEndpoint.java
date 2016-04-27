@@ -349,6 +349,11 @@ public class SeriesEndpoint {
 		return formatter.format(date);
 	}
 	
+	private String formatCommentDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
+		return formatter.format(date);
+	}
+	
 	private void index(Series series) throws NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		C4User user;
@@ -418,7 +423,7 @@ public class SeriesEndpoint {
 			newComment.setComment(comment);
 			Date now = Calendar.getInstance().getTime();
 			newComment.setDate(now);
-			newComment.setDateString(formatDate(now));
+			newComment.setDateString(formatCommentDate(now));
 			mgr.makePersistent(newComment);
 			return newComment;
 		} catch (javax.jdo.JDOObjectNotFoundException e) {

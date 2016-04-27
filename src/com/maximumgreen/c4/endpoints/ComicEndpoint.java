@@ -263,7 +263,7 @@ public class ComicEndpoint {
 	}
 	
 	@ApiMethod(name="addComicTag")
-	public Comic addComicTag(@Named("tag") String tagName, @Named("comicId") Long comicId)
+	public Tag addComicTag(@Named("tag") String tagName, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
@@ -300,7 +300,7 @@ public class ComicEndpoint {
 			mgr.close();
 		}
 		
-		return comic;
+		return tag;
 	}
 	
 	@ApiMethod(name="deleteComicTag")
@@ -421,6 +421,11 @@ public class ComicEndpoint {
 		return formatter.format(date);
 	}
 	
+	private String formatCommentDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
+		return formatter.format(date);
+	}
+	
 	private void index(Comic comic) throws NotFoundException{		
 		PersistenceManager mgr = getPersistenceManager();
 		C4User user;	
@@ -458,7 +463,7 @@ public class ComicEndpoint {
 			newComment.setComment(comment);
 			Date now = Calendar.getInstance().getTime();
 			newComment.setDate(now);
-			newComment.setDateString(formatDate(now));
+			newComment.setDateString(formatCommentDate(now));
 			mgr.makePersistent(newComment);
 			return newComment;
 		} catch (javax.jdo.JDOObjectNotFoundException e) {
