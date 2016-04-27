@@ -208,17 +208,14 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			);
 		};
 		$scope.newComics = function(){
-			
 			if($scope.is_owner){
-				//create a new comic
-				console.log("seriesID: " + $scope.series_id);
-				
+				//console.log("seriesID: " + $scope.series_id);
 				GApi.execute("comicendpoint","insertComic", {"authorId":$scope.user_id, "description":"New comics description", "seriesId": $scope.series_id}).then(
 					function(resp){
 						//add the new comic
 						GApi.execute("seriesendpoint", "addseriescomic", {"seriesId" : $scope.series_id,"comicId" : resp.id}).then(
 							function(resp1){
-								$scope.goToComics(resp.id);
+								$scope.goToEditComics(resp.id);
 							},
 							function(resp1){
 								console.log("SEVERE ERROR: Series not associated with user.")
@@ -229,6 +226,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						console.log(resp);
 					}
 				);
+			} else {
+				console.log("Not logged in as owner, cannot add new comic.");
 			}
 		}
 		

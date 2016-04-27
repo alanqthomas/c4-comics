@@ -37,7 +37,7 @@
 				<i class="material-icons" ng-click="toggle('editDescription')">edit</i>
 				<form class='form-inline' ng-show='editDescription'>
 					<form ng-submit="toggle('editDescription')" name='name'>
-						<input class="form-control input-lg" type="text" ng-model="series.description"></input>
+						<input class="form-control input-lg" type="textarea" ng-model="series.description"></input>
 						<input type="color"></input>
 					</form>
 				</form>
