@@ -304,6 +304,7 @@ public class SeriesEndpoint {
 		
 		C4User user;
 		Series series;
+		Comment comment;
 		
 		try {
 			series = mgr.getObjectById(Series.class, seriesId);
@@ -313,6 +314,9 @@ public class SeriesEndpoint {
 			user = mgr.getObjectById(C4User.class, userId);
 			user.deleteUserComment(commentId);
 			mgr.makePersistent(user);
+			
+			comment = mgr.getObjectById(Comment.class, commentId);
+			mgr.deletePersistent(comment);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("Series Id or User Id invalid.");
