@@ -1,6 +1,7 @@
 package com.maximumgreen.c4.endpoints;
 
 import com.maximumgreen.c4.Comment;
+import com.maximumgreen.c4.Notification;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Series;
@@ -207,9 +208,11 @@ public class C4UserEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		C4User user;
+		Series series;
 		
 		try {
 			user = mgr.getObjectById(C4User.class, userId);
+			series = mgr.getObjectById(Series.class, seriesId);
 			
 			if (user.getUserSeries() == null){
 				List<Long> list = new ArrayList<Long>();
@@ -217,6 +220,7 @@ public class C4UserEndpoint {
 			}
 			
 			user.addUserSeries(seriesId);
+			notifyFollowers(user, series);
 			
 			mgr.makePersistent(user);
 			
@@ -570,5 +574,39 @@ public class C4UserEndpoint {
 			}
 			mgr.close();
 		}
+	}
+	
+	private void notifyFollowers(C4User user, Series series){
+		//check if the user has followers first
+		if (user.getFollowers() != null){
+			PersistenceManager mgr = getPersistenceManager();
+			Notification notification;
+			//first check to see if this notification exists already
+			try {
+				notification = mgr.getObjectById(Notification.class, series.getId());
+			} catch (javax.jdo.JDOObjectNotFoundException ex) {
+				notification = new Notification();
+				String message = user.getUsername() + " has added a new series titled " + series.getTitle();
+				notification.setId(series.getId());
+				notification.setType("series");
+				notification.setMessage(message);
+				mgr.makePersistent(notification);
+			}
+			//notify the followers and save
+			for (String followerId : user.getFollowers()){
+				C4User follower = mgr.getObjectById(C4User.class, followerId);
+				if (follower.getNotifications() == null){
+					List<Long> list = new ArrayList<Long>();
+					follower.setNotifications(list);
+				}
+				if (!follower.getNotifications().contains(notification.getId())){
+					follower.addNotification(notification.getId());
+					mgr.makePersistent(follower);
+				}
+			}
+			
+			mgr.close();
+		}
+
 	}
 }

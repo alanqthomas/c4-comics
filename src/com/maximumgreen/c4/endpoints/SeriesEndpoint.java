@@ -1,6 +1,8 @@
 package com.maximumgreen.c4.endpoints;
 
 import com.maximumgreen.c4.C4User;
+import com.maximumgreen.c4.Comic;
+import com.maximumgreen.c4.Notification;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.Series;
 import com.google.api.server.spi.config.Api;
@@ -11,7 +13,6 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.maximumgreen.c4.endpoints.IndexService;
@@ -206,10 +207,14 @@ public class SeriesEndpoint {
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
 		Series series;
+		Comic comic;
 		
 		try {
 			series = mgr.getObjectById(Series.class, seriesId);
+			user = mgr.getObjectById(C4User.class, series.getAuthorId());
+			comic = mgr.getObjectById(Comic.class, comicId);
 			
 			if (series.getComics() == null){
 				List<Long> list = new ArrayList<Long>();
@@ -217,6 +222,7 @@ public class SeriesEndpoint {
 			}
 			
 			series.addSeriesComic(comicId);
+			notifySubscribers(user, series, comic);
 			
 			mgr.makePersistent(series);
 			index(series);
@@ -348,4 +354,38 @@ public class SeriesEndpoint {
 		IndexService.indexDocument(IndexService.SERIES, doc);
 	}
 	
+	private void notifySubscribers(C4User user, Series series, Comic comic){
+		//check if the series has subscribers first
+		if (series.getSubscribers() != null){
+			PersistenceManager mgr = getPersistenceManager();
+			Notification notification;
+			//first check to see if this notification exists already
+			try {
+				notification = mgr.getObjectById(Notification.class, comic.getId());
+			} catch (javax.jdo.JDOObjectNotFoundException ex) {
+				notification = new Notification();
+				String message = user.getUsername() + " has added a new comic titled " + comic.getTitle()
+						+ " to " + series.getTitle();
+				notification.setId(comic.getId());
+				notification.setType("comic");
+				notification.setMessage(message);
+				mgr.makePersistent(notification);
+			}
+			//notify the subscribers and save
+			for (String subscriberId : series.getSubscribers()){
+				C4User subscriber = mgr.getObjectById(C4User.class, subscriberId);
+				if (subscriber.getNotifications() == null){
+					List<Long> list = new ArrayList<Long>();
+					subscriber.setNotifications(list);
+				}
+				if (!subscriber.getNotifications().contains(notification.getId())){
+					subscriber.addNotification(notification.getId());
+					mgr.makePersistent(subscriber);
+				}
+			}
+			
+			mgr.close();
+		}
+
+	}
 }
