@@ -5,26 +5,28 @@
 angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES',
                                     function( $scope, $http, GApi, $state, $stateParams, imgService, IMG_PREFIXES){
 	//init
+	$scope.resultsSwitch = 20;
+	$scope.resultsBool = false;
 	if($stateParams.tagList != null){
 		$scope.selTags = $stateParams.tagList;
 	}else{
 		$scope.selTags = [];
 	}
-	$scope.resultsBool = false;
 	$scope.displayTags = [];
+	$scope.resultTags = [];
+	//css
 	$scope.tagDisplayStyle = {
 		'background':'rbga(0,0,0,225)',
 		'color' : 'rbga(255,255,255,215)'
 	};
-	$scope.go_to = function(type, id){	
-		if(type == "comic" && id != null){
-			$state.go('comic',{"id": id});
-		} else {
-			$state.go('error');
-		}
+	//infi scroll function
+	$scope.shiftTags = function(){
+		if ($scope.resultTags != null && $scope.resultTags.length > 0) {
+			$scope.displayTags.push($scope.resultTags.shift());
+		};
 	}
-	$scope.prepareResult = function(part){
-		//add the picture to part.src
+	//functions
+	$scope.prepareResult = function(part){//add the picture to part.src
 		part.src = imgService.getURL(IMG_PREFIXES.COMIC, part.id);
 		part.type = "comic";
 	}
@@ -35,23 +37,25 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 		};
 		GApi.execute('browseendpoint', 'getResults', resultReq).then( 
 			function(resp) {
-				//console.log(resp);
 				$scope.resultsBool = resp.comics;
 				if($scope.resultsBool){
 					$scope.displayTags = null;
+					$scope.resultTags = null;
 					$scope.browseResults = resp.results;
 					$scope.browseResults.forEach(prepareResult(part));
 				} else {
 					$scope.browseResults = null;
-					$scope.displayTags = resp.results;
+					$scope.resultTags = resp.results;
+					$scope.displayTags = [];
+					shiftTags();
 				}
-			//result is placed in $scope.displayTags.
 			}, function(resp) {
 				console.log("Result call failed.");
 				console.log(resp);
 			}
 		);
 	}
+	//tag manipulation functions
 	$scope.removeTag = function(tagToRemove){
 		var index = $scope.selTags.indexOf(tagToRemove);
 		if (index > -1){
@@ -64,5 +68,14 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.currentTag = "";
 		$scope.getResults();
 	}
+	//navigation
+	$scope.go_to = function(type, id){	
+		if(type == "comic" && id != null){
+			$state.go('comic',{"id": id});
+		} else {
+			$state.go('error');
+		}
+	}
+	//main
 }]);
 })();

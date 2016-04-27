@@ -4,9 +4,9 @@
 	<h3>{{comic.title}}</h3>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in pages">
+			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in comic.pages">
 				<span class="topLeft">{{x.pageNumber}}</span>
-					<img class="bigPageDisplay" src={{x.url}} alt="{{comic}}-{{x.pagenumber}}">
+					<img class="bigPageDisplay" src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
 				</span>
 			<div class="col-sm-6 col-md-4 col-lg-3">
 				<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>

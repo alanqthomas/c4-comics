@@ -3,7 +3,6 @@
 (function() {
 angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$state', 'searchScope', '$window',
 																			 function($scope,   $http,   GApi,   imgService,   IMG_PREFIXES,  $stateParams,    $state,   searchScope,   $window){
-
 		$scope.search = searchScope.data;
 		$scope.$watch('search.terms', function(newValue, oldValue){
 			$scope.getResults();

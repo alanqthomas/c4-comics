@@ -3,7 +3,7 @@
 	<div class="container-fluid">
 		<div id="optionsDisplayBrowse">
 			Display <input ng-model="tagCap" type="number" value=20></input> tags on the page.
-			Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.
+			Show results at <input type="number" ng-model="resultSwitch"></input> results.
 		</div>
 		<div id ="tagsDisplayBrowse">
 			<h5>Current Tags:</h5>
@@ -21,9 +21,11 @@
 			</form>
 		</div>
 		<div class="row" id="displayTagBrowse">
-			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags" ng-show='resultsBool'>
-			<!-- but with a lot more styling. -->
-				<span ng-style="tagDisplayStyle">{{x.tag}}</span>
+			<div infinite-scroll="shiftTags()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
+				<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags" ng-show='resultsBool'>
+				<!-- but with a lot more styling. -->
+					<span ng-style="tagDisplayStyle">{{x.name}}</span>
+				</div>
 			</div>
 		</div>
 		<div class="row" id="displayResultBrowse">

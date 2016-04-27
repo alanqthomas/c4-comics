@@ -2,10 +2,15 @@
 
 (function() {
 
-angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES',
-	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService,   IMG_PREFIXES){
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams',
+	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService,   IMG_PREFIXES, $stateParams){
 			//init
-			var id = '12345678';
+			var id;
+			if($stateParams.id != null){
+				id = $stateParams.id;
+			} else {
+				$state.go('error');
+			}
 			//functions
 			$scope.upload = function(){
 				$http({
@@ -23,8 +28,13 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			}
 			$scope.addTag = function(){
 				$scope.comic.tags.push($scope.newTag);
-				//tag text is in $scope.newTag.
-				GApi.execute("comicendpoint", "addComicTag", {"" : })
+				var tagParam = {
+					"tag" : $scope.newTag,
+					"comicId" : id
+				};
+				GApi.execute("comicendpoint", "addComicTag", tagParam).then(
+
+					);
 				$scope.newTag = "";
 			}
 			//main
@@ -40,7 +50,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					for(var i=0;i<resp.pages.length;i++){
 						$scope.comic.pages.push({
 							"id":resp.pages[i],
-							"url":imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]),
+							"src":imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]),
 							"pageNumber":i+1
 						});
 					}

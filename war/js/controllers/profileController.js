@@ -433,9 +433,9 @@
 		if($scope.series.length > 0 || $scope.isOwner){
 			$scope.tabs.push({
 				slug: 'series',
-		        title: "Series",
-		        content: $scope.series,
-		        load_m: $scope.series_loadMore
+				title: "Series",
+				content: $scope.series,
+				load_m: $scope.series_loadMore
 			});
 		}
 		if($scope.favorites.length > 0 || $scope.isOwner){
