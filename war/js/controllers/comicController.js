@@ -10,10 +10,10 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	/* README
 	 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh), 
 	 * comment(actual comment), profileImageURL(the url to profile image), dateString(string for date and time) 
-	 * 
+	 * The "Add" button adds comment. The cross next to your own comment deletes it  
+	 
 	 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 	 * 
-	 * doug hasnt done it yet in the backend, but the 'add' will write the comment
 	 */
 	var id;
 	if($stateParams.id){
@@ -88,7 +88,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 									comment:commentResp.comment,
 									username:userResp.username,
 									dateString:commentResp.dateString,
-									profileImageURL: userResp.profileImageURL
+									profileImageURL: userResp.profileImageURL,
+									date: commentResp.date
 								});
 								
 							},

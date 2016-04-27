@@ -51,7 +51,7 @@
 				</div>
 				<div class="actionBox">
 					<ul class="commentList">
-						<li ng-repeat="comment in comments">
+						<li ng-repeat="comment in comments | orderBy:date" >
 							<div class="commenterImage">	
 								<img ng-src="{{comment.profileImageURL}}">
 							</div>
@@ -74,17 +74,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		<div class='row'>
 			<h3>Comics</h3>
 		</div>

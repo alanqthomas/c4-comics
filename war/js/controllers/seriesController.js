@@ -5,7 +5,12 @@
 
 angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth", "GData",
                                     function(	 $scope, $http,   GApi,   $state,   $stateParams, 	imgService,    IMG_PREFIXES,   GAuth,   GData ){
-		//TODO EDIT Name, description
+		/* README
+		 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh), 
+		 * comment(actual comment), profileImageURL(the url to profile image), dateString(string for date and time) 
+		 * 
+		 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
+		 */
 		//init
 		//DO NOT MOVE THINGS IN INIT
 		$scope.loadMore = function() {
@@ -122,7 +127,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 												comment:commentResp.comment,
 												username:userResp.username,
 												dateString:commentResp.dateString,
-												profileImageURL: userResp.profileImageURL
+												profileImageURL: userResp.profileImageURL,
+												date: commentResp.date
 											});
 											
 										},

@@ -35,7 +35,7 @@
 		    </div>
 		    <div class="actionBox">
 		        <ul class="commentList">
-		            <li ng-repeat="comment in comments">
+		            <li ng-repeat="comment in comments | orderBy:date">
 		            	<div class="commenterImage">	
 		            		<img ng-src="{{comment.profileImageURL}}">
 		            	</div>
