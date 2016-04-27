@@ -19,6 +19,14 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
+		/*
+		$scope.follow_loadMore = function(){
+			if ($scope.follow_reserve.length > 0){
+				$scope.follow.push($scope.follow_reserve.shift())
+			}
+		}
+		*/
+		
 		//init display settings
 		$scope.editName = false;
 		$scope.editBio = false;
