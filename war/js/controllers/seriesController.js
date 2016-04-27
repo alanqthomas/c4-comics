@@ -31,9 +31,13 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		};
 		$scope.editTitle = false;
 		$scope.editDescription = false;
+		$scope.comments = [];
+		$scope.show_comment = true;
+		//THIS MUST BE AN OBJECT. according to angular api, best practice with 
+		//ng-model is using "."
+		$scope.comment_obj = {comment: ""};
 		//END init
 		//EDIT SERIES FUNCTIONS
-		
 		$scope.saveSettings= function(){
 			$scope.newSeries= {
 				id: $scope.series_id,
@@ -73,8 +77,144 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			);
 		};
 		//END EDIT FUNCTIONS
+		//COMMENT FUNCTIONS
+		$scope.add_comment = function(){
+			//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
+			GApi.execute("seriesendpoint",'addSeriesComment', {"userId": $scope.user_id, "seriesId":$scope.series_id, "comment":$scope.comment_obj.comment}).then(
+				function(resp){
+					$scope.update_comments();
+					$scope.comment_obj.comment = "";
+				},
+				function(resp){
+					
+				}
+			);
+		}
+		$scope.delete_comment = function(delete_id){
+			//console.log("del reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " commentId: " + delete_id);
+			GApi.execute("seriesendpoint", "deleteSeriesComment", {"userId": $scope.user_id, "seriesId": $scope.series_id, "commentId":delete_id}).then(
+				function(resp){
+					$scope.update_comments();
+				},
+				function(resp){
+					
+				}
+			);
+		}
+		//USE THIS TO UPDATE COMMENTS, use getComic() ...get/update the comments
+		$scope.update_comments = function(){
+			GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
+				function(resp){
+					$scope.series = resp;
+					if($scope.series.comments != null){	
+						//query for each comment
+						$scope.comments = [];
+						for(var i = 0; i < $scope.series.comments.length; i ++){
+							GApi.execute("commentendpoint", "getComment", {"id":$scope.series.comments[i]}).then(
+								function(commentResp){
+									//query for the author
+									//console.log(commentResp.userId);
+									GApi.execute("c4userendpoint","getC4User", {"id":commentResp.userId}).then(
+										function(userResp){
+											$scope.comments.push({
+												id: commentResp.id,
+												user_id: commentResp.userId,
+												comment:commentResp.comment,
+												username:userResp.username,
+												dateString:commentResp.dateString,
+												profileImageURL: userResp.profileImageURL
+											});
+											
+										},
+										function(userResp){
+											
+										}
+									);
+									//$scope.comments.push(commentResp);
+									
+								},
+								function(resp){
+									//if query for comment fails
+								}
+							);
+						}
+					}	
+				},
+				function(){
+					
+				}
+			);
+		};
+		$scope.toggleComments = function(comic){
+			//open a thing with whatever comments.
+			$scope.show_comment = !$scope.show_comment;
+		}
+		$scope.closeComments = function(){
+			$scope.show_comment = false;
+		}
+		//END COMMENT FUNCTIONS
+		//SUBSCRIBING FUNCTIONS 
+		//check if user is logged in and subbed
+		$scope.update_sub = function() {GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.series.authorId == $scope.user_id){
+						//console.log("Comic Author ID: " + $scope.series.authorId);
+						//console.log("User ID: " + $scope.user_id);
+						$scope.is_owner = true;
+					}
+					GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
+						function(resp){
+							$scope.series = resp;
+							if($scope.series.subscribers == null){
+								$scope.subbed = false;
+							}
+							else {
+								if($scope.series.subscribers.indexOf($scope.user_id.toString()) >= 0){
+									$scope.subbed = true;
+								}
+								else{
+									$scope.subbed = false;
+								} 
+							}
+						},
+						function(resp){	
+						}
+					);
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+				}
+			);
+			$scope.is_owner = false;
+		};
+		$scope.subscribe = function(){
+			GApi.execute("c4userendpoint", "addsubscription", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
+				function(resp){
+					$scope.update_sub();
+					//$scope.subbed = true;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		$scope.unsubscribe = function(){
+			GApi.execute("c4userendpoint", "deletesubscription", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
+				function(resp){
+					$scope.update_sub();
+					//$scope.subbed = false;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		//END SUBSCRIBING FUNCTIONS 
 		
-		//execute using (endpoint, method for endpoint, parameter for method)
+		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
 				$scope.series = resp;
@@ -112,43 +252,11 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						);
 					}
 				}
+				//query for comments 
+				$scope.update_comments();
+				//user as in the one who is currently browsing this page
 				$scope.user_id = 0;
-				//check if user is logged in and subbed
-				$scope.update_sub = function() {GAuth.checkAuth().then(
-						function(){
-							$scope.logged_in = true;
-							$scope.user_id = GData.getUser().id;
-							if($scope.series.authorId == $scope.user_id){
-								//console.log("Comic Author ID: " + $scope.series.authorId);
-								//console.log("User ID: " + $scope.user_id);
-								$scope.is_owner = true;
-							}
-							GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
-								function(resp){
-									$scope.series = resp;
-									if($scope.series.subscribers == null){
-										$scope.subbed = false;
-									}
-									else {
-										if($scope.series.subscribers.indexOf($scope.user_id.toString()) >= 0){
-											$scope.subbed = true;
-										}
-										else{
-											$scope.subbed = false;
-										} 
-									}
-								},
-								function(resp){	
-								}
-							);
-						},
-						function(){
-							$scope.logged_in = false;
-							$scope.user_id = null;
-						}
-					);
-					$scope.is_owner = false;
-				};
+				
 				$scope.update_sub();
 				
 			},function(resp){
@@ -183,36 +291,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go("editComic", {"id": id});
 			}
 		}
-		
-		//subscribing and unsubscribing
-		$scope.subscribe = function(){
-			GApi.execute("c4userendpoint", "addsubscription", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
-				function(resp){
-					$scope.update_sub();
-					//$scope.subbed = true;
-				},
-				function(resp){
-					
-				}
-			);
-		};
-		$scope.unsubscribe = function(){
-			GApi.execute("c4userendpoint", "deletesubscription", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
-				function(resp){
-					$scope.update_sub();
-					//$scope.subbed = false;
-				},
-				function(resp){
-					
-				}
-			);
-		};
 		$scope.newComics = function(){
-			
 			if($scope.is_owner){
 				//create a new comic
-				console.log("seriesID: " + $scope.series_id);
-				
+				//console.log("seriesID: " + $scope.series_id);
 				GApi.execute("comicendpoint","insertComic", {"authorId":$scope.user_id, "description":"New comics description", "seriesId": $scope.series_id}).then(
 					function(resp){
 						//add the new comic
@@ -231,8 +313,5 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				);
 			}
 		}
-		
-		
-		
 }]);
 })();

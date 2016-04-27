@@ -34,15 +34,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	$scope.comment_obj = {comment: ""};
 	$scope.logged_in = false;
 	
-	$scope.toggleComments = function(comic){
-		//open a thing with whatever comments.
-		$scope.show_comment = !$scope.show_comment;
-	}
-	
-	$scope.closeComments = function(){
-		$scope.show_comment = false;
-	}
-	
 	//check auth
 	GAuth.checkAuth().then(
 		function(){
@@ -54,7 +45,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		}
 	);
 	
-	//need to update with backend
+	
+	//COMMENT FUNCTIONS 
 	$scope.add_comment = function(){
 		//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
 		GApi.execute("comicendpoint",'addComicComment', {"userId": $scope.user_id, "comicId":$scope.comic_id, "comment":$scope.comment_obj.comment}).then(
@@ -67,7 +59,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	}
-	
 	$scope.delete_comment = function(delete_id){
 		//console.log("del reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " commentId: " + delete_id);
 		GApi.execute("comicendpoint", "deleteComicComment", {"userId": $scope.user_id, "comicId": $scope.comic_id, "commentId":delete_id}).then(
@@ -79,9 +70,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	}
-	
-	
-	//DONOT USE THIS TO UPDATE COMMENTS, use getComic ...get/update the comments
+	//DONOT USE THIS TO UPDATE COMMENTS, use getComic() ...get/update the comments
 	$scope.update_comments = function(){
 		if($scope.comment_ids != null){	
 			//query for each comment
@@ -118,6 +107,17 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			
 		}
 	};
+	
+	$scope.toggleComments = function(comic){
+		//open a thing with whatever comments.
+		$scope.show_comment = !$scope.show_comment;
+	}
+	
+	$scope.closeComments = function(){
+		$scope.show_comment = false;
+	}
+	
+	//END COMMENT FUNCTIONS
 	
 	
 	$scope.getComic = function(){
