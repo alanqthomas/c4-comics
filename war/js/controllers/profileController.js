@@ -381,7 +381,7 @@
 			}else if(tabSlug=='sub'){
 				deleteSub(obj);
 			}else if(tabSlug=='series'){
- 				deleteSereis(obj);
+ 				deleteSeries(obj);
  			} else {
  				console.log("Attempted delete from unsupported tab. Add tab to deleteThing().");
  			}
