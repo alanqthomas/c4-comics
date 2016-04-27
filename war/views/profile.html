@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-xs-2">
 					<img src={{profile.profileImageURL}} class='img-repsonsive' width=150px height=150px>
-					<span ng-if="isOwner">
+					<span ng-if="is_owner">
 						<i class="material-icons">settings_applications</i>
 					</span>
 				</div>
@@ -16,7 +16,7 @@
 							<input ng-show="editName" type="color"></input>
 						</form>
 					</form>
-					<span ng-if="isOwner">
+					<span ng-if="is_owner">
 						<i class="material-icons" ng-click="toggle('editName')">edit</i>
 					</span>
 				</div>
@@ -24,20 +24,39 @@
 		</div>
 	</div>
 	<div class='container'>
+	
+		<p> is owner? {{is_owner}} <br>
+			is following? {{followed}} <br>
+			profile id? {{profile_id}} <br>
+			user id? {{user_id}}
+		</p>
+		
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!followed" class="btn btn-sm btn-primary" ng-click="follow()">
+				Follow
+			</button>
+
+			<button ng-if="followed" class="btn btn-sm btn-danger" ng-click="unfollow()">
+				Unfollow
+			</button>
+		</div>
+	
+	
+	
 		<div class='row'>
-			<div class='col-xs-12' ng-if="! isOwner" >
+			<div class='col-xs-12' ng-if="! is_owner" >
 				<h1>Bio</h1>
 			</div>
-			<div class='col-xs-10' ng-if="isOwner" >
+			<div class='col-xs-10' ng-if="is_owner" >
 				<h1>Bio</h1>
 			</div>
 			
-			<div class='col-xs-2' ng-if="isOwner" >
+			<div class='col-xs-2' ng-if="is_owner" >
 				<i class="material-icons">settings_applications</i>
 			</div>
 		</div>
 		<!-- need to dynamically load bio -->
-		<div class='row' ng-if="isOwner">
+		<div class='row' ng-if="is_owner">
 			<div class='col-xs-11'>
 				<p ng-hide="editBio" id="bio">{{profile.biography}}</p>
 			</div>
@@ -51,12 +70,12 @@
 				</form>
 			</div>
 			
-			<div class='col-xs-1' ng-if="isOwner">
+			<div class='col-xs-1' ng-if="is_owner">
 				<i class="material-icons" ng-click="toggle('editBio')">edit</i>
 				<!-- this needs to change the bio to an input. -->
 			</div>
 		</div>
-		<div class='row' ng-if="! isOwner">
+		<div class='row' ng-if="! is_owner">
 			<div class='col-xs-12'>
 				<p>{{profile.biography}}</p>
 			</div>
@@ -66,13 +85,13 @@
 		<uib-tabset>
 			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
 				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div ng-if="isOwner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
+					<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 						<i class="material-icons" ng-click="newSeries()">note_add</i>
 					</div> 
 					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
 						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
 						<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-						<div ng-if="(isOwner)" class="profTabRTC">
+						<div ng-if="(is_owner)" class="profTabRTC">
 							<i class="material-icons" ng-click="deleteThing(tab.slug, x)">delete_forever</i>
 						</div> 
 					</div>

@@ -153,6 +153,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			$scope.show_comment = false;
 		}
 		//END COMMENT FUNCTIONS
+		
+		
 		//SUBSCRIBING FUNCTIONS 
 		//check if user is logged in and subbed
 		$scope.update_sub = function() {GAuth.checkAuth().then(
@@ -163,6 +165,9 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						//console.log("Comic Author ID: " + $scope.series.authorId);
 						//console.log("User ID: " + $scope.user_id);
 						$scope.is_owner = true;
+					}
+					else {
+						$scope.is_owner = false;
 					}
 					GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 						function(resp){
@@ -188,7 +193,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.user_id = null;
 				}
 			);
-			$scope.is_owner = false;
+			//$scope.is_owner = false;
 		};
 		$scope.subscribe = function(){
 			GApi.execute("c4userendpoint", "addsubscription", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
