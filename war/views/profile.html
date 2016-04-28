@@ -33,9 +33,6 @@
 				Unfollow
 			</button>
 		</div>
-		
-		
-		<p>faved?  {{faved}}</p>
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 				Favorite
@@ -83,6 +80,21 @@
 				<p>{{profile.biography}}</p>
 			</div>
 		</div>
+		<!--
+		<p>
+			series {{series}} <br>
+			series reserve{{series_reserve}} <br>
+			fav {{favorites}} <br>
+			fav reserve {{favorites_reserve}} <br>
+			sub {{subscriptions}} <br>
+			sub reserve {{subscriptions_reserve}} <br>
+			user series {{profile.userSeries}} <br>
+			fav series {{profile.favoriteSeries}} <br>
+			fav comics {{profile.favoriteComics}} <br>
+			fav author {{profile.favoriteAuthors}} <br>
+			tabs {{tabs}}<br>
+		</p>-->
+	
 	</div>
 	<div class='container'>
 		<uib-tabset>

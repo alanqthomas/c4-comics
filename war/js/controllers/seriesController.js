@@ -232,7 +232,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				function(){
 					$scope.logged_in = true;
 					$scope.user_id = GData.getUser().id;
-					if($scope.profile_id== $scope.user_id){
+					if($scope.series.authorId == $scope.user_id){
 						//console.log("Comic Author ID: " + $scope.series.authorId);
 						//console.log("User ID: " + $scope.user_id);
 						$scope.is_owner = true;

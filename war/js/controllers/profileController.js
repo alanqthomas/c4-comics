@@ -19,14 +19,6 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
-		/*
-		$scope.follow_loadMore = function(){
-			if ($scope.follow_reserve.length > 0){
-				$scope.follow.push($scope.follow_reserve.shift())
-			}
-		}
-		*/
-		
 		//init display settings
 		$scope.editName = false;
 		$scope.editBio = false;
@@ -35,6 +27,63 @@
 		$scope.followed = false;
 		$scope.faved = false;
 		
+		
+		$scope.profile = {
+			username: "No Username Found",
+			biography: "Write a biography here!",
+			//all of the following are Ids
+			userSeries: [],
+			favoriteSeries: [],
+			favoriteAuthors : [],
+			favoriteComics: [],
+			subscriptions: [],
+			profileImageURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
+		};
+		
+		$scope.series = [];
+		$scope.series_reserve = [];
+		$scope.favorites=[];
+		$scope.favorites_reserve = [];
+		$scope.subscriptions = [];
+		$scope.subscriptions_reserve = [];
+		//INIT QUERY FOR PROFILE 
+		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
+				function(resp){	
+					$scope.profile = resp;
+					$scope.query_for_series();
+					$scope.tabs = [];
+					if($scope.profile.userSeries.length > 0 || $scope.is_owner){
+						$scope.tabs.push({
+							slug: 'series',
+							title: "Series",
+							content: $scope.series,
+							load_m: $scope.series_loadMore
+						});
+					}
+					if($scope.profile.favoriteSeries.length > 0 || $scope.profile.favoriteAuthors.length > 0 ||  $scope.profile.favoriteComics.length > 0 ||$scope.is_owner){
+						$scope.tabs.push({
+							slug: 'fav',
+							title: "Favorites",
+							content: $scope.favorites,
+							load_m: $scope.favorites_loadMore
+						});
+					}
+					if($scope.is_owner){
+						$scope.tabs.push({
+							slug: 'sub',
+							title: "Subscription",
+							content: $scope.subscriptions,
+							load_m: $scope.subscriptions_loadMore
+						});
+					}
+					$scope.update_follow();
+					$scope.update_favorite();
+				}, function(resp){
+				}
+			);
+		};
+		$scope.getProfile();
+		//END INIT 
 		//EDIT PROFILE FUNCTIONS 
 		$scope.saveSettings= function(){
 			$scope.newUser = {
@@ -77,100 +126,6 @@
 			);
 		};
 		//END OF EDIT FUNCTIONS
-		//PLACE HOLDERS
-		//*****************************
-		//this is image url for initial display
-		$scope.series = [{
-			title:"series1",
-		    src:'http://media.salon.com/2014/10/archie_comics.jpg',
-		    type:"series",
-		    id:1}
-		];
-		$scope.favorites = [{
-			title:"fav0",
-			src: 'https://pixabay.com/static/uploads/photo/2013/07/12/19/27/favorite-154801_960_720.png',
-		    type:"comic",
-			id:26}];
-		$scope.series_reserve = [{
-			title:"series2",
-			src:"http://www.readcomics.net/images/manga/the-bunker/15/21.jpg",
-			type: "series",
-			id:20
-		},{
-			title:"series3",
-			src:"http://www.readcomics.net/images/manga/the-bunker/15/22.jpg",
-			type: "series",
-			id:21
-		},{
-			title:"series4",
-			src:"http://www.readcomics.net/images/manga/the-bunker/15/23.jpg",
-			type: "series",
-			id:22
-		},{
-			title:"series5",
-			src:"http://www.readcomics.net/images/manga/the-bunker/15/24.jpg",
-			type: "series",
-			id:23
-		}];
-		$scope.favorites_reserve=[{
-			title:"fav1",
-			src:'http://www.simchatyisrael.org/wp-content/uploads/2015/08/follow-me.jpg',
-		    type:"series",
-			id:27
-      	},{
-      		title:"fav2",
-      		src:" http://www.readcomics.net/images/manga/deadpool-2016/1/1.jpg",
-		    type:"series",
-      		id:28
-      	},{
-      		title:"fav3",
-      		src:"http://www.readcomics.net/images/manga/deadpool-2016/1/2.jpg",
-		    type:"series",
-      		id:29
-      	},{
-      		title:"fav4",
-      		src: "http://www.readcomics.net/images/manga/deadpool-2016/1/3.jpg",
-		    type:"series",
-      		id: 30
-      	}];
-		//*********************** PLACEHOLDER END
-		$scope.profile = {
-			username: "No Username Found",
-			biography: "Write a biography here!",
-			//all of the following are Ids
-			userSeries: [],
-			favoriteSeries: [],
-			favoriteAuthors : [],
-			favoriteComics: [],
-			subscriptions: [],
-			profileImageURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
-		};
-		//TAKE OUT THE FOLLOWING COMMMENT TO TAKE OUT PLACEHOLDER
-		$scope.series = [];
-		$scope.series_reserve = [];
-		$scope.favorites=[];
-		$scope.favorites_reserve = [];
-		
-		$scope.subscriptions = [];
-		$scope.subscriptions_reserve = [];
-		
-		//INIT QUERY FOR PROFILE 
-		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
-				function(resp){	
-					$scope.profile.id = resp.userId;
-					$scope.profile.username = resp.username;
-					$scope.profile.biography = resp.biography;
-					$scope.query_for_series();
-					$scope.update_follow();
-					$scope.update_favorite();
-				}, function(resp){
-				}
-			);
-		};
-		$scope.getProfile();
-		//END INIT 
-		
-		
 		//FOLLOWING FUNCTIONS 
 		//check if user is logged in and followed
 		$scope.update_follow = function() {GAuth.checkAuth().then(
@@ -178,8 +133,6 @@
 					$scope.logged_in = true;
 					$scope.user_id = GData.getUser().id;
 					if($scope.profile_id== $scope.user_id){
-						//console.log("Comic Author ID: " + $scope.series.authorId);
-						//console.log("User ID: " + $scope.user_id);
 						$scope.is_owner = true;
 					}
 					else {
@@ -211,8 +164,6 @@
 			);
 			//$scope.is_owner = false;
 		};
-		
-		
 		$scope.follow = function(){
 			GApi.execute("c4userendpoint", "addfollow", {"userId": $scope.user_id, "authorId": $scope.profile_id}).then(
 				function(resp){
@@ -236,7 +187,6 @@
 			);
 		};
 		//END FOLLOWING FUNCTIONS 
-		
 		//FAVORITE FUNCTION 
 		//check if user is logged in and followed
 		$scope.update_favorite = function() {GAuth.checkAuth().then(
@@ -244,8 +194,6 @@
 					$scope.logged_in = true;
 					$scope.user_id = GData.getUser().id;
 					if($scope.profile_id== $scope.user_id){
-						//console.log("Comic Author ID: " + $scope.series.authorId);
-						//console.log("User ID: " + $scope.user_id);
 						$scope.is_owner = true;
 					}
 					else {
@@ -302,8 +250,6 @@
 		};
 		//END FAVORITE FUNCTION 
 		
-		
-		
 		//Querying for series 
 		$scope.query_for_series = function() {
 			//query for series
@@ -321,10 +267,10 @@
 						function(resp1){
 						}
 					);
-					//put one in the initial
-					if($scope.series_reserve.length > 0){
-						$scope.series.push($scope.series_reserve.shift());
-					}
+				}
+				//put one in the initial
+				if($scope.series_reserve.length > 0){
+					$scope.series.push($scope.series_reserve.shift());
 				}
 			}
 			//query for favorites series
@@ -368,7 +314,7 @@
 					GApi.execute("c4userendpoint","getC4User", {"id":$scope.profile.favoriteAuthors[i]}).then(
 						function(resp1){
 							$scope.favorites_reserve.push({
-								id:resp1.id,
+								id:resp1.userID,
 								src: imgService.getURL(IMG_PREFIXES.PROFILE, resp1.id),
 								title:resp1.username,
 								type:"profile"
@@ -551,34 +497,7 @@
 				$state.go("comic",{"id":param_id});
 			}
 		}
-		//main
-		//SHOULD IDEALLY BE THE LAST THING IN THE CONTROLLER: tab declarations.
-		$scope.tabs = [];
-		if($scope.series.length > 0 || $scope.is_owner){
-			$scope.tabs.push({
-				slug: 'series',
-				title: "Series",
-				content: $scope.series,
-				load_m: $scope.series_loadMore
-			});
-		}
-		if($scope.favorites.length > 0 || $scope.is_owner){
-			$scope.tabs.push({
-				slug: 'fav',
-		        title: "Favorites",
-		        content: $scope.favorites,
-		        load_m: $scope.favorites_loadMore
-			});
-		}
-		if($scope.is_owner){
-			$scope.tabs.push({
-				slug: 'sub',
-				title: "Subscription",
-				content: $scope.subscriptions,
-				load_m: $scope.subscriptions_loadMore
-			});
-		}
-		
+	
 	}]);
 })();
 

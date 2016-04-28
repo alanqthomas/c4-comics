@@ -1,5 +1,7 @@
 <div ng-controller="seriesCtrl">
 	<p> is owner? {{is_owner}}</p>
+	<p> author id {{series.authorId}} </p>
+	<p> user id {{user_id}}</p>
 	<div class="cover">
 		<h2>{{series.title}}</h2>
 		
@@ -16,11 +18,6 @@
 	</div>
 	
 	<div class="container">
-		<p> profile id: {{profile_id}} <br>
-		    user id: {{user_id}}
-			is owner: {{is_owner}}
-		</p>
-		<p>faved?  {{faved}}</p>
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 				Favorite

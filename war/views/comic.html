@@ -23,12 +23,6 @@
 			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
 		</div>
 	</div>
-	
-	<p> profile id: {{author_id}} <br>
-		    user id: {{user_id}}
-			is owner: {{is_owner}}
-		</p>
-	<p>faved?  {{faved}}</p>
 	<div ng-show="logged_in && !is_owner">
 		<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 			Favorite
@@ -37,9 +31,6 @@
 			Unfavorite
 		</button>
 	</div>
-	
-	
-	
 	<div ng-if="show_comment">
 		<div class="detailBox">
 		    <div class="titleBox">
