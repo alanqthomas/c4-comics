@@ -63,11 +63,12 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 		}
 		$scope.getResults();
 	}
+	/*
 	$scope.addTag = function(){
 		$scope.selTags.push($scope.currentTag);
 		$scope.currentTag = "";
 		$scope.getResults();
-	}
+	}*/
 	//navigation
 	$scope.go_to = function(type, id){	
 		if(type == "comic" && id != null){
@@ -77,5 +78,6 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 		}
 	}
 	//main
+	$scope.getResults();
 }]);
 })();

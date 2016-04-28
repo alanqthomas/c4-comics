@@ -155,7 +155,9 @@
 		//INIT QUERY FOR PROFILE 
 		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 				function(resp){	
-					$scope.profile = resp;
+					$scope.profile.id = resp.userId;
+					$scope.profile.username = resp.username;
+					$scope.profile.biography = resp.biography;
 					$scope.query_for_series();
 					$scope.update_follow();
 				}, function(resp){
