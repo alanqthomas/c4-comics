@@ -57,8 +57,31 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
     }
   };
 
+  function createSeries(authorId){
+    return {
+      authorId: authorId,
+      description: "Write a description here!"
+    }
+  }
+
   $scope.newSeries = function(){
-    console.log("TODO: This function");
+    var param = createSeries(GData.getUser().id);
+    GApi.execute("seriesendpoint","insertSeries", param).then(
+      function(resp){
+        GApi.execute("c4userendpoint", "adduserseries", {"userId" : GData.getUser().id,"seriesId" : resp.id}).then(
+          function(resp1){
+            $scope.goToSeries(resp.id);
+          },
+          function(resp1){
+            console.log("SEVERE ERROR: Series not associated with user.");
+            console.log(resp);
+          }
+        );
+      }, function(resp){
+        console.log("Failed to create new series.");
+        console.log(resp);
+      }
+    );
   };
 
   $scope.goToSeries = function(id){

@@ -166,6 +166,7 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 			}
 		}
 		$scope.goBack = function(){
+			
 			$window.history.back();
 		}
 }]);

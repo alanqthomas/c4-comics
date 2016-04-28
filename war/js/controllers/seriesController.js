@@ -6,9 +6,9 @@
 angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth", "GData",
                                     function(	 $scope, $http,   GApi,   $state,   $stateParams, 	imgService,    IMG_PREFIXES,   GAuth,   GData ){
 		/* README
-		 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh), 
-		 * comment(actual comment), profileImageURL(the url to profile image), dateString(string for date and time) 
-		 * 
+		 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh),
+		 * comment(actual comment), profileImageURL(the url to profile image), dateString(string for date and time)
+		 *
 		 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 		 */
 		//init
@@ -38,7 +38,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.editDescription = false;
 		$scope.comments = [];
 		$scope.show_comment = true;
-		//THIS MUST BE AN OBJECT. according to angular api, best practice with 
+		//THIS MUST BE AN OBJECT. according to angular api, best practice with
 		//ng-model is using "."
 		$scope.comment_obj = {comment: ""};
 		$scope.faved = false;
@@ -55,7 +55,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.updateSeries();
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
@@ -75,7 +75,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		}
 		$scope.updateSeries = function(){
 			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
-				function(resp){	
+				function(resp){
 					$scope.series.title= resp.title;
 					$scope.series.description= resp.description;
 				}, function(resp){
@@ -92,7 +92,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.comment_obj.comment = "";
 				},
 				function(resp){
-					
+
 				}
 			);
 		}
@@ -103,7 +103,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.update_comments();
 				},
 				function(resp){
-					
+
 				}
 			);
 		}
@@ -112,7 +112,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 				function(resp){
 					$scope.series = resp;
-					if($scope.series.comments != null){	
+					if($scope.series.comments != null){
 						//query for each comment
 						$scope.comments = [];
 						for(var i = 0; i < $scope.series.comments.length; i ++){
@@ -131,24 +131,24 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 												profileImageURL: userResp.profileImageURL,
 												date: commentResp.date
 											});
-											
+
 										},
 										function(userResp){
-											
+
 										}
 									);
 									//$scope.comments.push(commentResp);
-									
+
 								},
 								function(resp){
 									//if query for comment fails
 								}
 							);
 						}
-					}	
+					}
 				},
 				function(){
-					
+
 				}
 			);
 		};
@@ -160,9 +160,9 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			$scope.show_comment = false;
 		}
 		//END COMMENT FUNCTIONS
-		
-		
-		//SUBSCRIBING FUNCTIONS 
+
+
+		//SUBSCRIBING FUNCTIONS
 		//check if user is logged in and subbed
 		$scope.update_sub = function() {GAuth.checkAuth().then(
 				function(){
@@ -188,10 +188,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 								}
 								else{
 									$scope.subbed = false;
-								} 
+								}
 							}
 						},
-						function(resp){	
+						function(resp){
 						}
 					);
 				},
@@ -209,7 +209,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					//$scope.subbed = true;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
@@ -220,13 +220,13 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					//$scope.subbed = false;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
-		//END SUBSCRIBING FUNCTIONS 
-		
-		//FAVORITE FUNCTION 
+		//END SUBSCRIBING FUNCTIONS
+
+		//FAVORITE FUNCTION
 		//check if user is logged in and followed
 		$scope.update_favorite = function() {GAuth.checkAuth().then(
 				function(){
@@ -253,10 +253,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 								}
 								else{
 									$scope.faved = false;
-								} 
+								}
 							}
 						},
-						function(resp){	
+						function(resp){
 						}
 					);
 				},
@@ -274,7 +274,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					//$scope.subbed = true;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
@@ -285,17 +285,17 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					//$scope.subbed = false;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
-		//END FAVORITE FUNCTION 
-		
-		
-		
-		
-		
-		
+		//END FAVORITE FUNCTION
+
+
+
+
+
+
 		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
@@ -305,14 +305,14 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					function(resp1){
 						$scope.author_name = resp1.username;
 					},
-					function(resp1){	
+					function(resp1){
 					}
 				);
 				//query for comics
 				if($scope.series.comics == null || $scope.series.comics.length == 0){
 					console.log("no comics");
 				} else{
-					//query for comics_ids 
+					//query for comics_ids
 					for(var i = 0; i < $scope.series.comics.length; i ++){
 						GApi.execute("comicendpoint","getComic", {"id":$scope.series.comics[i]}).then(
 							function(resp2){
@@ -334,20 +334,20 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						);
 					}
 				}
-				//query for comments 
+				//query for comments
 				$scope.update_comments();
 				$scope.update_favorite();
 				//user as in the one who is currently browsing this page
 				$scope.user_id = 0;
-				
+
 				$scope.update_sub();
-				
+
 			},function(resp){
 				console.log("Error getting series.");
 				console.log(resp);
 			}
 		);
-		
+
 		/* attempted ngStyle, they dont work
 		$scope.bg_img="background:#ffffff url('https://www.planwallpaper.com/static/images/6790904-free-background-wallpaper.jpg') no-repeat center center;";
 		$scope.bg_img="{'background-color':'red'}";
@@ -379,7 +379,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.newComics = function(){
 			if($scope.is_owner){
 				//console.log("seriesID: " + $scope.series_id);
-				GApi.execute("comicendpoint","insertComic", {"authorId":$scope.user_id, "description":"New comics description", "seriesId": $scope.series_id}).then(
+				GApi.execute("comicendpoint","insertComic", {"authorId":$scope.user_id, "title": "Untitled", "description":"Add a description", "seriesId": $scope.series_id}).then(
 					function(resp){
 						//add the new comic
 						GApi.execute("seriesendpoint", "addseriescomic", {"seriesId" : $scope.series_id,"comicId" : resp.id}).then(
