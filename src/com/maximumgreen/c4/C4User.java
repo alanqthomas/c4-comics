@@ -47,6 +47,7 @@ public class C4User {
 	private List<Long> favoriteSeries;
 	
 	//List of users favorite COMICS ids.  User does not get update notifications
+	@Persistent
 	private List<Long> favoriteComics;
 	
 	//List of users favorite AUTHORS.  User does NOT get update notifications
