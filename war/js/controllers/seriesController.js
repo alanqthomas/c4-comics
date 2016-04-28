@@ -41,6 +41,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//THIS MUST BE AN OBJECT. according to angular api, best practice with 
 		//ng-model is using "."
 		$scope.comment_obj = {comment: ""};
+		$scope.faved = false;
 		//END init
 		//EDIT SERIES FUNCTIONS
 		$scope.saveSettings= function(){
@@ -225,6 +226,76 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		};
 		//END SUBSCRIBING FUNCTIONS 
 		
+		//FAVORITE FUNCTION 
+		//check if user is logged in and followed
+		$scope.update_favorite = function() {GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.profile_id== $scope.user_id){
+						//console.log("Comic Author ID: " + $scope.series.authorId);
+						//console.log("User ID: " + $scope.user_id);
+						$scope.is_owner = true;
+					}
+					else {
+						$scope.is_owner = false;
+					}
+					//update user
+					GApi.execute("c4userendpoint", "getC4User", {"id":$scope.user_id}).then(
+						function(resp){
+							$scope.user = resp;
+							if($scope.user.favoriteSeries == null){
+								$scope.faved = false;
+							}
+							else {
+								if($scope.user.favoriteSeries.indexOf($scope.series_id.toString()) >= 0){
+									$scope.faved = true;
+								}
+								else{
+									$scope.faved = false;
+								} 
+							}
+						},
+						function(resp){	
+						}
+					);
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+				}
+			);
+			//$scope.is_owner = false;
+		};
+		$scope.fav = function(){
+			GApi.execute("c4userendpoint", "addfavorite", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
+				function(resp){
+					$scope.update_favorite();
+					//$scope.subbed = true;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		$scope.unfav = function(){
+			GApi.execute("c4userendpoint", "deletefavorite", {"userId": $scope.user_id, "seriesId": $scope.series_id}).then(
+				function(resp){
+					$scope.update_favorite();
+					//$scope.subbed = false;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		//END FAVORITE FUNCTION 
+		
+		
+		
+		
+		
+		
 		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
@@ -265,6 +336,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 				//query for comments 
 				$scope.update_comments();
+				$scope.update_favorite();
 				//user as in the one who is currently browsing this page
 				$scope.user_id = 0;
 				

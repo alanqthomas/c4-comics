@@ -12,8 +12,24 @@
 				Unsubscribe
 			</button>
 		</div>
+	
 	</div>
+	
 	<div class="container">
+		<p> profile id: {{profile_id}} <br>
+		    user id: {{user_id}}
+			is owner: {{is_owner}}
+		</p>
+		<p>faved?  {{faved}}</p>
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
+				Favorite
+			</button>
+			<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
+				Unfavorite
+			</button>
+		</div>
+	
 		<div class='row' ng-if="is_owner">
 			<p>THIS IS FOR EDITING TITLE</p>
 			<i class="material-icons" ng-click="toggle('editTitle')">edit</i>

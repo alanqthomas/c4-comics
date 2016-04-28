@@ -29,11 +29,12 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	$scope.comments = [];
 	$scope.comment_ids = [];
 	$scope.show_comment = true;
+	$scope.is_owner = false;
 	//THIS MUST BE AN OBJECT. according to angular api, best practice with 
 	//ng-model is using "."
 	$scope.comment_obj = {comment: ""};
 	$scope.logged_in = false;
-	
+	$scope.faved = false;
 	//check auth
 	GAuth.checkAuth().then(
 		function(){
@@ -44,7 +45,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			
 		}
 	);
-	
 	
 	//COMMENT FUNCTIONS 
 	$scope.add_comment = function(){
@@ -108,7 +108,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			
 		}
 	};
-	
 	$scope.toggleComments = function(comic){
 		//open a thing with whatever comments.
 		$scope.show_comment = !$scope.show_comment;
@@ -117,8 +116,75 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	$scope.closeComments = function(){
 		$scope.show_comment = false;
 	}
-	
 	//END COMMENT FUNCTIONS
+	
+	//FAVORITE FUNCTIONS 
+	//check if user is logged in and followed
+	$scope.update_favorite = function() {GAuth.checkAuth().then(
+			function(){
+				$scope.logged_in = true;
+				$scope.user_id = GData.getUser().id;
+				console.log("userid: " +$scope.user_id + " authorid: " + $scope.author_id);
+				if($scope.author_id == $scope.user_id){
+					//console.log("Comic Author ID: " + $scope.series.authorId);
+					//console.log("User ID: " + $scope.user_id);
+					$scope.is_owner = true;
+				}
+				else {
+					$scope.is_owner = false;
+				}
+				//update user
+				GApi.execute("c4userendpoint", "getC4User", {"id":$scope.user_id}).then(
+					function(resp){
+						$scope.user = resp;
+						if($scope.user.favoriteComics == null){
+							$scope.faved = false;
+						}
+						else {
+							if($scope.user.favoriteComics.indexOf($scope.comic_id.toString()) >= 0){
+								$scope.faved = true;
+							}
+							else{
+								$scope.faved = false;
+							} 
+						}
+					},
+					function(resp){	
+					}
+				);
+			},
+			function(){
+				$scope.logged_in = false;
+				$scope.user_id = null;
+			}
+		);
+		//$scope.is_owner = false;
+	};
+	$scope.fav = function(){
+		GApi.execute("c4userendpoint", "addfavorite", {"userId": $scope.user_id, "comicId": $scope.comic_id}).then(
+			function(resp){
+				$scope.update_favorite();
+				//$scope.subbed = true;
+			},
+			function(resp){
+				
+			}
+		);
+	};
+	$scope.unfav = function(){
+		GApi.execute("c4userendpoint", "deletefavorite", {"userId": $scope.user_id, "comicId": $scope.comic_id}).then(
+			function(resp){
+				$scope.update_favorite();
+				//$scope.subbed = false;
+			},
+			function(resp){
+				
+			}
+		);
+	};
+	//END FAVORITE FUNCTIONS 
+	
+	
 	
 	
 	$scope.getComic = function(){
@@ -128,7 +194,9 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				var rating = 0;
 				var ratingsSum =0;
 				$scope.comment_ids = resp.comments;
+				$scope.author_id = resp.authorId;
 				$scope.update_comments();
+				$scope.update_favorite();
 				/*
 				for(var i = 0; i < resp.ratings.length; i++){
 					ratingsSum += resp.ratings[i];

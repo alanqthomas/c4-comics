@@ -539,13 +539,13 @@ public class C4UserEndpoint {
 			}
 			
 			if (seriesId != null){
-				if (user.getFavoriteSeries() == null){
+				if (user.getFavoriteSeries() != null){
 					user.deleteFavoriteSeries(seriesId);
 				}
 			}
 			
 			if (comicId != null){
-				if (user.getFavoriteComics() == null){
+				if (user.getFavoriteComics() != null){
 					user.deleteFavoriteComic(comicId);
 				}
 			}

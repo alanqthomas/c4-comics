@@ -33,6 +33,7 @@
 		//initalize and query for profileEndpoints
 		$scope.profile_id = $stateParams.id;
 		$scope.followed = false;
+		$scope.faved = false;
 		
 		//EDIT PROFILE FUNCTIONS 
 		$scope.saveSettings= function(){
@@ -152,12 +153,14 @@
 		
 		$scope.subscriptions = [];
 		$scope.subscriptions_reserve = [];
+		
 		//INIT QUERY FOR PROFILE 
 		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 				function(resp){	
 					$scope.profile = resp;
 					$scope.query_for_series();
 					$scope.update_follow();
+					$scope.update_favorite();
 				}, function(resp){
 				}
 			);
@@ -231,6 +234,72 @@
 			);
 		};
 		//END FOLLOWING FUNCTIONS 
+		
+		//FAVORITE FUNCTION 
+		//check if user is logged in and followed
+		$scope.update_favorite = function() {GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.profile_id== $scope.user_id){
+						//console.log("Comic Author ID: " + $scope.series.authorId);
+						//console.log("User ID: " + $scope.user_id);
+						$scope.is_owner = true;
+					}
+					else {
+						$scope.is_owner = false;
+					}
+					//update user
+					GApi.execute("c4userendpoint", "getC4User", {"id":$scope.user_id}).then(
+						function(resp){
+							$scope.user = resp;
+							if($scope.user.favoriteAuthors == null){
+								$scope.faved = false;
+							}
+							else {
+								if($scope.user.favoriteAuthors.indexOf($scope.profile_id.toString()) >= 0){
+									$scope.faved = true;
+								}
+								else{
+									$scope.faved = false;
+								} 
+							}
+						},
+						function(resp){	
+						}
+					);
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+				}
+			);
+			//$scope.is_owner = false;
+		};
+		$scope.fav = function(){
+			GApi.execute("c4userendpoint", "addfavorite", {"userId": $scope.user_id, "authorId": $scope.profile_id}).then(
+				function(resp){
+					$scope.update_favorite();
+					//$scope.subbed = true;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		$scope.unfav = function(){
+			GApi.execute("c4userendpoint", "deletefavorite", {"userId": $scope.user_id, "authorId": $scope.profile_id}).then(
+				function(resp){
+					$scope.update_favorite();
+					//$scope.subbed = false;
+				},
+				function(resp){
+					
+				}
+			);
+		};
+		//END FAVORITE FUNCTION 
+		
 		
 		
 		//Querying for series 

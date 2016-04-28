@@ -24,13 +24,6 @@
 		</div>
 	</div>
 	<div class='container'>
-	
-		<p> is owner? {{is_owner}} <br>
-			is following? {{followed}} <br>
-			profile id? {{profile_id}} <br>
-			user id? {{user_id}}
-		</p>
-		
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!followed" class="btn btn-sm btn-primary" ng-click="follow()">
 				Follow
@@ -40,7 +33,17 @@
 				Unfollow
 			</button>
 		</div>
-	
+		
+		
+		<p>faved?  {{faved}}</p>
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
+				Favorite
+			</button>
+			<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
+				Unfavorite
+			</button>
+		</div>
 	
 	
 		<div class='row'>
