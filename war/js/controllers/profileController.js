@@ -19,6 +19,7 @@
 				$scope.subscriptions.push($scope.subscriptions_reserve.shift());
 			}
 		}
+		
 		//init display settings
 		$scope.editName = false;
 		$scope.editBio = false;
