@@ -91,7 +91,7 @@
 					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
 						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
 						<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-						<div ng-if="(is_owner)" class="profTabRTC">
+						<div ng-if="is_owner" class="profTabRTC">
 							<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
 								delete_forever
 							</i>
