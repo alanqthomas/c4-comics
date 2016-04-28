@@ -474,7 +474,8 @@ public class C4UserEndpoint {
 					List<String> list = new ArrayList<String>();
 					user.setFavoriteAuthors(list);
 				}
-				user.addFavoriteAuthor(authorId);
+				if (!user.getFavoriteAuthors().contains(authorId))
+					user.addFavoriteAuthor(authorId);
 			}
 			
 			if (seriesId != null){
@@ -482,7 +483,8 @@ public class C4UserEndpoint {
 					List<Long> list = new ArrayList<Long>();
 					user.setFavoriteSeries(list);
 				}
-				user.addFavoriteSeries(seriesId);
+				if (!user.getFavoriteSeries().contains(seriesId))
+					user.addFavoriteSeries(seriesId);
 			}
 			
 			if (comicId != null){
@@ -490,7 +492,8 @@ public class C4UserEndpoint {
 					List<Long> list = new ArrayList<Long>();
 					user.setFavoriteComics(list);
 				}
-				user.addFavoriteComic(comicId);
+				if (!user.getFavoriteComics().contains(comicId))
+					user.addFavoriteComic(comicId);
 			}
 			
 			mgr.makePersistent(user);

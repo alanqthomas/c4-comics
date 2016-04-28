@@ -14,7 +14,12 @@
 		</div>
 	</div>
 	<h4>Tags</h4>
-	<span ng-repeat="tag in comic.tags">{{tag.text}}</span>
+	<span ng-repeat="tag in comic.tags">
+		{{tag.text}}
+		<span class="tagClose">
+			<i class="material-icons" ng-click="removeTag(tag)">close</i>
+		</span>
+	</span>
 	<form ng-submit="addTag()">
 		Enter a tag to add: <input type="text" ng-model="newTag">
 	</form>

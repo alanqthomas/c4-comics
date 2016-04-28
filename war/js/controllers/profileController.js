@@ -157,7 +157,9 @@
 		//INIT QUERY FOR PROFILE 
 		$scope.getProfile = function() {GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 				function(resp){	
-					$scope.profile = resp;
+					$scope.profile.id = resp.userId;
+					$scope.profile.username = resp.username;
+					$scope.profile.biography = resp.biography;
 					$scope.query_for_series();
 					$scope.update_follow();
 					$scope.update_favorite();
@@ -450,7 +452,7 @@
 			}else if(tabSlug=='sub'){
 				deleteSub(obj);
 			}else if(tabSlug=='series'){
- 				deleteSereis(obj);
+ 				deleteSeries(obj);
  			} else {
  				console.log("Attempted delete from unsupported tab. Add tab to deleteThing().");
  			}

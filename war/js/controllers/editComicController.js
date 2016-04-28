@@ -26,6 +26,23 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			$scope.go_to_series = function(seriesId){
 				$state.go('sereis',{"id": seriesId});
 			}
+			$scope.removeTag = function(tagObj){
+				var tagParam = {
+					"tagId" : tagObj.id,
+					"comicId" : id
+				};
+				GApi.execute("comicendpoint", "deleteComicTag", tagParam).then(
+					function(resp){
+						//console.log(resp);
+						console.log("Tag removed: "+resp.id +" "+ resp.name+".")
+						$scope.comic.tags.splice($scope.comic.tags.indexOf(tagObj), 1);
+					},
+					function(resp){
+						console.log("Error removing tag" + tagObj.name);
+						console.log(resp);
+					}
+				);
+			}
 			$scope.addTag = function(){
 				var tagParam = {
 					"tag" : $scope.newTag,
@@ -33,6 +50,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				};
 				GApi.execute("comicendpoint", "addComicTag", tagParam).then(
 					function(resp){
+						//console.log(resp);
+						console.log("Tag added: "+resp.id +" "+ resp.name+".")
 						$scope.comic.tags.push({
 							'id' : resp.id,
 							'text' : resp.name
@@ -40,18 +59,23 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 						$scope.newTag = "";
 					},
 					function(resp){
-						console.log("Error adding tag" + newTag);
+						console.log("Error adding tag" +  $scope.newTag);
 						console.log(resp);
 					}
 				);
 				
 			}
 			//main
-			$scope.comic_id = $stateParams.id;
-			if($scope.comic_id != null){
-				GApi.execute("comicendpoint", "getComic", {"id" : $scope.comic_id}).then(
+			if($stateParams.id != null){
+				id = $stateParams.id;
+			} else {
+				$state.go('error');
+			}
+			if(id != null){
+				GApi.execute("comicendpoint", "getComic", {"id" : id}).then(
 				function(resp){
 					$scope.comic = {
+						"id" : resp.id,
 						"title" : resp.title,
 						"tags" : [],
 						"pages" : []
@@ -84,7 +108,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				},function(resp){
 					console.log("Error retrieving comic.");
 					console.log(resp);
-
+					$state.go('error');
 				}
 		);
 	}
