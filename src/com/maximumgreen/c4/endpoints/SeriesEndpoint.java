@@ -354,7 +354,7 @@ public class SeriesEndpoint {
 		return formatter.format(date);
 	}
 	
-	private void index(Series series) throws NotFoundException{
+	public static void index(Series series) throws NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		C4User user;
 		
@@ -375,6 +375,17 @@ public class SeriesEndpoint {
 				.addField(Field.newBuilder().setName("description").setText(series.getDescription()))
 				.build();
 		IndexService.indexDocument(IndexService.SERIES, doc);
+		
+		mgr = getPersistenceManager();
+		for(Long id : series.getComics()){
+			Comic comic = mgr.getObjectById(Comic.class, id);
+			try {
+				ComicEndpoint.index(comic);
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+			}			
+		}
+		mgr.close();
 	}
 	
 	private void notifySubscribers(C4User user, Series series, Comic comic){

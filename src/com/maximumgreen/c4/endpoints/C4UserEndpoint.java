@@ -581,7 +581,7 @@ public class C4UserEndpoint {
 		return PMF.get().getPersistenceManager();
 	}
 	
-	private void index(C4User c4user){				
+	public static void index(C4User c4user){				
 		Document doc = Document.newBuilder()
 				.setId(c4user.getUserID())
 				.addField(Field.newBuilder().setName("id").setText(c4user.getUserID()))
@@ -589,6 +589,17 @@ public class C4UserEndpoint {
 				.addField(Field.newBuilder().setName("email").setText(c4user.getEmail()))
 				.build();
 		IndexService.indexDocument(IndexService.USER, doc);
+		
+		PersistenceManager mgr = getPersistenceManager();
+		for(Long id : c4user.getUserSeries()){
+			Series series = mgr.getObjectById(Series.class, id);
+			try {
+				SeriesEndpoint.index(series);
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+			}			
+		}
+		mgr.close();
 	}
 	
 	private void updateComments(C4User user){
