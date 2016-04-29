@@ -426,7 +426,7 @@ public class ComicEndpoint {
 		return formatter.format(date);
 	}
 	
-	private void index(Comic comic) throws NotFoundException{		
+	public static void index(Comic comic) throws NotFoundException{		
 		PersistenceManager mgr = getPersistenceManager();
 		C4User user;	
 		Series series = null;
