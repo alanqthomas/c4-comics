@@ -1,9 +1,10 @@
 package com.maximumgreen.c4.endpoints;
 
+import com.maximumgreen.c4.Comment;
+import com.maximumgreen.c4.Notification;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Series;
-
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -12,7 +13,6 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.maximumgreen.c4.endpoints.IndexService;
@@ -153,8 +153,11 @@ public class C4UserEndpoint {
 			//get the user from the datastore
 			updatedUser = getC4User(c4user.getUserID());
 			//check every c4user field and see if it's trying to be updated
-			if (c4user.getUsername() != null)
+			//if username is updated, update the user's comments
+			if (c4user.getUsername() != null){
 				updatedUser.setUsername(c4user.getUsername());
+				updateComments(updatedUser);
+			}
 			if (c4user.getBiography() != null)
 				updatedUser.setBiography(c4user.getBiography());
 			if (c4user.isAdministrator() != updatedUser.isAdministrator())
@@ -205,9 +208,11 @@ public class C4UserEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		C4User user;
+		Series series;
 		
 		try {
 			user = mgr.getObjectById(C4User.class, userId);
+			series = mgr.getObjectById(Series.class, seriesId);
 			
 			if (user.getUserSeries() == null){
 				List<Long> list = new ArrayList<Long>();
@@ -215,6 +220,7 @@ public class C4UserEndpoint {
 			}
 			
 			user.addUserSeries(seriesId);
+			notifyFollowers(user, series);
 			
 			mgr.makePersistent(user);
 			
@@ -412,6 +418,30 @@ public class C4UserEndpoint {
 		return user;
 	}
 	
+	@ApiMethod(name="deleteNotification")
+	public C4User deleteNotification(@Named("userId") String userId, @Named("notificationId") Long notificationId)
+			throws BadRequestException, NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		
+		try {
+			user = getC4User(userId);
+			
+			if (user.getNotifications() != null){
+				user.deleteNotification(notificationId);
+			}
+			
+			mgr.makePersistent(user);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User Id invalid");
+		} finally {
+			mgr.close();
+		}
+		
+		return user;
+	}
 	/**
 	 * This method add a favorite to a users favorites depending on the paramaters
 	 * @param userId id of user to add favorites to
@@ -444,7 +474,8 @@ public class C4UserEndpoint {
 					List<String> list = new ArrayList<String>();
 					user.setFavoriteAuthors(list);
 				}
-				user.addFavoriteAuthor(authorId);
+				if (!user.getFavoriteAuthors().contains(authorId))
+					user.addFavoriteAuthor(authorId);
 			}
 			
 			if (seriesId != null){
@@ -452,7 +483,8 @@ public class C4UserEndpoint {
 					List<Long> list = new ArrayList<Long>();
 					user.setFavoriteSeries(list);
 				}
-				user.addFavoriteSeries(seriesId);
+				if (!user.getFavoriteSeries().contains(seriesId))
+					user.addFavoriteSeries(seriesId);
 			}
 			
 			if (comicId != null){
@@ -460,7 +492,8 @@ public class C4UserEndpoint {
 					List<Long> list = new ArrayList<Long>();
 					user.setFavoriteComics(list);
 				}
-				user.addFavoriteComic(comicId);
+				if (!user.getFavoriteComics().contains(comicId))
+					user.addFavoriteComic(comicId);
 			}
 			
 			mgr.makePersistent(user);
@@ -509,13 +542,13 @@ public class C4UserEndpoint {
 			}
 			
 			if (seriesId != null){
-				if (user.getFavoriteSeries() == null){
+				if (user.getFavoriteSeries() != null){
 					user.deleteFavoriteSeries(seriesId);
 				}
 			}
 			
 			if (comicId != null){
-				if (user.getFavoriteComics() == null){
+				if (user.getFavoriteComics() != null){
 					user.deleteFavoriteComic(comicId);
 				}
 			}
@@ -557,5 +590,50 @@ public class C4UserEndpoint {
 				.build();
 		IndexService.indexDocument(IndexService.USER, doc);
 	}
+	
+	private void updateComments(C4User user){
+		if (user.getComments() != null) {
+			PersistenceManager mgr = getPersistenceManager();
+			for (Long c : user.getComments()){
+				Comment comment =  mgr.getObjectById(Comment.class, c);
+				comment.setUsername(user.getUsername());
+				mgr.makePersistent(comment);
+			}
+			mgr.close();
+		}
+	}
+	
+	private void notifyFollowers(C4User user, Series series){
+		//check if the user has followers first
+		if (user.getFollowers() != null){
+			PersistenceManager mgr = getPersistenceManager();
+			Notification notification;
+			//first check to see if this notification exists already
+			try {
+				notification = mgr.getObjectById(Notification.class, series.getId());
+			} catch (javax.jdo.JDOObjectNotFoundException ex) {
+				notification = new Notification();
+				String message = user.getUsername() + " has added a new series titled " + series.getTitle();
+				notification.setId(series.getId());
+				notification.setType("series");
+				notification.setMessage(message);
+				mgr.makePersistent(notification);
+			}
+			//notify the followers and save
+			for (String followerId : user.getFollowers()){
+				C4User follower = mgr.getObjectById(C4User.class, followerId);
+				if (follower.getNotifications() == null){
+					List<Long> list = new ArrayList<Long>();
+					follower.setNotifications(list);
+				}
+				if (!follower.getNotifications().contains(notification.getId())){
+					follower.addNotification(notification.getId());
+					mgr.makePersistent(follower);
+				}
+			}
+			
+			mgr.close();
+		}
 
+	}
 }

@@ -12,7 +12,10 @@ tmp/
 *~.nib
 local.properties
 .loadpath
-
+.classpath
+.settings/com.google.appengine.eclipse.core.prefs
+war/WEB-INF/classes
+*.prefs
 
 # Folder config file
 Desktop.ini

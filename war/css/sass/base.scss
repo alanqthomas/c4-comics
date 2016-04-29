@@ -1,8 +1,10 @@
-@import 'style';
 @import 'helpers';
-@import 'navbar';
+@import 'browse';
+@import 'comic';
 @import 'editComic';
-@import 'series';
+@import 'home';
+@import 'navbar';
 @import 'profile';
 @import 'search';
-//@import 'home';
+@import 'series';
+@import 'myComics';

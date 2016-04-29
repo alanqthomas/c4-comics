@@ -15,7 +15,7 @@ public class BrowseSearch {
 	private Long id;
 	
 	@Persistent
-	private List<Long> searchIds;
+	private List<Long> tags;
 	
 	@Persistent	
 	private int numResults;
@@ -37,12 +37,12 @@ public class BrowseSearch {
 		this.id = id;
 	}
 
-	public List<Long> getSearchIds() {
-		return searchIds;
+	public List<Long> getTags() {
+		return tags;
 	}
 
-	public void setSearchIds(List<Long> searchIds) {
-		this.searchIds = searchIds;
+	public void setTags(List<Long> tags) {
+		this.tags = tags;
 	}
 
 	public int getNumResults() {

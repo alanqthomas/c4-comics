@@ -2,9 +2,11 @@ package com.maximumgreen.c4.endpoints;
 
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Comic;
+import com.maximumgreen.c4.Comment;
 import com.maximumgreen.c4.PMF;
 import com.maximumgreen.c4.Page;
 import com.maximumgreen.c4.Series;
+import com.maximumgreen.c4.Tag;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -13,7 +15,6 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.maximumgreen.c4.endpoints.IndexService;
@@ -121,8 +122,12 @@ public class ComicEndpoint {
 	 */
 	@ApiMethod(name = "insertComic")
 	public Comic insertComic(Comic comic) throws BadRequestException, NotFoundException {
-		if (comic.getTitle() == null || comic.getSeriesId() == null || comic.getAuthorId() == null) {
-			throw new BadRequestException("Title or seriesId field missing");
+		
+		if(comic.getTitle() == null){
+			comic.setTitle("New Comics");
+		}
+		if (comic.getSeriesId() == null || comic.getAuthorId() == null) {
+			throw new BadRequestException("seriesId field missing");
 		}
 		PersistenceManager mgr = getPersistenceManager();
 		try {
@@ -257,10 +262,13 @@ public class ComicEndpoint {
 		return comic;
 	}
 	
-	@ApiMethod(name="addcomictag")
-	public Comic addComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
+	@ApiMethod(name="addComicTag")
+	public Tag addComicTag(@Named("tag") String tagName, @Named("comicId") Long comicId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
+		
+		String capTag = capitalizeTag(tagName);
+		Tag tag = buildTag(capTag);
 		
 		Comic comic;
 		
@@ -271,10 +279,19 @@ public class ComicEndpoint {
 				List<Long> list = new ArrayList<Long>();
 				comic.setPages(list);
 			}
+			if (tag.getComicsWithTag() == null){
+				List<Long> list = new ArrayList<Long>();
+				tag.setComicsWithTag(list);
+			}
 			
-			comic.addComicTag(tagId);
+			if (!comic.getTags().contains(tag.getId())){
+				comic.addComicTag(tag.getId());
+				tag.addTaggedComic(comicId);
+			}
 			
 			mgr.makePersistent(comic);
+			mgr.makePersistent(tag);
+			
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
@@ -283,21 +300,27 @@ public class ComicEndpoint {
 			mgr.close();
 		}
 		
-		return comic;
+		return tag;
 	}
 	
-	@ApiMethod(name="deletecomictag")
-	public Comic deleteComicTag(@Named("comicId") Long comicId, @Named("pageId") Long tagId)
+	@ApiMethod(name="deleteComicTag")
+	public Comic deleteComicTag(@Named("comicId") Long comicId, @Named("tagId") Long tagId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Comic comic;
+		Tag tag;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
+			tag = mgr.getObjectById(Tag.class, tagId);
+			
 			comic.deleteComicTag(tagId);
+			tag.deleteTaggedComic(comicId);
 			
 			mgr.makePersistent(comic);
+			mgr.makePersistent(tag);
+			
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
@@ -309,27 +332,36 @@ public class ComicEndpoint {
 		return comic;
 	}
 	
-	@ApiMethod(name="addcomiccomment")
-	public Comic addComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+	@ApiMethod(name="addComicComment")
+	public Comic addComicComment(@Named("userId") String userId, @Named("comicId") Long comicId, @Named("comment") String comment)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
 		Comic comic;
-		
+		Comment newComment = buildComment(userId, comment);
+				
 		try {
+			user = mgr.getObjectById(C4User.class, userId);
 			comic = mgr.getObjectById(Comic.class, comicId);
 			
 			if (comic.getComments() == null){
 				List<Long> list = new ArrayList<Long>();
 				comic.setComments(list);
 			}
+			if (user.getComments() == null){
+				List<Long> list = new ArrayList<Long>();
+				user.setComments(list);
+			}
 			
-			comic.addComicComment(commentId);
+			comic.addComicComment(newComment.getId());
+			user.addUserComment(newComment.getId());
 			
 			mgr.makePersistent(comic);
+			mgr.makePersistent(user);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
-			throw new NotFoundException("Comic Id invalid.");
+			throw new NotFoundException("Comic Id or User Id invalid.");
 		} finally {
 			mgr.close();
 		}
@@ -337,21 +369,29 @@ public class ComicEndpoint {
 		return comic;
 	}
 	
-	@ApiMethod(name="deletecomiccomment")
-	public Comic deleteComicComment(@Named("comicId") Long comicId, @Named("commentId") Long commentId)
+	@ApiMethod(name="deleteComicComment")
+	public Comic deleteComicComment(@Named("userId") String userId, @Named("comicId") Long comicId, @Named("commentId") Long commentId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
 		Comic comic;
+		Comment comment;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
 			comic.deleteComicComment(commentId);
-			
 			mgr.makePersistent(comic);
 			
+			user = mgr.getObjectById(C4User.class, userId);
+			user.deleteUserComment(commentId);
+			mgr.makePersistent(user);
+			
+			comment = mgr.getObjectById(Comment.class, commentId);
+			mgr.deletePersistent(comment);
+			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
-			throw new NotFoundException("Comic Id invalid.");
+			throw new NotFoundException("Comic Id or User Id invalid.");
 		} finally {
 			mgr.close();
 		}
@@ -381,6 +421,11 @@ public class ComicEndpoint {
 		return formatter.format(date);
 	}
 	
+	private String formatCommentDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
+		return formatter.format(date);
+	}
+	
 	private void index(Comic comic) throws NotFoundException{		
 		PersistenceManager mgr = getPersistenceManager();
 		C4User user;	
@@ -406,5 +451,55 @@ public class ComicEndpoint {
 				.build();
 		IndexService.indexDocument(IndexService.COMIC, doc);
 	}
+	
+	private Comment buildComment(String userId, String comment) throws NotFoundException{
+		PersistenceManager mgr = getPersistenceManager();
 
+		try {
+			Comment newComment = new Comment();
+			String username = mgr.getObjectById(C4User.class, userId).getUsername();
+			newComment.setUserId(userId);
+			newComment.setUsername(username);
+			newComment.setComment(comment);
+			Date now = Calendar.getInstance().getTime();
+			newComment.setDate(now);
+			newComment.setDateString(formatCommentDate(now));
+			mgr.makePersistent(newComment);
+			return newComment;
+		} catch (javax.jdo.JDOObjectNotFoundException e) {
+			throw new NotFoundException("User ID doesn't exist");
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	private Tag buildTag(String tagName){
+		Tag returnTag;
+		PersistenceManager mgr = getPersistenceManager();
+		
+		Query q = mgr.newQuery(Tag.class);
+		q.setFilter("name == nameParam");
+		q.declareParameters("String nameParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Tag> tagResults = (List<Tag>) q.execute(tagName);
+		if (!tagResults.isEmpty()){
+			returnTag = tagResults.get(0);
+		}
+		else {
+			returnTag = new Tag();
+			returnTag.setName(tagName);
+			mgr.makePersistent(returnTag);
+		}
+		
+		mgr.close();
+		return returnTag;
+	}
+	
+	private String capitalizeTag(String tag) {
+	    if (tag == null || tag.length() == 0) {
+	        return tag;
+	    }
+	    return tag.substring(0, 1).toUpperCase() + tag.substring(1);
+	}
 }

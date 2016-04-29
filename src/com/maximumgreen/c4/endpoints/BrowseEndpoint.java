@@ -23,20 +23,20 @@ public class BrowseEndpoint {
 	public BrowseSearch getResults(BrowseSearch search) throws BadRequestException {
 		
 		if (search.getNumResults() == 0)
-			throw new BadRequestException("num results is 0");
+			throw new BadRequestException("Must specify a number for when to switch to comics");
 		
-		if (search.getSearchIds() == null)
-			throw new BadRequestException("search id list is null");
+		if (search.getTags() == null)
+			throw new BadRequestException("No tags have been specified");
 		
-		if (search.getSearchIds().get(0) == null)
-			throw new BadRequestException("get(0) is null");
+		if (search.getTags().get(0) == null)
+			throw new BadRequestException("Cannot browse with no tags added");
 		
 		PersistenceManager mgr = null;
 				
 		try {
 			mgr = getPersistenceManager();
 			//Use the first tag from the list to get all comics with that tag
-			Tag t = mgr.getObjectById(Tag.class, search.getSearchIds().get(0));
+			Tag t = mgr.getObjectById(Tag.class, search.getTags().get(0));
 			if (search.getResults() == null){
 				List<Long> list = new ArrayList<Long>();
 				search.setResults(list);
@@ -54,8 +54,8 @@ public class BrowseEndpoint {
 				//Get the comic
 				Comic c = mgr.getObjectById(Comic.class, id);
 				//Iterate over the remaining tags
-				for (Long id2 : search.getSearchIds()){
-					if (id2 == search.getSearchIds().get(0)) 
+				for (Long id2 : search.getTags()){
+					if (id2 == search.getTags().get(0)) 
 						continue;
 					//If the comic doesn't have one of the remaining tags, remove it from the results
 					if (!c.getTags().contains(id2))
@@ -76,7 +76,7 @@ public class BrowseEndpoint {
 				for (Long id : search.getResults()) {
 					Comic c = mgr.getObjectById(Comic.class, id);
 					for (Long tagId : c.getTags()){
-						if (!search.getSearchIds().contains(tagId) && !temp.contains(tagId)) {
+						if (!search.getTags().contains(tagId) && !temp.contains(tagId)) {
 							temp.add(tagId);
 						}
 					}

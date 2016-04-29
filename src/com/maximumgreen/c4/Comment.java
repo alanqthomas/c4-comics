@@ -11,9 +11,13 @@ public class Comment {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
     
+	//UserID of user
+	@Persistent
+	private String userId;
+	
 	//User that made the comment
     @Persistent
-    private String user;
+    private String username;
     
     //Comment text
     @Persistent
@@ -39,13 +43,21 @@ public class Comment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getUser() {
-		return user;
+	
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getComment() {

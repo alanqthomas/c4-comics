@@ -1,14 +1,11 @@
 <div ng-controller="comicCtrl">
 	<!--  -->
 	<a class='h3_hover' ng-click="goToSeries(seriesId)">{{seriesTitle}}</a>
-	<aside>
-	You are reading <br>
-	{{seriesTitle}}, by {{authorName}}.
-	</aside>
+	<!--<a class='h3_hover' ng-click="goToProfile(authorId)">{{authorName}}</a> -->
 	<div class = "comicTitleBar">
 		<h4>{{comic.title}}</h4>
 		<span class= "comicTitleBarFL">
-			{{comic.rating}}
+			<!--{{comic.rating}}-->
 		</span>
 	</div>
 	<div ng-repeat="p in pages">
@@ -18,11 +15,54 @@
 		<div class = "comicTitleBar">
 			<h4>{{c.title}}</h4>
 			<span class= "comicTitleBarFL">
-				{{c.rating}}
+				<!-- {{c.rating}} need to turn this into stars-->
 			</span>
+			<i class="material-icons" ng-click="toggleComments(c)">comment</i>
 		</div>
-		<div ng-repeat="p in c.pages">
+		<div ng-repeat="p in c.pages" class= "pageDiv">
 			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
+		</div>
+	</div>
+	<div ng-show="logged_in && !is_owner">
+		<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
+			Favorite
+		</button>
+		<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
+			Unfavorite
+		</button>
+	</div>
+	<div ng-if="show_comment">
+		<div class="detailBox">
+		    <div class="titleBox">
+		      <label>Comment Box</label>
+		        <button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
+		    </div>
+		    <div class="commentBox">
+		        <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		    </div>
+		    <div class="actionBox">
+		        <ul class="commentList">
+		            <li ng-repeat="comment in comments | orderBy:date">
+		            	<div class="commenterImage">	
+		            		<img ng-src="{{comment.profileImageURL}}">
+		            	</div>
+		            	<button ng-show='comment.user_id == user_id' type="button" class="close" aria-hidden="true" ng-click="delete_comment(comment.id)">&times;</button>
+		            	<p>{{comment.username}}</p>
+		            	<div class="commentText">
+		            		<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
+		            	</div>
+		            </li> 
+		        </ul>
+		        <form class="form-inline" role="form">
+		            <div class="form-group">
+		            	<p> {{your_comment}}</p>
+		                <input class="form-control" type="text" ng-model="comment_obj.comment" placeholder="Insert Your Witty Comment" />
+		            </div>
+		            <div class="form-group">
+		                <button class="btn btn-default" ng-click="add_comment()">Add</button>
+		            </div>
+		        </form>
+		    </div>
 		</div>
 	</div>
 </div>

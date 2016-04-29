@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-xs-2">
 					<img src={{profile.profileImageURL}} class='img-repsonsive' width=150px height=150px>
-					<span ng-if="isOwner">
+					<span ng-if="is_owner">
 						<i class="material-icons">settings_applications</i>
 					</span>
 				</div>
@@ -16,7 +16,7 @@
 							<input ng-show="editName" type="color"></input>
 						</form>
 					</form>
-					<span ng-if="isOwner">
+					<span ng-if="is_owner">
 						<i class="material-icons" ng-click="toggle('editName')">edit</i>
 					</span>
 				</div>
@@ -24,20 +24,39 @@
 		</div>
 	</div>
 	<div class='container'>
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!followed" class="btn btn-sm btn-primary" ng-click="follow()">
+				Follow
+			</button>
+
+			<button ng-if="followed" class="btn btn-sm btn-danger" ng-click="unfollow()">
+				Unfollow
+			</button>
+		</div>
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
+				Favorite
+			</button>
+			<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
+				Unfavorite
+			</button>
+		</div>
+	
+	
 		<div class='row'>
-			<div class='col-xs-12' ng-if="! isOwner" >
+			<div class='col-xs-12' ng-if="! is_owner" >
 				<h1>Bio</h1>
 			</div>
-			<div class='col-xs-10' ng-if="isOwner" >
+			<div class='col-xs-10' ng-if="is_owner" >
 				<h1>Bio</h1>
 			</div>
 			
-			<div class='col-xs-2' ng-if="isOwner" >
+			<div class='col-xs-2' ng-if="is_owner" >
 				<i class="material-icons">settings_applications</i>
 			</div>
 		</div>
 		<!-- need to dynamically load bio -->
-		<div class='row' ng-if="isOwner">
+		<div class='row' ng-if="is_owner">
 			<div class='col-xs-11'>
 				<p ng-hide="editBio" id="bio">{{profile.biography}}</p>
 			</div>
@@ -45,38 +64,52 @@
 			<div class='col-xs-12'>
 				<form class='form-inline'>
 					<form name='bio'>
-						<input class="form-control" ng-show="editBio" type="text" ng-model="profile.biography" size='50'></input>
+						<input class="form-control" ng-show="editBio" type="textarea" ng-model="profile.biography" size='50'></input>
 						<input ng-show="editBio" type="color" size='10'></input>
 					</form>
 				</form>
 			</div>
 			
-			<div class='col-xs-1' ng-if="isOwner">
+			<div class='col-xs-1' ng-if="is_owner">
 				<i class="material-icons" ng-click="toggle('editBio')">edit</i>
 				<!-- this needs to change the bio to an input. -->
 			</div>
-			
-			
-			
 		</div>
-		<div class='row' ng-if="! isOwner">
+		<div class='row' ng-if="! is_owner">
 			<div class='col-xs-12'>
 				<p>{{profile.biography}}</p>
 			</div>
 		</div>
+		<!--
+		<p>
+			series {{series}} <br>
+			series reserve{{series_reserve}} <br>
+			fav {{favorites}} <br>
+			fav reserve {{favorites_reserve}} <br>
+			sub {{subscriptions}} <br>
+			sub reserve {{subscriptions_reserve}} <br>
+			user series {{profile.userSeries}} <br>
+			fav series {{profile.favoriteSeries}} <br>
+			fav comics {{profile.favoriteComics}} <br>
+			fav author {{profile.favoriteAuthors}} <br>
+			tabs {{tabs}}<br>
+		</p>-->
+	
 	</div>
 	<div class='container'>
 		<uib-tabset>
 			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
 				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div ng-if="isOwner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
+					<div ng-if="is_owner && tab.slug=='series' "  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
 						<i class="material-icons" ng-click="newSeries()">note_add</i>
 					</div> 
 					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
 						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
 						<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-						<div ng-if="(isOwner)" class="profTabRTC">
-							<i class="material-icons" ng-click="deleteFav(x)">delete_forever</i>
+						<div ng-if="is_owner" class="profTabRTC">
+							<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
+								delete_forever
+							</i>
 						</div> 
 					</div>
 				</div>
