@@ -46,20 +46,32 @@
 		//end main
 
 		//display functions
+		function setCSS(){
+			//$("#cover").css("background-image" , $scope.profile.bgImageURL);
+			$(".cssHeader").css("color" , $scope.profile.cssHeadingColor);
+			$("#bio").css("color" , $scope.profile.cssBiographyColor);
+			$("#name").css("color" , $scope.profile.cssUsernameColor);
+			$("#profPage").css("color" , $scope.profile.cssBGColor);
+		}
 		$scope.saveSettings= function(){//saves user
 			$scope.newUser = {
-				userID: $scope.profile_id,
-				username: $scope.profile.username,
-				biography: $scope.profile.biography
+				userID : $scope.profile_id,
+				username :  $scope.profile.username,
+				biography : $scope.profile.biography,
+				cssBiographyColor : $scope.profile.cssBiographyColor,
+				cssHeadingColor : $scope.profile.cssHeadingColor,
+				cssUsernameColor : $scope.profile.cssUsernameColor,
+				cssBGolor : $scope.profile.cssBackgroundColor
 			};
 			GApi.execute("c4userendpoint", "updateC4User", $scope.newUser).then(
 				function(resp){
 					$scope.updateUser();
 				},
 				function(resp){
-					console.log()
+					console.log("Error saving settigs to db.")
 				}
 			);
+			setCSS();
 		}
 		$scope.toggle= function(toToggle){//toggle edit on an element
 			if(toToggle == "editName"){
@@ -331,7 +343,9 @@
 							load_m: $scope.series_loadMore
 						});
 					}
-					if($scope.profile.favoriteSeries.length > 0 || $scope.profile.favoriteAuthors.length > 0 ||  $scope.profile.favoriteComics.length > 0 ||$scope.is_owner){
+					if( ($scope.profile.favoriteSeries != null && $scope.profile.favoriteSeries.length > 0)
+					 || ($scope.profile.favoriteAuthors != null && $scope.profile.favoriteAuthors.length > 0)
+					 || ($scope.profile.favoriteComics != null && $scope.profile.favoriteComics.length > 0) ){
 						$scope.tabs.push({
 							slug: 'fav',
 							title: "Favorites",
@@ -366,10 +380,19 @@
 
 		//functions to create series 
 		function createSeries(authorId){
-			return {
+			return {//might need to not be strings?
 				authorId: authorId,
-				description: "Write a description here!"
-			}
+				title: "New Series",
+				description: "Write a description of your series here!",
+				cssTitleColor : "rgb(0,0,0)",
+				cssHeadingColor : "rgb(0,0,0)",
+				cssUsernameColor : "rgb(0,0,0)",
+				cssBGColor : "rgb(255,255,255)",
+				bgImageURL : "https://storage.googleapis.com/c4-comics.appspot.com/series-bg",
+				cssComicTitleColor : "rgb(0,0,0)",
+				cssComicTitleBGColor : "rgb(0,0,0)",
+				cssComicBGColor : "rgb(255,255,255)"
+			};
 		}
 		$scope.newSeries = function(){
 			if($scope.is_owner){
@@ -504,5 +527,3 @@
 		$scope.getProfile();
 	}]);
 })();
-
-

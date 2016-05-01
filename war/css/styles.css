@@ -1,3 +1,24 @@
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
+  user-select: none;
+  /* non-prefixed version, currently
+     not supported by any browser */ }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
+[ng-click], [data-ng-click], [x-ng-click], img, i {
+  cursor: pointer; }
+
 .tagsDisplayBrowse {
   text-align: center;
   align-items: center; }
@@ -126,6 +147,14 @@
     border-bottom: 0px;
     outline: none !important;
     box-shadow: none !important; }
+  .top-nav ::-webkit-input-placeholder {
+    color: white; }
+  .top-nav :-moz-placeholder {
+    color: white; }
+  .top-nav ::-moz-placeholder {
+    color: white; }
+  .top-nav :-ms-input-placeholder {
+    color: white; }
   .top-nav .nav-buttons {
     text-align: right;
     font-size: 20px; }
@@ -138,7 +167,7 @@
     background-color: rgba(255, 255, 255, 0.2);
     color: white; }
 
-.side-nav {
+#side-nav {
   margin-top: 65px;
   background-color: white;
   height: 100%;
@@ -150,12 +179,15 @@
   overflow-x: hidden;
   box-shadow: -1px 0px 4px #888888;
   transition: 0.5s; }
-  .side-nav a {
+  #side-nav a {
+    display: block;
+    white-space: nowrap;
     padding: 10px;
     text-decoration: none;
+    width: 100%;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.87); }
-  .side-nav a:hover {
+  #side-nav a:hover {
     background-color: #E0E0E0; }
 
 body {
@@ -193,67 +225,32 @@ body {
   opacity: 1; }
 
 .search-x {
+  float: left;
+  padding-left: 20px;
+  padding-right: 20px;
   font-size: 30px !important; }
 
 .cover {
-  background-image: url("https://storage.googleapis.com/c4-comics.appspot.com/series-bg");
   width: 650px;
   height: 300px;
   position: relative;
   margin: 0 auto;
   color: white; }
-  .cover h2 {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    color: white;
-    overflow: hidden; }
-  .cover button {
-    position: absolute;
-    bottom: 20px;
-    right: 10px; }
+
+#coverTitle {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  overflow: hidden; }
+
+#coverBtn {
+  position: absolute;
+  bottom: 20px;
+  right: 10px; }
 
 .content-wrapper {
   padding-left: 30px;
   padding-right: 30px; }
-
-nav ul {
-  margin: 10px;
-  padding: 0;
-  list-style: none; }
-nav li {
-  display: inline-block; }
-nav a {
-  display: block;
-  padding: 6px 12px;
-  text-decoration: none; }
-
-.testing {
-  background-color: green; }
-
-footer {
-  background-color: #d3d3d3;
-  color: #ffffff; }
-
-.noselect {
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  -khtml-user-select: none;
-  /* Konqueror */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE/Edge */
-  user-select: none;
-  /* non-prefixed version, currently
-     not supported by any browser */ }
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important; }
-
-[ng-click], [data-ng-click], [x-ng-click], img, i {
-  cursor: pointer; }
 
 /*# sourceMappingURL=styles.css.map */

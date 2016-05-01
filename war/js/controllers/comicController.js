@@ -41,11 +41,9 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			$scope.logged_in = true;
 			$scope.user_id = GData.getUser().id;
 		}, 
-		function(){
-			
-		}
+		function(){}
 	);
-	
+	//functions
 	//COMMENT FUNCTIONS 
 	$scope.add_comment = function(){
 		//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
@@ -55,7 +53,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				$scope.comment_obj.comment = "";
 			},
 			function(resp){
-				
+				console.log("Failed to add comment");
 			}
 		);
 	}
@@ -66,7 +64,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				$scope.getComic();
 			},
 			function(resp){
-				
+				console.log("Failed to delete comment");
 			}
 		);
 	}
@@ -97,15 +95,12 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 								
 							}
 						);
-						//$scope.comments.push(commentResp);
-						
 					},
 					function(resp){
 						//if query for comment fails
 					}
 				);
 			}
-			
 		}
 	};
 	$scope.toggleComments = function(comic){
@@ -115,9 +110,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	
 	$scope.closeComments = function(){
 		$scope.show_comment = false;
-	}
-	//END COMMENT FUNCTIONS
-	
+	}	
 	//FAVORITE FUNCTIONS 
 	//check if user is logged in and followed
 	$scope.update_favorite = function() {GAuth.checkAuth().then(
@@ -158,7 +151,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				$scope.user_id = null;
 			}
 		);
-		//$scope.is_owner = false;
 	};
 	$scope.fav = function(){
 		GApi.execute("c4userendpoint", "addfavorite", {"userId": $scope.user_id, "comicId": $scope.comic_id}).then(
@@ -182,11 +174,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	};
-	//END FAVORITE FUNCTIONS 
-	
-	
-	
-	
 	$scope.getComic = function(){
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(
 			function(resp){
@@ -197,18 +184,12 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				$scope.author_id = resp.authorId;
 				$scope.update_comments();
 				$scope.update_favorite();
-				/*
-				for(var i = 0; i < resp.ratings.length; i++){
-					ratingsSum += resp.ratings[i];
-				}
-				rating=ratingSum/resp.ratings.length;
-				*/
 				$scope.comics = [];
 				$scope.comics.push({
 					title : resp.title,
 					comments : resp.comments,
 					pages : []
-				//rating: rating
+					//rating: rating
 				});
 				if(resp.pages != null){
 					for(var i = 0; i < resp.pages.length; i++){
@@ -219,12 +200,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 						});
 					}
 				}
-				/*
-				for(var i = 0; i < resp.pages.length; i++){
-					//$scope.pages.push("" + BASE + "page-" + res.pages[i])
-					$scope.pages.push(imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]));
-				}
-				*/
 				//query for series title
 				if($scope.series == null){
 					$scope.seriesId = resp.seriesId;
@@ -244,11 +219,13 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			},
 			function(resp){
 				console.log("ERROR. Comic not found.", resp);
-				//$state.go('error');
+				$state.go('error');
 			}
 		);
 	};
+	//main
 	$scope.getComic(id);
+	//nav functions
 	$scope.goToSeries = function(id){
 		if(id == null){
 			$state.go("error");
