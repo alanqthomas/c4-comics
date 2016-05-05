@@ -171,10 +171,20 @@ public class SeriesEndpoint {
 				updatedSeries.setDateCreated(series.getDateCreated());
 			if (series.getRating() != 0 && (series.getRating() != updatedSeries.getRating()))
 				updatedSeries.setRating(series.getRating());
-			if (series.getCssBgColor() != null)
-				updatedSeries.setCssBgColor(series.getCssBgColor());
-			if (series.getCssFontColor() != null)
-				updatedSeries.setCssFontColor(series.getCssFontColor());
+			if (series.getCssTitleColor() != null)
+				updatedSeries.setCssTitleColor(series.getCssTitleColor());
+			if (series.getCssHeadingColor() != null)
+				updatedSeries.setCssHeadingColor(series.getCssHeadingColor());
+			if (series.getCssDescriptionColor() != null)
+				updatedSeries.setCssDescriptionColor(series.getCssDescriptionColor());
+			if (series.getCssBGColor() != null)
+				updatedSeries.setCssBGColor(series.getCssBGColor());
+			if (series.getComicTitleColor() != null)
+				updatedSeries.setComicTitleColor(series.getComicTitleColor());
+			if (series.getComicTitleBGColor() != null)
+				updatedSeries.setComicTitleBGColor(series.getComicTitleBGColor());
+			if (series.getCssComicBGColor() != null)
+				updatedSeries.setCssComicBGColor(series.getCssComicBGColor());
 			
 			mgr.makePersistent(updatedSeries);
 			index(updatedSeries);

@@ -80,10 +80,16 @@ public class C4User {
 	
 	//CUSTOM CSS FIELDS
 	@Persistent
-	private String cssBgColor;
+	private String cssBiographyColor;
 	
 	@Persistent
-	private String cssFontColor;
+	private String cssHeadingColor;
+	
+	@Persistent
+	private String cssUsernameColor;
+	
+	@Persistent
+	private String cssBackgroundColor;
 	
 	//Empty constructor
 	public C4User(){
@@ -299,22 +305,39 @@ public class C4User {
 		else
 			return null;
 	}
+
 	
 	//css getters/setters
-	public String getCssBgColor() {
-		return cssBgColor;
+	public String getCssBiographyColor() {
+		return cssBiographyColor;
 	}
 
-	public void setCssBgColor(String cssBgColor) {
-		this.cssBgColor = cssBgColor;
+	public void setCssBiographyColor(String cssBiographyColor) {
+		this.cssBiographyColor = cssBiographyColor;
 	}
 
-	public String getCssFontColor() {
-		return cssFontColor;
+	public String getCssHeadingColor() {
+		return cssHeadingColor;
 	}
 
-	public void setCssFontColor(String cssFontColor) {
-		this.cssFontColor = cssFontColor;
+	public void setCssHeadingColor(String cssHeadingColor) {
+		this.cssHeadingColor = cssHeadingColor;
+	}
+
+	public String getCssUsernameColor() {
+		return cssUsernameColor;
+	}
+
+	public void setCssUsernameColor(String cssUsernameColor) {
+		this.cssUsernameColor = cssUsernameColor;
+	}
+
+	public String getCssBackgroundColor() {
+		return cssBackgroundColor;
+	}
+
+	public void setCssBackgroundColor(String cssBackgroundColor) {
+		this.cssBackgroundColor = cssBackgroundColor;
 	}
 
 }

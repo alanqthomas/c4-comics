@@ -55,10 +55,25 @@ public class Series {
 	
 	//CUSTOM CSS FIELDS
 	@Persistent
-	private String cssBgColor;
+	private String cssTitleColor;
 	
 	@Persistent
-	private String cssFontColor;
+	private String cssHeadingColor;
+	
+	@Persistent
+	private String cssDescriptionColor;
+	
+	@Persistent
+	private String cssBGColor;
+	
+	@Persistent
+	private String ComicTitleColor;
+	
+	@Persistent
+	private String ComicTitleBGColor;
+	
+	@Persistent
+	private String cssComicBGColor;
 	
 	//empty constructor
 	public Series(){
@@ -170,29 +185,68 @@ public class Series {
 		return comments.remove(id);
 	}
 	
-	//css getters/setters
-	public String getCssBgColor() {
-		return cssBgColor;
-	}
-
-	public void setCssBgColor(String cssBgColor) {
-		this.cssBgColor = cssBgColor;
-	}
-
-	public String getCssFontColor() {
-		return cssFontColor;
-	}
-
-	public void setCssFontColor(String cssFontColor) {
-		this.cssFontColor = cssFontColor;
-	}
-
 	public String getDateString() {
 		return dateString;
 	}
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+	}
+
+	public String getCssTitleColor() {
+		return cssTitleColor;
+	}
+
+	public void setCssTitleColor(String cssTitleColor) {
+		this.cssTitleColor = cssTitleColor;
+	}
+
+	public String getCssHeadingColor() {
+		return cssHeadingColor;
+	}
+
+	public void setCssHeadingColor(String cssHeadingColor) {
+		this.cssHeadingColor = cssHeadingColor;
+	}
+
+	public String getCssDescriptionColor() {
+		return cssDescriptionColor;
+	}
+
+	public void setCssDescriptionColor(String cssDescriptionColor) {
+		this.cssDescriptionColor = cssDescriptionColor;
+	}
+
+	public String getCssBGColor() {
+		return cssBGColor;
+	}
+
+	public void setCssBGColor(String cssBGColor) {
+		this.cssBGColor = cssBGColor;
+	}
+
+	public String getComicTitleColor() {
+		return ComicTitleColor;
+	}
+
+	public void setComicTitleColor(String comicTitleColor) {
+		ComicTitleColor = comicTitleColor;
+	}
+
+	public String getComicTitleBGColor() {
+		return ComicTitleBGColor;
+	}
+
+	public void setComicTitleBGColor(String comicTitleBGColor) {
+		ComicTitleBGColor = comicTitleBGColor;
+	}
+
+	public String getCssComicBGColor() {
+		return cssComicBGColor;
+	}
+
+	public void setCssComicBGColor(String cssComicBGColor) {
+		this.cssComicBGColor = cssComicBGColor;
 	}
 	
 }

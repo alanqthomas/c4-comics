@@ -166,10 +166,14 @@ public class C4UserEndpoint {
 				updatedUser.setProfileImageURL(c4user.getProfileImageURL());
 			if (c4user.getRating() != 0 && (c4user.getRating() != updatedUser.getRating()))
 				updatedUser.setRating(c4user.getRating());
-			if (c4user.getCssBgColor() != null)
-				updatedUser.setCssBgColor(c4user.getCssBgColor());
-			if (c4user.getCssFontColor() != null)
-				updatedUser.setCssFontColor(c4user.getCssFontColor());
+			if (c4user.getCssBiographyColor() != null)
+				updatedUser.setCssBiographyColor(c4user.getCssBiographyColor());
+			if (c4user.getCssHeadingColor() != null)
+				updatedUser.setCssHeadingColor(c4user.getCssHeadingColor());
+			if (c4user.getCssUsernameColor() != null)
+				updatedUser.setCssUsernameColor(c4user.getCssUsernameColor());
+			if (c4user.getCssBackgroundColor() != null)
+				updatedUser.setCssBackgroundColor(c4user.getCssBackgroundColor());
 			
 			//save the updates
 			mgr.makePersistent(updatedUser);
