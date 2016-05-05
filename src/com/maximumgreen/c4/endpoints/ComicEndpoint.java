@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
@@ -206,6 +207,49 @@ public class ComicEndpoint {
 	}
 	
 	//CUSTOM METHODS
+	@ApiMethod(name = "updateViewCount")
+	public Comic updateViewCount(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		PersistenceManager mgr = getPersistenceManager();
+		Comic comic;
+		try {
+			//get the comic to update from the datastore
+			comic = getComic(id);		
+			comic.updateViewCount();
+			mgr.makePersistent(comic);
+			index(comic);
+		} catch (NotFoundException ex) {
+			throw ex;
+		} finally {
+			mgr.close();
+		}
+		return comic;
+	}
+	
+	@ApiMethod(name = "addRating")
+	public Comic addRating(@Named("userId") String userId, @Named("comicId") Long comicId, 
+			@Named("rating") int rating) throws BadRequestException, NotFoundException {
+		PersistenceManager mgr = getPersistenceManager();
+		Comic comic;
+		try {
+			comic = getComic(comicId);		
+			
+			if (comic.getRatings() == null) {
+				Map<String, Integer> map = new HashMap<String, Integer>();
+				comic.setRatings(map);
+			}
+			
+			comic.getRatings().put(userId, rating);
+			comic.updateRating();
+			mgr.makePersistent(comic);
+			index(comic);
+		} catch (NotFoundException ex) {
+			throw ex;
+		} finally {
+			mgr.close();
+		}
+		return comic;
+	}
+	
 	@ApiMethod(name="addcomicpage")
 	// @Named("pageId") Long pageId
 	public Page addComicPage(@Named("comicId") Long comicId)

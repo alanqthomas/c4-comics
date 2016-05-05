@@ -1,6 +1,7 @@
 package com.maximumgreen.c4;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,16 @@ public class Comic {
 	private List<Long> comments;
 	
 	//Map of User keys and Integer rating given to this comic by specific user
-	@Persistent
+	@Persistent(serialized = "true")
 	private Map<String, Integer> ratings;
+	
+	//Calculated rating
+	@Persistent
+	private double rating;
+	
+	//View count - should be incremented any time a user views the page
+	@Persistent
+	private int viewCount;
 	
 	//Empty constructor
 	public Comic(){
@@ -124,6 +133,22 @@ public class Comic {
 		this.ratings = ratings;
 	}
 	
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+	
+	public int getViewCount() {
+		return viewCount;
+	}
+	
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
+	
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -163,4 +188,27 @@ public class Comic {
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
 	}
+	
+	//method to add a rating to the ratings map
+	public void addRating(String userId, int rating) {
+		Integer bigIntRating = rating;
+		ratings.put(userId, bigIntRating);
+	}
+	
+	//method to iterate over values in ratings map and update rating with calculated average
+	public void updateRating() {
+		int count = 0;
+		int total = 0;
+		for (Integer r : this.ratings.values()) {
+			count++;
+			total += r;
+		}
+		this.rating = total/count;
+	}
+	
+	//simple method to increment viewCount
+	public void updateViewCount() {
+		viewCount += 1;
+	}
+	
 }

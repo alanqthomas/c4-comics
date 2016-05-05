@@ -37,7 +37,7 @@ public class Series {
 	@Persistent
 	private String dateString;
 	
-	//SERIES rating, to be calculated from their COMICS ratings
+	//SERIES rating - average of all comics within series
 	@Persistent
 	private double rating;
 	
