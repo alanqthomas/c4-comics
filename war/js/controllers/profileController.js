@@ -429,6 +429,7 @@
  				console.log("Attempted delete from unsupported tab. Add tab to deleteThing().");
  			}
 		}
+		
 		function deleteFav(object){
 			if($scope.is_owner){
 				var paramName = object.type+"Id";
@@ -460,11 +461,12 @@
 				var paramName = object.type+"Id";
 				var param = {
 					"userId":$scope.profile_id, 
-					paramName: object.id
+					"seriesId" : object.id
 				};
 				GApi.execute( "c4userendpoint","deletesubscription",param).then(
 						function(resp){	
-							$scope.profile.subscriptions.splice($scope.profile.subscriptions.indexOf(object), 1);
+							//$scope.profile.subscriptions.splice($scope.profile.subscriptions.indexOf(object), 1);
+							$scope.getProfile();
 						}, function(resp){
 							console.log("Failed to delete subscription.");
 							console.log(resp);
@@ -473,20 +475,23 @@
 			}
 		}
 		function deleteSeries(object){
+			console.log(object);
 			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
 					"userId":$scope.profile_id, 
-					paramName: object.id
+					"seriesId" : object.id
 				};
-				GApi.execute( "c4userendpoint","deleteseries",param).then(
+				GApi.execute("c4userendpoint", "deleteuserseries",param).then(
+				//GApi.execute("c4userendpoint", "deleteseries",param).then(
 						function(resp){	
-							$scope.profile.userSeries.splice($scope.profile.userSeries.indexOf(object), 1);
+							//$scope.profile.userSeries.splice($scope.profile.userSeries.indexOf(object), 1);
+							$scope.getProfile();
 						}, function(resp){
 							console.log("Failed to delete series.");
 							console.log(resp);
 						}
-					);
+				);
 			}
 		}
 		//navigation functions

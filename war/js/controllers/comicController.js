@@ -70,9 +70,9 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	}
 	//DONOT USE THIS TO UPDATE COMMENTS, use getComic() ...get/update the comments
 	$scope.update_comments = function(){
+		$scope.comments = [];
 		if($scope.comment_ids != null){	
 			//query for each comment
-			$scope.comments = [];
 			for(var i = 0; i < $scope.comment_ids.length; i ++){
 				GApi.execute("commentendpoint", "getComment", {"id":$scope.comment_ids[i]}).then(
 					function(commentResp){
@@ -117,7 +117,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			function(){
 				$scope.logged_in = true;
 				$scope.user_id = GData.getUser().id;
-				console.log("userid: " +$scope.user_id + " authorid: " + $scope.author_id);
+				//console.log("userid: " +$scope.user_id + " authorid: " + $scope.author_id);
 				if($scope.author_id == $scope.user_id){
 					//console.log("Comic Author ID: " + $scope.series.authorId);
 					//console.log("User ID: " + $scope.user_id);
@@ -175,6 +175,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		);
 	};
 	$scope.getComic = function(){
+		
+		
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(
 			function(resp){
 				//supporting displaying multiple comics.

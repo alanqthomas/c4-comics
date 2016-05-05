@@ -377,13 +377,15 @@ public class SeriesEndpoint {
 		IndexService.indexDocument(IndexService.SERIES, doc);
 		
 		mgr = getPersistenceManager();
-		for(Long id : series.getComics()){
-			Comic comic = mgr.getObjectById(Comic.class, id);
-			try {
-				ComicEndpoint.index(comic);
-			} catch (NotFoundException e) {
-				e.printStackTrace();
-			}			
+		if(series.getComics() != null){
+			for(Long id : series.getComics()){
+				Comic comic = mgr.getObjectById(Comic.class, id);
+				try {
+					ComicEndpoint.index(comic);
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+				}			
+			}
 		}
 		mgr.close();
 	}

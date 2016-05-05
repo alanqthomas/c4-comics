@@ -128,9 +128,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 				function(resp){
 					$scope.series = resp;
+					$scope.comments = [];
 					if($scope.series.comments != null){
 						//query for each comment
-						$scope.comments = [];
+						
 						for(var i = 0; i < $scope.series.comments.length; i ++){
 							GApi.execute("commentendpoint", "getComment", {"id":$scope.series.comments[i]}).then(
 								function(commentResp){
