@@ -25,11 +25,11 @@
 		</div>
 
 		<div class='row' ng-if="is_owner">
-			<i class="material-icons" ng-click="toggle('editTitle')">edit</i>
+			<i class="material-icons editIcon" ng-click="toggle('editTitle')">edit</i>
 			<form class='form-inline' ng-show='editTitle'>
 				<form ng-submit="toggle('editTitle')" name='name'>
 					<input class="form-control input-lg" type="text" ng-model="series.title"></input>
-					<input type="color"></input>
+					<input type="color" ng-model="series.cssTitleColor"></input>
 				</form>
 			</form>
 		</div>
@@ -38,11 +38,11 @@
 			<h4 class="cssHeader">Description</h4>
 			<p id ="cssDescription">{{series.description}}</p>
 			<div class='row' ng-if="is_owner">
-				<i class="material-icons" ng-click="toggle('editDescription')">edit</i>
+				<i class="material-icons editIcon" ng-click="toggle('editDescription')">edit</i>
 				<form class='form-inline' ng-show='editDescription'>
 					<form ng-submit="toggle('editDescription')" name='name'>
 						<input class="form-control input-lg" type="textarea" ng-model="series.description"></input>
-						<input type="color"></input>
+						<input type="color" ng-model="series.cssDescriptionColor"></input>
 					</form>
 				</form>
 			</div>
@@ -90,7 +90,7 @@
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
 
 				<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
-						<i class="material-icons" ng-click="newComic()">note_add</i>
+						<i class="material-icons editIcon" ng-click="newComic()">note_add</i>
 				</div>
 				<div ng-if="!is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
 					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToComics(comic.id)">

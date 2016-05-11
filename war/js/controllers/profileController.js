@@ -363,6 +363,7 @@
 					}
 					$scope.update_follow();
 					$scope.update_favorite();
+					setCSS();
 				}, function(resp){
 					console.log("Error getting user.");
 					console.log(resp);
@@ -384,14 +385,14 @@
 				authorId: authorId,
 				title: "New Series",
 				description: "Write a description of your series here!",
-				cssTitleColor : "rgb(0,0,0)",
-				cssHeadingColor : "rgb(0,0,0)",
-				cssUsernameColor : "rgb(0,0,0)",
-				cssBGColor : "rgb(255,255,255)",
+				cssTitleColor : "#000000",
+				cssHeadingColor : "#000000",
+				cssDescriptionColor : "#000000",
+				cssBGColor : "#ffffff",
 				bgImageURL : "https://storage.googleapis.com/c4-comics.appspot.com/series-bg",
-				cssComicTitleColor : "rgb(0,0,0)",
-				cssComicTitleBGColor : "rgb(0,0,0)",
-				cssComicBGColor : "rgb(255,255,255)"
+				cssComicTitleColor : "#000000",
+				cssComicTitleBGColor : "#000000",
+				cssComicBGColor : "#ffffff"
 			};
 		}
 		$scope.newSeries = function(){

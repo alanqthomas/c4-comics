@@ -22,7 +22,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		$state.go('error');
 	}
 	$scope.comic_id = $stateParams.id;
-	$scope.seriesTitle = "NO TITLE";
 	$scope.pages = [];
 	$scope.comics = [];
 	$scope.series = null;
@@ -175,8 +174,6 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		);
 	};
 	$scope.getComic = function(){
-		
-		
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(
 			function(resp){
 				//supporting displaying multiple comics.
@@ -202,13 +199,13 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 						});
 					}
 				}
-				//query for series title
+				//query for series
 				if($scope.series == null){
 					$scope.seriesId = resp.seriesId;
 					if($scope.seriesId != null){
 						GApi.execute("seriesendpoint", "getSeries", {"id":resp.seriesId}).then(
 							function(resp){
-								$scope.seriesTitle = resp.title;
+								$scope.series = resp;
 								//$scope.authorName = resp.authorId;
 							},
 							function(resp){

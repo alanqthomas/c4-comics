@@ -1,6 +1,6 @@
 <div ng-controller="comicCtrl">
 	<!--  -->
-	<a class='h3_hover' ng-click="goToSeries(seriesId)">{{seriesTitle}}</a>
+	<a class='h3_hover' ng-click="goToSeries(seriesId)">{{series.title}}</a>
 	<!--<a class='h3_hover' ng-click="goToProfile(authorId)">{{authorName}}</a> -->
 	<div class = "comicTitleBar">
 		<h4>{{comic.title}}</h4>
@@ -38,7 +38,7 @@
 		        <button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
 		    </div>
 		    <div class="commentBox">
-		        <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		        <p class="taskDescription">Write your comment below.</p>
 		    </div>
 		    <div class="actionBox">
 		        <ul class="commentList">
