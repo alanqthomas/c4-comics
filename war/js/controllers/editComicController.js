@@ -2,8 +2,8 @@
 
 (function() {
 
-angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams',
-	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService,   IMG_PREFIXES, $stateParams){
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$timeout',
+	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout){
 			//init
 			var id;
 			if($stateParams.id != null){
@@ -11,21 +11,49 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			} else {
 				$state.go('error');
 			}
+
+			$scope.$watch('files', function(){
+				$scope.upload($scope.files);
+			});
+
 			//functions
-			$scope.upload = function(){
-				$http({
-					method: 'POST',
-					url: imgService.getUploadURL(IMG_PREFIXES.PAGE, id),
-					headers:{
-						'Content-Type': $scope.file.type
-					},
-					data: $scope.file
-				});
-				console.log($scope.file);
+			$scope.upload = function(files){
+				if(files && files.length){
+					for(var i = 0; i < files.length; i++){
+						var file = files[i];
+						var pageId;
+						GApi.execute('comidendpoint', 'addcomicpage', {'comicId': id}).then(
+							function(resp){
+								pageId = resp.id;
+								console.log(resp);
+							},
+							function(resp){
+								console.log("ERROR inserting page:" + resp);
+							}
+						);
+						Upload.upload({
+							url: imgService.getUploadURL(IMG_PREFIXES.PAGE, pageId),
+							data: {
+								'file': file,
+								'Content-Type': file.type
+							}
+						}).then(function(resp){
+							$timeout(function(){
+								console.log(resp);
+							});
+						}, null, function(evt){
+							var progressPercentage = parseInt(100.0 *
+									evt.load /evt.total);
+							console.log('progress:' + progressPercentage + '%');
+						});
+					}//for
+				}//if
 			};
+
 			$scope.go_to_series = function(seriesId){
 				$state.go('sereis',{"id": seriesId});
 			}
+
 			$scope.removeTag = function(tagObj){
 				var tagParam = {
 					"tagId" : tagObj.id,
@@ -43,6 +71,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					}
 				);
 			}
+
 			$scope.addTag = function(){
 				var tagParam = {
 					"tag" : $scope.newTag,
@@ -63,8 +92,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 						console.log(resp);
 					}
 				);
-				
 			}
+
 			//main
 			if($stateParams.id != null){
 				id = $stateParams.id;
@@ -114,6 +143,4 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 	}
 
 }]);
-
-
 })();

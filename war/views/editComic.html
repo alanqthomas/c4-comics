@@ -1,16 +1,22 @@
 <div ng-controller="editComicCtrl">
 
 	<a ui-sref="series">Back to Series</a>
+
 	<h3>{{comic.title}}</h3>
+
 	<div class="container-fluid">
+
+		<div ngf-drop ngf-select ng-model="files" class="drop-box"
+        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+        accept="image/*"
+        ngf-pattern="'image/*'">Drop images to upload here</div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
 		<div class="row-fluid">
 			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in comic.pages">
 				<span class="topLeft">{{x.pageNumber}}</span>
 					<img class="bigPageDisplay" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
 				</span>
-				<div class="col-sm-6 col-md-4 col-lg-3">
-					<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
-				</div>
 			</div>
 		</div>
 
@@ -30,5 +36,7 @@
 			<input type="file" ngf-select ng-model="file" accept=".png,.jpg,.tiff" ngf-max-size="5MB"/>
 			<button type="submit" class="btn btn-default" ng-click="upload()" data-dismiss="modal">Upload</button>
 		</form>
+
 	</div>
+
 </div>

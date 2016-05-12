@@ -98,6 +98,12 @@
   border-top: 1px dotted #bbb;
   padding: 10px; }
 
+.drop-box {
+  background-color: #eee;
+  text-align: center;
+  width: 400px;
+  height: 200px; }
+
 .DocumentList {
   overflow-x: scroll;
   overflow-y: hidden;
