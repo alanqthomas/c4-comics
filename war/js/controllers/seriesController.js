@@ -21,8 +21,27 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.getFirstPageURL = function(id){
 			return imgService.getURL(IMG_PREFIXES.PAGE, id);
 		}
-		$scope.series_id=$stateParams.id;
-		//aggregate comics
+		function setAuth(){
+			GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.series_id == $scope.user_id){
+						$scope.is_owner = true;
+					}
+					else {
+						$scope.is_owner = false;
+					}
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+					$scope.is_owner = false;
+				}
+			);
+		}
+		//init
+		$scope.series_id = $stateParams.id;
 		$scope.comics=[];
 		$scope.comics_reserve=[];
 		$scope.author_name="Author Name Not Found";
@@ -42,8 +61,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//ng-model is using "."
 		$scope.comment_obj = {comment: ""};
 		$scope.faved = false;
-		//END init
-		//EDIT SERIES FUNCTIONS
+
+		setAuth();
+		//End init
+		//Display functions
 		function setCSS(){
 			$("#cover").css("background-image" , $scope.series.bgImageURL);
 			$(".cssHeader").css("color" , $scope.series.cssHeadingColor);
@@ -73,6 +94,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					console.log("Error saving settings to db.");
 				}
 			);
+			setCSS();
 		};
 		$scope.toggle= function(toToggle){
 			if(toToggle == "editTitle"){
@@ -88,6 +110,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$scope.editDescription = !($scope.editDescription);
 			}
 		}
+		//end display functions
+
 		$scope.loadSeries = function(){
 			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
 				function(resp){
@@ -98,7 +122,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			);
 		};
-		//END EDIT FUNCTIONS
 		//COMMENT FUNCTIONS
 		$scope.add_comment = function(){
 			//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
@@ -128,9 +151,10 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 				function(resp){
 					$scope.series = resp;
+					$scope.comments = [];
 					if($scope.series.comments != null){
 						//query for each comment
-						$scope.comments = [];
+						
 						for(var i = 0; i < $scope.series.comments.length; i ++){
 							GApi.execute("commentendpoint", "getComment", {"id":$scope.series.comments[i]}).then(
 								function(commentResp){
@@ -161,7 +185,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					}
 				},
 				function(){
-
+					console.log("Error getting series.");
 				}
 			);
 		};
@@ -175,7 +199,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//END COMMENT FUNCTIONS
 		//SUBSCRIBING FUNCTIONS
 		//check if user is logged in and subbed
-		$scope.update_sub = function() {GAuth.checkAuth().then(
+		$scope.update_sub = function() {
+			GAuth.checkAuth().then(
 				function(){
 					$scope.logged_in = true;
 					$scope.user_id = GData.getUser().id;

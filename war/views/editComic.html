@@ -1,68 +1,34 @@
 <div ng-controller="editComicCtrl">
 
-	<a ui-sref="series">Back to Series</a><i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
+	<a ui-sref="series">Back to Series</a>
 	<h3>{{comic.title}}</h3>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in comic.pages">
 				<span class="topLeft">{{x.pageNumber}}</span>
-					<img class="bigPageDisplay" src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
+					<img class="bigPageDisplay" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
 				</span>
-			<div class="col-sm-6 col-md-4 col-lg-3">
-				<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
+				<div class="col-sm-6 col-md-4 col-lg-3">
+					<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
+				</div>
 			</div>
 		</div>
-	</div>
-	<h4>Tags</h4>
-	<span ng-repeat="tag in comic.tags">
-		{{tag.text}}
-		<span class="tagClose">
-			<i class="material-icons" ng-click="removeTag(tag)">close</i>
-		</span>
-	</span>
-	<form ng-submit="addTag()">
-		Enter a tag to add: <input type="text" ng-model="newTag">
-	</form>
-	
-	<input type='file'></input>
-	<!--<i class="glyphicon glyphicon-plus" ui-sref="draw"></i>-->
 
-	<!-- Add Page Modal -->
-	<div id="addPageModal" class="modal fade" role="dialog">
-	  	<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Add a Page</h4>
-				</div>
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row-fluid">
-							<div class="col-xs-6" align="center">
-								<!--
-								<button type="button" class="btn btn-default" data-dismiss="modal">
-									<i class="material-icons">file_upload</i>
-									<p>Upload A Page</p>
-								</button>
-							-->
-								<form>
-									<input type="file" ngf-select ng-model="file" accept=".png,.jpg,.tiff" ngf-max-size="5MB"/>
-									<button type="submit" class="btn btn-default" ng-click="upload()" data-dismiss="modal">Upload</button>
-								</form>
-							</div>
-							<div class="col-xs-6" align="center">
-								<button type="button" class="btn btn-default" data-dismiss="modal">
-									<i class="material-icons">landscape</i>
-									<p>Draw A Page</p>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
+		<h4>Tags</h4>
+		<span ng-repeat="tag in comic.tags">
+			{{tag.text}}
+			<span class="tagClose">
+				<i class="material-icons" ng-click="removeTag(tag)">close</i>
+			</span>
+		</span>
+
+		<form ng-submit="addTag()">
+			Enter a tag to add: <input type="text" ng-model="newTag">
+		</form>
+
+		<form>
+			<input type="file" ngf-select ng-model="file" accept=".png,.jpg,.tiff" ngf-max-size="5MB"/>
+			<button type="submit" class="btn btn-default" ng-click="upload()" data-dismiss="modal">Upload</button>
+		</form>
 	</div>
 </div>

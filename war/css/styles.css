@@ -194,6 +194,22 @@ body {
   margin-top: 85px;
   background-color: #FAFAFA; }
 
+.largeFont {
+  font-size: 36px; }
+
+.forceTF {
+  width: 24px;
+  height: 24px; }
+
+.profTabRTC {
+  position: absolute;
+  top: 0px;
+  right: 0px; }
+
+.addIcon {
+  text-align: center;
+  text-size: 4em; }
+
 .testing {
   background-color: green; }
 
@@ -252,5 +268,8 @@ body {
 .content-wrapper {
   padding-left: 30px;
   padding-right: 30px; }
+
+.editIcon {
+  background-color: #80000000; }
 
 /*# sourceMappingURL=styles.css.map */
