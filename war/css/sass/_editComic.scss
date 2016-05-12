@@ -21,20 +21,23 @@
   font-size: 20px;
 }
 
-.page-thumbnail{
-  width: 150px;
-  height: 200px;
-  margin-left: 10px;
-  margin-right: 10px;
-  display: inline-block;
-}
-
 .title{
   text-align: center;
 }
 
+.thumbnail{
+  object-fit: cover;
+  width: 150px;
+  height: 200px;
+}
+
 .thumbnail-wrapper{
   display: inline-block;
+  width: 150px;
+  height: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow: hidden;
 }
 
 .add-page-wrapper{
