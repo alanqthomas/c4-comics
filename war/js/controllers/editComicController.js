@@ -38,7 +38,26 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 							}
 						);
 					}//for
+					$scope.showDropBox = false;
 				}//if
+			};
+
+			$scope.updateName = function(value){
+				console.log(value);
+				var newComic = {
+					'id': id,
+					'title': value
+				}
+
+				GApi.execute("comicendpoint", "updateComic", newComic).then(
+					function(resp){
+						console.log("Title updated");
+					}, function(resp){
+						console.log("ERROR updating comic title")
+					}
+				);
+
+				return value;
 			};
 
 			$scope.go_to_series = function(seriesId){

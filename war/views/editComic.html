@@ -2,36 +2,44 @@
 
 	<a ui-sref="series">Back to Series</a>
 
-	<h3>{{comic.title}}</h3>
+	<h3 class="title" editable-text="comic.title" on-change="updateName(value)" edit-mode="isEditing"></h3>
 
 	<div class="container-fluid">
 
-		<div ngf-drop ngf-select ng-model="files" class="drop-box"
-        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-        accept="image/*"
-        ngf-pattern="'image/*'"
-				ngf-max-size="5MB">Drop images to upload here</div>
-    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+		<div class="row drop-box-wrapper">
+			<div ngf-drop ngf-select ng-model="files" class="drop-box" ng-show="showDropBox"
+	        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+	        accept="image/*"
+	        ngf-pattern="'image/*'"
+					ngf-max-size="5MB">Drag your images here</div>
+	    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+			<!--i ng-show="showDropBox" class="fa fa-times close-button" ng-click="showDropBox = false"></i-->
+		</div>
 
-		<div class="row-fluid">
-			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in comic.pages">
-				<span class="topLeft">{{x.pageNumber}}</span>
+		<div class="row">
+			<div class="col-xs-10 col-md-6 col-md-offset-3 col-lg-offset-1">
+				<div class="thumbnail-wrapper" ng-repeat="x in comic.pages">
 					<img class="page-thumbnail" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
-				</span>
+				</div>
+				<div class="add-page-wrapper">
+					<i class="fa fa-plus-square add-page" ng-click="showDropBox = true"></i>
+				</div>
 			</div>
 		</div>
 
-		<h4>Tags</h4>
-		<span ng-repeat="tag in comic.tags">
-			{{tag.text}}
-			<span class="tagClose">
-				<i class="material-icons" ng-click="removeTag(tag)">close</i>
+		<div class="row text-center">
+			<h4>Tags</h4>
+			<span ng-repeat="tag in comic.tags">
+				{{tag.text}}
+				<span class="tagClose">
+					<i class="material-icons" ng-click="removeTag(tag)">close</i>
+				</span>
 			</span>
-		</span>
 
 		<form ng-submit="addTag()">
 			Enter a tag to add: <input type="text" ng-model="newTag">
 		</form>
+		</div>
 
 	</div>
 
