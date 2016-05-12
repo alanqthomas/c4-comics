@@ -19,6 +19,31 @@
 [ng-click], [data-ng-click], [x-ng-click], img, i {
   cursor: pointer; }
 
+.gg-editable-text .original-text {
+  border: 1px solid transparent; }
+.gg-editable-text .original-text:hover, .gg-editable-text .gg-editable-text.editing {
+  border: dashed #ccc 1px; }
+.gg-editable-text input {
+  border: dashed #ccc 1px; }
+.gg-editable-text textarea:focus, .gg-editable-text input:focus {
+  outline: 0; }
+.gg-editable-text textarea, .gg-editable-text input {
+  background: inherit;
+  color: green;
+  font: inherit;
+  border: inherit;
+  width: 100%;
+  padding: inherit;
+  margin: 0;
+  height: inherit;
+  -webkit-font-smoothing: inherit;
+  line-height: inherit;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: inherit; }
+.gg-editable-text span {
+  text-decoration: inherit; }
+
 .tagsDisplayBrowse {
   text-align: center;
   align-items: center; }
@@ -97,6 +122,40 @@
 .actionBox {
   border-top: 1px dotted #bbb;
   padding: 10px; }
+
+.edit-comic .drop-box {
+  border-radius: 10px;
+  border-style: dotted;
+  border-color: #ddd;
+  border-width: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 90px;
+  width: 400px;
+  height: 200px;
+  margin: 0 auto; }
+.edit-comic .drop-box-wrapper {
+  text-align: center; }
+.edit-comic .close-button {
+  font-size: 20px; }
+.edit-comic .page-thumbnail {
+  width: 150px;
+  height: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block; }
+.edit-comic .title {
+  text-align: center; }
+.edit-comic .thumbnail-wrapper {
+  display: inline-block; }
+.edit-comic .add-page-wrapper {
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  padding: 90px; }
+.edit-comic .add-page {
+  font-size: 20px;
+  text-align: left; }
 
 .DocumentList {
   overflow-x: scroll;

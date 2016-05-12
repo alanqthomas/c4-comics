@@ -22,3 +22,38 @@
 [ng-click], [data-ng-click], [x-ng-click], img, i {
     cursor: pointer;
 }
+
+.gg-editable-text{
+  .original-text{
+      border:1px solid transparent;
+  }
+  .original-text:hover, .gg-editable-text.editing {
+      border:dashed #ccc 1px;
+  }
+  input{
+      border:dashed #ccc 1px;
+  }
+  textarea:focus, input:focus{
+      outline: 0;
+  }
+
+  textarea, input{
+      background: inherit;
+      color: green;
+      font: inherit;
+      border: inherit;
+      width: 100%;
+      padding: inherit;
+      margin: 0;
+      height:inherit;
+      -webkit-font-smoothing: inherit;
+      line-height:inherit;
+      display:inline-block;
+      text-decoration: inherit;
+      text-align: inherit;
+  }
+
+  span{
+      text-decoration: inherit;
+  }
+}

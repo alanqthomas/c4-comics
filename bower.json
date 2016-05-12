@@ -25,7 +25,8 @@
     "angular-google-gapi": "1.0.0-beta.1",
     "ngInfiniteScroll": "^1.2.2",
     "angular-bootstrap": "^1.2.5",
-    "ng-file-upload": "^12.0.4"
+    "ng-file-upload": "^12.0.4",
+    "angular-editable-text": "^1.1.2"
   },
   "resolutions": {
     "angular": "~1.4.9"
