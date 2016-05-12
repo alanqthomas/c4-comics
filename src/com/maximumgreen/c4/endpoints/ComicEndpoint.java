@@ -277,7 +277,7 @@ public class ComicEndpoint {
 			
 			if (comic.getTags() == null){
 				List<Long> list = new ArrayList<Long>();
-				comic.setPages(list);
+				comic.setTags(list);
 			}
 			if (tag.getComicsWithTag() == null){
 				List<Long> list = new ArrayList<Long>();
