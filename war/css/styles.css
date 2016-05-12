@@ -138,16 +138,19 @@
   text-align: center; }
 .edit-comic .close-button {
   font-size: 20px; }
-.edit-comic .page-thumbnail {
+.edit-comic .title {
+  text-align: center; }
+.edit-comic .thumbnail {
+  object-fit: cover;
+  width: 150px;
+  height: 200px; }
+.edit-comic .thumbnail-wrapper {
+  display: inline-block;
   width: 150px;
   height: 200px;
   margin-left: 10px;
   margin-right: 10px;
-  display: inline-block; }
-.edit-comic .title {
-  text-align: center; }
-.edit-comic .thumbnail-wrapper {
-  display: inline-block; }
+  overflow: hidden; }
 .edit-comic .add-page-wrapper {
   display: inline-block;
   width: 150px;
