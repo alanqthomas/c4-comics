@@ -6,11 +6,6 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout){
 			//init
 			var id;
-			if($stateParams.id != null){
-				id = $stateParams.id;
-			} else {
-				$state.go('error');
-			}
 
 			$scope.$watch('files', function(){
 				$scope.upload($scope.files);
@@ -22,30 +17,26 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					for(var i = 0; i < files.length; i++){
 						var file = files[i];
 						var pageId;
-						GApi.execute('comidendpoint', 'addcomicpage', {'comicId': id}).then(
+						GApi.execute('comicendpoint', 'addcomicpage', {'comicId': id}).then(
 							function(resp){
-								pageId = resp.id;
-								console.log(resp);
+								console.log("Page id: ", resp.id);
+								$http({
+									method: 'POST',
+									url: imgService.getUploadURL(IMG_PREFIXES.PAGE, resp.id),
+									headers:{
+										'Content-Type': file.type
+									},
+									data: file
+								}).then(function(resp){
+									console.log("Success: " + resp);
+								}, function(resp){
+									console.log("ERROR: File upload " + resp);
+								});
 							},
 							function(resp){
 								console.log("ERROR inserting page:" + resp);
 							}
 						);
-						Upload.upload({
-							url: imgService.getUploadURL(IMG_PREFIXES.PAGE, pageId),
-							data: {
-								'file': file,
-								'Content-Type': file.type
-							}
-						}).then(function(resp){
-							$timeout(function(){
-								console.log(resp);
-							});
-						}, null, function(evt){
-							var progressPercentage = parseInt(100.0 *
-									evt.load /evt.total);
-							console.log('progress:' + progressPercentage + '%');
-						});
 					}//for
 				}//if
 			};
