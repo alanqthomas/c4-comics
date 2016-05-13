@@ -2,8 +2,8 @@
 
 (function() {
 
-angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$timeout',
-	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout){
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$timeout', 'lodash',
+	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout, lodash){
 			//init
 			var id;
 
@@ -52,6 +52,23 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				}//if
 			};
 
+			$scope.deletePage = function(deleteId){
+				var param = {
+					'comicId': id,
+					'pageId': deleteId
+				};
+				console.log(deleteId);
+				GApi.execute('comicendpoint', 'deletecomicpage', param).then(
+					function(resp){
+						lodash.remove($scope.comic.pages, {
+							'id': deleteId
+						});
+					}, function(resp){
+						console.log("ERROR deleting page");
+					}
+				);
+			};
+
 			$scope.updateName = function(value){
 				console.log(value);
 				var newComic = {
@@ -69,6 +86,14 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 
 				return value;
 			};
+
+			$scope.hoverIn = function(){
+				this.hoverEdit = true;
+			};
+
+			$scope.hoverOut = function(){
+				this.hoverEdit = false;
+			}
 
 			$scope.go_to_series = function(){
 				$state.go('series',{"id": $scope.comic.seriesId});

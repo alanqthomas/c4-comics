@@ -1,5 +1,8 @@
 .edit-comic{
 
+$thumb_height: 200px;
+$thumb_width: 150px;
+
 .drop-box{
   border-radius: 10px;
   border-style: dotted;
@@ -27,23 +30,43 @@
 
 .thumbnail{
   object-fit: cover;
-  width: 150px;
-  height: 200px;
+  width: $thumb_width;
+  height: $thumb_height;
+  border: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer !important;
+
 }
 
 .thumbnail-wrapper{
+  border: 0px;
+  padding: 0px;
   display: inline-block;
-  width: 150px;
-  height: 200px;
-  margin-left: 10px;
-  margin-right: 10px;
+  width: $thumb_width;
+  height: $thumb_height;
+  margin: 5px;
   overflow: hidden;
+}
+
+.thumbnail-overlay{
+  color: white;
+  display: inline-block;
+  text-align: center;
+  height: $thumb_height;
+  width: $thumb_width;
+  background-color: rgba(0,0,0,.45);
+  padding: 5px;
+  z-index: 2;
+  position: relative;
+  font-size: 20px;
 }
 
 .add-page-wrapper{
   display: inline-block;
-  width: 150px;
-  height: 200px;
+  width: $thumb_width;
+  height: $thumb_height;
   padding: 90px;
 }
 
