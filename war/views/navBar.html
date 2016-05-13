@@ -63,11 +63,13 @@
 
 
     <!-- displaying notification -->
-      {{notifications}}
-
-      <p ng-repeat="noti in notifications"> 
-        id: {{noti.id}} msg: {{noti.message}} type: {{noti.type}}
+      
+      <p> Notification Section (in pure text)</p>
+      <p ng-repeat="noti in notifications | orderBy:'-date'" ng-click="goNotification(noti)"  > 
+        id: {{noti.id}} msg: {{noti.message}} date: {{noti.date}}
       </p>
+      <br>
+
       EVERYTHING ABOVE IS PART OF NAVBAR
 
 </div>

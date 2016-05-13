@@ -388,13 +388,15 @@
 				cssTitleColor : "#000000",
 				cssHeadingColor : "#000000",
 				cssDescriptionColor : "#000000",
-				cssBGColor : "#ffffff",
+				cssBGColor : "#000000",
 				bgImageURL : "https://storage.googleapis.com/c4-comics.appspot.com/series-bg",
 				cssComicTitleColor : "#000000",
 				cssComicTitleBGColor : "#000000",
-				cssComicBGColor : "#ffffff"
+				cssComicBGColor : "#000000"
 			};
 		}
+		
+		
 		$scope.newSeries = function(){
 			if($scope.is_owner){
 				var param = createSeries($scope.profile_id);
@@ -416,6 +418,8 @@
 				);
 			}
 		}
+
+
 
 		//delete Functions: push delete and change local variable.
 		//should make them use GData instead of $scope.profile, but this is good enough.
