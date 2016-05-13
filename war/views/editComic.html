@@ -1,6 +1,6 @@
 <div class="edit-comic" ng-controller="editComicCtrl">
 
-	<a ui-sref="series">Back to Series</a>
+	<a ng-click="go_to_series()">Back to Series</a>
 
 	<h3 class="title" editable-text="comic.title" on-change="updateName(value)" edit-mode="isEditing"></h3>
 
@@ -17,7 +17,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-10 col-md-6 col-md-offset-3 col-lg-offset-1">
+			<div class="col-xs-10 col-md-6 col-md-offset-3 col-xs-offset-1">
 				<div class="thumbnail-wrapper" ng-repeat="x in comic.pages">
 						<img class="thumbnail" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
 				</div>

@@ -14,9 +14,12 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			//functions
 			$scope.upload = function(files){
 				if(files && files.length){
-					for(var i = 0; i < files.length; i++){
-						var file = files[i];
+					var delay = 0;
+					angular.forEach(files, function(file, key){
+						console.log("file:" + file);
 						var pageId;
+						delay += 100;
+						setTimeout(function(){
 						GApi.execute('comicendpoint', 'addcomicpage', {'comicId': id}).then(
 							function(resp){
 								console.log("Page id: ", resp.id);
@@ -28,7 +31,13 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 									},
 									data: file
 								}).then(function(resp){
-									console.log("Success: " + resp);
+									console.log(resp);
+									var newId = resp.data.name.substring(5);
+									$scope.comic.pages.push({
+										'id': newId,
+										'src': imgService.getURL(IMG_PREFIXES.PAGE, newId),
+										'pageNumber': $scope.comic.pages.length
+									});
 								}, function(resp){
 									console.log("ERROR: File upload " + resp);
 								});
@@ -37,7 +46,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 								console.log("ERROR inserting page:" + resp);
 							}
 						);
-					}//for
+					}, delay);
+					});//for
 					$scope.showDropBox = false;
 				}//if
 			};
@@ -60,8 +70,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				return value;
 			};
 
-			$scope.go_to_series = function(seriesId){
-				$state.go('sereis',{"id": seriesId});
+			$scope.go_to_series = function(){
+				$state.go('series',{"id": $scope.comic.seriesId});
 			}
 
 			$scope.removeTag = function(tagObj){
@@ -116,6 +126,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					$scope.comic = {
 						"id" : resp.id,
 						"title" : resp.title,
+						"seriesId" : resp.seriesId,
 						"tags" : [],
 						"pages" : []
 					}
