@@ -405,9 +405,14 @@ public class SeriesEndpoint {
 		if (series.getSubscribers() != null){
 			PersistenceManager mgr = getPersistenceManager();
 			Notification notification;
+			Date now = Calendar.getInstance().getTime();
+			String dateString = formatCommentDate(now);
 			//first check to see if this notification exists already
 			try {
 				notification = mgr.getObjectById(Notification.class, comic.getId());
+				notification.setDate(now);
+				notification.setDateString(dateString);
+				mgr.makePersistent(notification);
 			} catch (javax.jdo.JDOObjectNotFoundException ex) {
 				notification = new Notification();
 				String message = user.getUsername() + " has added a new comic titled " + comic.getTitle()
@@ -415,6 +420,8 @@ public class SeriesEndpoint {
 				notification.setId(comic.getId());
 				notification.setType("comic");
 				notification.setMessage(message);
+				notification.setDate(now);
+				notification.setDateString(dateString);
 				mgr.makePersistent(notification);
 			}
 			//notify the subscribers and save
