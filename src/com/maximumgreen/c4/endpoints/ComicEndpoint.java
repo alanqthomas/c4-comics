@@ -568,10 +568,14 @@ public class ComicEndpoint {
 	private void updateRatings(Comic comic) {
 		PersistenceManager mgr = getPersistenceManager();
 		
+		C4User user;
+		Series series;
+		Comic  comics;
 		int count = 0;
 		double total = 0;
 		double avg;
 		
+		//comic rating
 		Query q = mgr.newQuery(C4Rating.class);
 		q.setFilter("comicId == comicIdParam");
 		q.declareParameters("Long comicIdParam");
@@ -581,14 +585,51 @@ public class ComicEndpoint {
 			count += 1;
 			total += r.getRating();
 		}
-		
-		if (!(count == 0))
+		if (count != 0)
 			avg = total/count;
 		else
 			avg = 0.0;
-		
 		comic.setRating(avg);
 		mgr.makePersistent(comic);
+		
+		//series rating
+		count = 0;
+		total = 0;
+		series = mgr.getObjectById(Series.class, comic.getSeriesId());
+		for (Long id : series.getComics()) {
+			comics = mgr.getObjectById(Comic.class, id);
+			if (!(comics.getRatings() == null && comics.getRatings().size() == 0)) {
+				count += 1;
+				total += comics.getRating();
+			}		
+		}
+		if (count != 0) {
+			avg = total/count;
+			series.setRated(true);
+		}
+		else
+			avg = 0.0;
+		series.setRating(avg);
+		mgr.makePersistent(series);
+		
+		//user rating
+		count = 0;
+		total = 0;
+		user = mgr.getObjectById(C4User.class, comic.getAuthorId());
+		for (Long id : user.getUserSeries()) {
+			series = mgr.getObjectById(Series.class, id);
+			if (series.isRated()){
+				count += 1;
+				total += series.getRating();
+			}
+		}
+		if (count != 0)
+			avg = total/count;
+		else
+			avg = 0.0;
+		user.setRating(avg);
+		mgr.makePersistent(user);
+			
 		mgr.close();
 	}
 }
