@@ -7,6 +7,8 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 	var toggle = false;
 	$scope.notifications = [];
 	$scope.search = searchScope.data;
+	$scope.showNotification = false;
+
 	// Check sign in
 	if($cookies.get('userId')){
 		GData.setUserId($cookies.get('userId'));
@@ -57,6 +59,10 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 		);
 	}
 	//visible functions
+	$scope.toggleNotification = function(){
+		$scope.showNotification = !$scope.showNotification;
+	}
+
 	$scope.deleteNotification = function(notif){
 		GApi.execute("c4userendpoint", "deleteNotification", {'id': notif.id}).then(
 			function(resp){
@@ -106,8 +112,10 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 			toggle = false;
 		}
 	};
-	//main
-	$scope.notificationsBool = ($scope.notifications.length > 0);
+	
+
+
+
 }]);
 
 })();

@@ -17,7 +17,15 @@
     <button ng-if="!signedIn" ng-click="doAuth()" class="btn btn-primary">Sign In</button>
 
     <div ng-if="signedIn">
-      <i class="fa fa-bell"></i>
+
+
+
+
+      <!-- notification -->    
+      <i class="fa fa-bell" ng-click="toggleNotification()"></i>
+
+
+
       <img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
       <!--button class="btn btn-sm btn-default" ng-click="toggleSideNav()"-->
         <i class="fa fa-bars" ng-click="toggleSideNav()"></i>
@@ -52,4 +60,14 @@
       </div>
     </div>
   </div>
+
+
+    <!-- displaying notification -->
+      {{notifications}}
+
+      <p ng-repeat="noti in notifications"> 
+        id: {{noti.id}} msg: {{noti.message}} type: {{noti.type}}
+      </p>
+      EVERYTHING ABOVE IS PART OF NAVBAR
+
 </div>
