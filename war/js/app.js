@@ -2,7 +2,17 @@
 
 (function() {
 
-var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'ui.bootstrap', 'infinite-scroll', 'ngFileUpload', 'gg.editableText']);
+var app = angular.module('c4', [
+  'ui.router',
+  'ngCookies',
+  'angular-google-gapi',
+  'ui.bootstrap',
+  'infinite-scroll',
+  'ngFileUpload',
+  'gg.editableText',
+  'ngLodash',
+  'ui.sortable'
+]);
 
 // Initialize angular-google-gapi
 app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authService',

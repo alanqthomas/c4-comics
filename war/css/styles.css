@@ -143,14 +143,31 @@
 .edit-comic .thumbnail {
   object-fit: cover;
   width: 150px;
-  height: 200px; }
+  height: 200px;
+  border: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer !important; }
 .edit-comic .thumbnail-wrapper {
+  border: 0px;
+  padding: 0px;
   display: inline-block;
   width: 150px;
   height: 200px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 5px;
   overflow: hidden; }
+.edit-comic .thumbnail-overlay {
+  color: white;
+  display: inline-block;
+  text-align: center;
+  height: 200px;
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.45);
+  padding: 5px;
+  z-index: 2;
+  position: relative;
+  font-size: 20px; }
 .edit-comic .add-page-wrapper {
   display: inline-block;
   width: 150px;
@@ -159,6 +176,13 @@
 .edit-comic .add-page {
   font-size: 20px;
   text-align: left; }
+.edit-comic .tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px; }
+.edit-comic .tag-wrapper {
+  margin: 10px; }
 
 .DocumentList {
   overflow-x: scroll;
