@@ -176,6 +176,13 @@
 .edit-comic .add-page {
   font-size: 20px;
   text-align: left; }
+.edit-comic .tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px; }
+.edit-comic .tag-wrapper {
+  margin: 10px; }
 
 .DocumentList {
   overflow-x: scroll;

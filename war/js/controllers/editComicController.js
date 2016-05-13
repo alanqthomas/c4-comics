@@ -122,6 +122,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					"tag" : $scope.newTag,
 					"comicId" : id
 				};
+				console.log("tag: ", $scope.newTag);
+				console.log("comicId: ", id);
 				GApi.execute("comicendpoint", "addComicTag", tagParam).then(
 					function(resp){
 						//console.log(resp);
@@ -133,7 +135,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 						$scope.newTag = "";
 					},
 					function(resp){
-						console.log("Error adding tag" +  $scope.newTag);
+						console.log("Error adding tag: " +  $scope.newTag);
 						console.log(resp);
 					}
 				);
