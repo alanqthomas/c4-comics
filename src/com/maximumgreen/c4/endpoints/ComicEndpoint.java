@@ -1,5 +1,6 @@
 package com.maximumgreen.c4.endpoints;
 
+import com.maximumgreen.c4.C4Rating;
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Comic;
 import com.maximumgreen.c4.Comment;
@@ -25,7 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
@@ -227,26 +227,44 @@ public class ComicEndpoint {
 	
 	@ApiMethod(name = "addRating")
 	public Comic addRating(@Named("userId") String userId, @Named("comicId") Long comicId, 
-			@Named("rating") int rating) throws BadRequestException, NotFoundException {
+			@Named("rating") double rating) throws BadRequestException, NotFoundException {
+		
+		if (rating < 0 || rating > 5)
+			throw new BadRequestException("Invalid rating amount)");
+		
 		PersistenceManager mgr = getPersistenceManager();
 		Comic comic;
+		C4Rating ratingObj;
+		
 		try {
 			comic = getComic(comicId);		
 			
 			if (comic.getRatings() == null) {
-				Map<String, Integer> map = new HashMap<String, Integer>();
-				comic.setRatings(map);
+				List<String> list = new ArrayList<String>();
+				comic.setRatings(list);
 			}
 			
-			comic.getRatings().put(userId, rating);
-			comic.updateRating();
+			if (comic.getRatings().contains(userId)) {
+				ratingObj = mgr.getObjectById(C4Rating.class, userId);
+				ratingObj.setRating(rating);
+			}
+			
+			else {
+				ratingObj = new C4Rating(userId, comicId, rating);
+				comic.addComicRating(userId);
+			}
+				
+			mgr.makePersistent(ratingObj);
 			mgr.makePersistent(comic);
 			index(comic);
+	
 		} catch (NotFoundException ex) {
 			throw ex;
 		} finally {
 			mgr.close();
 		}
+		
+		updateRatings(comic);
 		return comic;
 	}
 	
@@ -545,5 +563,32 @@ public class ComicEndpoint {
 	        return tag;
 	    }
 	    return tag.substring(0, 1).toUpperCase() + tag.substring(1);
+	}
+	
+	private void updateRatings(Comic comic) {
+		PersistenceManager mgr = getPersistenceManager();
+		
+		int count = 0;
+		double total = 0;
+		double avg;
+		
+		Query q = mgr.newQuery(C4Rating.class);
+		q.setFilter("comicId == comicIdParam");
+		q.declareParameters("Long comicIdParam");
+		List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
+		
+		for (C4Rating r : ratings) {
+			count += 1;
+			total += r.getRating();
+		}
+		
+		if (!(count == 0))
+			avg = total/count;
+		else
+			avg = 0.0;
+		
+		comic.setRating(avg);
+		mgr.makePersistent(comic);
+		mgr.close();
 	}
 }

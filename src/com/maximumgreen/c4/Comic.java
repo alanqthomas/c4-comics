@@ -1,9 +1,7 @@
 package com.maximumgreen.c4;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -52,9 +50,9 @@ public class Comic {
 	@Persistent
 	private List<Long> comments;
 	
-	//Map of User keys and Integer rating given to this comic by specific user
-	@Persistent(serialized = "true")
-	private Map<String, Integer> ratings;
+	//List of userIds that have rated this comic - used to access the ratings object
+	@Persistent
+	private List<String> ratings;
 	
 	//Calculated rating
 	@Persistent
@@ -125,11 +123,11 @@ public class Comic {
 		this.comments = comments;
 	}
 
-	public Map<String, Integer> getRatings() {
+	public List<String> getRatings() {
 		return ratings;
 	}
 
-	public void setRatings(Map<String, Integer> ratings) {
+	public void setRatings(List<String> ratings) {
 		this.ratings = ratings;
 	}
 	
@@ -181,29 +179,20 @@ public class Comic {
 		return comments.remove(id);
 	}
 
+	public boolean addComicRating(String id){
+		return ratings.add(id);
+	}
+	
+	public boolean deleteComicRating(Long id){
+		return ratings.remove(id);
+	}
+	
 	public String getDateString() {
 		return dateString;
 	}
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
-	}
-	
-	//method to add a rating to the ratings map
-	public void addRating(String userId, int rating) {
-		Integer bigIntRating = rating;
-		ratings.put(userId, bigIntRating);
-	}
-	
-	//method to iterate over values in ratings map and update rating with calculated average
-	public void updateRating() {
-		int count = 0;
-		int total = 0;
-		for (Integer r : this.ratings.values()) {
-			count++;
-			total += r;
-		}
-		this.rating = total/count;
 	}
 	
 	//simple method to increment viewCount
