@@ -31,7 +31,8 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
       {'name': 'pageendpoint', 		'version': 'v1'},
       {'name': 'searchendpoint', 	'version': 'v1'},
       {'name': 'seriesendpoint', 	'version': 'v1'},
-      {'name': 'tagendpoint', 		'version': 'v1'}
+      {'name': 'tagendpoint', 		'version': 'v1'},
+      {'name': 'homepageendpoint',  'version': 'v1'}
     ];
 
     for(var i = 0; i < APIS.length; i++){
