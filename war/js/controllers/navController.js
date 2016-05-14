@@ -3,7 +3,7 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies', 'searchScope',
 function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   searchScope){
-	
+
 
 	/*
 	READ ME, everything is in the $scope.notifications. Use getNotification() to update the notifications. They are basically
@@ -16,6 +16,22 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 	$scope.notifications = [];
 	$scope.search = searchScope.data;
 	$scope.showNotification = false;
+
+	// TEST DATA
+	$scope.notifications = [
+		{'id': '1',
+		 'message': 'Someone liked something',
+	 	 'dateString': '5/12/16 4:23pm'},
+		 {'id': '2',
+ 		 'message': 'This is a notification',
+ 	 	 'dateString': '5/11/16 7:42am'},
+		 {'id': '3',
+ 		 'message': 'There was a new comic uploaded',
+ 	 	 'dateString': '5/12/16 4:26am'},
+		 {'id': '4',
+ 		 'message': 'Notifications are great. Especially this one because its really long',
+ 	 	 'dateString': '5/12/16 2:30pm'},
+	];
 
 	// Check sign in
 	if($cookies.get('userId')){
@@ -123,7 +139,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 			$window.location.reload();
 		});
 	};
-	$scope.navSearch = function(){    
+	$scope.navSearch = function(){
 		$state.go('search');
 	};
 	$scope.navProfile = function(){
@@ -138,7 +154,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 			toggle = false;
 		}
 	};
-	
+
 
 
 

@@ -52,9 +52,10 @@
   text-align: center;
   align-items: center; }
 .comic-page img {
-  width: 75vw;
+  max-width: 75vw;
   height: auto;
-  margin: 10px 0px 10px 0px; }
+  margin: 10px 0px 10px 0px;
+  cursor: default !important; }
 .comic-page .expand-comment {
   position: fixed;
   z-index: 997;
@@ -283,6 +284,39 @@
 body {
   margin-top: 85px;
   background-color: #FAFAFA; }
+
+.notification-box {
+  position: fixed;
+  top: 75px;
+  z-index: 998;
+  right: 100px;
+  width: 350px;
+  border: 1px solid #e6e6e6;
+  background-color: white;
+  box-shadow: 2px 2px 3px 0px #a6a6a6; }
+  .notification-box ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px; }
+    .notification-box ul li:first-child {
+      border-top: none; }
+    .notification-box ul li {
+      border-top: 1px dotted #d9d9d9;
+      display: block;
+      padding: 10px; }
+      .notification-box ul li .notification-content .notification-message {
+        display: block;
+        float: left; }
+      .notification-box ul li .notification-content .notification-delete {
+        display: block;
+        font-size: 20px;
+        text-align: right; }
+      .notification-box ul li .notification-date {
+        text-align: right;
+        font-size: 10px;
+        color: #bfbfbf; }
+    .notification-box ul li:hover {
+      background-color: #e6e6e6; }
 
 .profile .largeFont {
   font-size: 36px; }

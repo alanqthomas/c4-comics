@@ -19,7 +19,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			}
 		}
 		$scope.getFirstPageURL = function(id){
-			return imgService.getURL(IMG_PREFIXES.PAGE, id);
+      return imgService.getURL(IMG_PREFIXES.PAGE, id);
 		}
 		function setAuth(){
 			GAuth.checkAuth().then(
@@ -154,7 +154,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.comments = [];
 					if($scope.series.comments != null){
 						//query for each comment
-						
+
 						for(var i = 0; i < $scope.series.comments.length; i ++){
 							GApi.execute("commentendpoint", "getComment", {"id":$scope.series.comments[i]}).then(
 								function(commentResp){
@@ -378,10 +378,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			}
 		);
 
-		/* attempted ngStyle, they dont work
-		$scope.bg_img="background:#ffffff url('https://www.planwallpaper.com/static/images/6790904-free-background-wallpaper.jpg') no-repeat center center;";
-		$scope.bg_img="{'background-color':'red'}";
-		*/
 		$scope.goToAuthor=function(){
 			if($scope.series.authorId==null){
 				$state.go('error');

@@ -64,7 +64,7 @@ public class SearchEndpoint {
 		try{
 			Collection<ScoredDocument> docs = userIndex.search(query).getResults();
 			for(ScoredDocument doc : docs){
-				log.info("search: doc_id: " + doc.getId());
+				log.info("search_users: doc_id: " + doc.getId());
 				Iterable<Field> fields = doc.getFields("id");
 				for(Field f : fields){
 					userIds.add(f.getText());
@@ -77,6 +77,7 @@ public class SearchEndpoint {
 		try{
 			Collection<ScoredDocument> docs = seriesIndex.search(query).getResults();
 			for(ScoredDocument doc : docs){
+				log.info("search_series: doc_id: " + doc.getId());
 				Iterable<Field> fields = doc.getFields("id");
 				for(Field f : fields){
 					seriesIds.add(f.getText());
@@ -88,7 +89,8 @@ public class SearchEndpoint {
 		
 		try{
 			Collection<ScoredDocument> docs = comicIndex.search(query).getResults();
-			for(ScoredDocument doc : docs){				
+			for(ScoredDocument doc : docs){	
+				log.info("search_comics: doc_id: " + doc.getId());
 				Iterable<Field> fields = doc.getFields("id");
 				for(Field f : fields){
 					comicIds.add(f.getText());
@@ -103,30 +105,31 @@ public class SearchEndpoint {
 		ArrayList comicList = new ArrayList();
 		
 		log.info("userIds: " + userIds.toString());
+		log.info("seriesIds: " + seriesIds.toString());
+		log.info("comicIds: " + comicIds.toString());
 		
 		try{
 			mgr = getPersistenceManager();
 			
 			for(String s: userIds){
+				
 				C4User user = mgr.getObjectById(C4User.class, s);
 				userList.add(user);					
 			}
 			search.setAuthorResults(userList);
-
 			
 			for(String s: seriesIds){
 				Series series= mgr.getObjectById(Series.class, Long.decode(s));
 				seriesList.add(series);				
 			}			
 			search.setSeriesResults(seriesList);
-		
 			
 			for(String s: comicIds){
+				log.info("comic" + s);
 				Comic comic = mgr.getObjectById(Comic.class, Long.decode(s));
 				comicList.add(comic);				
 			}			
 			search.setComicResults(comicList);
-			
 		} catch (javax.jdo.JDOObjectNotFoundException e){
 			throw new NotFoundException("Could not find entity");
 		} finally {

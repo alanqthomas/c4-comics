@@ -17,19 +17,9 @@
     <button ng-if="!signedIn" ng-click="doAuth()" class="btn btn-primary">Sign In</button>
 
     <div ng-if="signedIn">
-
-
-
-
-      <!-- notification -->    
       <i class="fa fa-bell" ng-click="toggleNotification()"></i>
-
-
-
       <img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
-      <!--button class="btn btn-sm btn-default" ng-click="toggleSideNav()"-->
-        <i class="fa fa-bars" ng-click="toggleSideNav()"></i>
-      <!--/button -->
+      <i class="fa fa-bars" ng-click="toggleSideNav()"></i>
     </div>
   </div>
 </nav>
@@ -61,15 +51,18 @@
     </div>
   </div>
 
-
-    <!-- displaying notification -->
-      
-      <p> Notification Section (in pure text)</p>
-      <p ng-repeat="noti in notifications | orderBy:'-date'" ng-click="goNotification(noti)"  > 
-        id: {{noti.id}} msg: {{noti.message}} date: {{noti.date}}
-      </p>
-      <br>
-
-      EVERYTHING ABOVE IS PART OF NAVBAR
+  <div class="notification-box" ng-show="showNotification">
+    <ul>
+      <li ng-repeat="noti in notifications | orderBy:'-date'" ng-click="goNotification(noti)"  >
+        <div class="notification-content">
+          <div class="notification-message">{{noti.message}}</div>
+          <div class="notification-delete">
+            <i class="fa fa-times" ng-click="deleteNotification(noti)"></i>
+          </div>
+        </div>
+        <div class="notification-date">{{noti.dateString}}</div>
+      </li>
+    </ul>
+  </div>
 
 </div>
