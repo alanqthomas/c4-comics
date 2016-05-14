@@ -251,6 +251,7 @@ public class ComicEndpoint {
 				Query q = mgr.newQuery(C4Rating.class);
 				q.setFilter("comicId == comicIdParam");
 				q.declareParameters("Long comicIdParam");
+				@SuppressWarnings("unchecked")
 				List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
 				
 				boolean found = false;
@@ -588,6 +589,7 @@ public class ComicEndpoint {
 		Query q = mgr.newQuery(C4Rating.class);
 		q.setFilter("comicId == comicIdParam");
 		q.declareParameters("Long comicIdParam");
+		@SuppressWarnings("unchecked")
 		List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
 		
 		for (C4Rating r : ratings) {
