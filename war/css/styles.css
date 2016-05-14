@@ -324,42 +324,70 @@ body {
     .notification-box ul li:hover {
       background-color: #e6e6e6; }
 
-.profile .largeFont {
-  font-size: 36px; }
-.profile .forceTF {
-  width: 24px;
-  height: 24px; }
-.profile .profTabRTC {
+.profile .cover {
+  width: 600px;
+  height: 300px;
+  position: relative;
+  display: block;
+  background-color: white;
+  margin: 0px auto; }
+  .profile .cover .cover-img {
+    object-fit: cover;
+    position: absolute;
+    z-index: 0;
+    width: 600px;
+    height: 300px;
+    cursor: default !important; }
+  .profile .cover .cover-title {
+    position: absolute;
+    bottom: 10px;
+    left: 150px;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+    z-index: 2; }
+  .profile .cover .cover-profile-img {
+    height: 100px;
+    width: 100px;
+    z-index: 1;
+    position: absolute;
+    bottom: -33.33333px;
+    left: 33.33333px; }
+  .profile .cover .cover-btn {
+    z-index: 1;
+    position: absolute;
+    bottom: 20px;
+    right: 20px; }
+.profile .content-wrapper {
+  margin: 10px auto;
+  width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
+  padding: 20px; }
+  .profile .content-wrapper .description-heading {
+    margin: 20px 0; }
+.profile .new-series-btn {
+  margin: 0px auto !important; }
+.profile .series-images {
+  width: 80vw;
+  margin: 0px auto; }
+.profile .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  margin: 5px; }
+.profile .thumbnail {
+  object-fit: cover;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
   position: absolute;
-  top: 0px;
-  right: 0px; }
-.profile .addIcon {
-  text-align: center;
-  text-size: 4em; }
-.profile .testing {
-  background-color: green; }
-.profile .h1_hover {
-  cursor: pointer; }
-.profile .imgWrap {
-  position: relative; }
-.profile .preview {
-  cursor: pointer;
-  margin-bottom: 25px;
-  margin-right: 0px;
-  margin-left: 0px; }
-.profile .imgDescription {
-  position: absolute;
-  top: 0;
-  left: 30;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-  cursor: pointer;
-  -webkit-transition: visibility opacity 0.2s; }
-.profile .imgWrap:hover .imgDescription {
-  visibility: visible;
-  opacity: 1; }
+  z-index: 1;
+  margin: 0px; }
 
 .search-x {
   float: left;

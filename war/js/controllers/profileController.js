@@ -21,12 +21,15 @@
 		}
 		//main
 		//init display settings
-		$scope.editName = false;
+    $scope.editName = false;
 		$scope.editBio = false;
 		$scope.followed = false;
 		$scope.faved = false;
 		//set variables for getting users.
 		$scope.profile_id = $stateParams.id;
+    $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
+    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
+		$scope.profileCoverImg = imgService.getURL(IMG_PREFIXES.USER_BG, $scope.profile_id);
 		if(GData.getUser() == null){
 			$scope.is_owner = ($cookies.get('userId') == $scope.profile_id);
 		} else {
@@ -89,19 +92,49 @@
 		}
 		$scope.updateUser = function(){//
 			GApi.execute("c4userendpoint", "getC4User",{"id":$scope.profile_id}).then(
-				function(resp){	
+				function(resp){
 					$scope.profile.username = resp.username;
 					$scope.profile.biography = resp.biography;
 				}, function(resp){
 				}
 			);
 		};
+
+    $scope.updateName = function(value){
+      var newUser = {
+        'userID' : $scope.user_id,
+        'username': value
+      };
+      GApi.execute("c4userendpoint", "updateC4User", newUser).then(
+        function(resp){
+          console.log("Username updated");
+        }, function(resp){
+          console.log("ERROR updating username")
+      });
+
+      return value;
+    };
+
+    $scope.updateBio = function(value){
+      var newUser = {
+        'userID' : $scope.user_id,
+        'biography': value
+      };
+      GApi.execute("c4userendpoint", "updateC4User", newUser).then(
+        function(resp){
+          console.log("Biography updated");
+        }, function(resp){
+          console.log("ERROR updating biography")
+      });
+
+      return value;
+    };
 		//check if user is logged in and followed
 		$scope.update_follow = function() {GAuth.checkAuth().then(
 				function(){
 					$scope.logged_in = true;
 					$scope.user_id = GData.getUser().id;
-					if($scope.profile_id== $scope.user_id){
+					if($scope.profile_id == $scope.user_id){
 						$scope.is_owner = true;
 					}
 					else {
@@ -119,10 +152,10 @@
 								}
 								else{
 									$scope.followed = false;
-								} 
+								}
 							}
 						},
-						function(resp){	
+						function(resp){
 						}
 					);
 				},
@@ -157,8 +190,8 @@
 				}
 			);
 		};
-		//END FOLLOWING FUNCTIONS 
-		//FAVORITE FUNCTION 
+		//END FOLLOWING FUNCTIONS
+		//FAVORITE FUNCTION
 		//check if user is logged in and followed
 		$scope.update_favorite = function() {GAuth.checkAuth().then(
 				function(){
@@ -183,10 +216,10 @@
 								}
 								else{
 									$scope.faved = false;
-								} 
+								}
 							}
 						},
-						function(resp){	
+						function(resp){
 						}
 					);
 				},
@@ -204,7 +237,7 @@
 					//$scope.subbed = true;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
@@ -215,7 +248,7 @@
 					//$scope.subbed = false;
 				},
 				function(resp){
-					
+
 				}
 			);
 		};
@@ -261,7 +294,7 @@
 						}
 					);
 				}
-			}	
+			}
 			//query for favorites comics
 			if($scope.profile.favoriteComics != null){
 				for(var i = 0;i < $scope.profile.favoriteComics.length; i ++){
@@ -331,7 +364,7 @@
 			$scope.subscriptions = [];
 			$scope.subscriptions_reserve = [];
 			GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
-				function(resp){	
+				function(resp){
 					$scope.profile = resp;
 					$scope.query_for_series();
 					$scope.tabs = [];
@@ -370,16 +403,16 @@
 				}
 			);
 		};
-		
 
-		
+
+
 		//set css.
 		var bgStyleStr = '#ffffff no-repeat center center';
-			//url('+buildImageURL("profilebg", $scope.profile_id)+') 
+			//url('+buildImageURL("profilebg", $scope.profile_id)+')
 		$scope.bgStyle = {'background': bgStyleStr};
 		$scope.$apply;
 
-		//functions to create series 
+		//functions to create series
 		function createSeries(authorId){
 			return {//might need to not be strings?
 				authorId: authorId,
@@ -395,8 +428,8 @@
 				cssComicBGColor : "#000000"
 			};
 		}
-		
-		
+
+
 		$scope.newSeries = function(){
 			if($scope.is_owner){
 				var param = createSeries($scope.profile_id);
@@ -434,12 +467,12 @@
  				console.log("Attempted delete from unsupported tab. Add tab to deleteThing().");
  			}
 		}
-		
+
 		function deleteFav(object){
 			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
-					"userId":$scope.profile_id, 
+					"userId":$scope.profile_id,
 					paramName: object.id
 				};
 				GApi.execute( "c4userendpoint","deletefavorite",param).then(
@@ -465,11 +498,11 @@
 			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
-					"userId":$scope.profile_id, 
+					"userId":$scope.profile_id,
 					"seriesId" : object.id
 				};
 				GApi.execute( "c4userendpoint","deletesubscription",param).then(
-						function(resp){	
+						function(resp){
 							//$scope.profile.subscriptions.splice($scope.profile.subscriptions.indexOf(object), 1);
 							$scope.getProfile();
 						}, function(resp){
@@ -484,12 +517,12 @@
 			if($scope.is_owner){
 				var paramName = object.type+"Id";
 				var param = {
-					"userId":$scope.profile_id, 
+					"userId":$scope.profile_id,
 					"seriesId" : object.id
 				};
 				GApi.execute("c4userendpoint", "deleteuserseries",param).then(
 				//GApi.execute("c4userendpoint", "deleteseries",param).then(
-						function(resp){	
+						function(resp){
 							//$scope.profile.userSeries.splice($scope.profile.userSeries.indexOf(object), 1);
 							$scope.getProfile();
 						}, function(resp){
