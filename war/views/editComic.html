@@ -6,8 +6,8 @@
 
 	<div class="container-fluid">
 
-		<div class="row drop-box-wrapper">
-			<div ngf-drop ngf-select ng-model="files" class="drop-box" ng-show="showDropBox"
+		<div class="row drop-box-wrapper" uib-collapse="collapseBox">
+			<div ngf-drop ngf-select ng-model="files" class="drop-box"
 	        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
 	        accept="image/*"
 	        ngf-pattern="'image/*'"
@@ -26,7 +26,7 @@
 						</span>
 				</div>
 				<div class="add-page-wrapper">
-					<i class="fa fa-plus-square add-page" ng-click="showDropBox = true"></i>
+					<i class="fa fa-plus-square add-page" ng-click="collapseBox = false"></i>
 				</div>
 			</div>
 		</div>

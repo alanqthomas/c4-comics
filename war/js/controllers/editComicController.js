@@ -7,6 +7,8 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			//init
 			var id;
 
+			$scope.collapseBox = true;
+
 			$scope.$watch('files', function(){
 				$scope.upload($scope.files);
 			});

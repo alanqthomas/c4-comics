@@ -1,21 +1,47 @@
-.comicTitleBar{
-	background-color : rgba(75, 100, 125, 175);
-}
-.comicTitleBarFL{
-	float : right;
-}
+.comic-page{
+
+$expand_button_height: 35px;
+
 .pageDiv{
 	text-align: center;
 	align-items: center;
 }
 
+img {
+	width: 75vw;
+	height: auto;
+	margin: 10px 0px 10px 0px;
+}
 
+.expand-comment {
+	position: fixed;
+	z-index: 997;
+	bottom: 0px;
+	width: 75px;
+	height: $expand_button_height;
+	background-color: #4CAF50;
+	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+	margin-left: 20px;
+	border-radius: 15px 15px 0px 0px;
+	color: white;
+	box-shadow: 3px -4px 9px -4px #888888;
+}
 
+.expand-comment:hover {
+	background-color: #71c174;
+}
 
 .detailBox {
     width:620px;
     border:1px solid #bbb;
-    margin:50px;
+		margin: 0 auto;
+		margin-bottom: 5px + $expand_button_height;
+		margin-left: 10px;
+		position: fixed;
+		z-index: 998;
+		bottom: 0px;
 }
 .titleBox {
     background-color:#fdfdfd;
@@ -77,4 +103,7 @@
 .actionBox {
     border-top:1px dotted #bbb;
     padding:10px;
+		background: white;
+}
+
 }

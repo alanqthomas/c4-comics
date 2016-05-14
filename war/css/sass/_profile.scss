@@ -1,5 +1,7 @@
+.profile{
+
 .largeFont{
-	font-size: 36px; 
+	font-size: 36px;
 }
 .forceTF{
 	width: 24px;
@@ -44,11 +46,12 @@
 	cursor:pointer;
 	//-webkit-transition:-webkit-transform 1s;
 	-webkit-transition: visibility opacity 0.2s;
-	
-	
+
+
 }
 
 .imgWrap:hover .imgDescription {
 	visibility: visible;
   	opacity: 1;
+}
 }
