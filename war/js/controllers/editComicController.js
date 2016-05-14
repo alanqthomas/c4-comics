@@ -101,6 +101,10 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 				$state.go('series',{"id": $scope.comic.seriesId});
 			}
 
+			$scope.goToComic = function(){
+				$state.go('comic', {'id': id});
+			}
+
 			$scope.removeTag = function(tagObj){
 				var tagParam = {
 					"tagId" : tagObj.id,

@@ -1,8 +1,12 @@
 <div class="edit-comic" ng-controller="editComicCtrl">
 
-	<a ng-click="go_to_series()">Back to Series</a>
+	<a class="back-link" ng-click="go_to_series()">Back to Series</a>
 
 	<h3 class="title" editable-text="comic.title" on-change="updateName(value)" edit-mode="isEditing"></h3>
+
+	<button class="btn btn-default btn-small view-btn" ng-click="goToComic()">
+		<i class="fa fa-eye" ></i>
+	</button>
 
 	<div class="container-fluid">
 

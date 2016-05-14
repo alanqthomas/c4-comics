@@ -69,6 +69,8 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
 app.constant('IMG_PREFIXES', {
   'PAGE' : 'page',
   'USER' : 'user',
+  'USER_BG' : 'user-bg',
+  'SERIES' : 'series',
   'COMIC' : 'comic'
 });
 

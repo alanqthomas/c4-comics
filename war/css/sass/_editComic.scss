@@ -28,6 +28,16 @@ $thumb_width: 150px;
   text-align: center;
 }
 
+.view-btn{
+  display: block;
+  margin: 10px auto;
+}
+
+.back-link{
+  margin: 10px;
+  display: block;
+}
+
 .thumbnail{
   object-fit: cover;
   width: $thumb_width;

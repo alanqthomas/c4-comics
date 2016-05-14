@@ -22,9 +22,9 @@
 .gg-editable-text .original-text {
   border: 1px solid transparent; }
 .gg-editable-text .original-text:hover, .gg-editable-text .gg-editable-text.editing {
-  border: dashed #ccc 1px; }
+  border: dashed #d8d8d8 1px; }
 .gg-editable-text input {
-  border: dashed #ccc 1px; }
+  border: dashed #d8d8d8 1px; }
 .gg-editable-text textarea:focus, .gg-editable-text input:focus {
   outline: 0; }
 .gg-editable-text textarea, .gg-editable-text input {
@@ -145,6 +145,12 @@
   font-size: 20px; }
 .edit-comic .title {
   text-align: center; }
+.edit-comic .view-btn {
+  display: block;
+  margin: 10px auto; }
+.edit-comic .back-link {
+  margin: 10px;
+  display: block; }
 .edit-comic .thumbnail {
   object-fit: cover;
   width: 150px;
@@ -362,30 +368,142 @@ body {
   font-size: 30px !important; }
 
 .series .cover {
-  width: 650px;
+  width: 600px;
   height: 300px;
   position: relative;
   margin: 0 auto;
-  color: white; }
-.series #coverTitle {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
   color: white;
-  overflow: hidden; }
-.series #coverBtn {
-  position: absolute;
-  bottom: 20px;
-  right: 10px; }
+  display: block; }
+  .series .cover .cover-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+    z-index: 10; }
+  .series .cover .sub-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 10px; }
+  .series .cover .cover-img {
+    position: absolute;
+    z-index: 0;
+    width: 600px;
+    height: 300px; }
 .series .content-wrapper {
-  padding-left: 30px;
-  padding-right: 30px; }
-.series .editIcon {
-  background-color: #80000000; }
+  margin: 20px auto;
+  width: 600px !important;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
+  padding: 20px; }
+  .series .content-wrapper .description-heading {
+    margin: 20px 0; }
+.series .comic-images {
+  width: 80vw;
+  margin: 0px auto;
+  border: 0px !important; }
+.series .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  margin: 5px; }
+.series .thumbnail {
+  object-fit: cover;
+  width: 150px;
+  height: 200px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  margin: 0px; }
+.series .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 150px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
+.series .expand-comment {
+  position: fixed;
+  z-index: 997;
+  bottom: 0px;
+  width: 75px;
+  height: 35px;
+  background-color: #4CAF50;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5px;
+  margin-left: 20px;
+  border-radius: 15px 15px 0px 0px;
+  color: white;
+  box-shadow: 3px -4px 9px -4px #888888; }
+.series .expand-comment:hover {
+  background-color: #71c174; }
+.series .detailBox {
+  width: 620px;
+  border: 1px solid #bbb;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  position: fixed;
+  z-index: 998;
+  bottom: 0px; }
+.series .titleBox {
+  background-color: #fdfdfd;
+  padding: 10px; }
+.series .titleBox label {
+  color: #444;
+  margin: 0;
+  display: inline-block; }
+.series .commentBox {
+  padding: 10px;
+  border-top: 1px dotted #bbb; }
+.series .commentBox .form-group:first-child, .series .actionBox .form-group:first-child {
+  width: 80%; }
+.series .commentBox .form-group:nth-child(2), .series .actionBox .form-group:nth-child(2) {
+  width: 18%; }
+.series .actionBox .form-group * {
+  width: 100%; }
+.series .taskDescription {
+  margin-top: 10px 0; }
+.series .commentList {
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow: auto; }
+.series .commentList li {
+  margin: 0;
+  margin-top: 10px; }
+.series .commentList li > div {
+  display: table-cell; }
+.series .commenterImage {
+  width: 30px;
+  margin-right: 5px;
+  height: 100%;
+  float: left; }
+.series .commenterImage img {
+  width: 100%;
+  border-radius: 50%; }
+.series .commentText p {
+  margin: 0; }
+.series .sub-text {
+  color: #aaa;
+  font-family: verdana;
+  font-size: 11px; }
+.series .actionBox {
+  border-top: 1px dotted #bbb;
+  padding: 10px;
+  background: white; }
 
 .myComics .view-column {
   width: 25px;
-  height: 25px;
+  height: 35px;
   font-size: 14px;
   margin: 0px;
   padding: 0px; }
