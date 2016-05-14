@@ -237,33 +237,42 @@ public class ComicEndpoint {
 		C4Rating ratingObj;
 		
 		try {
-			comic = getComic(comicId);		
+			comic = getComic(comicId);	
 			
-			if (comic.getRatings() == null) {
-				List<String> list = new ArrayList<String>();
-				comic.setRatings(list);
-			}
-			
-			if (comic.getRatings().contains(userId)) {
-				ratingObj = mgr.getObjectById(C4Rating.class, userId);
-				ratingObj.setRating(rating);
-			}
-			
-			else {
+			//if the comic has no ratings, make the rating object
+			if (!comic.isRated()) {
 				ratingObj = new C4Rating(userId, comicId, rating);
-				comic.addComicRating(userId);
+				comic.setRated(true);
+				mgr.makePersistent(ratingObj);
 			}
+			//if it has ratings, query for them and see if the user rated already or not
+			//if found, update the rating, else create a new rating and add it to the comic
+			else {
+				Query q = mgr.newQuery(C4Rating.class);
+				q.setFilter("comicId == comicIdParam");
+				q.declareParameters("Long comicIdParam");
+				List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
 				
-			mgr.makePersistent(ratingObj);
+				boolean found = false;
+				for (C4Rating r : ratings){
+					if (r.getUserId().equals(userId)){
+						r.setRating(rating);
+						mgr.makePersistent(r);
+						found = true;
+					}
+				}
+				if (!found) {
+					ratingObj = new C4Rating(userId, comicId, rating);
+					mgr.makePersistent(ratingObj);	
+				}	
+			}
 			mgr.makePersistent(comic);
 			index(comic);
-	
 		} catch (NotFoundException ex) {
 			throw ex;
 		} finally {
 			mgr.close();
 		}
-		
 		updateRatings(comic);
 		return comic;
 	}
@@ -598,7 +607,7 @@ public class ComicEndpoint {
 		series = mgr.getObjectById(Series.class, comic.getSeriesId());
 		for (Long id : series.getComics()) {
 			comics = mgr.getObjectById(Comic.class, id);
-			if (!(comics.getRatings() == null && comics.getRatings().size() == 0)) {
+			if (comics.isRated()) {
 				count += 1;
 				total += comics.getRating();
 			}		
@@ -632,4 +641,5 @@ public class ComicEndpoint {
 			
 		mgr.close();
 	}
+	
 }

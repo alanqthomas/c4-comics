@@ -50,10 +50,10 @@ public class Comic {
 	@Persistent
 	private List<Long> comments;
 	
-	//List of userIds that have rated this comic - used to access the ratings object
-	@Persistent
-	private List<String> ratings;
-	
+	//Boolean to quickly check if the comic has been rated
+	@Persistent 
+	private boolean rated;
+
 	//Calculated rating
 	@Persistent
 	private double rating;
@@ -123,14 +123,6 @@ public class Comic {
 		this.comments = comments;
 	}
 
-	public List<String> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<String> ratings) {
-		this.ratings = ratings;
-	}
-	
 	public double getRating() {
 		return rating;
 	}
@@ -178,14 +170,6 @@ public class Comic {
 	public boolean deleteComicComment(Long id){
 		return comments.remove(id);
 	}
-
-	public boolean addComicRating(String id){
-		return ratings.add(id);
-	}
-	
-	public boolean deleteComicRating(Long id){
-		return ratings.remove(id);
-	}
 	
 	public String getDateString() {
 		return dateString;
@@ -195,6 +179,14 @@ public class Comic {
 		this.dateString = dateString;
 	}
 	
+	public boolean isRated() {
+		return rated;
+	}
+
+	public void setRated(boolean rated) {
+		this.rated = rated;
+	}
+
 	//simple method to increment viewCount
 	public void updateViewCount() {
 		viewCount += 1;
