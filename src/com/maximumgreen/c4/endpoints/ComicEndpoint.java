@@ -288,6 +288,7 @@ public class ComicEndpoint {
 		
 		Comic comic;
 		Page page = new Page();
+		Page pageCheck;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
@@ -297,8 +298,17 @@ public class ComicEndpoint {
 				comic.setPages(list);
 			}
 			
+			//check what the page number should be. dumb.
+			int pageNum = 0;
+			for (Long p : comic.getPages()) {
+				pageCheck = mgr.getObjectById(Page.class, p);
+				if (pageCheck.getPageNumber() > pageNum)
+					pageNum = pageCheck.getPageNumber();
+			}
+			pageNum += 1;
+			page.setPageNumber(pageNum);
+			//persist the page and it to the comic
 			mgr.makePersistent(page);
-			
 			comic.addComicPage(page.getId());
 			
 			mgr.makePersistent(comic);
@@ -319,12 +329,26 @@ public class ComicEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Comic comic;
+		Page delPage;
+		Page pageCheck;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
-			comic.deleteComicPage(pageId);
 			
+			delPage = mgr.getObjectById(Page.class, pageId);
+			int delNum = delPage.getPageNumber();
+			
+			for (Long id : comic.getPages()) {
+				pageCheck = mgr.getObjectById(Page.class, id);
+				if (pageCheck.getPageNumber() > delNum){
+					pageCheck.setPageNumber(pageCheck.getPageNumber()-1);
+					mgr.makePersistent(pageCheck);
+				}
+			}
+			
+			comic.deleteComicPage(pageId);
 			mgr.makePersistent(comic);
+			mgr.deletePersistent(delPage);
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){

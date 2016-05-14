@@ -11,6 +11,10 @@ public class Page {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
     
+    //page number within comic
+    @Persistent
+    private int pageNumber;
+    
     //URL to image
     @Persistent
     private String imageURL;
@@ -58,6 +62,14 @@ public class Page {
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+	}
+
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
     
 }
