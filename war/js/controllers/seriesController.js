@@ -4,7 +4,7 @@
 (function() {
 
 angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth", "GData",
-                                    function(	 $scope, $http,   GApi,   $state,   $stateParams, 	imgService,    IMG_PREFIXES,   GAuth,   GData ){
+									function(	 $scope, $http,   GApi,   $state,   $stateParams, 	imgService,    IMG_PREFIXES,   GAuth,   GData ){
 		/* README
 		 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh),
 		 * comment(actual comment), profileImageURL(the url to profile image), dateString(string for date and time)
@@ -34,33 +34,36 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.comment_obj = {comment: ""};
 		$scope.faved = false;
 
-    $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
-    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
-    $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
+		$scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
+		$scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
+		$scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
 
 		//End init
 		//Display functions
 
-    $scope.$watch('coverImg', function(){
-      $scope.upload($scope.coverImg);
-    });
+		$scope.$watch('coverImg', function(){
+			$scope.upload($scope.coverImg);
+		});
 
-    $scope.upload = function(file){
-      $http({
-        'method': 'POST',
-        'url': imgService.getUploadURL(IMG_PREFIXES.SERIES, $scope.series_id),
-        'headers':{
-          'Content-Type': file.type
-        },
-        data: file
-      }).then(function(resp){
-          console.log("New cover image uploaded");
-          $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
-      }, function(resp){
-          console.log("ERROR uploading cover image");
-      });
-    };
-
+		$scope.upload = function(file){
+			if(file != null){
+				$http({
+					'method': 'POST',
+					'url': imgService.getUploadURL(IMG_PREFIXES.SERIES, $scope.series_id),
+					'headers':{
+						'Content-Type': file.type
+					},
+					data: file
+				}).then(function(resp){
+					console.log("New cover image uploaded");
+					$scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
+				}, function(resp){
+					console.log("ERROR uploading cover image");
+				});
+			}else{
+				console.log("Attempted to load img with null id.");
+			}
+		};
 		$scope.saveSettings= function(){
 			$scope.newSeries= {
 				id: $scope.series_id,
@@ -85,56 +88,50 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			);
 			//setCSS();
 		};
-
-    $scope.updateTitle = function(value){
-        var newSeries = {
-          'id': $scope.series_id,
-          'title': value
-        };
-
-        GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
-          function(resp){
-            console.log("Title updated");
-          }, function(resp){
-            console.log("ERROR updating series title");
-          }
-        );
-
-        return value;
-    };
-
-    $scope.updateDescription = function(value){
-      var newSeries = {
-        'id': $scope.series_id,
-        'description' : value
-      };
-
-      GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
-        function(resp){
-          console.log("Description updated");
-        }, function(resp){
-          console.log("ERROR updating series description");
-        });
-
-      return value;
-    };
-
-    $scope.hoverIn = function(){
-				this.hoverEdit = true;
+		$scope.updateTitle = function(value){
+			var newSeries = {
+			  'id': $scope.series_id,
+			  'title': value
 			};
 
+			GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
+			  function(resp){
+				console.log("Title updated");
+			  }, function(resp){
+				console.log("ERROR updating series title");
+			  }
+			);
+
+			return value;
+		};
+		$scope.updateDescription = function(value){
+		  var newSeries = {
+			'id': $scope.series_id,
+			'description' : value
+		  };
+		  GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
+			function(resp){
+			  console.log("Description updated");
+			}, function(resp){
+			  console.log("ERROR updating series description");
+			});
+
+		  return value;
+		};
+		$scope.hoverIn = function(){
+			this.hoverEdit = true;
+		};
 		$scope.hoverOut = function(){
 			this.hoverEdit = false;
 		}
 		//end display functions
-
-    $scope.loadMore = function() {
+		$scope.loadMore = function() {
 			if($scope.comics_reserve.length >0 ){
 				$scope.comics.push($scope.comics_reserve.shift());
 			}
 		}
 		$scope.getFirstPageURL = function(id){
-      return imgService.getURL(IMG_PREFIXES.PAGE, id);
+			return imgService.getURL(IMG_PREFIXES.PAGE, id);
 		}
 		function setAuth(){
 			GAuth.checkAuth().then(
@@ -154,7 +151,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			);
 		}
-
 		$scope.loadSeries = function(){
 			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
 				function(resp){
@@ -373,9 +369,9 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
-        console.log(resp);
+		console.log(resp);
 				$scope.series = resp;
-        setAuth();
+		setAuth();
 				//query for author name
 				GApi.execute( "c4userendpoint","getC4User", {"id":$scope.series.authorId}).then(
 					function(resp1){
@@ -431,7 +427,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go('profile',{"id": $scope.series.authorId});
 			}
 		}
-
 		$scope.goToComic = function(id){
 			if(id == null){
 				$state.go("error");
@@ -439,8 +434,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			else if($scope.is_owner){
 				$state.go("editComic", {"id": id});
 			} else {
-        $state.go("comic", {"id": id});
-      }
+				$state.go("comic", {"id": id});
+			}
 		}
 
 		$scope.newComic = function(){
@@ -451,7 +446,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 						//add the new comic
 						GApi.execute("seriesendpoint", "addseriescomic", {"seriesId" : $scope.series_id,"comicId" : resp.id}).then(
 							function(resp1){
-								$scope.goToEditComics(resp.id);
+								$scope.goToComic(resp.id);
 							},
 							function(resp1){
 								console.log("SEVERE ERROR: Comic not associated with user.")
