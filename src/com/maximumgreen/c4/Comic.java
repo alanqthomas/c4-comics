@@ -2,7 +2,6 @@ package com.maximumgreen.c4;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -51,9 +50,17 @@ public class Comic {
 	@Persistent
 	private List<Long> comments;
 	
-	//Map of User keys and Integer rating given to this comic by specific user
+	//Boolean to quickly check if the comic has been rated
+	@Persistent 
+	private boolean rated;
+
+	//Calculated rating
 	@Persistent
-	private Map<String, Integer> ratings;
+	private double rating;
+	
+	//View count - should be incremented any time a user views the page
+	@Persistent
+	private int viewCount;
 	
 	//Empty constructor
 	public Comic(){
@@ -116,12 +123,20 @@ public class Comic {
 		this.comments = comments;
 	}
 
-	public Map<String, Integer> getRatings() {
-		return ratings;
+	public double getRating() {
+		return rating;
 	}
 
-	public void setRatings(Map<String, Integer> ratings) {
-		this.ratings = ratings;
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+	
+	public int getViewCount() {
+		return viewCount;
+	}
+	
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
 	}
 	
 	public void setTitle(String title){
@@ -155,7 +170,7 @@ public class Comic {
 	public boolean deleteComicComment(Long id){
 		return comments.remove(id);
 	}
-
+	
 	public String getDateString() {
 		return dateString;
 	}
@@ -163,4 +178,18 @@ public class Comic {
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
 	}
+	
+	public boolean isRated() {
+		return rated;
+	}
+
+	public void setRated(boolean rated) {
+		this.rated = rated;
+	}
+
+	//simple method to increment viewCount
+	public void updateViewCount() {
+		viewCount += 1;
+	}
+	
 }

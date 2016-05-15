@@ -34,7 +34,7 @@ public class C4User {
 	@Persistent
 	private String profileImageURL;
 	
-	//User's rating, to be calculated from their series/comics ratings
+	//RATING - average of ALL comics in user's series
 	@Persistent
 	private double rating;
 	
@@ -91,6 +91,7 @@ public class C4User {
 	@Persistent
 	private String cssBackgroundColor;
 	
+
 	//Empty constructor
 	public C4User(){
 	}
