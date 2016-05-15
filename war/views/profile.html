@@ -3,6 +3,12 @@
 	<div class="cover">
 		<img class="cover-img" ng-src="{{profileCoverImg}}" default-img="{{defaultCoverImg}}" />
 
+		<div ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+				accept="image/*"
+				ngf-pattern="'image/*'"
+				ngf-max-size="5MB"></div>
+
 		<h5 ng-if="!is_owner" class="cover-title">{{profile.username}}</h5>
 		<h5 ng-if="is_owner" class="cover-title" editable-text="profile.username" on-change="updateName(value)"></h5>
 
@@ -27,39 +33,44 @@
 		<h5 class="description-heading">Bio</h5>
 		<p ng-if="!is_owner">{{profile.biography}}</p>
 		<p ng-if="is_owner" editable-text="profile.biography" on-change="updateBio(value)"></p>
+
+		<button ng-if="is_owner" class="btn btn-sm btn-primary new-series-btn" ng-click="newSeries()">
+			<i class="material-icons addIcon">note_add</i>
+		</button>
 	</div>
 
-	<button class="btn btn-sm btn-primary new-series-btn" ng-click="newSeries()">
-		<i class="material-icons addIcon">note_add</i>
-	</button>
 
+
+	<!--
 	<div class="series-images">
 		<div class="thumbnail-wrapper" ng-repeat="s in subscriptions">
 			<img ng-src="{{s.src}}" class="thumbnail" default-img="{{defaultPageImg}}"/>
 			<div class="thumbnail-overlay">{{s.title}}</div>
 		</div>
 	</div>
+-->
 
-	<!--
-	<div class='container'>
+	<div class='series-images'>
 		<uib-tabset>
 			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
 				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div ng-if="is_owner && tab.slug=='series' "  class='col-xs-6 col-sm-3 col-md-2 col-lg-2 addIcon'>
-						<i class="material-icons addIcon" ng-click="newSeries()">note_add</i>
-					</div>
-					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
-						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
-						<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-						<span ng-if="is_owner" class="profTabRTC">
-							<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
-								delete_forever
-							</i>
-						</span>
+					<div class='thumbnail-wrapper' ng-repeat='x in tab.content'>
+						<img ng-src={{x.src}} class='thumbnail' ng-click="page_go(x.type,x.id)" default-img="{{defaultPageImg}}">
+
+						<div class="thumbnail-overlay">
+							<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
+							<span class="thumbnail-delete" ng-if="is_owner">
+								<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
+									delete_forever
+								</i>
+							</span>
+						</div>
+
+
 					</div>
 				</div>
 			</uib-tab>
 		</uib-tabset>
 	</div>
-	-->
+
 </div>

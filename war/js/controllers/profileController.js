@@ -28,8 +28,9 @@
 		//set variables for getting users.
 		$scope.profile_id = $stateParams.id;
     $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
-    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
-		$scope.profileCoverImg = imgService.getURL(IMG_PREFIXES.USER_BG, $scope.profile_id);
+    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg?' + Date.now();
+    console.log(imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id));
+		$scope.profileCoverImg = imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id);
 		if(GData.getUser() == null){
 			$scope.is_owner = ($cookies.get('userId') == $scope.profile_id);
 		} else {
@@ -46,9 +47,30 @@
 			subscriptions: [],
 			profileImageURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
 		};
+
+    $scope.$watch('coverImg', function(){
+      $scope.upload($scope.coverImg);
+    });
 		//end main
 
 		//display functions
+    $scope.upload = function(file){
+      $http({
+        'method': 'POST',
+        'url': imgService.getUploadURL(IMG_PREFIXES.USER_BG, $scope.user_id),
+        headers:{
+          'Content-type': file.type
+        },
+        data: file
+      }).then(function(resp){
+        console.log("New cover image uploaded");
+        console.log(resp);
+        $scope.profileCoverImg = imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id);
+      },function(resp){
+        console.log("ERROR uploading cover image");
+      });
+    };
+
 		function setCSS(){
 			//$("#cover").css("background-image" , $scope.profile.bgImageURL);
 			$(".cssHeader").css("color" , $scope.profile.cssHeadingColor);
@@ -129,6 +151,9 @@
 
       return value;
     };
+
+
+
 		//check if user is logged in and followed
 		$scope.update_follow = function() {GAuth.checkAuth().then(
 				function(){

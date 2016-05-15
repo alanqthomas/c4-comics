@@ -23,6 +23,13 @@ $thumb_height: 200px;
 			cursor: default !important;
 		}
 
+		.cover-drop-box{
+			position: absolute;
+			z-index: 1;
+			width: $cover_width;
+			height: $cover_height;
+		}
+
 		.cover-title {
 			position: absolute;
 			bottom: 10px;
@@ -30,20 +37,20 @@ $thumb_height: 200px;
 			padding: 5px;
 			color: white;
 			overflow: hidden;
-			z-index: 2;
+			z-index: 3;
 		}
 
 		.cover-profile-img{
 			height: $profile_img_size;
 			width: $profile_img_size;
-			z-index: 1;
+			z-index: 2;
 			position: absolute;
 			bottom: -($profile_img_size/3);
 			left: $profile_img_size/3;
 		}
 
 		.cover-btn{
-			z-index: 1;
+			z-index: 4;
 			position: absolute;
 			bottom: 20px;
 			right: 20px;
@@ -90,6 +97,30 @@ $thumb_height: 200px;
 	position: absolute;
 	z-index: 1;
 	margin: 0px;
+}
+
+.thumbnail-overlay{
+	color: white;
+	background-color: rgba(0,0,0, 0.25);
+	display: inline-block;
+	z-index: 2;
+	width: $thumb_width;
+  height: 40px;
+	padding: 8px;
+	position: relative;
+	overflow: hidden;
+
+	p{
+		display: inline-block;
+		float: left;
+		overflow: hidden;
+	}
+
+	span{
+		display: inline-block;
+		float: right;
+		z-index: 3;
+	}
 }
 
 }
