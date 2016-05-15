@@ -3,10 +3,36 @@
 (function() {
 angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies', 'searchScope',
 function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   searchScope){
+
+
+	/*
+	READ ME, everything is in the $scope.notifications. Use getNotification() to update the notifications. They are basically
+	plain texts
+	*/
+
 	//init
 	var toggle = false;
+	$scope.notification_ids = [];
 	$scope.notifications = [];
 	$scope.search = searchScope.data;
+	$scope.showNotification = false;
+
+	// TEST DATA
+	$scope.notifications = [
+		{'id': '1',
+		 'message': 'Someone liked something',
+	 	 'dateString': '5/12/16 4:23pm'},
+		 {'id': '2',
+ 		 'message': 'This is a notification',
+ 	 	 'dateString': '5/11/16 7:42am'},
+		 {'id': '3',
+ 		 'message': 'There was a new comic uploaded',
+ 	 	 'dateString': '5/12/16 4:26am'},
+		 {'id': '4',
+ 		 'message': 'Notifications are great. Especially this one because its really long',
+ 	 	 'dateString': '5/12/16 2:30pm'},
+	];
+
 	// Check sign in
 	if($cookies.get('userId')){
 		GData.setUserId($cookies.get('userId'));
@@ -31,14 +57,31 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 			profileImageURL:picture
 		}
 	}
+
+	$scope.getNotification = function(){
+		if($scope.notification_ids!= null && $scope.notification_ids.length != 0){
+			for(var i = 0; i < $scope.notification_ids.length; i ++){
+				GApi.execute("c4userendpoint", "getNotification", {"id":$scope.notification_ids[i]}).then(
+					function(resp){
+						$scope.notifications.push(resp);
+					},
+					function(resp){
+
+					}
+				);
+			}
+		}
+	}
+
 	function doLogin(){
 		$cookies.put('userId', GData.getUser().id);
 		GApi.execute("c4userendpoint", "getC4User", {'id' : GData.getUser().id}).then(
 			function(resp){
-				$scope.notifications=resp.notifications;
+				$scope.notification_ids=resp.notifications;
 				$scope.profilePic=resp.profileImageURL;
 				$scope.signedIn=true;
 				$state.go($state.current, {}, {'reload': true});
+				$scope.getNotification();
 			},
 			function(resp){
 				console.log("No user information found in db.");
@@ -57,10 +100,14 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 		);
 	}
 	//visible functions
+	$scope.toggleNotification = function(){
+		$scope.showNotification = !$scope.showNotification;
+	}
+
 	$scope.deleteNotification = function(notif){
 		GApi.execute("c4userendpoint", "deleteNotification", {'id': notif.id}).then(
 			function(resp){
-				$scope.notifications.splice($scope.notifications.indexOf(notif), 1);
+				$scope.notification_ids.splice($scope.notification_ids.indexOf(notif), 1);
 			},
 			function(resp){
 				console.log("deleteNotification Failed");
@@ -68,7 +115,8 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 		);
 	}
 	$scope.goNotification = function(notif){
-		$scope.deleteNotification(notif);
+		//$scope.deleteNotification(notif);
+		//console.log(notif);
 		$state.go(notif.type, {id : notif.id});
 	}
 	$scope.doAuth = function(){
@@ -86,12 +134,12 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 	$scope.signOut = function(){
 		GAuth.logout().then(function(){
 			$cookies.remove('userId');
-			$scope.notifications=[];
+			$scope.notification_ids=[];
 			$scope.signedIn=false;
 			$window.location.reload();
 		});
 	};
-	$scope.navSearch = function(){    
+	$scope.navSearch = function(){
 		$state.go('search');
 	};
 	$scope.navProfile = function(){
@@ -106,8 +154,10 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 			toggle = false;
 		}
 	};
-	//main
-	$scope.notificationsBool = ($scope.notifications.length > 0);
+
+
+
+
 }]);
 
 })();

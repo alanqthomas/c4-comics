@@ -1,128 +1,75 @@
-<div ng-controller="profileCtrl" id="profPage">
-	<div id='profBackground' ng-style="bgStyle">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-2">
-					<img src={{profile.profileImageURL}} class='img-repsonsive' width=150px height=150px>
-					<span ng-if="is_owner">
-						<button class="btn btn-sm btn-primary">
-							<i class="material-icons forceTF">settings_ap	plications</i>
-						</button>
-					</span>
-				</div>
-				<div class='col-xs-10'>
-					<h1 ng-hide="editName" id="name">{{profile.username}}</h1>
-					<form class='form-inline'>
-						<form name='name' ng-submit="toggle('editName')">
-							<input class="form-control input-lg largeFont" ng-show="editName" type="text" ng-model="profile.username"></input>
-							<input ng-show="editName" type="color" ng-model ="profile.cssUsernameColor"></input>
-						</form>
-					</form>
-					<span ng-if="is_owner">
-						<button class="btn btn-sm btn-primary" ng-click="toggle('editName')">
-							<i class="material-icons forceTF">edit</i>
-						</button>
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class='container'>
-		<div ng-show="logged_in && !is_owner">
-			<button ng-if="!followed" class="btn btn-sm btn-primary" ng-click="follow()">
+<div ng-controller="profileCtrl" class="profile">
+
+	<div class="cover">
+		<img class="cover-img" ng-src="{{profileCoverImg}}" default-img="{{defaultCoverImg}}" />
+
+		<div ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+				accept="image/*"
+				ngf-pattern="'image/*'"
+				ngf-max-size="5MB"></div>
+
+		<h5 ng-if="!is_owner" class="cover-title">{{profile.username}}</h5>
+		<h5 ng-if="is_owner" class="cover-title" editable-text="profile.username" on-change="updateName(value)"></h5>
+
+		<img class='cover-profile-img' src={{profile.profileImageURL}}>
+
+		<button ng-if="is_owner" class="btn btn-sm btn-primary cover-btn">
+			<i class="material-icons">settings_applications</i>
+		</button>
+
+		<div ng-if="logged_in && !is_owner">
+			<button ng-if="!followed" class="btn btn-sm btn-primary cover-btn" ng-click="follow()">
 				Follow
 			</button>
 
-			<button ng-if="followed" class="btn btn-sm btn-danger" ng-click="unfollow()">
+			<button ng-if="followed" class="btn btn-sm btn-dange cover-btnr" ng-click="unfollow()">
 				Unfollow
 			</button>
 		</div>
-		<div ng-show="logged_in && !is_owner">
-			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
-				Favorite
-			</button>
-			<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
-				Unfavorite
-			</button>
-		</div>
-	
-	
-		<div class='row'>
-			<div class='col-xs-12' ng-if="! is_owner" >
-				<h1 class="cssHeader">Biography</h1>
-			</div>
-			<div class='col-xs-10' ng-if="is_owner" >
-				<h1 class="cssHeader">Biography</h1>
-			</div>
-			
-			<div class='col-xs-2' ng-if="is_owner" >
-				<button class="btn btn-sm btn-primary">
-					<i class="material-icons forceTF">settings_applications</i>
-				</button>
-			</div>
-		</div>
-		<!-- need to dynamically load bio -->
-		<div class='row' ng-if="is_owner">
-			<div class='col-xs-11'>
-				<p ng-hide="editBio" id="bio">{{profile.biography}}</p>
-			</div>
-			
-			<div class='col-xs-11'>
-				<form class='form-inline'>
-					<form name='bio'>
-						<input class="form-control" ng-show="editBio" type="textarea" ng-model="profile.biography" size='50'></input>
-						<input ng-show="editBio" type="color" size='10' ng-model="profile.cssBiographyColor"></input>
-					</form>
-				</form>
-			</div>
-			
-			<div class='col-xs-1' ng-if="is_owner">
-				<button class="btn btn-sm btn-primary" ng-click="toggle('editBio')">
-					<i class="material-icons forceTF">edit</i>
-				</button>
-				<!-- this needs to change the bio to an input. -->
-			</div>
-		</div>
-		<div class='row' ng-if="! is_owner">
-			<div class='col-xs-12'>
-				<p>{{profile.biography}}</p>
-			</div>
-		</div>
-		<!--
-		<p>
-			series {{series}} <br>
-			series reserve{{series_reserve}} <br>
-			fav {{favorites}} <br>
-			fav reserve {{favorites_reserve}} <br>
-			sub {{subscriptions}} <br>
-			sub reserve {{subscriptions_reserve}} <br>
-			user series {{profile.userSeries}} <br>
-			fav series {{profile.favoriteSeries}} <br>
-			fav comics {{profile.favoriteComics}} <br>
-			fav author {{profile.favoriteAuthors}} <br>
-			tabs {{tabs}}<br>
-		</p>-->
-	
 	</div>
-	<div class='container'>
+
+	<div class="content-wrapper">
+		<h5 class="description-heading">Bio</h5>
+		<p ng-if="!is_owner">{{profile.biography}}</p>
+		<p ng-if="is_owner" editable-text="profile.biography" on-change="updateBio(value)"></p>
+
+		<button ng-if="is_owner" class="btn btn-sm btn-primary new-series-btn" ng-click="newSeries()">
+			<i class="material-icons addIcon">note_add</i>
+		</button>
+	</div>
+
+
+
+	<!--
+	<div class="series-images">
+		<div class="thumbnail-wrapper" ng-repeat="s in subscriptions">
+			<img ng-src="{{s.src}}" class="thumbnail" default-img="{{defaultPageImg}}"/>
+			<div class="thumbnail-overlay">{{s.title}}</div>
+		</div>
+	</div>
+-->
+
+	<div class='series-images'>
 		<uib-tabset>
 			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
 				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div ng-if="is_owner && tab.slug=='series' "  class='col-xs-6 col-sm-3 col-md-2 col-lg-2 addIcon'>
-						<i class="material-icons addIcon" ng-click="newSeries()">note_add</i>
-					</div> 
-					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
-						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
-						<p class='imgDescription' ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-						<span ng-if="is_owner" class="profTabRTC">
-							<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
-								delete_forever
-							</i>
-						</span> 
+					<div class='thumbnail-wrapper' ng-repeat='x in tab.content'>
+						<img ng-src={{x.src}} class='thumbnail' ng-click="page_go(x.type,x.id)" default-img="{{defaultPageImg}}">
+
+						<div class="thumbnail-overlay">
+							<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
+							<span class="thumbnail-delete" ng-if="is_owner">
+								<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
+									delete_forever
+								</i>
+							</span>
+						</div>
+
+
 					</div>
 				</div>
 			</uib-tab>
 		</uib-tabset>
 	</div>
 </div>
-

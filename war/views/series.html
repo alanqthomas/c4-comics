@@ -1,20 +1,23 @@
-<div ng-controller="seriesCtrl" id = "cssAll">
-	<div id = "cover" class="cover">
-		<h2 id = "coverTitle">{{series.title}}</h2>
-
+<div ng-controller="seriesCtrl" class="series">
+	<div class="cover">
+		<h2 ng-if="!is_owner" class="cover-title">{{series.title}}</h2>
+		<h2 ng-if="is_owner" class="cover-title" editable-text="series.title" on-change="updateTitle(value)"></h2>
 		<div ng-show="logged_in && !is_owner">
-			<button ng-if="!subbed" class="btn btn-sm btn-primary" ng-click="subscribe()" id = "coverBtn">
+			<button ng-if="!subbed" class="btn btn-sm btn-primary sub-btn" ng-click="subscribe()">
 				Subscribe
 			</button>
-
-			<button ng-if="subbed" class="btn btn-sm btn-danger" ng-click="unsubscribe()">
+			<button ng-if="subbed" class="btn btn-sm btn-danger sub-btn" ng-click="unsubscribe()">
 				Unsubscribe
 			</button>
 		</div>
-
+		<img class="cover-img" ng-src="{{coverImgURL}}" default-img="{{defaultCoverImg}}" />
+		<div ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+				accept="image/*"
+				ngf-pattern="'image/*'"
+				ngf-max-size="5MB"></div>
 	</div>
-
-	<div class="container">
+	<div class="content-wrapper">
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 				Favorite
@@ -23,94 +26,67 @@
 				Unfavorite
 			</button>
 		</div>
-
-		<div class='row' ng-if="is_owner">
-			<button class="btn btn-sm btn-primary" ng-click="toggle('editTitle')">
-				<i class="material-icons editIcon" >edit</i>
-			</button>
-			<form class='form-inline' ng-show='editTitle'>
-				<form ng-submit="toggle('editTitle')" name='name'>
-					<input class="form-control input-lg" type="text" ng-model="series.title"></input>
-					<input type="color" ng-model="series.cssTitleColor"></input>
-				</form>
-			</form>
-		</div>
-		<div class="content-wrapper">
-			<h4 ng-click="goToAuthor()">Author: {{author_name}}</h4>
-			<h4 class="cssHeader">Description</h4>
-			<p id ="cssDescription">{{series.description}}</p>
-			<div class='row' ng-if="is_owner">
-				<button class="btn btn-sm btn-primary" ng-click="toggle('editDescription')">
-					<i class="material-icons editIcon" >edit</i>
-				</button>
-				<form class='form-inline' ng-show='editDescription'>
-					<form ng-submit="toggle('editDescription')" name='name'>
-						<input class="form-control input-lg" type="textarea" ng-model="series.description"></input>
-						<input type="color" ng-model="series.cssDescriptionColor"></input>
-					</form>
-				</form>
-			</div>
-			<h4>Rating: {{series.rating}}</h4>
-		</div>
-		<div ng-if="show_comment">
-			<div class="detailBox">
-				<div class="titleBox">
-				  <label>Comment Box</label>
-					<button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
-				</div>
-				<div class="commentBox">
-					<p class="taskDescription">Write your comments below.</p>
-				</div>
-				<div class="actionBox">
-					<ul class="commentList">
-						<li ng-repeat="comment in comments | orderBy:date" >
-							<div class="commenterImage">
-								<img ng-src="{{comment.profileImageURL}}">
-							</div>
-							<button ng-show='comment.user_id == user_id' type="button" class="close" aria-hidden="true" ng-click="delete_comment(comment.id)">&times;</button>
-							<p>{{comment.username}}</p>
-							<div class="commentText">
-								<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
-							</div>
-						</li>
-					</ul>
-					<form class="form-inline" role="form">
-						<div class="form-group">
-							<p> {{your_comment}}</p>
-							<input class="form-control" type="text" ng-model="comment_obj.comment" placeholder="Insert Your Witty Comment" />
-						</div>
-						<div class="form-group">
-							<button class="btn btn-default" ng-click="add_comment()">Add</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class='row'>
-			<h3 class="cssHeader">Comics</h3>
-		</div>
-		<!-- if there are pages -->
+		<h5 class="content-heading">Description</h5>
+		<p ng-if="!is_owner">{{series.description}}</p>
+		<p ng-if="is_owner" editable-text="series.description" on-change="updateDescription(value)"></p>
+		<h5 class="content-heading">Author</h5>
+		<p ng-click="goToAuthor()">{{author_name}}</p>
+		<h5 class="content-heading">Rating</h5>
+		<p>{{series.rating}}</p>
+		<button ng-if="is_owner" ng-click="newComic()" class="btn btn-default btn-small">
+			<i class="material-icons editIcon" >note_add</i>
+		</button>
+	</div>
+	<div class="comic-images">
+		<!-- if there are comics -->
 		<div ng-if='comics.length > 0 || is_owner'>
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
-
-				<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
-					<button class="btn btn-sm btn-primary" ng-click="newComic()">
-						<i class="material-icons editIcon">note_add</i>
-					</button>
-				</div>
-				<div ng-if="!is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
-					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToComics(comic.id)">
-					<p class='imgDescription' ng-click="goToComics(comic.id)" >{{comic.title}}</p>
-				</div>
-				<div ng-if="is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
-					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToEditComics(comic.id)">
-					<p class='imgDescription' ng-click="goToEditComics(comic.id)" >{{comic.title}}</p>
+				<div class='thumbnail-wrapper' ng-click="goToComic(comic.id)" ng-repeat='comic in comics'
+				 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+					<img default-image ng-src="{{getFirstPageURL(comic.page[0])}}" default-img="{{defaultPageImg}}" class='thumbnail'/>
+					<div class="thumbnail-overlay">{{comic.title}}</div>
 				</div>
 			</div>
 		</div>
-		<!-- if there are no pages -->
+		<!-- if there are no comics -->
 		<div ng-if='comics.length == 0'>
-			<p>No comics in this series! :(</p>
+			<p>There are no comics in this series.</p>
+			<p ng-if="!is_owner">Subscribe to be notified when they some are.</p>
+			<p ng-if="is_owner">Hit the <i class="material-icons editIcon" >note_add</i> above to add some.</p>
+		</div>
+	</div>
+	<!-- Comments -->
+	<div class="expand-comment" ng-click="show_comment = !show_comment">
+		<i uib-popover-html="commendPopover" class="material-icons">comment</i>
+	</div>
+	<div ng-if="show_comment">
+		<div class="detailBox">
+			<div class="titleBox">
+				<label>Comments</label>
+			</div>
+			<div class="actionBox">
+				<ul class="commentList">
+					<li ng-repeat="comment in comments | orderBy:date" >
+						<div class="commenterImage">
+							<img ng-src="{{comment.profileImageURL}}">
+						</div>
+						<button ng-show='comment.user_id == user_id' type="button" class="close" aria-hidden="true" ng-click="delete_comment(comment.id)">&times;</button>
+						<p>{{comment.username}}</p>
+						<div class="commentText">
+							<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
+						</div>
+					</li>
+				</ul>
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<p> {{your_comment}}</p>
+						<input class="form-control" type="text" ng-model="comment_obj.comment" placeholder="Insert Your Witty Comment" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-default" ng-click="add_comment()">Add</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

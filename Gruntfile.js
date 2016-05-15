@@ -32,7 +32,8 @@ module.exports = function(grunt) {
           'war/js/services/authService.js',
 			  	'war/js/services/imgService.js',
 					'war/js/services/searchScope.js',
-					'war/js/directives/navBar.js'],
+					'war/js/directives/navBar.js',
+					'war/js/directives/defaultImage.js'],
           dest: 'war/js/dist/scripts.js'
 			}
 		},

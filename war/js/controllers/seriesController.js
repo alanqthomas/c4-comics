@@ -11,36 +11,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		 *
 		 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 		 */
-		//init
-		//DO NOT MOVE THINGS IN INIT
-		$scope.loadMore = function() {
-			if($scope.comics_reserve.length >0 ){
-				$scope.comics.push($scope.comics_reserve.shift());
-			}
-		}
-		$scope.getFirstPageURL = function(id){
-			return imgService.getURL(IMG_PREFIXES.PAGE, id);
-		}
-		function setAuth(){
-			GAuth.checkAuth().then(
-				function(){
-					$scope.logged_in = true;
-					$scope.user_id = GData.getUser().id;
-					if($scope.series_id == $scope.user_id){
-						$scope.is_owner = true;
-					}
-					else {
-						$scope.is_owner = false;
-					}
-				},
-				function(){
-					$scope.logged_in = false;
-					$scope.user_id = null;
-					$scope.is_owner = false;
-				}
-			);
-		}
-		//init
+
+		//init    
 		$scope.series_id = $stateParams.id;
 		$scope.comics=[];
 		$scope.comics_reserve=[];
@@ -56,22 +28,39 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.editTitle = false;
 		$scope.editDescription = false;
 		$scope.comments = [];
-		$scope.show_comment = true;
+		$scope.show_comment = false;
 		//THIS MUST BE AN OBJECT. according to angular api, best practice with
 		//ng-model is using "."
 		$scope.comment_obj = {comment: ""};
 		$scope.faved = false;
 
-		setAuth();
+    $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
+    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
+    $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
+
 		//End init
 		//Display functions
-		function setCSS(){
-			$("#cover").css("background-image" , $scope.series.bgImageURL);
-			$(".cssHeader").css("color" , $scope.series.cssHeadingColor);
-			$("#cssDescription").css("color" , $scope.series.cssDescriptionColor);
-			$("#coverTitle").css("color" , $scope.series.cssTitleColor);
-			$("#cssAll").css("color" , $scope.series.cssBGColor);
-		}
+
+    $scope.$watch('coverImg', function(){
+      $scope.upload($scope.coverImg);
+    });
+
+    $scope.upload = function(file){
+      $http({
+        'method': 'POST',
+        'url': imgService.getUploadURL(IMG_PREFIXES.SERIES, $scope.series_id),
+        'headers':{
+          'Content-Type': file.type
+        },
+        data: file
+      }).then(function(resp){
+          console.log("New cover image uploaded");
+          $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
+      }, function(resp){
+          console.log("ERROR uploading cover image");
+      });
+    };
+
 		$scope.saveSettings= function(){
 			$scope.newSeries= {
 				id: $scope.series_id,
@@ -94,23 +83,77 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					console.log("Error saving settings to db.");
 				}
 			);
-			setCSS();
+			//setCSS();
 		};
-		$scope.toggle= function(toToggle){
-			if(toToggle == "editTitle"){
-				if($scope.editTitle == true){
-					$scope.saveSettings();
-				}
-				$scope.editTitle = !($scope.editTitle);
-			}
-			if(toToggle == "editDescription"){
-				if($scope.editDescription == true){
-					$scope.saveSettings();
-				}
-				$scope.editDescription = !($scope.editDescription);
-			}
+
+    $scope.updateTitle = function(value){
+        var newSeries = {
+          'id': $scope.series_id,
+          'title': value
+        };
+
+        GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
+          function(resp){
+            console.log("Title updated");
+          }, function(resp){
+            console.log("ERROR updating series title");
+          }
+        );
+
+        return value;
+    };
+
+    $scope.updateDescription = function(value){
+      var newSeries = {
+        'id': $scope.series_id,
+        'description' : value
+      };
+
+      GApi.execute("seriesendpoint", "updateSeries", newSeries).then(
+        function(resp){
+          console.log("Description updated");
+        }, function(resp){
+          console.log("ERROR updating series description");
+        });
+
+      return value;
+    };
+
+    $scope.hoverIn = function(){
+				this.hoverEdit = true;
+			};
+
+		$scope.hoverOut = function(){
+			this.hoverEdit = false;
 		}
 		//end display functions
+
+    $scope.loadMore = function() {
+			if($scope.comics_reserve.length >0 ){
+				$scope.comics.push($scope.comics_reserve.shift());
+			}
+		}
+		$scope.getFirstPageURL = function(id){
+      return imgService.getURL(IMG_PREFIXES.PAGE, id);
+		}
+		function setAuth(){
+			GAuth.checkAuth().then(
+				function(){
+					$scope.logged_in = true;
+					$scope.user_id = GData.getUser().id;
+					if($scope.series.authorId == $scope.user_id){
+						$scope.is_owner = true;
+					}	else {
+						$scope.is_owner = false;
+					}
+				},
+				function(){
+					$scope.logged_in = false;
+					$scope.user_id = null;
+					$scope.is_owner = false;
+				}
+			);
+		}
 
 		$scope.loadSeries = function(){
 			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
@@ -154,7 +197,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 					$scope.comments = [];
 					if($scope.series.comments != null){
 						//query for each comment
-						
+
 						for(var i = 0; i < $scope.series.comments.length; i ++){
 							GApi.execute("commentendpoint", "getComment", {"id":$scope.series.comments[i]}).then(
 								function(commentResp){
@@ -330,7 +373,9 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
 		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
+        console.log(resp);
 				$scope.series = resp;
+        setAuth();
 				//query for author name
 				GApi.execute( "c4userendpoint","getC4User", {"id":$scope.series.authorId}).then(
 					function(resp1){
@@ -371,17 +416,13 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				//user as in the one who is currently browsing this page
 				$scope.user_id = 0;
 				$scope.update_sub();
-				setCSS();
+				//setCSS();
 			},function(resp){
 				console.log("Error getting series.");
 				console.log(resp);
 			}
 		);
 
-		/* attempted ngStyle, they dont work
-		$scope.bg_img="background:#ffffff url('https://www.planwallpaper.com/static/images/6790904-free-background-wallpaper.jpg') no-repeat center center;";
-		$scope.bg_img="{'background-color':'red'}";
-		*/
 		$scope.goToAuthor=function(){
 			if($scope.series.authorId==null){
 				$state.go('error');
@@ -390,22 +431,18 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				$state.go('profile',{"id": $scope.series.authorId});
 			}
 		}
-		$scope.goToComics = function(id){
+
+		$scope.goToComic = function(id){
 			if(id == null){
 				$state.go("error");
 			}
-			else{
-				$state.go("comic", {"id": id});
-			}
-		}
-		$scope.goToEditComics = function(id){
-			if(id == null){
-				$state.go("error");
-			}
-			else{
+			else if($scope.is_owner){
 				$state.go("editComic", {"id": id});
-			}
+			} else {
+        $state.go("comic", {"id": id});
+      }
 		}
+
 		$scope.newComic = function(){
 			if($scope.is_owner){
 				//console.log("seriesID: " + $scope.series_id);

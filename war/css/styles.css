@@ -19,84 +19,181 @@
 [ng-click], [data-ng-click], [x-ng-click], img, i {
   cursor: pointer; }
 
+.gg-editable-text .original-text {
+  border: 1px solid transparent; }
+.gg-editable-text .original-text:hover, .gg-editable-text .gg-editable-text.editing {
+  border: dashed #d8d8d8 1px; }
+.gg-editable-text input {
+  border: dashed #d8d8d8 1px; }
+.gg-editable-text textarea:focus, .gg-editable-text input:focus {
+  outline: 0; }
+.gg-editable-text textarea, .gg-editable-text input {
+  background: inherit;
+  color: green;
+  font: inherit;
+  border: inherit;
+  width: 100%;
+  padding: inherit;
+  margin: 0;
+  height: inherit;
+  -webkit-font-smoothing: inherit;
+  line-height: inherit;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: inherit; }
+.gg-editable-text span {
+  text-decoration: inherit; }
+
 .tagsDisplayBrowse {
   text-align: center;
   align-items: center; }
 
-.comicTitleBar {
-  background-color: #4b647d; }
-
-.comicTitleBarFL {
-  float: right; }
-
-.pageDiv {
+.comic-page .pageDiv {
   text-align: center;
   align-items: center; }
-
-.detailBox {
+.comic-page img {
+  max-width: 75vw;
+  height: auto;
+  margin: 10px 0px 10px 0px;
+  cursor: default !important; }
+.comic-page .expand-comment {
+  position: fixed;
+  z-index: 997;
+  bottom: 0px;
+  width: 75px;
+  height: 35px;
+  background-color: #4CAF50;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5px;
+  margin-left: 20px;
+  border-radius: 15px 15px 0px 0px;
+  color: white;
+  box-shadow: 3px -4px 9px -4px #888888; }
+.comic-page .expand-comment:hover {
+  background-color: #71c174; }
+.comic-page .detailBox {
   width: 620px;
   border: 1px solid #bbb;
-  margin: 50px; }
-
-.titleBox {
+  margin: 0 auto;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  position: fixed;
+  z-index: 998;
+  bottom: 0px; }
+.comic-page .titleBox {
   background-color: #fdfdfd;
   padding: 10px; }
-
-.titleBox label {
+.comic-page .titleBox label {
   color: #444;
   margin: 0;
   display: inline-block; }
-
-.commentBox {
+.comic-page .commentBox {
   padding: 10px;
   border-top: 1px dotted #bbb; }
-
-.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+.comic-page .commentBox .form-group:first-child, .comic-page .actionBox .form-group:first-child {
   width: 80%; }
-
-.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+.comic-page .commentBox .form-group:nth-child(2), .comic-page .actionBox .form-group:nth-child(2) {
   width: 18%; }
-
-.actionBox .form-group * {
+.comic-page .actionBox .form-group * {
   width: 100%; }
-
-.taskDescription {
+.comic-page .taskDescription {
   margin-top: 10px 0; }
-
-.commentList {
+.comic-page .commentList {
   padding: 0;
   list-style: none;
   max-height: 200px;
   overflow: auto; }
-
-.commentList li {
+.comic-page .commentList li {
   margin: 0;
   margin-top: 10px; }
-
-.commentList li > div {
+.comic-page .commentList li > div {
   display: table-cell; }
-
-.commenterImage {
+.comic-page .commenterImage {
   width: 30px;
   margin-right: 5px;
   height: 100%;
   float: left; }
-
-.commenterImage img {
+.comic-page .commenterImage img {
   width: 100%;
   border-radius: 50%; }
-
-.commentText p {
+.comic-page .commentText p {
   margin: 0; }
-
-.sub-text {
+.comic-page .sub-text {
   color: #aaa;
   font-family: verdana;
   font-size: 11px; }
-
-.actionBox {
+.comic-page .actionBox {
   border-top: 1px dotted #bbb;
-  padding: 10px; }
+  padding: 10px;
+  background: white; }
+
+.edit-comic .drop-box {
+  border-radius: 10px;
+  border-style: dotted;
+  border-color: #ddd;
+  border-width: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 90px;
+  width: 400px;
+  height: 200px;
+  margin: 0 auto; }
+.edit-comic .drop-box-wrapper {
+  text-align: center; }
+.edit-comic .close-button {
+  font-size: 20px; }
+.edit-comic .title {
+  text-align: center; }
+.edit-comic .view-btn {
+  display: block;
+  margin: 10px auto; }
+.edit-comic .back-link {
+  margin: 10px;
+  display: block; }
+.edit-comic .thumbnail {
+  object-fit: cover;
+  width: 150px;
+  height: 200px;
+  border: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer !important; }
+.edit-comic .thumbnail-wrapper {
+  border: 0px;
+  padding: 0px;
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  margin: 5px;
+  overflow: hidden; }
+.edit-comic .thumbnail-overlay {
+  color: white;
+  display: inline-block;
+  text-align: center;
+  height: 200px;
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.45);
+  padding: 5px;
+  z-index: 2;
+  position: relative;
+  font-size: 20px; }
+.edit-comic .add-page-wrapper {
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  padding: 90px; }
+.edit-comic .add-page {
+  font-size: 20px;
+  text-align: left; }
+.edit-comic .tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px; }
+.edit-comic .tag-wrapper {
+  margin: 10px; }
 
 .DocumentList {
   overflow-x: scroll;
@@ -194,51 +291,127 @@ body {
   margin-top: 85px;
   background-color: #FAFAFA; }
 
-.largeFont {
-  font-size: 36px; }
+.notification-box {
+  position: fixed;
+  top: 75px;
+  z-index: 998;
+  right: 100px;
+  width: 350px;
+  border: 1px solid #e6e6e6;
+  background-color: white;
+  box-shadow: 2px 2px 3px 0px #a6a6a6; }
+  .notification-box ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px; }
+    .notification-box ul li:first-child {
+      border-top: none; }
+    .notification-box ul li {
+      border-top: 1px dotted #d9d9d9;
+      display: block;
+      padding: 10px; }
+      .notification-box ul li .notification-content .notification-message {
+        display: block;
+        float: left; }
+      .notification-box ul li .notification-content .notification-delete {
+        display: block;
+        font-size: 20px;
+        text-align: right; }
+      .notification-box ul li .notification-date {
+        text-align: right;
+        font-size: 10px;
+        color: #bfbfbf; }
+    .notification-box ul li:hover {
+      background-color: #e6e6e6; }
 
-.forceTF {
-  width: 24px;
-  height: 24px; }
-
-.profTabRTC {
+.profile .cover {
+  width: 600px;
+  height: 300px;
+  position: relative;
+  display: block;
+  background-color: white;
+  margin: 0px auto; }
+  .profile .cover .cover-img {
+    object-fit: cover;
+    position: absolute;
+    z-index: 0;
+    width: 600px;
+    height: 300px;
+    cursor: default !important; }
+  .profile .cover .cover-drop-box {
+    position: absolute;
+    z-index: 1;
+    width: 600px;
+    height: 300px; }
+  .profile .cover .cover-title {
+    position: absolute;
+    bottom: 10px;
+    left: 150px;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+    z-index: 3; }
+  .profile .cover .cover-profile-img {
+    height: 100px;
+    width: 100px;
+    z-index: 2;
+    position: absolute;
+    bottom: -33.33333px;
+    left: 33.33333px;
+    object-fit: cover; }
+  .profile .cover .cover-btn {
+    z-index: 4;
+    position: absolute;
+    bottom: 20px;
+    right: 20px; }
+.profile .content-wrapper {
+  margin: 10px auto;
+  width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
+  padding: 20px; }
+  .profile .content-wrapper .description-heading {
+    margin: 20px 0; }
+.profile .new-series-btn {
+  margin: 0px auto !important; }
+.profile .series-images {
+  width: 80vw;
+  margin: 0px auto; }
+.profile .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  margin: 5px; }
+.profile .thumbnail {
+  object-fit: cover;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
   position: absolute;
-  top: 0px;
-  right: 0px; }
-
-.addIcon {
-  text-align: center;
-  text-size: 4em; }
-
-.testing {
-  background-color: green; }
-
-.h1_hover {
-  cursor: pointer; }
-
-.imgWrap {
-  position: relative; }
-
-.preview {
-  cursor: pointer;
-  margin-bottom: 25px;
-  margin-right: 0px;
-  margin-left: 0px; }
-
-.imgDescription {
-  position: absolute;
-  top: 0;
-  left: 30;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-  cursor: pointer;
-  -webkit-transition: visibility opacity 0.2s; }
-
-.imgWrap:hover .imgDescription {
-  visibility: visible;
-  opacity: 1; }
+  z-index: 1;
+  margin: 0px; }
+.profile .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 150px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
+  .profile .thumbnail-overlay p {
+    display: inline-block;
+    float: left;
+    overflow: hidden; }
+  .profile .thumbnail-overlay span {
+    display: inline-block;
+    float: right;
+    z-index: 3; }
 
 .search-x {
   float: left;
@@ -246,30 +419,152 @@ body {
   padding-right: 20px;
   font-size: 30px !important; }
 
-.cover {
-  width: 650px;
+.series .cover {
+  width: 600px;
   height: 300px;
   position: relative;
   margin: 0 auto;
-  color: white; }
-
-#coverTitle {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
   color: white;
-  overflow: hidden; }
-
-#coverBtn {
+  display: block; }
+  .series .cover .cover-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+    z-index: 10; }
+  .series .cover .cover-drop-box {
+    position: absolute;
+    z-index: 1;
+    width: 600px;
+    height: 300px; }
+  .series .cover .sub-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    z-index: 2; }
+  .series .cover .cover-img {
+    position: absolute;
+    z-index: 0;
+    width: 600px;
+    height: 300px;
+    object-fit: cover; }
+.series .content-wrapper {
+  margin: 20px auto;
+  width: 600px !important;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
+  padding: 20px; }
+  .series .content-wrapper .description-heading {
+    margin: 20px 0; }
+.series .comic-images {
+  width: 80vw;
+  margin: 0px auto;
+  border: 0px !important; }
+.series .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  margin: 5px; }
+.series .thumbnail {
+  object-fit: cover;
+  width: 150px;
+  height: 200px;
+  padding: 0px;
   position: absolute;
-  bottom: 20px;
-  right: 10px; }
+  z-index: 1;
+  margin: 0px; }
+.series .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 150px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
+.series .expand-comment {
+  position: fixed;
+  z-index: 997;
+  bottom: 0px;
+  width: 75px;
+  height: 35px;
+  background-color: #4CAF50;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5px;
+  margin-left: 20px;
+  border-radius: 15px 15px 0px 0px;
+  color: white;
+  box-shadow: 3px -4px 9px -4px #888888; }
+.series .expand-comment:hover {
+  background-color: #71c174; }
+.series .detailBox {
+  width: 620px;
+  border: 1px solid #bbb;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  position: fixed;
+  z-index: 998;
+  bottom: 0px; }
+.series .titleBox {
+  background-color: #fdfdfd;
+  padding: 10px; }
+.series .titleBox label {
+  color: #444;
+  margin: 0;
+  display: inline-block; }
+.series .commentBox {
+  padding: 10px;
+  border-top: 1px dotted #bbb; }
+.series .commentBox .form-group:first-child, .series .actionBox .form-group:first-child {
+  width: 80%; }
+.series .commentBox .form-group:nth-child(2), .series .actionBox .form-group:nth-child(2) {
+  width: 18%; }
+.series .actionBox .form-group * {
+  width: 100%; }
+.series .taskDescription {
+  margin-top: 10px 0; }
+.series .commentList {
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow: auto; }
+.series .commentList li {
+  margin: 0;
+  margin-top: 10px; }
+.series .commentList li > div {
+  display: table-cell; }
+.series .commenterImage {
+  width: 30px;
+  margin-right: 5px;
+  height: 100%;
+  float: left; }
+.series .commenterImage img {
+  width: 100%;
+  border-radius: 50%; }
+.series .commentText p {
+  margin: 0; }
+.series .sub-text {
+  color: #aaa;
+  font-family: verdana;
+  font-size: 11px; }
+.series .actionBox {
+  border-top: 1px dotted #bbb;
+  padding: 10px;
+  background: white; }
 
-.content-wrapper {
-  padding-left: 30px;
-  padding-right: 30px; }
-
-.editIcon {
-  background-color: #80000000; }
+.myComics .view-column {
+  width: 25px;
+  height: 35px;
+  font-size: 14px;
+  margin: 0px;
+  padding: 0px; }
 
 /*# sourceMappingURL=styles.css.map */

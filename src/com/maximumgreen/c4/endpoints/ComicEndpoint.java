@@ -1,5 +1,6 @@
 package com.maximumgreen.c4.endpoints;
 
+import com.maximumgreen.c4.C4Rating;
 import com.maximumgreen.c4.C4User;
 import com.maximumgreen.c4.Comic;
 import com.maximumgreen.c4.Comment;
@@ -192,20 +193,93 @@ public class ComicEndpoint {
 	 * It uses HTTP DELETE method.
 	 *
 	 * @param id the primary key of the entity to be deleted.
+	 * @throws NotFoundException 
 	 */
 	@ApiMethod(name = "removeComic")
-	public void removeComic(@Named("id") Long id) {
+	public void removeComic(@Named("id") Long id) throws NotFoundException {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			Comic comic = mgr.getObjectById(Comic.class, id);
 			mgr.deletePersistent(comic);
 			IndexService.removeDocument(IndexService.COMIC, id.toString());
+			index(comic);
 		} finally {
 			mgr.close();
 		}
 	}
 	
 	//CUSTOM METHODS
+	@ApiMethod(name = "updateViewCount")
+	public Comic updateViewCount(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		PersistenceManager mgr = getPersistenceManager();
+		Comic comic;
+		try {
+			//get the comic to update from the datastore
+			comic = getComic(id);		
+			comic.updateViewCount();
+			mgr.makePersistent(comic);
+			index(comic);
+		} catch (NotFoundException ex) {
+			throw ex;
+		} finally {
+			mgr.close();
+		}
+		return comic;
+	}
+	
+	@ApiMethod(name = "addRating")
+	public Comic addRating(@Named("userId") String userId, @Named("comicId") Long comicId, 
+			@Named("rating") double rating) throws BadRequestException, NotFoundException {
+		
+		if (rating < 0 || rating > 5)
+			throw new BadRequestException("Invalid rating amount)");
+		
+		PersistenceManager mgr = getPersistenceManager();
+		Comic comic;
+		C4Rating ratingObj;
+		
+		try {
+			comic = getComic(comicId);	
+			
+			//if the comic has no ratings, make the rating object
+			if (!comic.isRated()) {
+				ratingObj = new C4Rating(userId, comicId, rating);
+				comic.setRated(true);
+				mgr.makePersistent(ratingObj);
+			}
+			//if it has ratings, query for them and see if the user rated already or not
+			//if found, update the rating, else create a new rating and add it to the comic
+			else {
+				Query q = mgr.newQuery(C4Rating.class);
+				q.setFilter("comicId == comicIdParam");
+				q.declareParameters("Long comicIdParam");
+				@SuppressWarnings("unchecked")
+				List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
+				
+				boolean found = false;
+				for (C4Rating r : ratings){
+					if (r.getUserId().equals(userId)){
+						r.setRating(rating);
+						mgr.makePersistent(r);
+						found = true;
+					}
+				}
+				if (!found) {
+					ratingObj = new C4Rating(userId, comicId, rating);
+					mgr.makePersistent(ratingObj);	
+				}	
+			}
+			mgr.makePersistent(comic);
+			index(comic);
+		} catch (NotFoundException ex) {
+			throw ex;
+		} finally {
+			mgr.close();
+		}
+		updateRatings(comic);
+		return comic;
+	}
+	
 	@ApiMethod(name="addcomicpage")
 	// @Named("pageId") Long pageId
 	public Page addComicPage(@Named("comicId") Long comicId)
@@ -214,6 +288,7 @@ public class ComicEndpoint {
 		
 		Comic comic;
 		Page page = new Page();
+		Page pageCheck;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
@@ -223,8 +298,17 @@ public class ComicEndpoint {
 				comic.setPages(list);
 			}
 			
+			//check what the page number should be. dumb.
+			int pageNum = 0;
+			for (Long p : comic.getPages()) {
+				pageCheck = mgr.getObjectById(Page.class, p);
+				if (pageCheck.getPageNumber() > pageNum)
+					pageNum = pageCheck.getPageNumber();
+			}
+			pageNum += 1;
+			page.setPageNumber(pageNum);
+			//persist the page and it to the comic
 			mgr.makePersistent(page);
-			
 			comic.addComicPage(page.getId());
 			
 			mgr.makePersistent(comic);
@@ -245,12 +329,26 @@ public class ComicEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Comic comic;
+		Page delPage;
+		Page pageCheck;
 		
 		try {
 			comic = mgr.getObjectById(Comic.class, comicId);
-			comic.deleteComicPage(pageId);
 			
+			delPage = mgr.getObjectById(Page.class, pageId);
+			int delNum = delPage.getPageNumber();
+			
+			for (Long id : comic.getPages()) {
+				pageCheck = mgr.getObjectById(Page.class, id);
+				if (pageCheck.getPageNumber() > delNum){
+					pageCheck.setPageNumber(pageCheck.getPageNumber()-1);
+					mgr.makePersistent(pageCheck);
+				}
+			}
+			
+			comic.deleteComicPage(pageId);
 			mgr.makePersistent(comic);
+			mgr.deletePersistent(delPage);
 			index(comic);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
@@ -277,7 +375,7 @@ public class ComicEndpoint {
 			
 			if (comic.getTags() == null){
 				List<Long> list = new ArrayList<Long>();
-				comic.setPages(list);
+				comic.setTags(list);
 			}
 			if (tag.getComicsWithTag() == null){
 				List<Long> list = new ArrayList<Long>();
@@ -502,4 +600,74 @@ public class ComicEndpoint {
 	    }
 	    return tag.substring(0, 1).toUpperCase() + tag.substring(1);
 	}
+	
+	private void updateRatings(Comic comic) {
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		Series series;
+		Comic  comics;
+		int count = 0;
+		double total = 0;
+		double avg;
+		
+		//comic rating
+		Query q = mgr.newQuery(C4Rating.class);
+		q.setFilter("comicId == comicIdParam");
+		q.declareParameters("Long comicIdParam");
+		@SuppressWarnings("unchecked")
+		List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
+		
+		for (C4Rating r : ratings) {
+			count += 1;
+			total += r.getRating();
+		}
+		if (count != 0)
+			avg = total/count;
+		else
+			avg = 0.0;
+		comic.setRating(avg);
+		mgr.makePersistent(comic);
+		
+		//series rating
+		count = 0;
+		total = 0;
+		series = mgr.getObjectById(Series.class, comic.getSeriesId());
+		for (Long id : series.getComics()) {
+			comics = mgr.getObjectById(Comic.class, id);
+			if (comics.isRated()) {
+				count += 1;
+				total += comics.getRating();
+			}		
+		}
+		if (count != 0) {
+			avg = total/count;
+			series.setRated(true);
+		}
+		else
+			avg = 0.0;
+		series.setRating(avg);
+		mgr.makePersistent(series);
+		
+		//user rating
+		count = 0;
+		total = 0;
+		user = mgr.getObjectById(C4User.class, comic.getAuthorId());
+		for (Long id : user.getUserSeries()) {
+			series = mgr.getObjectById(Series.class, id);
+			if (series.isRated()){
+				count += 1;
+				total += series.getRating();
+			}
+		}
+		if (count != 0)
+			avg = total/count;
+		else
+			avg = 0.0;
+		user.setRating(avg);
+		mgr.makePersistent(user);
+			
+		mgr.close();
+	}
+	
 }

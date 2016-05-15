@@ -17,7 +17,10 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.maximumgreen.c4.endpoints.IndexService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -422,24 +425,80 @@ public class C4UserEndpoint {
 		return user;
 	}
 	
+	@ApiMethod(name = "getNotification")
+	public Notification getNotification(@Named("id") Long id) throws BadRequestException, NotFoundException {
+		if (id == null)
+			throw new BadRequestException("Notification ID must be specified");
+		
+		PersistenceManager mgr = getPersistenceManager();
+		Notification notification = null;
+		try {
+			notification = mgr.getObjectById(Notification.class, id);
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new NotFoundException("Notification Id does not exist.");
+		} finally {
+			mgr.close();
+		}
+		return notification;
+	}
+	
+	@ApiMethod(name="markNotification")
+	public C4User markNotification(@Named("userId") String userId, @Named("notificationId") Long notificationId)
+		throws BadRequestException, NotFoundException{
+		
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4User user;
+		Notification notification;
+		
+		try {
+			user = getC4User(userId);
+			notification = mgr.getObjectById(Notification.class, notificationId);
+			
+			if (notification.getReadNotification() == null){
+				List<String> list = new ArrayList<String>();
+				notification.setReadNotification(list);
+			}
+				
+			if (!(notification.getReadNotification().contains(userId)))
+				notification.addReader(userId);
+			
+			mgr.makePersistent(user);
+			mgr.makePersistent(notification);
+			
+		} catch (javax.jdo.JDOObjectNotFoundException ex){
+			throw new EntityNotFoundException("User Id or Notification Id invalid");
+		} finally {
+			mgr.close();
+		}
+		
+		return user;
+		
+	}
+	
 	@ApiMethod(name="deleteNotification")
 	public C4User deleteNotification(@Named("userId") String userId, @Named("notificationId") Long notificationId)
 			throws BadRequestException, NotFoundException{
 		PersistenceManager mgr = getPersistenceManager();
 		
 		C4User user;
+		Notification notification;
 		
 		try {
 			user = getC4User(userId);
+			notification = mgr.getObjectById(Notification.class, notificationId);
 			
-			if (user.getNotifications() != null){
+			if (user.getNotifications() != null)
 				user.deleteNotification(notificationId);
-			}
+			
+			if (notification.getReadNotification() != null)
+				notification.removeReader(userId);
 			
 			mgr.makePersistent(user);
+			mgr.makePersistent(notification);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
-			throw new EntityNotFoundException("User Id invalid");
+			throw new EntityNotFoundException("User Id or Notification Id invalid");
 		} finally {
 			mgr.close();
 		}
@@ -623,15 +682,22 @@ public class C4UserEndpoint {
 		if (user.getFollowers() != null){
 			PersistenceManager mgr = getPersistenceManager();
 			Notification notification;
+			Date now = Calendar.getInstance().getTime();
+			String dateString = formatDate(now);
 			//first check to see if this notification exists already
 			try {
 				notification = mgr.getObjectById(Notification.class, series.getId());
+				notification.setDate(now);
+				notification.setDateString(dateString);
+				mgr.makePersistent(notification);
 			} catch (javax.jdo.JDOObjectNotFoundException ex) {
 				notification = new Notification();
 				String message = user.getUsername() + " has added a new series titled " + series.getTitle();
 				notification.setId(series.getId());
 				notification.setType("series");
 				notification.setMessage(message);
+				notification.setDate(now);
+				notification.setDateString(dateString);
 				mgr.makePersistent(notification);
 			}
 			//notify the followers and save
@@ -650,5 +716,10 @@ public class C4UserEndpoint {
 			mgr.close();
 		}
 
+	}
+	
+	private String formatDate(Date date){
+		SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
+		return formatter.format(date);
 	}
 }

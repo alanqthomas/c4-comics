@@ -2,9 +2,10 @@
 	<div class='container-full' style='text-align:center'>
 		<h1>C4Comics</h1>
 		<uib-tabset>
-	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">				
+	        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">			
 	        	<p>{{tab.def_text}}</p>
 	        	<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
+
 		        	<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
 		        			<img ng-src={{x.src}} class='img-responsive preview' ng-click="go_to_comic(x.id)">
 		        			<p class="imgDescription" ng-click="go_to_comic(x.id)" >{{x.title}}</p>

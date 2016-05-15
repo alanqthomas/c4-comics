@@ -1,68 +1,55 @@
-<div ng-controller="editComicCtrl">
+<div class="edit-comic" ng-controller="editComicCtrl">
 
-	<a ui-sref="series">Back to Series</a><i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
-	<h3>{{comic.title}}</h3>
+	<a class="back-link" ng-click="go_to_series()">Back to Series</a>
+
+	<h3 class="title" editable-text="comic.title" on-change="updateName(value)" edit-mode="isEditing"></h3>
+
+	<button class="btn btn-default btn-small view-btn" ng-click="goToComic()">
+		<i class="fa fa-eye" ></i>
+	</button>
+
 	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="x in comic.pages">
-				<span class="topLeft">{{x.pageNumber}}</span>
-					<img class="bigPageDisplay" src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
-				</span>
-			<div class="col-sm-6 col-md-4 col-lg-3">
-				<i class="material-icons" data-toggle="modal" data-target="#addPageModal">note_add</i>
-			</div>
-		</div>
-	</div>
-	<h4>Tags</h4>
-	<span ng-repeat="tag in comic.tags">
-		{{tag.text}}
-		<span class="tagClose">
-			<i class="material-icons" ng-click="removeTag(tag)">close</i>
-		</span>
-	</span>
-	<form ng-submit="addTag()">
-		Enter a tag to add: <input type="text" ng-model="newTag">
-	</form>
-	
-	<input type='file'></input>
-	<!--<i class="glyphicon glyphicon-plus" ui-sref="draw"></i>-->
 
-	<!-- Add Page Modal -->
-	<div id="addPageModal" class="modal fade" role="dialog">
-	  	<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Add a Page</h4>
+		<div class="row drop-box-wrapper" uib-collapse="collapseBox">
+			<div ngf-drop ngf-select ng-model="files" class="drop-box"
+	        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+	        accept="image/*"
+	        ngf-pattern="'image/*'"
+					ngf-max-size="5MB">Drag your images here</div>
+	    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+			<!--i ng-show="showDropBox" class="fa fa-times close-button" ng-click="showDropBox = false"></i-->
+		</div>
+
+		<div class="row">
+			<div ui-sortable ng-model="comic.pages" class="col-xs-10 col-md-6 col-md-offset-3 col-xs-offset-1">
+				<div class="thumbnail-wrapper" ng-repeat="x in comic.pages"
+				ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+						<img class="thumbnail" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}">
+						<span class="thumbnail-overlay" ng-show="hoverEdit">
+							<i class="fa fa-trash" ng-click="deletePage(x.id)"></i>
+						</span>
 				</div>
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row-fluid">
-							<div class="col-xs-6" align="center">
-								<!--
-								<button type="button" class="btn btn-default" data-dismiss="modal">
-									<i class="material-icons">file_upload</i>
-									<p>Upload A Page</p>
-								</button>
-							-->
-								<form>
-									<input type="file" ngf-select ng-model="file" accept=".png,.jpg,.tiff" ngf-max-size="5MB"/>
-									<button type="submit" class="btn btn-default" ng-click="upload()" data-dismiss="modal">Upload</button>
-								</form>
-							</div>
-							<div class="col-xs-6" align="center">
-								<button type="button" class="btn btn-default" data-dismiss="modal">
-									<i class="material-icons">landscape</i>
-									<p>Draw A Page</p>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<div class="add-page-wrapper">
+					<i class="fa fa-plus-square add-page" ng-click="collapseBox = false"></i>
 				</div>
 			</div>
 		</div>
+
+		<div class="row text-center tag-wrapper">
+			<div col-xs-12 col-md-6 col-lg-4 col-md-offset-3 col-md-offset-4>
+				<h4>Tags</h4>
+				<span class="tag" ng-repeat="tag in comic.tags">
+					<i class="fa fa-times"></i>
+					{{tag.text}}
+				</span>
+			</div>
+		</div>
+
+		<div class="row text-center">
+			<form ng-submit="addTag()">
+				Enter a tag to add: <input type="text" ng-model="newTag">
+			</form>
+		</div>
+
 	</div>
 </div>

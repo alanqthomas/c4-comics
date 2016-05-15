@@ -1,28 +1,16 @@
-<div ng-controller="comicCtrl">
-	<!--  -->
-	<a class='h3_hover' ng-click="goToSeries(seriesId)">{{series.title}}</a>
-	<!--<a class='h3_hover' ng-click="goToProfile(authorId)">{{authorName}}</a> -->
-	<div class = "comicTitleBar">
-		<h4>{{comic.title}}</h4>
-		<span class= "comicTitleBarFL">
-			<!--{{comic.rating}}-->
-		</span>
+<div ng-controller="comicCtrl" class="comic-page">
+
+	<div class="text-center">
+		<h2>{{comic.title}}</h2>
+		<h4 ng-click="goToSeries(seriesId)">{{comic.series}}</h4>
+		<a ng-click="goToProfile(authorId)">{{authorName}}</a>
+		<!-- {{c.rating}} need to turn this into stars-->
 	</div>
-	<div ng-repeat="p in pages">
-		<img ng-src="{{p.url}}" />
+
+	<div ng-repeat="p in pages" class= "pageDiv">
+		<img class="page-img" ng-src="{{p.url}}" alt="{{p.id}}"/>
 	</div>
-	<div ng-repeat="c in comics">
-		<div class = "comicTitleBar">
-			<h4>{{c.title}}</h4>
-			<span class= "comicTitleBarFL">
-				<!-- {{c.rating}} need to turn this into stars-->
-			</span>
-			<i class="material-icons" ng-click="toggleComments(c)">comment</i>
-		</div>
-		<div ng-repeat="p in c.pages" class= "pageDiv">
-			<img ng-src="{{p.url}}" alt="{{p.id}}"/>
-		</div>
-	</div>
+
 	<div ng-show="logged_in && !is_owner">
 		<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 			Favorite
@@ -31,19 +19,21 @@
 			Unfavorite
 		</button>
 	</div>
+
+	<div class="expand-comment" ng-click="show_comment = !show_comment">
+		<i uib-popover-html="commendPopover" class="material-icons">comment</i>
+	</div>
+
 	<div ng-if="show_comment">
 		<div class="detailBox">
 		    <div class="titleBox">
-		      <label>Comment Box</label>
-		        <button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
-		    </div>
-		    <div class="commentBox">
-		        <p class="taskDescription">Write your comment below.</p>
+		      <label>Comments</label>
+		      <!--button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button-->
 		    </div>
 		    <div class="actionBox">
 		        <ul class="commentList">
-		            <li ng-repeat="comment in comments | orderBy:date">
-		            	<div class="commenterImage">	
+		            <li ng-repeat="comment in comments | orderBy:dateString:true">
+		            	<div class="commenterImage">
 		            		<img ng-src="{{comment.profileImageURL}}">
 		            	</div>
 		            	<button ng-show='comment.user_id == user_id' type="button" class="close" aria-hidden="true" ng-click="delete_comment(comment.id)">&times;</button>
@@ -51,7 +41,7 @@
 		            	<div class="commentText">
 		            		<p class="">{{comment.comment}}</p><span class="date sub-text">{{comment.dateString}}</span>
 		            	</div>
-		            </li> 
+		            </li>
 		        </ul>
 		        <form class="form-inline" role="form">
 		            <div class="form-group">
@@ -59,7 +49,7 @@
 		                <input class="form-control" type="text" ng-model="comment_obj.comment" placeholder="Insert Your Witty Comment" />
 		            </div>
 		            <div class="form-group">
-		                <button class="btn btn-default" ng-click="add_comment()">Add</button>
+		                <button class="btn btn-default" ng-click="add_comment()">Post</button>
 		            </div>
 		        </form>
 		    </div>

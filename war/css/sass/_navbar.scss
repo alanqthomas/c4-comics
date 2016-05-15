@@ -3,6 +3,7 @@ $nav_color: #4CAF50;
 $nav_height: 65px;
 $search_bar_color: rgba(255, 255, 255, 0.2);
 $side_nav_font_color: rgba(0, 0, 0, 0.87);
+$notification_divider_color: #d9d9d9;
 
 .top-nav {
 	position: fixed;
@@ -104,4 +105,54 @@ $side_nav_font_color: rgba(0, 0, 0, 0.87);
 body {
 	margin-top: $nav_height + 20;
 	background-color: #FAFAFA;
+}
+
+.notification-box{
+	position: fixed;
+	top: $nav_height + 10;
+	z-index: 998;
+	right: 100px;
+	width: 350px;
+	border: 1px solid #e6e6e6;
+	background-color: white;
+	box-shadow: 2px 2px 3px 0px #a6a6a6;
+
+	ul {
+		list-style-type: none;
+		padding: 0px;
+		margin: 0px;
+
+		li:first-child{
+			border-top: none;
+		}
+
+		li{
+			border-top: 1px dotted $notification_divider_color;
+			display: block;
+			padding: 10px;
+
+			.notification-content{
+				.notification-message{
+					display: block;
+					float: left;
+				}
+				.notification-delete{
+					display: block;
+					font-size: 20px;
+					text-align: right;
+				}
+			}
+
+			.notification-date{
+				text-align: right;
+				font-size: 10px;
+				color: #bfbfbf;
+			}
+		}
+
+		li:hover{
+			background-color: #e6e6e6;
+		}
+
+	}
 }

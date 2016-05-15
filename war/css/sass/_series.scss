@@ -1,27 +1,193 @@
+.series{
+
+$cover_width: 600px;
+$cover_height: 300px;
+$expand_button_height: 35px;
+$thumb_width: 150px;
+$thumb_height: 200px;
+
 .cover {
-	width: 650px;
-	height: 300px;
+	width: $cover_width;
+	height: $cover_height;
 	position: relative;
 	margin: 0 auto;
 	color: white;
-}
-#coverTitle {
-	position: absolute;
-	bottom: 10px;
-	left: 10px;
-	color: white;
-	overflow: hidden;
-}
-#coverBtn {
-	position: absolute;
-	bottom: 20px;
-	right: 10px;
+	display: block;
+
+	.cover-title {
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		padding: 5px;
+		color: white;
+		overflow: hidden;
+		z-index: 10;
+	}
+
+	.cover-drop-box{
+		position: absolute;
+		z-index: 1;
+		width: $cover_width;
+		height: $cover_height;
+	}
+
+	.sub-btn {
+		position: absolute;
+		bottom: 20px;
+		right: 10px;
+		z-index: 2;
+	}
+	.cover-img{
+		position: absolute;
+		z-index: 0;
+		width: $cover_width;
+		height: $cover_height;
+		object-fit: cover;
+	}
 }
 
 .content-wrapper {
-	padding-left: 30px;
-	padding-right: 30px;
+	margin: 20px auto;
+	width: $cover_width !important;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 0px rgba(200,200,200, 0.75);
+	padding: 20px;
+
+	.description-heading{
+		margin: 20px 0;
+	}
 }
-.editIcon {
-	background-color: #80000000;
+
+.comic-images{
+	width: 80vw;
+	margin: 0px auto;
+	border: 0px !important;
+}
+
+.thumbnail-wrapper{
+	display: inline-block;
+	border: 0px;
+	padding: 0px;
+	width: $thumb_width;
+	height: $thumb_height;
+	margin: 5px;
+}
+
+.thumbnail{
+	object-fit: cover;
+  width: $thumb_width;
+  height: $thumb_height;
+	padding: 0px;
+	position: absolute;
+	z-index: 1;
+	margin: 0px;
+}
+
+.thumbnail-overlay{
+	color: white;
+	background-color: rgba(0,0,0, 0.25);
+	display: inline-block;
+	z-index: 2;
+	width: $thumb_width;
+  height: 40px;
+	padding: 8px;
+	position: relative;
+	overflow: hidden;
+}
+
+.expand-comment {
+	position: fixed;
+	z-index: 997;
+	bottom: 0px;
+	width: 75px;
+	height: $expand_button_height;
+	background-color: #4CAF50;
+	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+	margin-left: 20px;
+	border-radius: 15px 15px 0px 0px;
+	color: white;
+	box-shadow: 3px -4px 9px -4px #888888;
+}
+
+.expand-comment:hover {
+	background-color: #71c174;
+}
+
+.detailBox {
+    width:620px ;
+    border:1px solid #bbb;
+		margin: 0 auto;
+		margin-bottom: 5px + $expand_button_height;
+		margin-left: 10px;
+		position: fixed;
+		z-index: 998;
+		bottom: 0px;
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.taskDescription {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    max-height:200px;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+		background: white;
+}
+
+
 }

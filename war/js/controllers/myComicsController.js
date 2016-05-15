@@ -84,6 +84,14 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
     );
   };
 
+  $scope.hoverIn = function(){
+    this.hoverEdit = true;
+  };
+
+  $scope.hoverOut = function(){
+    this.hoverEdit = false;
+  }
+
   $scope.goToSeries = function(id){
     $state.go('series',{'id': id});
   };
@@ -91,6 +99,10 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
   $scope.goToComic = function(id){
     $state.go('comic', {'id': id});
   };
+
+  $scope.goToEditComic = function(id){
+    $state.go('editComic', {'id': id});
+  }
 
 }]);
 

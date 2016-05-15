@@ -1,0 +1,99 @@
+.edit-comic{
+
+$thumb_height: 200px;
+$thumb_width: 150px;
+
+.drop-box{
+  border-radius: 10px;
+  border-style: dotted;
+  border-color: #ddd;
+  border-width: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 90px;
+  width: 400px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.drop-box-wrapper{
+  text-align: center;
+}
+
+.close-button{
+  font-size: 20px;
+}
+
+.title{
+  text-align: center;
+}
+
+.view-btn{
+  display: block;
+  margin: 10px auto;
+}
+
+.back-link{
+  margin: 10px;
+  display: block;
+}
+
+.thumbnail{
+  object-fit: cover;
+  width: $thumb_width;
+  height: $thumb_height;
+  border: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer !important;
+
+}
+
+.thumbnail-wrapper{
+  border: 0px;
+  padding: 0px;
+  display: inline-block;
+  width: $thumb_width;
+  height: $thumb_height;
+  margin: 5px;
+  overflow: hidden;
+}
+
+.thumbnail-overlay{
+  color: white;
+  display: inline-block;
+  text-align: center;
+  height: $thumb_height;
+  width: $thumb_width;
+  background-color: rgba(0,0,0,.45);
+  padding: 5px;
+  z-index: 2;
+  position: relative;
+  font-size: 20px;
+}
+
+.add-page-wrapper{
+  display: inline-block;
+  width: $thumb_width;
+  height: $thumb_height;
+  padding: 90px;
+}
+
+.add-page{
+  font-size: 20px;
+  text-align: left;
+}
+
+.tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px;
+}
+
+.tag-wrapper {
+  margin: 10px;
+}
+
+}

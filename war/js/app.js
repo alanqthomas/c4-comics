@@ -2,7 +2,17 @@
 
 (function() {
 
-var app = angular.module('c4', ['ui.router', 'ngCookies' ,'angular-google-gapi', 'ui.bootstrap', 'infinite-scroll', 'ngFileUpload']);
+var app = angular.module('c4', [
+  'ui.router',
+  'ngCookies',
+  'angular-google-gapi',
+  'ui.bootstrap',
+  'infinite-scroll',
+  'ngFileUpload',
+  'gg.editableText',
+  'ngLodash',
+  'ui.sortable'
+]);
 
 // Initialize angular-google-gapi
 app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authService',
@@ -21,7 +31,8 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
       {'name': 'pageendpoint', 		'version': 'v1'},
       {'name': 'searchendpoint', 	'version': 'v1'},
       {'name': 'seriesendpoint', 	'version': 'v1'},
-      {'name': 'tagendpoint', 		'version': 'v1'}
+      {'name': 'tagendpoint', 		'version': 'v1'},
+      {'name': 'homepageendpoint',  'version': 'v1'}
     ];
 
     for(var i = 0; i < APIS.length; i++){
@@ -57,7 +68,11 @@ app.run(['GAuth', 'GData', 'GApi', '$rootScope', '$window', '$state', 'authServi
 }]);
 
 app.constant('IMG_PREFIXES', {
-  'PAGE' : 'page'
+  'PAGE' : 'page',
+  'USER' : 'user',
+  'USER_BG' : 'user-bg',
+  'SERIES' : 'series',
+  'COMIC' : 'comic'
 });
 
 })();

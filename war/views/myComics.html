@@ -25,15 +25,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="l in list" ng-click="getComics(l.comics, l.title)">
+          <tr ng-repeat="l in list" ng-click="getComics(l.comics, l.title)"
+           ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
             <td>{{l.title}}</td>
             <td>{{l.subscribers.length}}<span ng-if="!l.subscribers">0</span></td>
             <td>{{l.comments.length}}<span ng-if="!l.comments">0</span></td>
             <td>{{l.rating}}</td>
             <td>
-              <button class="btn btn-sm btn-default" ng-click="goToSeries(l.id)">
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-              </button>
+              <div class="view-column">
+                <button class="btn btn-default btn-small" ng-click="goToSeries(l.id)" ng-show="hoverEdit">
+                  <i class="fa fa-eye" ></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -43,21 +46,25 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Date</th>
+            <th>Date Created</th>
             <th>Pages</th>
             <th>Rating</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="l in list">
+          <tr ng-repeat="l in list" ng-click="goToEditComic(l.id)"
+           ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
             <td>{{l.title}}</td>
             <td>{{l.dateCreated}}</td>
             <td>{{l.pages.length}}<span ng-if="!l.pages">0</span></td>
             <td>{{l.rating}}</td>
             <td>
-              <button class="btn btn-sm btn-default" ng-click="goToComic(l.id)">
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-              </button>
+              <div class="view-column">
+                <button class="btn btn-default btn-small" ng-click="goToComic(l.id)" ng-show="hoverEdit">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

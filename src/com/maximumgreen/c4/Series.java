@@ -37,9 +37,13 @@ public class Series {
 	@Persistent
 	private String dateString;
 	
-	//SERIES rating, to be calculated from their COMICS ratings
+	//SERIES rating - average of all comics within series
 	@Persistent
 	private double rating;
+	
+	//boolean to tell if a series has comics with ratings
+	@Persistent
+	private boolean rated;
 	
 	//List of COMIC ids within the series. Series -> Comics -> Pages
 	@Persistent 
@@ -134,6 +138,14 @@ public class Series {
 
 	public void setRating(double rating) {
 		this.rating = rating;
+	}
+
+	public boolean isRated() {
+		return rated;
+	}
+
+	public void setRated(boolean rated) {
+		this.rated = rated;
 	}
 
 	public List<Long> getComics() {
