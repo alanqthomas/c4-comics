@@ -25,6 +25,7 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
           for(var i = 0; i < series.length; i++){
             GApi.execute("seriesendpoint", "getSeries", {"id": series[i]}).then(
               function(res){
+                res.rating = Math.floor(parseFloat(res.rating) * 100) / 100;
                 $scope.list.push(res);
               },
               function(res){
@@ -47,7 +48,7 @@ angular.module('c4').controller('myComicsCtrl', ['$scope', '$http', 'GData', 'GA
     for(var i = 0; i < comics.length; i++){
       GApi.execute("comicendpoint", "getComic", {"id": comics[i]}).then(
         function(res){
-          console.log(res);
+          res.rating = Math.floor(parseFloat(res.rating) * 100) / 100;
           $scope.list.push(res);
         },
         function(res){
