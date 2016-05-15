@@ -196,15 +196,14 @@ public class ComicEndpoint {
 	 * @throws NotFoundException 
 	 */
 	@ApiMethod(name = "removeComic")
-	public void removeComic(@Named("id") Long id) throws NotFoundException {
+	public static void removeComic(@Named("id") Long id) throws NotFoundException {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			Comic comic = mgr.getObjectById(Comic.class, id);
-			mgr.deletePersistent(comic);
-			IndexService.removeDocument(IndexService.COMIC, id.toString());
-			index(comic);
+			mgr.deletePersistent(comic);			
 		} finally {
 			mgr.close();
+			IndexService.removeDocument(IndexService.COMIC, id.toString());
 		}
 	}
 	

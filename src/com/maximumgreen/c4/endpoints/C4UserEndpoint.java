@@ -249,9 +249,10 @@ public class C4UserEndpoint {
 		
 		try {
 			user = mgr.getObjectById(C4User.class, userId);
-			user.deleteUserSeries(seriesId);
-			
+			user.deleteUserSeries(seriesId);					
 			mgr.makePersistent(user);
+			
+			SeriesEndpoint.removeSeries(seriesId);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){
 			throw new NotFoundException("User Id invalid.");
@@ -654,13 +655,15 @@ public class C4UserEndpoint {
 		IndexService.indexDocument(IndexService.USER, doc);
 		
 		PersistenceManager mgr = getPersistenceManager();
-		for(Long id : c4user.getUserSeries()){
-			Series series = mgr.getObjectById(Series.class, id);
-			try {
+		if(c4user.getUserSeries() != null){
+			for(Long id : c4user.getUserSeries()){
+				Series series = mgr.getObjectById(Series.class, id);
+				try {
 				SeriesEndpoint.index(series);
-			} catch (NotFoundException e) {
-				e.printStackTrace();
-			}			
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+				}			
+			}
 		}
 		mgr.close();
 	}

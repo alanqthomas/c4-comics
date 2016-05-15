@@ -35,7 +35,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.faved = false;
 
 		$scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
-		$scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
+		$scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg?' + Date.now();
 		$scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
 
 		//End init
