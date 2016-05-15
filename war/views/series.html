@@ -25,7 +25,9 @@
 		</div>
 
 		<div class='row' ng-if="is_owner">
-			<i class="material-icons editIcon" ng-click="toggle('editTitle')">edit</i>
+			<button class="btn btn-sm btn-primary" ng-click="toggle('editTitle')">
+				<i class="material-icons editIcon" >edit</i>
+			</button>
 			<form class='form-inline' ng-show='editTitle'>
 				<form ng-submit="toggle('editTitle')" name='name'>
 					<input class="form-control input-lg" type="text" ng-model="series.title"></input>
@@ -38,7 +40,9 @@
 			<h4 class="cssHeader">Description</h4>
 			<p id ="cssDescription">{{series.description}}</p>
 			<div class='row' ng-if="is_owner">
-				<i class="material-icons editIcon" ng-click="toggle('editDescription')">edit</i>
+				<button class="btn btn-sm btn-primary" ng-click="toggle('editDescription')">
+					<i class="material-icons editIcon" >edit</i>
+				</button>
 				<form class='form-inline' ng-show='editDescription'>
 					<form ng-submit="toggle('editDescription')" name='name'>
 						<input class="form-control input-lg" type="textarea" ng-model="series.description"></input>
@@ -55,7 +59,7 @@
 					<button type="button" class="close" aria-hidden="true" ng-click="closeComments()">&times;</button>
 				</div>
 				<div class="commentBox">
-					<p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+					<p class="taskDescription">Write your comments below.</p>
 				</div>
 				<div class="actionBox">
 					<ul class="commentList">
@@ -90,7 +94,9 @@
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
 
 				<div ng-if="is_owner"  class='col-xs-6 col-sm-3 col-md-2 col-lg-2'>
-						<i class="material-icons editIcon" ng-click="newComic()">note_add</i>
+					<button class="btn btn-sm btn-primary" ng-click="newComic()">
+						<i class="material-icons editIcon">note_add</i>
+					</button>
 				</div>
 				<div ng-if="!is_owner" class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='comic in comics'>
 					<img ng-src={{getFirstPageURL(comic.page[0])}} class='img-responsive preview' ng-click="goToComics(comic.id)">
