@@ -23,16 +23,26 @@ $thumb_height: 200px;
 		overflow: hidden;
 		z-index: 10;
 	}
+
+	.cover-drop-box{
+		position: absolute;
+		z-index: 1;
+		width: $cover_width;
+		height: $cover_height;
+	}
+
 	.sub-btn {
 		position: absolute;
 		bottom: 20px;
 		right: 10px;
+		z-index: 2;
 	}
 	.cover-img{
 		position: absolute;
 		z-index: 0;
 		width: $cover_width;
 		height: $cover_height;
+		object-fit: cover;
 	}
 }
 

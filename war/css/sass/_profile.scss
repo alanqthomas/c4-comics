@@ -47,6 +47,7 @@ $thumb_height: 200px;
 			position: absolute;
 			bottom: -($profile_img_size/3);
 			left: $profile_img_size/3;
+			object-fit: cover;
 		}
 
 		.cover-btn{

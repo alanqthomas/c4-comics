@@ -58,8 +58,8 @@
       $http({
         'method': 'POST',
         'url': imgService.getUploadURL(IMG_PREFIXES.USER_BG, $scope.user_id),
-        headers:{
-          'Content-type': file.type
+        'headers':{
+          'Content-Type': file.type
         },
         data: file
       }).then(function(resp){

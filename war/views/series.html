@@ -12,7 +12,13 @@
 			</button>
 		</div>
 
-		<img class="cover-img" ng-src="{{series.bgImageURL}}" default-img="{{defaultCoverImg}}" />
+		<img class="cover-img" ng-src="{{coverImgURL}}" default-img="{{defaultCoverImg}}" />
+
+		<div ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+				accept="image/*"
+				ngf-pattern="'image/*'"
+				ngf-max-size="5MB"></div>
 	</div>
 
 	<div class="content-wrapper">

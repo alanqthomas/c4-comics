@@ -12,10 +12,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 		 */
 
-		//init
-    $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
-    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
-
+		//init    
 		$scope.series_id = $stateParams.id;
 		$scope.comics=[];
 		$scope.comics_reserve=[];
@@ -37,18 +34,33 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		$scope.comment_obj = {comment: ""};
 		$scope.faved = false;
 
+    $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
+    $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg';
+    $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
 
 		//End init
 		//Display functions
-    /*
-		function setCSS(){
-			$("#cover").css("background-image" , $scope.series.bgImageURL);
-			$(".cssHeader").css("color" , $scope.series.cssHeadingColor);
-			$("#cssDescription").css("color" , $scope.series.cssDescriptionColor);
-			$("#coverTitle").css("color" , $scope.series.cssTitleColor);
-			$("#cssAll").css("color" , $scope.series.cssBGColor);
-		}
-    */
+
+    $scope.$watch('coverImg', function(){
+      $scope.upload($scope.coverImg);
+    });
+
+    $scope.upload = function(file){
+      $http({
+        'method': 'POST',
+        'url': imgService.getUploadURL(IMG_PREFIXES.SERIES, $scope.series_id),
+        'headers':{
+          'Content-Type': file.type
+        },
+        data: file
+      }).then(function(resp){
+          console.log("New cover image uploaded");
+          $scope.coverImgURL = imgService.getURLDecache(IMG_PREFIXES.SERIES, $scope.series_id);
+      }, function(resp){
+          console.log("ERROR uploading cover image");
+      });
+    };
+
 		$scope.saveSettings= function(){
 			$scope.newSeries= {
 				id: $scope.series_id,
@@ -363,7 +375,6 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 			function(resp){
         console.log(resp);
 				$scope.series = resp;
-        $scope.series.bgImageURL = imgService.getURL(IMG_PREFIXES.SERIES, $scope.series_id);
         setAuth();
 				//query for author name
 				GApi.execute( "c4userendpoint","getC4User", {"id":$scope.series.authorId}).then(
