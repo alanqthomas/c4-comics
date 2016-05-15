@@ -11,7 +11,8 @@ var app = angular.module('c4', [
   'ngFileUpload',
   'gg.editableText',
   'ngLodash',
-  'ui.sortable'
+  'ui.sortable',
+  'angular-input-stars'
 ]);
 
 // Initialize angular-google-gapi
