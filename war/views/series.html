@@ -32,19 +32,33 @@
 		<h5 class="content-heading">Author</h5>
 		<p ng-click="goToAuthor()">{{author_name}}</p>
 		<h5 class="content-heading">Rating</h5>
-		<p>{{series.rating}}</p>
-		<button ng-if="is_owner" ng-click="newComic()" class="btn btn-default btn-small">
+
+		<div class="rating-display">
+			<i class="fa fa-star"></i>
+			<h5>{{series.rating}}/5</h5>
+		</div>
+
+		<button ng-if="is_owner" ng-click="newComic()" class="btn btn-primary btn-small">
 			<i class="material-icons editIcon" >note_add</i>
 		</button>
 	</div>
+
 	<div class="comic-images">
 		<!-- if there are comics -->
 		<div ng-if='comics.length > 0 || is_owner'>
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='.2'>
-				<div class='thumbnail-wrapper' ng-click="goToComic(comic.id)" ng-repeat='comic in comics'
+				<div class='thumbnail-wrapper' ng-repeat='comic in comics'
 				 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-					<img default-image ng-src="{{getFirstPageURL(comic.page[0])}}" default-img="{{defaultPageImg}}" class='thumbnail'/>
-					<div class="thumbnail-overlay">{{comic.title}}</div>
+					<img class='thumbnail' ng-click="goToComic(comic.id)"
+					default-image ng-src="{{getFirstPageURL(comic.page[0])}}" default-img="{{defaultPageImg}}" />
+					<div class="thumbnail-overlay">
+						<p ng-click="goToComic(comic.id)">{{comic.title}}</p>
+						<span ng-if="is_owner">
+							<i class="material-icons" ng-click="deleteComic(comic.id)">
+								delete_forever
+							</i>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -52,9 +66,9 @@
 		<div ng-if='comics.length == 0'>
 			<p>There are no comics in this series.</p>
 			<p ng-if="!is_owner">Subscribe to be notified when they some are.</p>
-			<p ng-if="is_owner">Hit the <i class="material-icons editIcon" >note_add</i> above to add some.</p>
 		</div>
 	</div>
+
 	<!-- Comments -->
 	<div class="expand-comment" ng-click="show_comment = !show_comment">
 		<i uib-popover-html="commendPopover" class="material-icons">comment</i>

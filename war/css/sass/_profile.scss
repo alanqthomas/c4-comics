@@ -69,6 +69,21 @@ $thumb_height: 200px;
 	.description-heading{
 		margin: 20px 0;
 	}
+
+	.rating-display{
+		display:block;
+		margin-bottom: 20px;
+		i{
+			display: inline;
+			color: #e6e600;
+			margin: auto;
+			font-size: 20px;
+		}
+		h5{
+			display: inline;
+			margin: auto;
+		}
+	}
 }
 
 .new-series-btn{

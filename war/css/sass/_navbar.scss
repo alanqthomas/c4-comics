@@ -105,8 +105,8 @@ $notification_divider_color: #d9d9d9;
 body {
 	margin-top: $nav_height + 20;
 	background-color: #FAFAFA;
+	height: 100%;
 }
-
 .notification-box{
 	position: fixed;
 	top: $nav_height + 10;

@@ -12,7 +12,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		 * The "commment icon" is binded to show/hide comment box, use method toggleCommets()/closeComments
 		 */
 
-		//init    
+		//init
 		$scope.series_id = $stateParams.id;
 		$scope.comics=[];
 		$scope.comics_reserve=[];
@@ -151,6 +151,7 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			);
 		}
+
 		$scope.loadSeries = function(){
 			GApi.execute("seriesendpoint", "getSeries",{"id":$scope.series_id}).then(
 				function(resp){
@@ -161,6 +162,23 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				}
 			);
 		};
+
+		$scope.deleteComic = function(comicId){
+				var deleteComicParam = {
+					'seriesId': $scope.series_id,
+					'comicId': comicId
+				};
+
+				GApi.execute("seriesendpoint", "deleteseriescomic", deleteComicParam).then(
+					function(resp){
+						console.log("Comic deleted");
+						$scope.comics = [];
+						$scope.getSeries();
+					}, function(resp){
+						console.log("ERROR deleting comic");
+				});
+		};
+
 		//COMMENT FUNCTIONS
 		$scope.add_comment = function(){
 			//console.log("add reached UserId: " + $scope.user_id + " comicId: " + $scope.comic_id + " comment: " + $scope.comment_obj.comment);
@@ -367,7 +385,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 		};
 		//END FAVORITE FUNCTION
 		//Init Query. execute using (endpoint, method for endpoint, parameter for method)
-		GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
+		$scope.getSeries = function(){
+			GApi.execute("seriesendpoint", "getSeries", {"id":$scope.series_id}).then(
 			function(resp){
 		console.log(resp);
 				$scope.series = resp;
@@ -418,6 +437,8 @@ angular.module('c4').controller('seriesCtrl', ['$scope', '$http', 'GApi', '$stat
 				console.log(resp);
 			}
 		);
+	};
+	$scope.getSeries();
 
 		$scope.goToAuthor=function(){
 			if($scope.series.authorId==null){

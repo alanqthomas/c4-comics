@@ -269,7 +269,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		else {
 			$state.go("series", {"id":id});
 		}
-	}
+	};
+
 	$scope.goToProfile = function(id){
 		if(id == null){
 			$state.go("error");
@@ -277,6 +278,11 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		else {
 			$state.go("profile", {"id":id});
 		}
-	}
+	};
+
+	$scope.goToEditComic = function(){
+		$state.go("editComic", {"id": id});
+	};
+
 }]);
 })();

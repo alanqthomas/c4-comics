@@ -10,9 +10,14 @@
 		</div>
 
 		<uib-rating ng-change="updateRating()" class='rating' ng-model="rating" max="5"></uib-rating>
-		<!--
-		<input-stars ng-change="updateRating()" list-class="rating" max="5" ng-model="comicCtrl.rating"></input-stars>
-		<span ng-bind="{{comicCtrl.rating}}"></span-->
+
+		<button class="btn btn-primary btn-sm" ng-show="is_owner" ng-click="goToEditComic()">
+			<i class="material-icons">mode_edit</i>
+		</button>
+
+		<!--span class="tag" ng-repeat="tag in comic.tags">
+			{{tag.text}}
+		</span-->
 
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">

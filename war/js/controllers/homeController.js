@@ -1,12 +1,11 @@
 "use strict";
-	
+
 (function() {
 
-angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService', '$state', '$stateParams',
-                                  function(	  $scope,   $http,   GApi,   authService,  $state, $stateParams){	
-		$scope.msg = "Scores";
+angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authService', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES',
+                                  function(	  $scope,   $http,   GApi,   authService,  $state, $stateParams, imgService, IMG_PREFIXES){
 		$scope.predicate = 'name';
-		
+
 		//list of comics to populate page
 		$scope.top_comics = [];
 		$scope.top_comics_reserve = [];
@@ -16,7 +15,8 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		$scope.hot_comics_reserve = [];
 		$scope.recent_comics = [];
 		$scope.recent_comics_reserve = [];
-		
+		$scope.defaultPageURL = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
+
 		$scope.top_load_more = function(){
 			if($scope.top_comics_reserve.length>0){
 				$scope.top_comics.push($scope.top_comics_reserve.shift());
@@ -63,27 +63,13 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		    load_m: $scope.newest_load_more,
 		    def_text: "No Recent Comics Yet"
 		}];
-		//query for homepage. 
+		//query for homepage.
 
 		$scope.getComics = function(){
 
 			GApi.execute( "homepageendpoint","getComics").then(
-				function(resp){	
-					
-					/*
-					//they are all comics, not series
-					//rating
-					$scope.top_comics_id = resp.topComicsId;
-					//most viewed
-					$scope.popular_comics_id = resp.popularComicsId;
-					//viewed over time
-					$scope.hot_comics_id = resp.hotComicsId;
-					//newest
-					$scope.recent_comics = resp.recentComicsId;
-
-					*/
+				function(resp){
 					$scope.homepage = resp;
-
 					//add top comics
 					if($scope.homepage.topComics!= null && $scope.homepage.topComics.length >0){
 						$scope.tabs[0].def_text = "";
@@ -119,10 +105,6 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 							$scope.recent_comics.push($scope.homepage.recentComics.shift());
 						}
 					}
-
-
-
-				
 				}, function(resp){
 					$scope.top_comics_id = null;
 					$scope.popular_comics_id = null;
@@ -131,20 +113,16 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				}
 			);
 		}
+
+		$scope.getURL = function(id){
+			return imgService.getURL(IMG_PREFIXES.PAGE, id);
+		};
+
 		//query for each category of comics
-
 		$scope.getComics();
-		//the comics passed in is already objects
-
-
-
-
-
-
-
 
 		/*
-		//TOP 
+		//TOP
 		if($scope.top_comics_id != null){
 			for(var i = 0; i < $scope.top_comics_id.length; i ++){
 				GApi.execute("comicendpoint", "getComic", {"id":$scope.comics_id[i]}).then(
@@ -161,10 +139,10 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				);
 			}
 			if($scope.top_comics_reseve.length>0){
-				
+
 				$scope.top_comics.push($scope.top_comics_reserve.shift());
 			}
-		}	
+		}
 		//POPULAR
 		if($scope.popular_comics_id != null){
 			for(var i = 0; i < $scope.popular_comics_id.length; i ++){
@@ -229,11 +207,11 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 			}
 		}*/
 
-		
+
 		//Generating Placeholder
 		/*
 		if($scope.top_comics.length == 0){
-			
+
 			$scope.top_comics.push({
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/1.jpg",
 				id:1,
@@ -243,7 +221,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/2.jpg",
 				id:2,
 				title: "adventure time"
-				
+
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/adventure-time/1/3.jpg",
@@ -274,7 +252,7 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				src:"http://www.readcomics.net/images/manga/simpsons-comics/1/1.jpg",
 				id:8,
 				title: "simpsons"
-				
+
 			});
 			$scope.top_comics_reserve.push({
 				src:"http://www.readcomics.net/images/manga/suicide-squad-most-wanted-deadshot-and-katana-2016/1/1.jpg",
@@ -298,10 +276,10 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 				id:12,
 				title: "wonder woman"
 			});
-			
+
 		}
 		*/
-		
+
 		if($scope.top_comics.length > 0 ){
 			$scope.tabs[0].def_text='';
 		}
@@ -314,63 +292,15 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 		if($scope.recent_comics.length>0){
 			$scope.tabs[3].def_text='';
 		}
-		
+
 		$scope.go_to_comic=function(param_id){
 			if(param_id==null){
 				$state.go('error');
-			}
-			else{
+			}	else {
 				$state.go('comic',{"id": param_id});
 			}
-		}
-		
-		/*
-		$scope.order = function(predicate){
-			$scope.predicate = predicate;
-		};		
-		
-		// List Users
-		GApi.execute("userendpoint", "listUser").then(function(res){
-			$scope.users = res.items;
-			angular.forEach($scope.users, function(user){
-				user.score = parseInt(user.score);
-			});
-		});		
-		
-		// Insert User
-		$scope.insertUser = function(){
-			$scope.form.id = null;
-			GApi.execute("userendpoint", "insertUser", $scope.form).then(function(res){
-				console.log(res);
-				$scope.users.add(res);
-			});
-		};		
-		
-		// Get User
-		$scope.getUser = function(id){
-			GApi.execute("userendpoint", "getUser", {'id': id}).then(function(res){
-				console.log(res);
-			});
 		};
-		
-		// Update User
-		$scope.updateUser = function(){
-			GApi.execute("userendpoint", "updateUser", $scope.form).then(function(res){
-				console.log(res);
-			});
-		};
-		
-		// Remove User
-		$scope.removeUser = function(id){
-			console.log("id: ", id);
-			GApi.execute("userendpoint", "removeUser", {'id': id}).then(function(res){
-				console.log(res);
-				$scope.users.remove(function(n){
-					return n['id'] == id;
-				});
-			});
-		};
-		*/
+
 }]);
 
 

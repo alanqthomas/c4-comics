@@ -34,38 +34,37 @@
 		<p ng-if="!is_owner">{{profile.biography}}</p>
 		<p ng-if="is_owner" editable-text="profile.biography" on-change="updateBio(value)"></p>
 
+		<h5 class="description-heading">Rating</h5>
+
+		<div class="rating-display">
+			<i class="fa fa-star"></i>
+			<h5>{{profile.rating}}/5</h5>
+		</div>
+
 		<button ng-if="is_owner" class="btn btn-sm btn-primary new-series-btn" ng-click="newSeries()">
 			<i class="material-icons addIcon">note_add</i>
 		</button>
 	</div>
 
-
-
-	<!--
-	<div class="series-images">
-		<div class="thumbnail-wrapper" ng-repeat="s in subscriptions">
-			<img ng-src="{{s.src}}" class="thumbnail" default-img="{{defaultPageImg}}"/>
-			<div class="thumbnail-overlay">{{s.title}}</div>
-		</div>
-	</div>
--->
-
 	<div class='series-images'>
 		<uib-tabset>
-			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
-				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div class='thumbnail-wrapper' ng-repeat='x in tab.content'>
-						<img ng-src={{x.src}} class='thumbnail' ng-click="page_go(x.type,x.id)" default-img="{{defaultPageImg}}">
+			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active"
+			 select="onTabSelected(tab.slug)">
+				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01'
+				 infinite-scroll-immediate-check="true">
+
+					<div class='thumbnail-wrapper' ng-repeat='x in tab.content' >
+						<img class='thumbnail' ng-click="page_go(x.type,x.id)"
+						 ng-src={{x.src}} default-img="{{defaultPageImg}}">
 
 						<div class="thumbnail-overlay">
-							<p ng-click="page_go(x.type,x.id)" >{{x.title}}</p>
-							<span class="thumbnail-delete" ng-if="is_owner">
+							<p ng-click="page_go(x.type,x.id)">{{x.title}}</p>
+							<span ng-if="is_owner">
 								<i class="material-icons" ng-click="deleteThing(tab.slug, x)">
 									delete_forever
 								</i>
 							</span>
 						</div>
-
 
 					</div>
 				</div>
