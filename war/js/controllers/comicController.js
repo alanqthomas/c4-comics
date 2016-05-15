@@ -19,7 +19,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 	} else{
 		$state.go('error');
 	}
-	
+
 	$scope.comic_id = $stateParams.id;
 	$scope.pages = [];
 	$scope.comic = {};
@@ -113,6 +113,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		$scope.show_comment = false;
 	};
 
+
 	//FAVORITE FUNCTIONS
 	//check if user is logged in and followed
 	$scope.update_favorite = function() {GAuth.checkAuth().then(
@@ -154,6 +155,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	};
+
 	$scope.fav = function(){
 		GApi.execute("c4userendpoint", "addfavorite", {"userId": $scope.user_id, "comicId": $scope.comic_id}).then(
 			function(resp){
@@ -165,6 +167,7 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	};
+
 	$scope.unfav = function(){
 		GApi.execute("c4userendpoint", "deletefavorite", {"userId": $scope.user_id, "comicId": $scope.comic_id}).then(
 			function(resp){
@@ -176,6 +179,22 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 			}
 		);
 	};
+
+	$scope.updateRating = function(){
+		var rating = {
+			'userId': $scope.user_id,
+			'comicId': id,
+			'rating': $scope.rating
+		}
+
+		GApi.execute("comicendpoint", "addRating", rating).then(
+			function(resp){
+				console.log("Updated rating");
+			}, function(resp){
+				console.log("ERROR updating rating");
+		});
+	};
+
 	$scope.getComic = function(){
 		GApi.execute("comicendpoint", "getComic", {"id": id}).then(
 			function(resp){
@@ -186,6 +205,13 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 				$scope.update_comments();
 				$scope.update_favorite();
 				$scope.comic.title = resp.title;
+
+				GApi.execute("c4userendpoint", "getC4User", {'id': $scope.author_id}).then(
+					function(resp){
+						$scope.authorName = resp.username;
+					}, function(resp){
+						console.log("ERROR getting author name")
+				});
 
 				$scope.pages = [];
 				for(var i = 0; i < resp.pages.length; i++){

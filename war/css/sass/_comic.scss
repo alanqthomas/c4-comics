@@ -14,6 +14,48 @@ img {
 	cursor: default !important;
 }
 
+.title-block{
+	text-align: center;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 0px rgba(200,200,200, 0.75);
+	max-width: 60vw;
+	margin: 0px auto;
+	padding: 20px;
+	h4{
+		display: inline-block;
+		margin: 0px;
+	}
+	h4:hover{
+		color: #cccccc;
+	}
+	a{
+		display: inline-block;
+		text-decoration: none;
+	}
+	.rating{
+		outline: none;
+		color: #e6e600;
+		font-size: 20px;
+		cursor: pointer;
+	}
+	/*
+	.rating{
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+		font-size: 20px;
+		color: #e6e600;
+		li{
+			display: inline-block;
+		}
+	}
+	*/
+}
+
+
+
+
 .expand-comment {
 	position: fixed;
 	z-index: 997;

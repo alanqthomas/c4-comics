@@ -1,23 +1,32 @@
 <div ng-controller="comicCtrl" class="comic-page">
 
-	<div class="text-center">
+	<div class="title-block">
 		<h2>{{comic.title}}</h2>
-		<h4 ng-click="goToSeries(seriesId)">{{comic.series}}</h4>
-		<a ng-click="goToProfile(authorId)">{{authorName}}</a>
-		<!-- {{c.rating}} need to turn this into stars-->
+		<div>
+			<h4 ng-click="goToSeries(seriesId)">{{comic.series}}</h4>
+		</div>
+		<div>
+			<a ng-click="goToProfile(author_id)">{{authorName}}</a>
+		</div>
+
+		<uib-rating ng-change="updateRating()" class='rating' ng-model="rating" max="5"></uib-rating>
+		<!--
+		<input-stars ng-change="updateRating()" list-class="rating" max="5" ng-model="comicCtrl.rating"></input-stars>
+		<span ng-bind="{{comicCtrl.rating}}"></span-->
+
+		<div ng-show="logged_in && !is_owner">
+			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
+				Favorite
+			</button>
+			<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
+				Unfavorite
+			</button>
+		</div>
+
 	</div>
 
 	<div ng-repeat="p in pages" class= "pageDiv">
 		<img class="page-img" ng-src="{{p.url}}" alt="{{p.id}}"/>
-	</div>
-
-	<div ng-show="logged_in && !is_owner">
-		<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
-			Favorite
-		</button>
-		<button ng-if="faved" class="btn btn-sm btn-danger" ng-click="unfav()">
-			Unfavorite
-		</button>
 	</div>
 
 	<div class="expand-comment" ng-click="show_comment = !show_comment">
