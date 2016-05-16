@@ -1,8 +1,8 @@
 "use strict";
 
 (function() {
-angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies', 'searchScope',
-function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   searchScope){
+angular.module('c4').controller('navCtrl', ['$scope', '$http', '$state', '$window', 'GAuth','GApi', 'GData', '$cookies', 'searchScope', 'imgService', 'IMG_PREFIXES',
+function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   searchScope, imgService, IMG_PREFIXES){
 
 
 	/*
@@ -16,6 +16,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 	$scope.notifications = [];
 	$scope.search = searchScope.data;
 	$scope.showNotification = false;
+
 
 	// TEST DATA
 	/*
@@ -84,6 +85,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 				$scope.signedIn=true;
 				$state.go($state.current, {}, {'reload': true});
 				$scope.getNotification();
+				$scope.profileImgURL = imgService.getURLDecache(IMG_PREFIXES.USER, GData.getUser().id);
 			},
 			function(resp){
 				console.log("No user information found in db.");

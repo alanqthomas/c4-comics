@@ -59,7 +59,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					for(var i = 0; i < $scope.comic.pages.length; i++){
 						var page = $scope.comic.pages[i];
 						page.pageNumber = i;
-						
+
 						var newPage = {
 							'id': page.id,
 							'pageNumber': page.pageNumber
@@ -87,6 +87,7 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 						lodash.remove($scope.comic.pages, {
 							'id': deleteId
 						});
+						$scope.loadComic();
 					}, function(resp){
 						console.log("ERROR deleting page");
 					}
@@ -175,55 +176,58 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 			} else {
 				$state.go('error');
 			}
-			if(id != null){
-				GApi.execute("comicendpoint", "getComic", {"id" : id}).then(
-				function(resp){
-					$scope.comic = {
-						"id" : resp.id,
-						"title" : resp.title,
-						"seriesId" : resp.seriesId,
-						"tags" : [],
-						"pages" : []
-					}
-					if(resp.tags != null){
-						for(var i=0;i<resp.tags.length;i++){
-							GApi.execute("tagendpoint", "getTag", {'id' : resp.tags[i]}).then(
-								function(resp1){
-									$scope.comic.tags.push({
-										"id" : resp1.id,
-										"text" : resp1.name
-									});
-								},
-								function(resp1){
-									console.log("Error retrieving tag");
-									console.log(resp1);
-								}
-							);
+			$scope.loadComic = function(){
+				$scope.comic = {};
+				if(id != null){
+					GApi.execute("comicendpoint", "getComic", {"id" : id}).then(
+					function(resp){
+						$scope.comic = {
+							"id" : resp.id,
+							"title" : resp.title,
+							"seriesId" : resp.seriesId,
+							"tags" : [],
+							"pages" : []
 						}
-					}
-					if(resp.pages != null){
-						for(var i=0;i<resp.pages.length;i++){
-							GApi.execute("pageendpoint", "getPage", {'id':resp.pages[i]}).then(
-								function(res){
-									$scope.comic.pages.push({
-										'id': res.id,
-										'src': imgService.getURL(IMG_PREFIXES.PAGE, res.id),
-										'pageNumber': res.pageNumber
-									});
-									$scope.comic.pages = orderByFilter($scope.comic.pages, ['pageNumber']);
-									console.log(res.id + " : " + res.pageNumber);
-								},function(res){
-									console.log("ERROR retrieving page")
-							});
+						if(resp.tags != null){
+							for(var i=0;i<resp.tags.length;i++){
+								GApi.execute("tagendpoint", "getTag", {'id' : resp.tags[i]}).then(
+									function(resp1){
+										$scope.comic.tags.push({
+											"id" : resp1.id,
+											"text" : resp1.name
+										});
+									},
+									function(resp1){
+										console.log("Error retrieving tag");
+										console.log(resp1);
+									}
+								);
+							}
 						}
-					}
-				},function(resp){
-					console.log("Error retrieving comic.");
-					console.log(resp);
-					$state.go('error');
+						if(resp.pages != null){
+							for(var i=0;i<resp.pages.length;i++){
+								GApi.execute("pageendpoint", "getPage", {'id':resp.pages[i]}).then(
+									function(res){
+										$scope.comic.pages.push({
+											'id': res.id,
+											'src': imgService.getURL(IMG_PREFIXES.PAGE, res.id),
+											'pageNumber': res.pageNumber
+										});
+										$scope.comic.pages = orderByFilter($scope.comic.pages, ['pageNumber']);
+										console.log(res.id + " : " + res.pageNumber);
+									},function(res){
+										console.log("ERROR retrieving page")
+								});
+							}
+						}
+					},function(resp){
+						console.log("Error retrieving comic.");
+						console.log(resp);
+						$state.go('error');
+					});
 				}
-		);
-	}
+			};
+			$scope.loadComic();
 
 }]);
 })();

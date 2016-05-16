@@ -11,7 +11,7 @@
 			</button>
 		</div>
 		<img class="cover-img" ng-src="{{coverImgURL}}" default-img="{{defaultCoverImg}}" />
-		<div ng-if="is_owner" ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+		<div ng-show="is_owner" ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
 				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
 				accept="image/*"
 				ngf-pattern="'image/*'"

@@ -29,6 +29,9 @@ $thumb_height: 200px;
 			width: $cover_width;
 			height: $cover_height;
 			cursor: pointer !important;
+			&:hover{
+				border: 2px dashed #ddd;
+			}
 		}
 
 		.cover-title {
@@ -49,6 +52,20 @@ $thumb_height: 200px;
 			bottom: -($profile_img_size/3);
 			left: $profile_img_size/3;
 			object-fit: cover;
+		}
+
+		.profile-drop-box{
+			height: $profile_img_size;
+			width: $profile_img_size;
+			z-index: 3;
+			position: absolute;
+			bottom: -($profile_img_size/3);
+			left: $profile_img_size/3;
+			cursor: pointer !important;
+
+			&:hover{
+				border: 2px dashed #ddd;
+			}
 		}
 
 		.cover-btn{

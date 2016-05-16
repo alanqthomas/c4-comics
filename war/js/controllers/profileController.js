@@ -29,8 +29,8 @@
 		$scope.profile_id = $stateParams.id;
     $scope.defaultPageImg = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
     $scope.defaultCoverImg = 'https://storage.googleapis.com/c4-comics.appspot.com/default-series-bg?' + Date.now();
-    console.log(imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id));
-		$scope.profileCoverImg = imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id);
+    $scope.profileCoverImg = imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id);
+    $scope.profileImageURL = imgService.getURLDecache(IMG_PREFIXES.USER, $scope.profile_id);
 		if(GData.getUser() == null){
 			$scope.is_owner = ($cookies.get('userId') == $scope.profile_id);
 		} else {
@@ -49,12 +49,18 @@
 		};
 
     $scope.$watch('coverImg', function(){
-      $scope.upload($scope.coverImg);
+      $scope.uploadCoverImg($scope.coverImg);
     });
+
+
+    $scope.$watch('profileImg', function(){
+      $scope.uploadProfileImg($scope.profileImg);
+    });
+
 		//end main
 
 		//display functions
-    $scope.upload = function(file){
+    $scope.uploadCoverImg = function(file){
       $http({
         'method': 'POST',
         'url': imgService.getUploadURL(IMG_PREFIXES.USER_BG, $scope.user_id),
@@ -68,6 +74,25 @@
         $scope.profileCoverImg = imgService.getURLDecache(IMG_PREFIXES.USER_BG, $scope.profile_id);
       },function(resp){
         console.log("ERROR uploading cover image");
+      });
+    };
+
+
+    $scope.uploadProfileImg = function(file){
+      console.log("here");
+      $http({
+        'method': 'POST',
+        'url': imgService.getUploadURL(IMG_PREFIXES.USER, $scope.user_id),
+        'headers':{
+          'Content-Type': file.type
+        },
+        data: file
+      }).then(function(resp){
+        console.log("New profile image uploaded");
+        console.log(resp);
+        $scope.profileImageURL = imgService.getURLDecache(IMG_PREFIXES.USER, $scope.profile_id);
+      },function(resp){
+        console.log("ERROR uploading profile image");
       });
     };
 
@@ -325,8 +350,6 @@
 				for(var i = 0;i < $scope.profile.favoriteComics.length; i ++){
 					GApi.execute("comicendpoint","getComic", {"id":$scope.profile.favoriteComics[i]}).then(
 						function(resp1){
-              console.log("resp1");
-              console.log(resp1);
 							$scope.favorites_reserve.push({
 								id:resp1.id,
 								src: imgService.getURL(IMG_PREFIXES.PAGE, resp1.pages[0]),
@@ -393,7 +416,6 @@
 			GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 				function(resp){
 					$scope.profile = resp;
-          console.log($scope.profile.rating);
 					$scope.query_for_series();
 					$scope.tabs = [];
 					if($scope.is_owner || $scope.profile.userSeries.length){

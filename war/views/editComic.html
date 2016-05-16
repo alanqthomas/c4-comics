@@ -26,10 +26,8 @@
 				 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
 						<img class="thumbnail" ng-src={{x.src}} alt="{{comic.title}}-{{x.pagenumber}}" />
 
-						<!--span class="thumbnail-overlay" ng-show="hoverEdit" -->
-						<span class="thumbnail-overlay">
+						<span class="thumbnail-overlay" ng-show="hoverEdit">
 							<i class="fa fa-trash" ng-click="deletePage(x.id)"></i>
-							<i>{{x.pageNumber}}</i>
 						</span>
 				</div>
 				<div class="add-page-wrapper">

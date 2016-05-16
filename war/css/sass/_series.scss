@@ -30,6 +30,9 @@ $thumb_height: 200px;
 		width: $cover_width;
 		height: $cover_height;
 		cursor: pointer !important;
+		&:hover{
+			border: 2px dashed #ddd;
+		}
 	}
 
 	.sub-btn {

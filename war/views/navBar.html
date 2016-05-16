@@ -18,7 +18,8 @@
 
     <div ng-if="signedIn">
       <i class="fa fa-bell" ng-click="toggleNotification()"></i>
-      <img class="img-circle" ng-src="{{profilePic}}" ng-click="navProfile()" />
+      <img class="img-circle" ng-click="navProfile()"
+       ng-src="{{profilePic}}" default-img="{{profileImgURL}}" />
       <i class="fa fa-bars" ng-click="toggleSideNav()"></i>
     </div>
   </div>
@@ -28,7 +29,7 @@
   <a ui-sref="browse">Browse</a>
   <a ng-click="navProfile()">Profile</a>
   <a ui-sref="myComics">My Comics</a>
-  <a data-toggle="modal" data-target="#settingsModal">Settings</a>
+  <a data-toggle="modal" data-target="#settingsModal">Help</a>
   <a href="#" ng-click="signOut()">Sign Out</a>
 </nav>
 

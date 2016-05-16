@@ -3,7 +3,7 @@
 	<div class="cover">
 		<img class="cover-img" ng-src="{{profileCoverImg}}" default-img="{{defaultCoverImg}}" />
 
-		<div ng-if="is_owner" ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+		<div ng-show="is_owner" ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
 				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
 				accept="image/*"
 				ngf-pattern="'image/*'"
@@ -12,7 +12,14 @@
 		<h5 ng-if="!is_owner" class="cover-title">{{profile.username}}</h5>
 		<h5 ng-if="is_owner" class="cover-title" editable-text="profile.username" on-change="updateName(value)"></h5>
 
-		<img class='cover-profile-img' src={{profile.profileImageURL}}>
+		<img class='cover-profile-img'
+		 ng-src="{{profileImageURL}}" default-img="{{profile.profileImageURL}}" />
+
+		 <div ng-show="is_owner" ngf-drop ngf-select ng-model="profileImg" class="profile-drop-box"
+ 				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+ 				accept="image/*"
+ 				ngf-pattern="'image/*'"
+ 				ngf-max-size="5MB"></div>
 
 		<div ng-if="logged_in && !is_owner">
 			<button ng-if="!followed" class="btn btn-sm btn-primary cover-btn" ng-click="follow()">
