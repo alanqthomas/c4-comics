@@ -24,16 +24,36 @@
 			<div infinite-scroll="shiftTags()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
 				<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags" ng-show='!resultsBool'>
 				<!-- but with a lot more styling. -->
-					<span ng-style="tagDisplayStyle">{{x.name}}</span>
+					<span ng-style="tagDisplayStyle" ng-click="tagClick(x.id)">{{x.name}}</span>
 				</div>
 			</div>
 		</div>
+		
+		
+		<!-- THIS IS WHERE THE STYLING NEEDS TO HAPPEN -->
+		<!-- original code in browse -->
 		<div class="row" id="displayResultBrowse">
 			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" ng-show='resultsBool'>
 				<img ng-src={{x.src}} class='img-responsive preview' ng-click="go_to(x.type,x.id)">
 				<p class='imgDescription' ng-click="go_to(x.type,x.id)" >
-					{{x.title}} by {{x.authorId}}
+					{{x.title}}
 				</p>
+				
+				<!-- your code, but it doesnt seem to work as intended -->
+				<div class='thumbnail-wrapper' ng-repeat='comic in browseResults' ng-show='resultsBool'
+				 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+					<img class='thumbnail' ng-click="goToComic(comic.id)"
+					default-image ng-src="{{getFirstPageURL(comic.page[0])}}" default-img="{{defaultPageImg}}" />
+					<div class="thumbnail-overlay">
+						<p ng-click="go_to(x.type,x.id)">{{comic.title}}</p>
+						<span ng-if="is_owner">
+							<i class="material-icons" ng-click="deleteComic(comic.id)">
+								delete_forever
+							</i>
+						</span>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
