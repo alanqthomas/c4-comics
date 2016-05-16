@@ -15,10 +15,6 @@
 			<i class="material-icons">mode_edit</i>
 		</button>
 
-		<!--span class="tag" ng-repeat="tag in comic.tags">
-			{{tag.text}}
-		</span-->
-
 		<div ng-show="logged_in && !is_owner">
 			<button ng-if="!faved" class="btn btn-sm btn-primary" ng-click="fav()">
 				Favorite
@@ -30,7 +26,7 @@
 
 	</div>
 
-	<div ng-repeat="p in pages" class= "pageDiv">
+	<div ng-repeat="p in pages | orderBy:'pageNumber'" class= "pageDiv">
 		<img class="page-img" ng-src="{{p.url}}" alt="{{p.id}}"/>
 	</div>
 

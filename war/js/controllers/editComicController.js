@@ -2,8 +2,8 @@
 
 (function() {
 
-angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$timeout', 'lodash',
-	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout, lodash){
+angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', 'Upload', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$timeout', 'lodash', 'orderByFilter',
+	function(	 $scope,   $http, $state,  Upload,   GApi,   imgService, IMG_PREFIXES, $stateParams, $timeout, lodash, orderByFilter){
 			//init
 			var id;
 
@@ -52,6 +52,28 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					});//for
 					$scope.showDropBox = false;
 				}//if
+			};
+
+			$scope.sortableOptions= {
+				stop: function(e, ui){
+					for(var i = 0; i < $scope.comic.pages.length; i++){
+						var page = $scope.comic.pages[i];
+						page.pageNumber = i;
+						
+						var newPage = {
+							'id': page.id,
+							'pageNumber': page.pageNumber
+						};
+
+						GApi.execute("pageendpoint", "updatePage", newPage).then(
+							function(resp){
+								console.log("Page order updated");
+							}, function(resp){
+								console.log("ERROR updating page order");
+						});
+					}
+
+				}
 			};
 
 			$scope.deletePage = function(deleteId){
@@ -181,10 +203,17 @@ angular.module('c4').controller('editComicCtrl', ['$scope', '$http', '$state', '
 					}
 					if(resp.pages != null){
 						for(var i=0;i<resp.pages.length;i++){
-							$scope.comic.pages.push({
-								"id":resp.pages[i],
-								"src":imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]),
-								"pageNumber":i+1
+							GApi.execute("pageendpoint", "getPage", {'id':resp.pages[i]}).then(
+								function(res){
+									$scope.comic.pages.push({
+										'id': res.id,
+										'src': imgService.getURL(IMG_PREFIXES.PAGE, res.id),
+										'pageNumber': res.pageNumber
+									});
+									$scope.comic.pages = orderByFilter($scope.comic.pages, ['pageNumber']);
+									console.log(res.id + " : " + res.pageNumber);
+								},function(res){
+									console.log("ERROR retrieving page")
 							});
 						}
 					}

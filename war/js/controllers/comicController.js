@@ -215,10 +215,16 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 
 				$scope.pages = [];
 				for(var i = 0; i < resp.pages.length; i++){
-					$scope.pages.push({
-						'id': resp.pages[i],
-						'url': imgService.getURL(IMG_PREFIXES.PAGE, resp.pages[i]),
-						'pageNumber': i
+					GApi.execute("pageendpoint", "getPage", {'id':resp.pages[i]}).then(
+						function(res){
+							console.log("here");
+							$scope.pages.push({
+								'id': res.id,
+								'url': imgService.getURL(IMG_PREFIXES.PAGE, res.id),
+								'pageNumber': res.pageNumber
+							});
+						},function(res){
+							console.log("ERROR retrieving page")
 					});
 				}
 				//query for series

@@ -136,9 +136,7 @@ public class PageEndpoint {
 	 * @return The updated entity.
 	 */
 	@ApiMethod(name = "updatePage")
-	public Page updatePage(Page page, @Nullable @Named("newNumber") int newNumber, 
-			@Nullable @Named("comicId") Long comicId) 
-					throws BadRequestException, NotFoundException{
+	public Page updatePage(Page page) throws BadRequestException, NotFoundException{
 		
 		if (page.getId() == null)
 			throw new BadRequestException("Page ID can not be null");
@@ -146,44 +144,12 @@ public class PageEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Page updatedPage;
-		Page pageCheck;
 		
 		try {
-			//get the page to update from the datastore
-			updatedPage = getPage(page.getId());
-			//update the provided fields
-			if (page.getImageURL() != null)
-				updatedPage.setImageURL(page.getImageURL());
-			if (page.getDateCreated() != null)
-				updatedPage.setDateCreated(page.getDateCreated());
-			if (newNumber != 0 && comicId != null) {
-				int oldNumber = updatedPage.getPageNumber();
-				updatedPage.setPageNumber(newNumber);
-				Comic comic = mgr.getObjectById(Comic.class, comicId);
-				//super janky loop to update number. seriously, it's janky.
-				for (Long pid : comic.getPages()){
-					if (pid != updatedPage.getId()) {
-						pageCheck = mgr.getObjectById(Page.class, pid);
-						//movement case 1
-						if (oldNumber > newNumber){
-							if (pageCheck.getPageNumber() < oldNumber 
-									&& pageCheck.getPageNumber() >= newNumber){
-								pageCheck.setPageNumber(pageCheck.getPageNumber() + 1);
-								mgr.makePersistent(pageCheck);
-							}
-						}
-						//movement case 2
-						if (oldNumber < newNumber){
-							if (pageCheck.getPageNumber() > oldNumber 
-									&& pageCheck.getPageNumber() <= newNumber){
-								pageCheck.setPageNumber(pageCheck.getPageNumber() - 1);
-								mgr.makePersistent(pageCheck);
-							}
-						}
-					}	
-				}
-				mgr.makePersistent(comic);	
-			}
+			updatedPage = mgr.getObjectById(Page.class, page.getId());
+			
+			updatedPage.setPageNumber(page.getPageNumber());
+			
 			mgr.makePersistent(updatedPage);
 		} finally {
 			mgr.close();
