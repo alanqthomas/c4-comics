@@ -5,7 +5,7 @@
 angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES',
                                     function( $scope, $http, GApi, $state, $stateParams, imgService, IMG_PREFIXES){
 	//init
-	$scope.resultsSwitch = 20;
+	$scope.resultSwitch = 12;
 	$scope.resultsBool = false;
 	if($stateParams.tagList != null){
 		$scope.selTags = $stateParams.tagList;
@@ -31,29 +31,44 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 		part.type = "comic";
 	}
 	$scope.getResults= function(){
-		var resultReq = {
-			"tags": $scope.selTags,
-			"numResults" : $scope.resultSwitch
-		};
-		GApi.execute('browseendpoint', 'getResults', resultReq).then( 
-			function(resp) {
-				$scope.resultsBool = resp.comics;
-				if($scope.resultsBool){
-					$scope.displayTags = null;
-					$scope.resultTags = null;
-					$scope.browseResults = resp.results;
-					$scope.browseResults.forEach(prepareResult(part));
-				} else {
+		if($scope.selTags.length < 1){
+			GApi.execute('tagendpoint', 'listTag', {}).then( 
+				function(resp) {
+					$scope.resultsBool = false;
 					$scope.browseResults = null;
-					$scope.resultTags = resp.results;
+					$scope.resultTags = resp.items;
 					$scope.displayTags = [];
-					shiftTags();
+					$scope.shiftTags();
+				}, function(resp) {
+					console.log("Result call failed.");
+					console.log(resp);
 				}
-			}, function(resp) {
-				console.log("Result call failed.");
-				console.log(resp);
-			}
-		);
+			);
+		}else{
+			var resultReq = {
+				"tags": $scope.selTags,
+				"numResults" : $scope.resultSwitch
+			};
+			GApi.execute('browseendpoint', 'getResults', resultReq).then( 
+				function(resp) {
+					$scope.resultsBool = resp.comics;
+					if($scope.resultsBool){
+						$scope.displayTags = null;
+						$scope.resultTags = null;
+						$scope.browseResults = resp.results;
+						$scope.browseResults.forEach(prepareResult(part));
+					} else {
+						$scope.browseResults = null;
+						$scope.resultTags = resp.results;
+						$scope.displayTags = [];
+						$scope.shiftTags();
+					}
+				}, function(resp) {
+					console.log("Result call failed.");
+					console.log(resp);
+				}
+			);
+		}
 	}
 	//tag manipulation functions
 	$scope.removeTag = function(tagToRemove){

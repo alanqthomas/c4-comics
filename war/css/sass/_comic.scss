@@ -39,18 +39,10 @@ img {
 		font-size: 20px;
 		cursor: pointer;
 	}
-	/*
-	.rating{
-		list-style: none;
-		padding: 0px;
-		margin: 0px;
-		font-size: 20px;
-		color: #e6e600;
-		li{
-			display: inline-block;
-		}
+	button{
+		display: block;
+		margin: 0px auto;
 	}
-	*/
 }
 
 
@@ -77,6 +69,7 @@ img {
 }
 
 .detailBox {
+		max-width: 90vw;
     width:620px;
     border:1px solid #bbb;
 		margin: 0 auto;
@@ -147,6 +140,14 @@ img {
     border-top:1px dotted #bbb;
     padding:10px;
 		background: white;
+}
+
+.tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px;
+  margin: 5px;
 }
 
 

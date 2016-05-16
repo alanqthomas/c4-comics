@@ -201,7 +201,7 @@ public class SeriesEndpoint {
 	 * @param id the primary key of the entity to be deleted.
 	 */
 	@ApiMethod(name = "removeSeries")
-	public void removeSeries(@Named("id") Long id) {
+	public static void removeSeries(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			Series series = mgr.getObjectById(Series.class, id);
@@ -253,12 +253,15 @@ public class SeriesEndpoint {
 		PersistenceManager mgr = getPersistenceManager();
 		
 		Series series;
+		Comic comic;
 		
 		try {
 			series = mgr.getObjectById(Series.class, seriesId);
-			series.deleteSeriesComic(comicId);
-			
+			series.deleteSeriesComic(comicId);			
 			mgr.makePersistent(series);
+			
+			ComicEndpoint.removeComic(comicId);
+			
 			index(series);
 			
 		} catch (javax.jdo.JDOObjectNotFoundException ex){

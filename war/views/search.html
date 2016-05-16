@@ -1,23 +1,18 @@
-<div ng-controller="searchCtrl">
+<div class="search" ng-controller="searchCtrl">
 	<i class="fa fa-arrow-left search-x" ng-click="goBack()"></i>
 	<h3>Search</h3>
 	<div class="container-fluid">
-		<div id="optionsDisplaySearch">
-			<!--Show results at <input type="number" value=20 ng-model="resultSwitch"></input> results.-->
-		</div>
-		<div class="row" id="displayResultSearch">
-			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in searchResults">
-				<span style="backfround-image:url({{x.url}})">{{x.title}} by {{x.author}}</span>
-			</div>
-		</div>
 		<uib-tabset>
-			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="onTabSelected(tab.slug)">
-				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-					<div class='col-xs-6 col-sm-3 col-md-2 col-lg-2 imgWrap' ng-repeat='x in tab.content'>
-						<span>{{x.id}}</span>
-						<img ng-src={{x.src}} class='img-responsive preview' ng-click="page_go(x.type,x.id)">
-						<p class='imgDescription' ng-click="page_go(x.type, x.id)" >{{x.title}}</p>
+			<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active"
+			 select="onTabSelected(tab.slug)">
+				<div infinite-scroll="tab.load_m()" infinite-scroll-distance='.01'
+				 infinite-scroll-immediate-check="true">
+					<div class='thumbnail-wrapper' ng-repeat='x in tab.content'>
+						<img class='thumbnail' ng-click="page_go(x.type,x.id)"
+						 ng-src={{x.src}} default-img="{{defaultPageURL}}">
+						<p class='thumbnail-overlay' ng-click="page_go(x.type, x.id)" >{{x.title}}</p>
 					</div>
+
 				</div>
 			</uib-tab>
 		</uib-tabset>

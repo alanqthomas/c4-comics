@@ -57,6 +57,21 @@ $thumb_height: 200px;
 	.description-heading{
 		margin: 20px 0;
 	}
+
+	.rating-display{
+		display:block;
+		margin-bottom: 20px;
+		i{
+			display: inline;
+			color: #e6e600;
+			margin: auto;
+			font-size: 20px;
+		}
+		h5{
+			display: inline;
+			margin: auto;
+		}
+	}
 }
 
 .comic-images{
@@ -94,6 +109,18 @@ $thumb_height: 200px;
 	padding: 8px;
 	position: relative;
 	overflow: hidden;
+
+	p{
+		display: inline-block;
+		float: left;
+		overflow: hidden;
+	}
+
+	span{
+		display: inline-block;
+		float: right;
+		z-index: 3;
+	}
 }
 
 .expand-comment {
@@ -117,6 +144,7 @@ $thumb_height: 200px;
 }
 
 .detailBox {
+		max-width: 90vw;
     width:620px ;
     border:1px solid #bbb;
 		margin: 0 auto;

@@ -87,19 +87,7 @@
   box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
   max-width: 60vw;
   margin: 0px auto;
-  padding: 20px;
-  /*
-  .rating{
-  	list-style: none;
-  	padding: 0px;
-  	margin: 0px;
-  	font-size: 20px;
-  	color: #e6e600;
-  	li{
-  		display: inline-block;
-  	}
-  }
-  */ }
+  padding: 20px; }
   .comic-page .title-block h4 {
     display: inline-block;
     margin: 0px; }
@@ -113,6 +101,9 @@
     color: #e6e600;
     font-size: 20px;
     cursor: pointer; }
+  .comic-page .title-block button {
+    display: block;
+    margin: 0px auto; }
 .comic-page .expand-comment {
   position: fixed;
   z-index: 997;
@@ -130,6 +121,7 @@
 .comic-page .expand-comment:hover {
   background-color: #71c174; }
 .comic-page .detailBox {
+  max-width: 90vw;
   width: 620px;
   border: 1px solid #bbb;
   margin: 0 auto;
@@ -184,6 +176,12 @@
   border-top: 1px dotted #bbb;
   padding: 10px;
   background: white; }
+.comic-page .tag {
+  background-color: #bbb;
+  color: white !important;
+  padding: 5px 8px 5px 8px;
+  border-radius: 20px;
+  margin: 5px; }
 
 .edit-comic .drop-box {
   border-radius: 10px;
@@ -248,28 +246,36 @@
   background-color: #bbb;
   color: white !important;
   padding: 5px 8px 5px 8px;
-  border-radius: 20px; }
+  border-radius: 20px;
+  margin: 5px; }
 .edit-comic .tag-wrapper {
   margin: 10px; }
 
-.DocumentList {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  height: 200px;
-  width: 100%;
-  padding: 0 15px; }
-
-.DocumentItem {
-  border: 1px solid black;
-  padding: 0;
-  height: 200px; }
-
-.list-inline {
-  white-space: nowrap; }
-
-.container-full {
-  margin: 0 auto;
-  width: 90%; }
+.home .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 200px;
+  height: 300px;
+  margin: 5px; }
+.home .thumbnail {
+  object-fit: cover;
+  width: 200px;
+  height: 300px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  margin: 0px; }
+.home .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
 
 .top-nav {
   position: fixed;
@@ -346,7 +352,8 @@
 
 body {
   margin-top: 85px;
-  background-color: #FAFAFA; }
+  background-color: #FAFAFA;
+  height: 100%; }
 
 .notification-box {
   position: fixed;
@@ -430,6 +437,17 @@ body {
   padding: 20px; }
   .profile .content-wrapper .description-heading {
     margin: 20px 0; }
+  .profile .content-wrapper .rating-display {
+    display: block;
+    margin-bottom: 20px; }
+    .profile .content-wrapper .rating-display i {
+      display: inline;
+      color: #e6e600;
+      margin: auto;
+      font-size: 20px; }
+    .profile .content-wrapper .rating-display h5 {
+      display: inline;
+      margin: auto; }
 .profile .new-series-btn {
   margin: 0px auto !important; }
 .profile .series-images {
@@ -470,11 +488,36 @@ body {
     float: right;
     z-index: 3; }
 
-.search-x {
+.search .search-x {
   float: left;
   padding-left: 20px;
   padding-right: 20px;
   font-size: 30px !important; }
+.search .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 200px;
+  height: 300px;
+  margin: 5px; }
+.search .thumbnail {
+  object-fit: cover;
+  width: 200px;
+  height: 300px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  margin: 0px; }
+.search .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
 
 .series .cover {
   width: 600px;
@@ -516,6 +559,17 @@ body {
   padding: 20px; }
   .series .content-wrapper .description-heading {
     margin: 20px 0; }
+  .series .content-wrapper .rating-display {
+    display: block;
+    margin-bottom: 20px; }
+    .series .content-wrapper .rating-display i {
+      display: inline;
+      color: #e6e600;
+      margin: auto;
+      font-size: 20px; }
+    .series .content-wrapper .rating-display h5 {
+      display: inline;
+      margin: auto; }
 .series .comic-images {
   width: 80vw;
   margin: 0px auto;
@@ -545,6 +599,14 @@ body {
   padding: 8px;
   position: relative;
   overflow: hidden; }
+  .series .thumbnail-overlay p {
+    display: inline-block;
+    float: left;
+    overflow: hidden; }
+  .series .thumbnail-overlay span {
+    display: inline-block;
+    float: right;
+    z-index: 3; }
 .series .expand-comment {
   position: fixed;
   z-index: 997;
@@ -562,6 +624,7 @@ body {
 .series .expand-comment:hover {
   background-color: #71c174; }
 .series .detailBox {
+  max-width: 90vw;
   width: 620px;
   border: 1px solid #bbb;
   margin: 0 auto;

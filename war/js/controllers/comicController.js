@@ -2,8 +2,8 @@
 
 (function() {
 
-angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth" , "GData",
-									function(    $scope,   $http,   GApi,   $state,   $stateParams,   imgService,   IMG_PREFIXES, GAuth, GData){
+angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state', '$stateParams', 'imgService', 'IMG_PREFIXES', "GAuth" , "GData", '$cookies',
+									function(    $scope,   $http,   GApi,   $state,   $stateParams,   imgService,   IMG_PREFIXES, GAuth, GData, $cookies){
 
 	/* README
 	 * All comments are in the $scope.comments variable. The 4 fields are username(username...duh),
@@ -247,6 +247,20 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 
 	//main
 	$scope.getComic(id);
+
+	var getUserRatingObj = {
+		'userId': $cookies.get('userId'),
+		'comicId': id
+	}
+	GApi.execute("comicendpoint", "getUserRating", getUserRatingObj).then(
+		function(resp){
+			console.log("updating rating");
+			$scope.rating = resp.rating;
+		}, function(resp){
+			console.log("ERROR getting user rating");
+			$scope.rating = null;
+	});
+
 	//nav functions
 	$scope.goToSeries = function(id){
 		if(id == null){
@@ -255,7 +269,8 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		else {
 			$state.go("series", {"id":id});
 		}
-	}
+	};
+
 	$scope.goToProfile = function(id){
 		if(id == null){
 			$state.go("error");
@@ -263,6 +278,11 @@ angular.module('c4').controller('comicCtrl', ['$scope', '$http', 'GApi', '$state
 		else {
 			$state.go("profile", {"id":id});
 		}
-	}
+	};
+
+	$scope.goToEditComic = function(){
+		$state.go("editComic", {"id": id});
+	};
+
 }]);
 })();

@@ -391,6 +391,7 @@
 			GApi.execute( "c4userendpoint","getC4User", {"id":$scope.profile_id}).then(
 				function(resp){
 					$scope.profile = resp;
+          console.log($scope.profile.rating);
 					$scope.query_for_series();
 					$scope.tabs = [];
 					if($scope.is_owner || $scope.profile.userSeries.length){

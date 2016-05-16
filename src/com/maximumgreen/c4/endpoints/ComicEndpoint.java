@@ -196,15 +196,14 @@ public class ComicEndpoint {
 	 * @throws NotFoundException 
 	 */
 	@ApiMethod(name = "removeComic")
-	public void removeComic(@Named("id") Long id) throws NotFoundException {
+	public static void removeComic(@Named("id") Long id) throws NotFoundException {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			Comic comic = mgr.getObjectById(Comic.class, id);
-			mgr.deletePersistent(comic);
-			IndexService.removeDocument(IndexService.COMIC, id.toString());
-			index(comic);
+			mgr.deletePersistent(comic);			
 		} finally {
 			mgr.close();
+			IndexService.removeDocument(IndexService.COMIC, id.toString());
 		}
 	}
 	
@@ -278,6 +277,47 @@ public class ComicEndpoint {
 		}
 		updateRatings(comic);
 		return comic;
+	}
+	
+	@ApiMethod(name="getUserRating")
+	public C4Rating getUserrating(@Named("userId") String userId, @Named("comicId") Long comicId) 
+		throws NotFoundException {
+		PersistenceManager mgr = getPersistenceManager();
+		
+		C4Rating userRating = null;
+		Comic comic;
+		
+		try {
+			comic = mgr.getObjectById(Comic.class, comicId);
+			
+			Query q = mgr.newQuery(C4Rating.class);
+			q.setFilter("comicId == comicIdParam");
+			q.declareParameters("Long comicIdParam");
+			@SuppressWarnings("unchecked")
+			List<C4Rating> ratings = (List<C4Rating>) q.execute(comic.getId());
+			
+			if (ratings.size() == 0)
+				throw new NotFoundException("This comic does not have any ratings.");
+			else {
+				boolean found = false;
+				for (C4Rating r : ratings) {
+					if (r.getUserId().equals(userId)){
+						userRating = r;
+						found = true;
+					}
+				}
+				if (!found)
+					throw new NotFoundException("User has not rated this comic.");
+			}	
+		}
+		finally {
+			mgr.close();
+		}
+		
+		if (userRating == null)
+			throw new NotFoundException("Something went horribly wrong somewhere.");
+		else
+			return userRating;
 	}
 	
 	@ApiMethod(name="addcomicpage")

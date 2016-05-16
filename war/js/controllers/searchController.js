@@ -3,6 +3,8 @@
 (function() {
 angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgService', 'IMG_PREFIXES', '$stateParams', '$state', 'searchScope', '$window',
 																			 function($scope,   $http,   GApi,   imgService,   IMG_PREFIXES,  $stateParams,    $state,   searchScope,   $window){
+
+		$scope.defaultPageURL = imgService.getURL(IMG_PREFIXES.PAGE, '123456');
 		$scope.search = searchScope.data;
 		$scope.$watch('search.terms', function(newValue, oldValue){
 			$scope.getResults();
@@ -23,7 +25,7 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 							$scope.comicResults.push({
 								id: resp.comicResults[i].id,
 								title:resp.comicResults[i].title,
-								src:imgService.getURL(IMG_PREFIXES.COMIC, resp.comicResults[i].id),
+								src:imgService.getURL(IMG_PREFIXES.PAGE, resp.comicResults[i].pages[0]),
 								type:"comic"
 							});
 						};
@@ -62,7 +64,7 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 							$scope.seriesResults.push({
 								id: resp.seriesResults[i].id,
 								title:resp.seriesResults[i].title,
-								src:imgService.getURL(IMG_PREFIXES.COMIC, resp.seriesResults[i].id),
+								src:imgService.getURL(IMG_PREFIXES.SERIES, resp.seriesResults[i].id),
 								type:"series"
 							});
 						};
@@ -166,7 +168,7 @@ angular.module('c4').controller('searchCtrl', ['$scope', '$http', 'GApi', 'imgSe
 			}
 		}
 		$scope.goBack = function(){
-			
+
 			$window.history.back();
 		}
 }]);
