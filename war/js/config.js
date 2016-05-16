@@ -22,7 +22,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			authenticate: false
 		})
 		.state('browse', {
-			url: "/browse",
+			url: "/browse/:tag",
 			templateUrl: "views/browse.html"
 		})
 		.state('series', {
