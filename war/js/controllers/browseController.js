@@ -79,5 +79,9 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 	}
 	//main
 	$scope.getResults();
+	
+	
+	
+	
 }]);
 })();

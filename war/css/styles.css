@@ -19,6 +19,9 @@
 [ng-click], [data-ng-click], [x-ng-click], img, i {
   cursor: pointer; }
 
+.center-block {
+  margin: 0px auto; }
+
 .gg-editable-text .original-text {
   border: 1px solid transparent; }
 .gg-editable-text .original-text:hover, .gg-editable-text .gg-editable-text.editing {
@@ -44,6 +47,27 @@
 .gg-editable-text span {
   text-decoration: inherit; }
 
+/* <input-star></input-star> directive */
+.angular-input-stars {
+  display: inline-block;
+  padding: 0;
+  padding-left: -5px;
+  list-style: none; }
+
+.angular-input-stars > li {
+  font-size: 17px;
+  display: inline-block;
+  padding-right: 5px;
+  padding-left: 5px;
+  cursor: pointer; }
+
+.angular-input-stars > li .active {
+  color: #FDE35E;
+  text-shadow: black 0 0 1px, 0 0 1px; }
+
+.angular-input-stars > li .active.angular-input-stars-hover {
+  text-shadow: black 0 0 3px; }
+
 .tagsDisplayBrowse {
   text-align: center;
   align-items: center; }
@@ -56,6 +80,39 @@
   height: auto;
   margin: 10px 0px 10px 0px;
   cursor: default !important; }
+.comic-page .title-block {
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 0px rgba(200, 200, 200, 0.75);
+  max-width: 60vw;
+  margin: 0px auto;
+  padding: 20px;
+  /*
+  .rating{
+  	list-style: none;
+  	padding: 0px;
+  	margin: 0px;
+  	font-size: 20px;
+  	color: #e6e600;
+  	li{
+  		display: inline-block;
+  	}
+  }
+  */ }
+  .comic-page .title-block h4 {
+    display: inline-block;
+    margin: 0px; }
+  .comic-page .title-block h4:hover {
+    color: #cccccc; }
+  .comic-page .title-block a {
+    display: inline-block;
+    text-decoration: none; }
+  .comic-page .title-block .rating {
+    outline: none;
+    color: #e6e600;
+    font-size: 20px;
+    cursor: pointer; }
 .comic-page .expand-comment {
   position: fixed;
   z-index: 997;
