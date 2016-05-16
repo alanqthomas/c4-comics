@@ -3,7 +3,7 @@
 	<div class="cover">
 		<img class="cover-img" ng-src="{{profileCoverImg}}" default-img="{{defaultCoverImg}}" />
 
-		<div ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
+		<div ng-if="is_owner" ngf-drop ngf-select ng-model="coverImg" class="cover-drop-box"
 				ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
 				accept="image/*"
 				ngf-pattern="'image/*'"
@@ -13,10 +13,6 @@
 		<h5 ng-if="is_owner" class="cover-title" editable-text="profile.username" on-change="updateName(value)"></h5>
 
 		<img class='cover-profile-img' src={{profile.profileImageURL}}>
-
-		<button ng-if="is_owner" class="btn btn-sm btn-primary cover-btn">
-			<i class="material-icons">settings_applications</i>
-		</button>
 
 		<div ng-if="logged_in && !is_owner">
 			<button ng-if="!followed" class="btn btn-sm btn-primary cover-btn" ng-click="follow()">
@@ -54,6 +50,7 @@
 				 infinite-scroll-immediate-check="true">
 
 					<div class='thumbnail-wrapper' ng-repeat='x in tab.content' >
+
 						<img class='thumbnail' ng-click="page_go(x.type,x.id)"
 						 ng-src={{x.src}} default-img="{{defaultPageImg}}">
 

@@ -28,7 +28,7 @@
   <a ui-sref="browse">Browse</a>
   <a ng-click="navProfile()">Profile</a>
   <a ui-sref="myComics">My Comics</a>
-  <a href="#" data-toggle="modal" data-target="#settingsModal">Settings</a>
+  <a data-toggle="modal" data-target="#settingsModal">Settings</a>
   <a href="#" ng-click="signOut()">Sign Out</a>
 </nav>
 
@@ -54,15 +54,23 @@
 
   <div class="notification-box" ng-show="showNotification">
     <ul>
-      <li ng-repeat="noti in notifications | orderBy:'-date'" ng-click="goNotification(noti)"  >
-        <div class="notification-content">
-          <div class="notification-message">{{noti.message}}</div>
-          <div class="notification-delete">
-            <i class="fa fa-times" ng-click="deleteNotification(noti)"></i>
-          </div>
-        </div>
-        <div class="notification-date">{{noti.dateString}}</div>
+      <li class="title-bar">
+        <span class="title">Notifications</span>
       </li>
+
+      <div class="notification-wrapper">
+        <li ng-repeat="n in notifications | orderBy: '-date'" >
+          <div class="message-wrapper" ng-click="goNotification(n)">
+            <div class="notification-message">{{n.message}}</div>
+            <div class="notification-date">{{n.dateString}}</div>
+          </div>
+
+          <div class="notification-delete">
+            <i class="fa fa-times" ng-click="deleteNotification(n)"></i>
+          </div>
+        </li>
+      </div>
+
     </ul>
   </div>
 

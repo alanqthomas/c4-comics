@@ -28,6 +28,7 @@ $thumb_height: 200px;
 			z-index: 1;
 			width: $cover_width;
 			height: $cover_height;
+			cursor: pointer !important;
 		}
 
 		.cover-title {
