@@ -23,8 +23,6 @@
 	</div>
 
 	<div class="row" id="displayResultBrowse">
-		<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" ng-show='resultsBool'>
-			<img ng-src={{x.src}} class='img-responsive preview' ng-click="go_to(x.type,x.id)">
 
 			<div class='thumbnail-wrapper' ng-repeat='comic in browseResults' ng-show='resultsBool'
 			 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-click="go_to(x.type,x.id)">
@@ -40,6 +38,5 @@
 				</div>
 			</div>
 
-		</div>
 	</div>
 </div>
