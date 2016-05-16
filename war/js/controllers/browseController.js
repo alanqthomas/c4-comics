@@ -58,7 +58,7 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 						for(var i = 0; i < resp.comicsWithTag.length; i ++){
 							GApi.execute("comicendpoint", "getComic", {"id":resp.comicsWithTag[i]}).then(
 								function(resp2){
-									console.log(resp2);
+									//console.log(resp2);
 									$scope.browseResults.push(resp2);
 								},
 								function(resp2){
@@ -90,6 +90,7 @@ angular.module('c4').controller('browseCtrl', ['$scope', '$http', 'GApi', '$stat
 	}*/
 	//navigation
 	$scope.go_to = function(type, id){
+		//console.log($scope.browseResults);
 		//console.log("type: " + type + " id: " + id);
 		if(id != null){
 			$state.go('comic',{"id": id});

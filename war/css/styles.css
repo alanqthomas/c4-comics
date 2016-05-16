@@ -68,13 +68,54 @@
 .angular-input-stars > li .active.angular-input-stars-hover {
   text-shadow: black 0 0 3px; }
 
-.tagsDisplayBrowse {
-  text-align: center;
-  align-items: center; }
+.browse h3 {
+  margin: 30px; }
+.browse h3, .browse h5 {
+  text-align: center; }
+.browse .tag-btn {
+  margin: 20px; }
+.browse .tag-container {
+  margin: 0px auto;
+  width: 60vw; }
+.browse .tag-display {
+  margin: 0px auto; }
+.browse .thumbnail-wrapper {
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  margin: 5px; }
+.browse .thumbnail {
+  object-fit: cover;
+  border: 0px;
+  padding: 0px;
+  width: 150px;
+  height: 200px;
+  position: absolute;
+  z-index: 1;
+  margin: 0px; }
+.browse .thumbnail-overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  z-index: 2;
+  width: 150px;
+  height: 40px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden; }
+  .browse .thumbnail-overlay p {
+    display: inline-block;
+    float: left;
+    overflow: hidden; }
+  .browse .thumbnail-overlay span {
+    display: inline-block;
+    float: right;
+    z-index: 3; }
 
 .comic-page .pageDiv {
-  text-align: center;
-  align-items: center; }
+  text-align: center; }
 .comic-page img {
   max-width: 75vw;
   height: auto;
@@ -358,7 +399,7 @@ body {
 .notification-box {
   position: fixed;
   top: 75px;
-  z-index: 998;
+  z-index: 900;
   right: 100px;
   width: 350px;
   border: 1px solid #e6e6e6;
@@ -367,26 +408,68 @@ body {
   .notification-box ul {
     list-style-type: none;
     padding: 0px;
-    margin: 0px; }
-    .notification-box ul li:first-child {
-      border-top: none; }
-    .notification-box ul li {
-      border-top: 1px dotted #d9d9d9;
-      display: block;
-      padding: 10px; }
-      .notification-box ul li .notification-content .notification-message {
-        display: block;
-        float: left; }
-      .notification-box ul li .notification-content .notification-delete {
-        display: block;
+    margin: 0px;
+    		/*
+    		li:first-child{
+    			border-top: none;
+    		}
+    
+    		li{
+    			border-top: 1px dotted $notification_divider_color;
+    			display: block;
+    			min-height: 50px;
+    
+    			.notification-content{
+    				.notification-message{
+    					display: block;
+    					float: left;
+    					padding: 10px;
+    					width: 90%;
+    				}
+    				.notification-delete{
+    					display: block;
+    					float: right;
+    					font-size: 20px;
+    					text-align: right;
+    					background-color: red;
+    					width: 10%;
+    					height: 100%;
+    					min-height: 50px;
+    					color: white;
+    					text-align: center;
+    				}
+    			}
+    
+    			.notification-date{
+    				text-align: right;
+    				font-size: 10px;
+    				color: #bfbfbf;
+    			}
+    		}
+    
+    		li:hover{
+    			background-color: #e6e6e6;
+    		}
+    		*/ }
+    .notification-box ul .title-bar {
+      background-color: #e6e6e6;
+      padding: 5px;
+      font-weight: bold; }
+    .notification-box ul .notification-wrapper {
+      height: 300px;
+      overflow-y: scroll;
+      width: 100%; }
+      .notification-box ul .notification-wrapper .message-wrapper {
+        float: left;
+        width: 100%;
+        padding: 10px; }
+        .notification-box ul .notification-wrapper .message-wrapper .notification-date {
+          font-size: 10px; }
+      .notification-box ul .notification-wrapper .notification-delete {
+        padding: 10px;
+        z-index: 910;
         font-size: 20px;
-        text-align: right; }
-      .notification-box ul li .notification-date {
-        text-align: right;
-        font-size: 10px;
-        color: #bfbfbf; }
-    .notification-box ul li:hover {
-      background-color: #e6e6e6; }
+        border-bottom: 1px solid #cccccc; }
 
 .profile .cover {
   width: 600px;
@@ -406,7 +489,10 @@ body {
     position: absolute;
     z-index: 1;
     width: 600px;
-    height: 300px; }
+    height: 300px;
+    cursor: pointer !important; }
+    .profile .cover .cover-drop-box:hover {
+      border: 2px dashed #ddd; }
   .profile .cover .cover-title {
     position: absolute;
     bottom: 10px;
@@ -423,6 +509,16 @@ body {
     bottom: -33.33333px;
     left: 33.33333px;
     object-fit: cover; }
+  .profile .cover .profile-drop-box {
+    height: 100px;
+    width: 100px;
+    z-index: 3;
+    position: absolute;
+    bottom: -33.33333px;
+    left: 33.33333px;
+    cursor: pointer !important; }
+    .profile .cover .profile-drop-box:hover {
+      border: 2px dashed #ddd; }
   .profile .cover .cover-btn {
     z-index: 4;
     position: absolute;
@@ -538,7 +634,10 @@ body {
     position: absolute;
     z-index: 1;
     width: 600px;
-    height: 300px; }
+    height: 300px;
+    cursor: pointer !important; }
+    .series .cover .cover-drop-box:hover {
+      border: 2px dashed #ddd; }
   .series .cover .sub-btn {
     position: absolute;
     bottom: 20px;
@@ -549,7 +648,8 @@ body {
     z-index: 0;
     width: 600px;
     height: 300px;
-    object-fit: cover; }
+    object-fit: cover;
+    cursor: default !important; }
 .series .content-wrapper {
   margin: 20px auto;
   width: 600px !important;
