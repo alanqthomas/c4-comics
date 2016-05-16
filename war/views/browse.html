@@ -1,60 +1,45 @@
-<div ng-controller="browseCtrl">
+<div class="browse" ng-controller="browseCtrl">
 	<h3>Browse</h3>
-	<div class="container-fluid">
-		<div id="optionsDisplayBrowse">
-			<!--Display <input ng-model="tagCap" type="number" value=24></input> tags on the page.-->
-			Show comics instead of Tags at <input type="number" ng-model="resultSwitch" value=12></input> comics.
-		</div>
-		<div id ="tagsDisplayBrowse">
-			<h5>Current Tags:</h5>
-			<div id="tagListBrowse">
-				<span class="tagDisplay" ng-repeat="x in selTags">
-					{{x}}
-					<span class="tagClose">
-						<i class="material-icons" ng-click="removeTag(x)">close</i>
-					</span>
+
+
+	<div class="center-block">
+		<h5>Tags</h5>
+		<div>
+			<span class="tagDisplay" ng-repeat="x in selTags">
+				{{x}}
+				<span class="tagClose">
+					<i class="material-icons" ng-click="removeTag(x)">close</i>
 				</span>
-			</div>
-			<!--Add tag:
-			<form ng-submit="addTag()">
-				<input type="text" ng-model="currentTag"></input>
-			</form>-->
+			</span>
 		</div>
-		<div class="row" id="displayTagBrowse">
-			<div infinite-scroll="shiftTags()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
-				<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in displayTags" ng-show='!resultsBool'>
-				<!-- but with a lot more styling. -->
-					<span ng-style="tagDisplayStyle" ng-click="tagClick(x.id)">{{x.name}}</span>
+	</div>
+
+	<div class="tag-container">
+		<div infinite-scroll="shiftTags()" infinite-scroll-distance='.01' infinite-scroll-immediate-check="true">
+			<button class="btn btn-default btn-lg tag-btn" ng-repeat="x in displayTags" ng-show='!resultsBool'
+			 ng-click="tagClick(x.id)">
+			 	{{x.name}}
+			</div>
+	</div>
+
+	<div class="row" id="displayResultBrowse">
+		<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" ng-show='resultsBool'>
+			<img ng-src={{x.src}} class='img-responsive preview' ng-click="go_to(x.type,x.id)">
+
+			<div class='thumbnail-wrapper' ng-repeat='comic in browseResults' ng-show='resultsBool'
+			 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-click="go_to(x.type,x.id)">
+				<img class="thumbnail" ng-click="go_to(x.type,x.id)"
+				 ng-src="{{getFirstPageURL(comic.pages[0])}}" default-img="{{defaultPageImg}}" />
+				<div class="thumbnail-overlay">
+					<p ng-click="go_to(x.type,x.id)">{{comic.title}}</p>
+					<span ng-if="is_owner">
+						<i class="material-icons" ng-click="deleteComic(comic.id)">
+							delete_forever
+						</i>
+					</span>
 				</div>
 			</div>
-		</div>
-		
-		
-		<!-- THIS IS WHERE THE STYLING NEEDS TO HAPPEN -->
-		<!-- original code in browse -->
-		<div class="row" id="displayResultBrowse">
-			<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="x in browseResults" ng-show='resultsBool'>
-				<img ng-src={{x.src}} class='img-responsive preview' ng-click="go_to(x.type,x.id)">
-				<p class='imgDescription' ng-click="go_to(x.type,x.id)" >
-					{{x.title}}
-				</p>
-				
-				<!-- your code, but it doesnt seem to work as intended -->
-				<div class='thumbnail-wrapper' ng-repeat='comic in browseResults' ng-show='resultsBool'
-				 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-					<img class='thumbnail' ng-click="goToComic(comic.id)"
-					default-image ng-src="{{getFirstPageURL(comic.page[0])}}" default-img="{{defaultPageImg}}" />
-					<div class="thumbnail-overlay">
-						<p ng-click="go_to(x.type,x.id)">{{comic.title}}</p>
-						<span ng-if="is_owner">
-							<i class="material-icons" ng-click="deleteComic(comic.id)">
-								delete_forever
-							</i>
-						</span>
-					</div>
-				</div>
-				
-			</div>
+
 		</div>
 	</div>
 </div>

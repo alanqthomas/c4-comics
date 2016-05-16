@@ -1,4 +1,73 @@
-.tagsDisplayBrowse{
-	text-align: center;
-	align-items: center;
+.browse{
+
+$thumb_width: 150px;
+$thumb_height: 200px;
+
+h3{
+  margin: 30px;
+}
+
+h3, h5{
+  text-align: center;
+}
+
+
+
+.tag-btn{
+  margin: 20px;
+}
+
+.tag-container{
+  margin: 0px auto;
+  width: 60vw;
+}
+
+.tag-display{
+  margin: 0px auto;
+}
+
+.thumbnail-wrapper{
+	display: inline-block;
+	border: 0px;
+	padding: 0px;
+	width: $thumb_width;
+	height: $thumb_height;
+	margin: 5px;
+}
+
+.thumbnail{
+	object-fit: cover;
+	border: 0px;
+	padding: 0px;
+	width: $thumb_width;
+	height: $thumb_height;
+	position: absolute;
+	z-index: 1;
+	margin: 0px;
+}
+
+.thumbnail-overlay{
+	color: white;
+	background-color: rgba(0,0,0, 0.25);
+	display: inline-block;
+	z-index: 2;
+	width: $thumb_width;
+  height: 40px;
+	padding: 8px;
+	position: relative;
+	overflow: hidden;
+
+	p{
+		display: inline-block;
+		float: left;
+		overflow: hidden;
+	}
+
+	span{
+		display: inline-block;
+		float: right;
+		z-index: 3;
+	}
+}
+
 }
