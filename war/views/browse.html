@@ -24,17 +24,12 @@
 
 	<div class="row" id="displayResultBrowse">
 
-			<div class='thumbnail-wrapper' ng-repeat='x in browseResults' ng-show='resultsBool'
-			 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-click="go_to(x.type,x.id)">
-				<img class="thumbnail" ng-click="go_to(x.type,x.id)"
+			<div class='thumbnail-wrapper' ng-repeat='comic in browseResults' ng-show='resultsBool'
+			 ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ng-click="go_to(comic.type,comic.id)">
+				<img class="thumbnail" ng-click="go_to(comic.type,comic.id)"
 				 ng-src="{{getFirstPageURL(comic.pages[0])}}" default-img="{{defaultPageImg}}" />
 				<div class="thumbnail-overlay">
-					<p ng-click="go_to(x.type,x.id)">{{comic.title}}</p>
-					<span ng-if="is_owner">
-						<i class="material-icons" ng-click="deleteComic(comic.id)">
-							delete_forever
-						</i>
-					</span>
+					<p ng-click="go_to(comic.type,comic.id)">{{comic.title}}</p>
 				</div>
 			</div>
 
