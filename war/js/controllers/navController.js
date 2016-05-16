@@ -18,6 +18,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
 	$scope.showNotification = false;
 
 	// TEST DATA
+	/*
 	$scope.notifications = [
 		{'id': '1',
 		 'message': 'Someone liked something',
@@ -32,6 +33,7 @@ function($scope, $http, $state, $window, GAuth,    GApi,   GData,   $cookies,   
  		 'message': 'Notifications are great. Especially this one because its really long',
  	 	 'dateString': '5/12/16 2:30pm'},
 	];
+	*/
 
 	// Check sign in
 	if($cookies.get('userId')){

@@ -29,6 +29,7 @@ $thumb_height: 200px;
 		z-index: 1;
 		width: $cover_width;
 		height: $cover_height;
+		cursor: pointer !important;
 	}
 
 	.sub-btn {
@@ -43,6 +44,7 @@ $thumb_height: 200px;
 		width: $cover_width;
 		height: $cover_height;
 		object-fit: cover;
+		cursor: default !important;
 	}
 }
 

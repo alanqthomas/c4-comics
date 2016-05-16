@@ -28,7 +28,7 @@
   <a ui-sref="browse">Browse</a>
   <a ng-click="navProfile()">Profile</a>
   <a ui-sref="myComics">My Comics</a>
-  <a href="#" data-toggle="modal" data-target="#settingsModal">Settings</a>
+  <a data-toggle="modal" data-target="#settingsModal">Settings</a>
   <a href="#" ng-click="signOut()">Sign Out</a>
 </nav>
 
@@ -38,14 +38,34 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Settings</h4>
+          <h4 class="modal-title">Help</h4>
         </div>
         <div class="modal-body">
-          <p>Put all the nice settings here.</p>
-          <span>Example Setting On/Off: <input type="checkbox" name="exampleCheckbox" checked></span>
+            <p>
+	            <h6>Welcome to C4 Comics!</h6>
+				After signing with your Google account, you can easily edit your username and biography by clicking on the text and adjusting it to your liking.  Your user picture is looked to your Google account, so updating that must be handled through Google.
+
+				<h6>Take advantage of our homepage to easily find a comic you might like!</h6>
+				TOP shows you the 20 highest rated comics of all time on C4 Comics.<br>
+				POPULAR shows you the 20 most viewed comics of all time on C4 Comics.<br>
+				RECENT shows you the 20 comics most recently added to C4 Comics.<br>
+				HOT shows you the highest rated comics added within the past three days.<br>
+				If the homepage isn't doing it for you, try the search bar!  You can search for any user, comic, or series on C4 comics.
+
+				<h6>C4 Comics has been designed to let you easily stay up-to-date with the newest content from our creators.</h6>
+				FOLLOWING a user will notify you whenever that user uploads a new series to C4 Comics!<br>
+				SUBSCRIBING to a series will notify you whenever a new comic is added to that particular series.
+
+				<h6>Take advantage of our social features to engage with the consumers and creators of C4 Comics!</h6>
+				FAVORITING a user, series, or comic will display that item on your public profile page for everyone to see.<br>
+				COMMENT on a series or comic to discuss things with other fans (and maybe even the creator!) by clicking the chat icon on each series and comic page.
+
+				<h6>C4 Comics encourages any and all content creators to contribute to the site.  ALL users are able to add their own series and comics to the site via easy to understand upload prompts.</h6>
+
+				Questions? Comments? Concerns?  Please feel free to contact us at and we'll get back to you as soon as we can!
+			</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Apply</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -54,15 +74,23 @@
 
   <div class="notification-box" ng-show="showNotification">
     <ul>
-      <li ng-repeat="noti in notifications | orderBy:'-date'" ng-click="goNotification(noti)"  >
-        <div class="notification-content">
-          <div class="notification-message">{{noti.message}}</div>
-          <div class="notification-delete">
-            <i class="fa fa-times" ng-click="deleteNotification(noti)"></i>
-          </div>
-        </div>
-        <div class="notification-date">{{noti.dateString}}</div>
+      <li class="title-bar">
+        <span class="title">Notifications</span>
       </li>
+
+      <div class="notification-wrapper">
+        <li ng-repeat="n in notifications | orderBy: '-date'" >
+          <div class="message-wrapper" ng-click="goNotification(n)">
+            <div class="notification-message">{{n.message}}</div>
+            <div class="notification-date">{{n.dateString}}</div>
+          </div>
+
+          <div class="notification-delete">
+            <i class="fa fa-times" ng-click="deleteNotification(n)"></i>
+          </div>
+        </li>
+      </div>
+
     </ul>
   </div>
 

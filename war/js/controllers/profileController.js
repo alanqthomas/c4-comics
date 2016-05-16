@@ -325,9 +325,11 @@
 				for(var i = 0;i < $scope.profile.favoriteComics.length; i ++){
 					GApi.execute("comicendpoint","getComic", {"id":$scope.profile.favoriteComics[i]}).then(
 						function(resp1){
+              console.log("resp1");
+              console.log(resp1);
 							$scope.favorites_reserve.push({
 								id:resp1.id,
-								src: imgService.getURL(IMG_PREFIXES.COMIC, resp1.id),
+								src: imgService.getURL(IMG_PREFIXES.PAGE, resp1.pages[0]),
 								title:resp1.title,
 								type:"comic"
 							});

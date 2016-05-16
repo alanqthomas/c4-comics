@@ -43,25 +43,25 @@ angular.module('c4').controller('homeCtrl', ['$scope', '$http', 'GApi', 'authSer
 			title: "Top",
 			content:$scope.top_comics,
 			load_m: $scope.top_load_more,
-			def_text:"No Top Comics Yet"
+			def_text:"Loading..."
 		},{
 			slug: "popular",
 			title: "Popular",
 			content: $scope.popular_comics,
 			load_m: $scope.popular_load_more,
-			def_text:"No Popular Comics Yet"
+			def_text:"Loading..."
 		},{
 		    slug: 'hot',
 		    title: "Hot",
 		    content: $scope.hot_comics,
 		    load_m: $scope.hot_load_more,
-		    def_text: "No Hot Comics Yet"
+		    def_text: "Loading..."
 		},{
 		    slug: 'newest',
 		    title: "Recent",
 		    content: $scope.recent_comics,
 		    load_m: $scope.newest_load_more,
-		    def_text: "No Recent Comics Yet"
+		    def_text: "Loading..."
 		}];
 		//query for homepage.
 
